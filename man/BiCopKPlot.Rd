@@ -57,7 +57,7 @@ Everything you always wanted to know about copula modeling but were afraid to as
 Journal of Hydrologic Engineering, 12 (4), 347-368.
 }
 
-\seealso{\code{\link{BiCopMetaContour}}, \code{\link{BiCopChiPlot}}, \code{\link{BiCopLambda}}, \code{\link{BiCopGofKendall}}}
+\seealso{\code{\link{BiCopMetaContour}}, \code{\link{BiCopChiPlot}}, \code{\link{BiCopLambda}}, \code{\link{BiCopGofTest}}}
 
 \examples{
 # Gaussian and Clayton copulas

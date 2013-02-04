@@ -10,7 +10,7 @@ This function sequentially estimates the pair-copula parameters of a d-dimension
 \usage{
 RVineSeqEst(data, RVM, method="mle", se=FALSE, max.df=30,
             max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)), 
-            progress=FALSE)
+            progress=FALSE,weights=NA)
 }
 
 \arguments{
@@ -26,6 +26,7 @@ RVineSeqEst(data, RVM, method="mle", se=FALSE, max.df=30,
   \item{max.BB}{List; upper bounds for the estimation of the two parameters (in absolute values) of the BB1, BB6, BB7 and BB8 copulas \cr
     (default: \code{max.BB = list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1))}).}
   \item{progress}{Logical; whether the pairwise estimation progress is printed (default: \code{progress = FALSE}).}
+  \item{weights}{Numerical; weights for each observation (opitional).}
 }
 
 \details{

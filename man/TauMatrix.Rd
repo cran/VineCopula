@@ -8,11 +8,12 @@ This function computes the empirical Kendall's tau using the algorithm by Knight
 }
 
 \usage{
-TauMatrix(data)
+TauMatrix(data, weights=NA)
 }
 
 \arguments{
   \item{data}{An N x d data matrix.}
+  \item{weights}{Numerical; weights for each observation (opitional).}
 }
 
 \value{
@@ -20,11 +21,9 @@ Matrix of the empirical Kendall's taus.
 }
 
 \references{
-
 Knight, W. R. (1966).
 A computer method for calculating Kendall's tau with ungrouped data.
 Journal of the American Statistical Association 61 (314), 436-439.
-
 }
 
 \author{Ulf Schepsmeier}

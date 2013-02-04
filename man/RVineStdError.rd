@@ -30,20 +30,19 @@ If the negaive Hessian matrix is negative definite, then one could try a near po
 
 
 \references{
+Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2013).
+Selecting and estimating regular vine copulae and application to financial returns.
+Computational Statistics & Data Analysis, 59 (1), 52-69.
+
 Schepsmeier, U. and J. Stoeber (2012).
 Derivatives and Fisher information of bivariate copulas.
 Submitted for publication.
 \url{http://mediatum.ub.tum.de/node?id=1106541}.
 
 Stoeber, J. and U. Schepsmeier (2012).
-Is there significant time-variation in multivariate dependence?
-In preparation.
-\url{http://de.arxiv.org/abs/1205.4841}.
-
-Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2011).
-Selecting and estimating regular vine copulae and application to financial returns.
+Is there significant time-variation in multivariate copulas?
 Submitted for publication.
-\url{http://mediatum.ub.tum.de/node?id=1079277}
+\url{http://arxiv.org/abs/1205.4841}.
 }
 
 \author{Ulf Schepsmeier, Jakob Stoeber}

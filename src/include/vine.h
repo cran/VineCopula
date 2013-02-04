@@ -2,7 +2,7 @@
 #define VINE_H
 
 /*
-** vine.c - C code of the package CDRVine    
+** vine.c - C code of the package VineCopula    
 ** 
 ** with contributions from Carlos Almeida, Aleksey Min, 
 ** Ulf Schepsmeier, Jakob Stoeber and Eike Brechmann
@@ -18,6 +18,10 @@
 #endif 	    /* !VINE_H_ */
 
 
+
+#include <R.h>
+#include <Rinternals.h>
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -25,10 +29,8 @@
 #include <math.h>
 #include <float.h>
 #include <setjmp.h>
-#include <R.h>
 #include <Rdefines.h> 
 #include <Rmath.h>
-#include <Rinternals.h>
 #include "vine.h"
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
@@ -48,5 +50,6 @@ typedef unsigned int boolean;
 #define UMIN  1e-10
 
 #define TOL 1e-4
+
 
 #endif

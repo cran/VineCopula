@@ -97,13 +97,14 @@ void pcc(int* n, int* d, int* family, int* type, double* par, double* nu, double
       {
         v[i][1] = w[i];
 	
-        for(k=i-1;k>=2;k--) { 
-	  //printf("inv: %d,%d :  %5.2f : %10.8f \t",k,i-k, theta[k][i-k], v[i-1][2*k-2]);
-	  Hinv1(&fam[k][i-k],&in, &v[i][1],&v[i-1][2*k-2],&theta[k][i-k],&ny[k][i-k],&v[i][1]);
-	  //printf("%10.8f  \n",v[i][1]);
-	}
+        for(k=i-1;k>=2;k--) 
+		{ 
+			//printf("inv: %d,%d :  %5.2f : %10.8f \t",k,i-k, theta[k][i-k], v[i-1][2*k-2]);
+			Hinv1(&fam[k][i-k],&in, &v[i][1],&v[i-1][2*k-2],&theta[k][i-k],&ny[k][i-k],&v[i][1]);
+			//printf("%10.8f  \n",v[i][1]);
+		}
         Hinv1(&fam[1][i-1],&in, &v[i][1],&v[i-1][1],&theta[1][i-1],&ny[1][i-1],&v[i][1]);
-	//printf("inv: %d,%d :  %5.2f : %10.8f \t %10.8f \n",1,i-1, theta[1][i-1], v[i-1][1],v[i][1]);
+		//printf("inv: %d,%d :  %5.2f : %10.8f \t %10.8f \n",1,i-1, theta[1][i-1], v[i-1][1],v[i][1]);
         // Compute conditional cdf's needed in next step:
         if(i<*d)
         {

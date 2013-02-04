@@ -1,3 +1,6 @@
+#if !defined(RVINEDERIV_H)
+#define RVINEDERIV_H
+
 //////////////////////////////////////////////////////////////
 // Function to compute the derivative of log-likelihood for the pair-copula construction (Rvine)
 // (by J.S. and U.S.)
@@ -23,7 +26,7 @@
 /////////////////////////////////////////////////////////////
 
 void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
-						  double* out, double* ll, double* vv, double* vv2, int* calcupdate, double* tilde_vdirect, double* tilde_vindirect, double* tilde_value, int* tcop);
+						  double* out, double* ll, double* vv, double* vv2, int* calcupdate, double* tilde_vdirect, double* tilde_vindirect, double* tilde_value, int* tcop, int* margin);
 
 
 //////////////////////////////////////////////////////////////
@@ -33,3 +36,8 @@ void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* ma
 void VineLogLikRvineGradient(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
 						  double* out, double* ll, double* vv, double* vv2, int* posParams);
 						  //double* tilde_vdirect, double* tilde_vindirect, double* tilde_value);
+
+void VineLogLikRvineGradient2(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
+						  double* out, double* ll, double* vv, double* vv2, int* posParams);
+
+#endif

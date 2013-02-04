@@ -63,6 +63,21 @@ RVineHessian <-function(data,RVM)
 	der=matrix(out[[13]],dd+tt,dd+tt)
 	subder=matrix(out[[14]],dd+tt,dd+tt)
 	
+	# der[1:dd,1:dd]=der[dd:1,dd:1]
+	# if(tt>0)
+	# {
+		# der[(dd+1):(dd+tt),1:dd]=der[(dd+tt):(dd+1),dd:1]
+		# der[1:dd,(dd+1):(dd+tt)]=der[dd:1,(dd+tt):(dd+1)]
+		# der[(dd+1):(dd+tt),(dd+1):(dd+tt)]=der[(dd+tt):(dd+1),(dd+tt):(dd+1)]
+	# }
+	# hessian[1:dd,1:dd]=hessian[dd:1,dd:1]
+	# if(tt>0)
+	# {
+		# hessian[(dd+1):(dd+tt),1:dd]=hessian[(dd+tt):(dd+1),dd:1]
+		# hessian[1:dd,(dd+1):(dd+tt)]=hessian[dd:1,(dd+tt):(dd+1)]
+		# hessian[(dd+1):(dd+tt),(dd+1):(dd+tt)]=hessian[(dd+tt):(dd+1),(dd+tt):(dd+1)]
+	# }
+		
 	test=apply(hessian,2,function(x) max(abs(x)))
   hessian=hessian[test>0,test>0]
   subhess=subhess[test>0,test>0]

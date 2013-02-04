@@ -1,4 +1,4 @@
-BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,level=0.05)
+BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,level=0.05,weights=NA)
 {
   if(is.null(u1)==TRUE || is.null(u2)==TRUE) stop("u1 and/or u2 are not set or have length zero.")
   if(length(u1)!=length(u2)) stop("Lengths of 'u1' and 'u2' do not match.")
@@ -24,7 +24,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
   
     if(!is.na(familyset[1]) && (!any(c(1,2,5,23,24,26:30,33,34,36:40) %in% familyset) || !any(c(1:10,13,14,16:20) %in% familyset))) stop("'familyset' has to include at least one bivariate copula family for positive and one for negative dependence.")
 
-    emp_tau = fasttau(data1,data2)
+    emp_tau = fasttau(data1,data2,weights)
 
     if(indeptest == TRUE){
       out$p.value.indeptest = BiCopIndTest(data1,data2)$p.value
@@ -68,7 +68,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       optiout = list()
 
       if(any(todo == 2)){
-        optiout[[2]] = suppressWarnings(BiCopEst(data1,data2,family=2, max.df=30))
+        optiout[[2]] = suppressWarnings(BiCopEst(data1,data2,family=2, max.df=30,weights=weights))
         optiout[[2]]$par=c(optiout[[2]]$par,optiout[[2]]$par2)
         if(optiout[[2]]$par[2] >= 30){
           todo[todo==2] = 1
@@ -78,7 +78,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
     	if(any(todo == 7)){
-	      optiout[[7]] = MLE_intern(cbind(data1,data2),start[[7]],7)
+	      optiout[[7]] = MLE_intern(cbind(data1,data2),start[[7]],7,weights=weights)
         if(optiout[[7]]$par[1] <= 0.1 | optiout[[7]]$par[2] <= 1.1){
     		  if(optiout[[7]]$par[1] <= 0.1){
             todo[todo==7] = 4
@@ -92,7 +92,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
     	if(any(todo == 8)){
-	      optiout[[8]] = MLE_intern(cbind(data1,data2),start[[8]],8)
+	      optiout[[8]] = MLE_intern(cbind(data1,data2),start[[8]],8,weights=weights)
         if(optiout[[8]]$par[1] <= 1.1 | optiout[[8]]$par[2] <= 1.1){
     		  if(optiout[[8]]$par[1] <= 1.1){
             todo[todo==8] = 4
@@ -106,7 +106,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
     	if(any(todo == 9)){
-	      optiout[[9]] = MLE_intern(cbind(data1,data2),start[[9]],9)
+	      optiout[[9]] = MLE_intern(cbind(data1,data2),start[[9]],9,weights=weights)
         if(optiout[[9]]$par[1] <= 1.1 | optiout[[9]]$par[2] <= 0.1){
           if(optiout[[9]]$par[1] <= 1.1){
       		  todo[todo==9] = 3
@@ -120,7 +120,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 10)){
-	      optiout[[10]] = MLE_intern(cbind(data1,data2),start[[10]],10)
+	      optiout[[10]] = MLE_intern(cbind(data1,data2),start[[10]],10,weights=weights)
 		    if(optiout[[10]]$par[2] >= 0.99){
       		  todo[todo==10] = 6
             todo = unique(todo)
@@ -129,7 +129,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 17)){
-	      optiout[[17]] = MLE_intern(cbind(data1,data2),start[[17]],17)
+	      optiout[[17]] = MLE_intern(cbind(data1,data2),start[[17]],17,weights=weights)
         if(optiout[[17]]$par[1] <= 0.1 | optiout[[17]]$par[2] <= 1.1){
     		  if(optiout[[17]]$par[1] <= 0.1){
             todo[todo==17] = 14
@@ -143,7 +143,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 18)){
-	      optiout[[18]] = MLE_intern(cbind(data1,data2),start[[18]],18)
+	      optiout[[18]] = MLE_intern(cbind(data1,data2),start[[18]],18,weights=weights)
         if(optiout[[18]]$par[1] <= 1.1 | optiout[[18]]$par[2] <= 1.1){
     		  if(optiout[[18]]$par[1] <= 1.1){
             todo[todo==18] = 14
@@ -157,7 +157,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 19)){
-	      optiout[[19]] = MLE_intern(cbind(data1,data2),start[[19]],19)
+	      optiout[[19]] = MLE_intern(cbind(data1,data2),start[[19]],19,weights=weights)
         if(optiout[[19]]$par[1] <= 1.1 | optiout[[19]]$par[2] <= 0.1){
           if(optiout[[19]]$par[1] <= 1.1){
       		  todo[todo==19] = 13
@@ -171,7 +171,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 20)){
-	      optiout[[20]] = MLE_intern(cbind(data1,data2),start[[20]],20)
+	      optiout[[20]] = MLE_intern(cbind(data1,data2),start[[20]],20,weights=weights)
 		    if(optiout[[20]]$par[2] >= 0.99){
       		  todo[todo==20] = 16
             todo = unique(todo)
@@ -180,7 +180,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 27)){
-	      optiout[[27]] = MLE_intern(cbind(data1,data2),start[[27]],27)
+	      optiout[[27]] = MLE_intern(cbind(data1,data2),start[[27]],27,weights=weights)
         if(optiout[[27]]$par[1] >= -0.1 | optiout[[27]]$par[2] >= -1.1){
     		  if(optiout[[27]]$par[1] >= -0.1){
             todo[todo==27] = 24
@@ -194,7 +194,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 28)){
-	      optiout[[28]] = MLE_intern(cbind(data1,data2),start[[28]],28)
+	      optiout[[28]] = MLE_intern(cbind(data1,data2),start[[28]],28,weights=weights)
         if(optiout[[28]]$par[1] >= -1.1 | optiout[[28]]$par[2] >= -1.1){
     		  if(optiout[[28]]$par[1] >= -1.1){
             todo[todo==28] = 24
@@ -208,7 +208,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 29)){
-	      optiout[[29]] = MLE_intern(cbind(data1,data2),start[[29]],29)
+	      optiout[[29]] = MLE_intern(cbind(data1,data2),start[[29]],29,weights=weights)
         if(optiout[[29]]$par[1] >= -1.1 | optiout[[29]]$par[2] >= -0.1){
           if(optiout[[29]]$par[1] >= -1.1){
       		  todo[todo==29] = 23
@@ -222,7 +222,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 30)){
-	      optiout[[30]] = MLE_intern(cbind(data1,data2),start[[30]],30)
+	      optiout[[30]] = MLE_intern(cbind(data1,data2),start[[30]],30,weights=weights)
 		    if(optiout[[30]]$par[2] <= -0.99){
       		  todo[todo==30] = 26
             todo = unique(todo)
@@ -231,7 +231,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 37)){
-	      optiout[[37]] = MLE_intern(cbind(data1,data2),start[[37]],37)
+	      optiout[[37]] = MLE_intern(cbind(data1,data2),start[[37]],37,weights=weights)
         if(optiout[[37]]$par[1] >= -0.1 | optiout[[37]]$par[2] >= -1.1){
     		  if(optiout[[37]]$par[1] >= -0.1){
             todo[todo==37] = 24
@@ -245,7 +245,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 38)){
-	      optiout[[38]] = MLE_intern(cbind(data1,data2),start[[38]],38)
+	      optiout[[38]] = MLE_intern(cbind(data1,data2),start[[38]],38,weights=weights)
         if(optiout[[38]]$par[1] >= -1.1 | optiout[[38]]$par[2] >= -1.1){
     		  if(optiout[[38]]$par[1] >= -1.1){
             todo[todo==38] = 24
@@ -259,7 +259,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 39)){
-	      optiout[[39]] = MLE_intern(cbind(data1,data2),start[[39]],39)
+	      optiout[[39]] = MLE_intern(cbind(data1,data2),start[[39]],39,weights=weights)
         if(optiout[[39]]$par[1] >= -1.1 | optiout[[39]]$par[2] >= -0.1){
           if(optiout[[39]]$par[1] >= -1.1){
       		  todo[todo==39] = 33
@@ -273,7 +273,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       if(any(todo == 40)){
-	      optiout[[40]] = MLE_intern(cbind(data1,data2),start[[40]],40)
+	      optiout[[40]] = MLE_intern(cbind(data1,data2),start[[40]],40,weights=weights)
 		    if(optiout[[40]]$par[2] <= -0.99){
       		  todo[todo==40] = 36
             todo = unique(todo)
@@ -282,7 +282,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
       }
 
       for(i in todo[!(todo%in%c(2,7:10,17:20,27:30,37:40))]){
-        optiout[[i]] = MLE_intern(cbind(data1,data2),start[[i]],i)
+        optiout[[i]] = MLE_intern(cbind(data1,data2),start[[i]],i,weights=weights)
     	}
 
 
@@ -294,12 +294,20 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
         {
   		    if(i %in% c(2,7:10,17:20,27:30,37:40))
           {
-            ll=sum(log(BiCopPDF(data1,data2,i, optiout[[i]]$par[1], optiout[[i]]$par[2])))
+			  if(any(is.na(weights))){
+				  ll=sum(log(BiCopPDF(data1,data2,i, optiout[[i]]$par[1], optiout[[i]]$par[2])))
+			  }else{
+				  ll=sum(log(BiCopPDF(data1,data2,i, optiout[[i]]$par[1], optiout[[i]]$par[2]))%*%weights)
+			  }
   		      AICs[i] = -2*ll + 4
           }
           else
           {
-            ll=sum(log(BiCopPDF(data1,data2,i, optiout[[i]]$par)))
+			  if(any(is.na(weights))){
+				  ll=sum(log(BiCopPDF(data1,data2,i, optiout[[i]]$par)))
+			  }else{
+				  ll=sum(log(BiCopPDF(data1,data2,i, optiout[[i]]$par))%*%weights)
+			  }
             AICs[i] = -2*ll + 2
           }
         }
@@ -314,27 +322,31 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
         {
   		    if(i %in% c(2,7:10,17:20,27:30,37:40))
           {
-            ll=sum(log(BiCopPDF(data1,data2,i, optiout[[i]]$par[1], optiout[[i]]$par[2])))
+			  if(any(is.na(weights))){
+				  ll=sum(log(BiCopPDF(data1,data2,i, optiout[[i]]$par[1], optiout[[i]]$par[2])))
+			  }else{
+				  ll=sum(log(BiCopPDF(data1,data2,i, optiout[[i]]$par[1], optiout[[i]]$par[2]))%*%weights)
+			  }
   		      BICs[i] = -2*ll + 2*log(length(data1))
           }
           else
           {
-            ll=sum(log(BiCopPDF(data1,data2,i, optiout[[i]]$par)))
-            BICs[i] = -2*ll + log(length(data1))
+			  if(any(is.na(weights))){
+				  ll=sum(log(BiCopPDF(data1,data2,i, optiout[[i]]$par)))
+			  }else{
+				  ll=sum(log(BiCopPDF(data1,data2,i, optiout[[i]]$par))%*%weights)
+			  }
+			  BICs[i] = -2*ll + log(length(data1))
           }
         }
 
   		  out$family = todo[which.min(BICs[todo])]
 
  		  }
-
+		
   		out$par = optiout[[out$family]]$par
    	  if(!(out$family%in%c(2,7:10,17:20,27:30,37:40)) ) out$par[2] = 0
-
-    	#out$emp_tau = emp_tau
-
-      #out$CondOn.1 = .C("Hfunc2",as.integer(out$family),as.integer(length(data1)),as.double(data1),as.double(data2),as.double(out$par[1]),as.double(out$par[2]),as.double(rep(0,length(data1))),PACKAGE='VineCopula')[[7]]
-      #out$CondOn.2 = .C("Hfunc1",as.integer(out$family),as.integer(length(data1)),as.double(data2),as.double(data1),as.double(out$par[1]),as.double(out$par[2]),as.double(rep(0,length(data1))),PACKAGE='VineCopula')[[7]]
+	
 
     }
   }

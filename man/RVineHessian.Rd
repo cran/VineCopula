@@ -13,7 +13,25 @@ RVineHessian(data, RVM)
 
 \arguments{
   \item{data}{An N x d data matrix (with uniform margins).}
-  \item{RVM}{An \code{\link{RVineMatrix}} object including the structure, the pair-copula families, and the parameters.}
+  \item{RVM}{An \code{\link{RVineMatrix}} object including the structure, the pair-copula families, and the parameters. \cr
+  Only the following copula families are allowed in \code{RVM$family} \cr
+		\code{0} = independence copula \cr
+		\code{1} = Gaussian copula \cr
+		\code{2} = Student t copula (t-copula) (WARNING: see details)\cr
+		\code{3} = Clayton copula \cr
+		\code{4} = Gumbel copula \cr
+		\code{5} = Frank copula \cr
+		\code{6} = Joe copula \cr 
+		\code{13} = rotated Clayton copula (180 degrees; ``survival Clayton'') \cr
+		\code{14} = rotated Gumbel copula (180 degrees; ``survival Gumbel'') \cr
+		\code{16} = rotated Joe copula (180 degrees; ``survival Joe'') \cr 
+		\code{23} = rotated Clayton copula (90 degrees) \cr
+		\code{24} = rotated Gumbel copula (90 degrees) \cr
+		\code{26} = rotated Joe copula (90 degrees) \cr
+		\code{33} = rotated Clayton copula (270 degrees) \cr
+		\code{34} = rotated Gumbel copula (270 degrees) \cr
+		\code{36} = rotated Joe copula (270 degrees) \cr
+  }
 }
 
 \note{
@@ -27,20 +45,19 @@ The Hessian matrix is not available for R-vine copula models with two parameter 
 
 
 \references{
+Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2013).
+Selecting and estimating regular vine copulae and application to financial returns.
+Computational Statistics & Data Analysis, 59 (1), 52-69.
+
 Schepsmeier, U. and J. Stoeber (2012).
 Derivatives and Fisher information of bivariate copulas.
 Submitted for publication.
 \url{http://mediatum.ub.tum.de/node?id=1106541}.
 
 Stoeber, J. and U. Schepsmeier (2012).
-Is there significant time-variation in multivariate dependence?.
-In preparation.
-\url{http://de.arxiv.org/abs/1205.4841}.
-
-Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2011).
-Selecting and estimating regular vine copulae and application to financial returns.
+Is there significant time-variation in multivariate copulas?
 Submitted for publication.
-\url{http://mediatum.ub.tum.de/node?id=1079277}
+\url{http://arxiv.org/abs/1205.4841}.
 }
 
 \author{Ulf Schepsmeier, Jakob Stoeber}

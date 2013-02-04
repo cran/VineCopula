@@ -621,7 +621,157 @@ void Hfunc(int* family, int* n, double* u, double* v, double* theta, double* nu,
   Free(h);
 }
 
+///////////////////////////////////////////////////////////////
+void qcondgum(double* p, double* z1, double* de, double* out)
+{
+  double a,g,gp,z2,con,de1,dif;
+  double mxdif;
+  int iter;
 
+  con=log(1.-*p)-*z1+(1.-*de)*log(*z1); de1=*de-1.;
+  a=pow(2.*pow(*z1,*de),1./(*de));
+  mxdif=1; iter=0;
+  dif=.1;  // needed in case first step leads to NaN
+  while(mxdif>1.e-6 && iter<20)
+  { g=a+de1*log(a)+con;
+    gp=1.+de1/a;
+    if(isnan(g) || isnan(gp) || isnan(g/gp) ) { dif/=-2.; }  // added for de>50
+    else dif=g/gp;
+    a-=dif; iter++;
+    while(a<=*z1) { dif/=2.; a+=dif; }
+    mxdif=fabs(dif);
+  }
+  z2=pow(pow(a,*de)-pow(*z1,*de),1./(*de));
+	*out = z2;
+}
+
+void qcondjoe(double* q, double* u, double* de, double* out)
+{ double t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t13,t15,t16,t19,t23,t28,t31;
+  double c21,pdf;
+  int iter;
+  double diff,v,de1,dtem,de1inv,tem;
+
+  t1 = 1.0-*u;
+  t2 = pow(t1,1.0*(*de));
+  t7 = 1./(*de);
+  t10 = t2*(*de);
+  t11 = 1./t1;
+  t19 = (*de)*(*de);
+  de1=*de-1;  // may need better modification for large delta
+  dtem=-de1/(1.+de1); de1inv=-1./de1;
+
+  // v = 0.5 * (q+u); // starting guess
+
+  // Use a better starting point based on reflected B4 copula
+  // A good starting point is crucial when delta is large because
+  //    C_{2|1} will be steep
+  // C_{R,2|1}(v|u)=1-C_{2|1}(1-v|1-u),
+  // C_{R,2|1}^{-1}(q|u)=1-C_{2|1}^{-1}(1-q|1-u)
+  tem=pow(1.-*q,dtem)-1.;
+  tem=tem*pow(1.-*u,-de1)+1.;
+  v=pow(tem,de1inv); v=1.-v;
+  diff=1; iter=0;
+  while(fabs(diff)>1.e-6 && iter<20)
+  { t3 = 1.-v;
+    t4 = pow(t3,*de);
+    t5 = t2*t4;
+    t6 = t2+t4-t5;
+    t8 = pow(t6,t7);
+    t9 = t7*t8;
+    t13 = t11*t4;
+    t15 = -t10*t11+t10*t13;
+    t16 = 1./t6;
+    t23 = 1./t3;
+    t28 = t6*t6;
+    t31 = (-t4*(*de)*t23+t5*(*de)*t23)/t28*t15;
+    c21 = -t9*t15*t16;
+    pdf = -t8/t19*t31+t8*(*de)*t2*t13*t23*t16+t9*t31;
+    iter++;
+    if(isnan(pdf) || isnan(c21) ) { diff/=-2.; }  // added for de>=30
+    else diff=(c21-*q)/pdf;
+    v-=diff;
+    while(v<=0 || v>=1 || fabs(diff)>0.25 ) { diff/=2.; v+=diff; }
+  }
+	*out = v;
+}
+
+
+/*void qcondbb1(double* q, double* u, double* de, double* th, double* out)
+{
+  double t1, t2, t3, t4, t5, t6, t7, t9, t10,
+      t12, t13, t16, t17, t20, t24, t25, t27, t29,
+      t32, t33, t34, t36, t38, t39, t43, t59;
+  double c21,pdf;
+  int iter,mxiter;
+  double diff,v,vb4,tau,tau2,v0,mxstep,min(double,double);
+
+  // mxiter=20; // need larger mxiter for d,th large
+  mxiter=30;
+  mxstep=.05; // .05 .1; //.25;  // some failures if set at 0.25
+  t1 = pow(*u,-*th);
+  t2 = t1-1.0;
+  t3 = pow(t2,*de);
+  t16 = 1./(*u);
+  t17 = 1./t2;
+  t38 = t1*t16;
+  t39 = t38*t17;
+
+  v = 0.5 * (*q+*u); // starting guess
+  diff=.1; iter=0;
+  // B4(th) when de=1, B6(de) when th=0
+  vb4=pow(*q,-*th/(1+*th))-1;
+  vb4=vb4*pow(*u,-*th)+1;
+  vb4=pow(vb4,-1/(*th));
+  tau=1-2/(*de*(*th+2.)); tau2=pow(tau,1.7);
+  // for tau large, choose v=u as starting point
+  // de near 1, choose vb4
+  // otherwise weight (q+u)/2 and u
+  if(*de<1.3) v=vb4;
+  else v=tau2*(*u) + (1-tau2)*(*q+*u)/2.;
+  while(fabs(diff)>1.e-6 && iter<mxiter)
+  { t4 = pow(v,-*th);
+    t5 = t4-1.0;
+    t6 = pow(t5,*de);
+    t7 = t3+t6;
+    t9 = pow(t7,1./(*de));
+    t10 = 1.0+t9;
+    t12 = pow(t10,-1./(*th));
+    t13 = t12*t9;
+    t20 = 1./t10;
+    t24 = t9*t9;
+    t25 = t12*t24;
+    t27 = 1./v;
+    t29 = 1./t5;
+    t32 = t7*t7;
+    t33 = 1./t32;
+    t34 = t10*t10;
+    t36 = t33/t34;
+    t43 = t4*(*th);
+    t59 = t43*t27*t29;
+
+    c21 = t13*t3*t1*t16*t17/t7*t20;
+    pdf = t25*t6*t27*t4*t29*t36*t3*t39-t13*t6*t43*t27*t29*t33*t3*t38*t17*t20+
+          t13*t3*t38*t17*t33*t20*t6*(*de)*t59+t25*t3*t39*t36*t6*t59;
+    iter++;
+    // added for large (de,th) to prevent possible infinite loop etc
+    if(pdf<1.e-5 || isnan(pdf) || isnan(c21))
+    {
+      if(c21>*q) v=v-MIN(mxstep,v/2);
+      else v=v+MIN(mxstep,(1-v)/2);
+      if(iter>10) mxstep=.025;  // half the original
+    }
+    else
+    {
+      diff=(c21-*q)/pdf;
+      v0=v;
+      v-=diff;
+      // this can be infinite loop if |v| is extremely large
+      //while(v<=0 || v>=1 || fabs(diff)>0.25) { diff/=2; v+=diff; }
+      while(v<=0 || v>=1 || fabs(diff)>mxstep) { diff/=2; v+=diff; }
+    }
+  }
+	*out = v;
+}*/
 
 
 ///////////////////////////////////////////////////////////////
@@ -755,6 +905,7 @@ void Hinv(int* family, int* n, double* u, double* v, double* theta, double* nu, 
   int j;
   double *hinv;
   hinv = Calloc(*n,double);
+  double z1,z2;
 
 	for(int i=0;i<*n;i++)
 	{
@@ -788,8 +939,12 @@ void Hinv(int* family, int* n, double* u, double* v, double* theta, double* nu, 
     }
     else if(*family==4) //gumbel - must turn to numerical inversion
     {
-	  double nu=0.0;
-      HNumInv(family,&u[j],&v[j],theta,&nu,&hinv[j]);
+      //double nu=0.0;
+      //HNumInv(family,&u[j],&v[j],theta,&nu,&hinv[j]);
+
+      z1 = -log(v[j]);
+      qcondgum(&u[j],&z1,theta,&z2);
+      hinv[j] = exp(-z2);
     }
     else if(*family==5) //frank - numerical inversion
     {
@@ -797,12 +952,20 @@ void Hinv(int* family, int* n, double* u, double* v, double* theta, double* nu, 
     }
     else if(*family==6) //joe - numerical inversion
     {
-	  double nu=0.0;
-	  HNumInv(family,&u[j],&v[j],theta,&nu,&hinv[j]);
+      if(*theta<40)
+      {
+	      qcondjoe(&u[j],&v[j],theta,&hinv[j]);
+      }
+      else
+      {
+        double nu=0.0;
+	      HNumInv(family,&u[j],&v[j],theta,&nu,&hinv[j]);
+      }
 	  }
 	else if(*family==7) //BB1
 	{
 	  HNumInv(family,&u[j],&v[j],theta,nu,&hinv[j]);
+	  //qcondbb1(&u[j],&v[j],nu,theta,&hinv[j]);
 	}
 	else if(*family==8) //BB6
 	{
@@ -827,21 +990,33 @@ void Hinv(int* family, int* n, double* u, double* v, double* theta, double* nu, 
 	  }
 	else if(*family==14) //rotated gumbel (180°) - must turn to numerical inversion
 		{
-			int jj=4;
+			//int jj=4;
 			u[j]=1-u[j];
 			v[j]=1-v[j];
-			HNumInv(&jj,&u[j],&v[j],theta,nu,&hinv[j]);
-			hinv[j]=1-hinv[j];
+			//HNumInv(&jj,&u[j],&v[j],theta,nu,&hinv[j]);
+      z1 = -log(v[j]);
+      qcondgum(&u[j],&z1,theta,&z2);
+      hinv[j] = exp(-z2);
+      hinv[j]=1-hinv[j];
 			u[j]=1-u[j];
 			v[j]=1-v[j];
 		}
 	else if(*family==16) //rotated joe (180°) - must turn to numerical inversion
 		{
-			int jj=6;
 			u[j]=1-u[j];
 			v[j]=1-v[j];			
-  	  HNumInv(&jj,&u[j],&v[j],theta,nu,&hinv[j]);			
-			hinv[j]=1-hinv[j];
+      qcondjoe(&u[j],&v[j],theta,&hinv[j]);
+      if(*theta<40)
+      {
+	      qcondjoe(&u[j],&v[j],theta,&hinv[j]);
+      }
+      else
+      {
+        int jj=6;
+        double nu=0.0;
+        HNumInv(&jj,&u[j],&v[j],theta,&nu,&hinv[j]);
+      }
+      hinv[j]=1-hinv[j];
 			u[j]=1-u[j];
 			v[j]=1-v[j];
 		}
@@ -851,6 +1026,7 @@ void Hinv(int* family, int* n, double* u, double* v, double* theta, double* nu, 
 			u[j]=1-u[j];
 			v[j]=1-v[j];
 			HNumInv(&jj,&u[j],&v[j],theta,nu,&hinv[j]);
+			//qcondbb1(&u[j],&v[j],nu,theta,&hinv[j]);
 			hinv[j]=1-hinv[j];
 			u[j]=1-u[j];
 			v[j]=1-v[j];

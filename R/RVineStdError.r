@@ -7,7 +7,7 @@ RVineStdError<-function(hessian, RVM)
 	a=eigen(-hessian, only.values = TRUE)
 	if(any(a$values<0))
 	{
-		warning("The negative Hessian matrix is not positive definite. Thus NAs will be retruned in some entries.")
+		warning("The negative Hessian matrix is not positive definite. Thus NAs will be returned in some entries.")
 	}
 
 	se=sqrt((diag(solve(-hessian))))

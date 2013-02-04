@@ -14,7 +14,25 @@ RVineGrad(data, RVM, par=RVM$par, par2=RVM$par2, start.V=NA,
 
 \arguments{
   \item{data}{An N x d data matrix (with uniform margins).}
-  \item{RVM}{An \code{\link{RVineMatrix}} object including the structure and the pair-copula families and parameters.}
+  \item{RVM}{An \code{\link{RVineMatrix}} object including the structure and the pair-copula families and parameters. \cr
+  Only the following copula families are allowed in \code{RVM$family} \cr
+		\code{0} = independence copula \cr
+		\code{1} = Gaussian copula \cr
+		\code{2} = Student t copula (t-copula)\cr
+		\code{3} = Clayton copula \cr
+		\code{4} = Gumbel copula \cr
+		\code{5} = Frank copula \cr
+		\code{6} = Joe copula \cr 
+		\code{13} = rotated Clayton copula (180 degrees; ``survival Clayton'') \cr
+		\code{14} = rotated Gumbel copula (180 degrees; ``survival Gumbel'') \cr
+		\code{16} = rotated Joe copula (180 degrees; ``survival Joe'') \cr 
+		\code{23} = rotated Clayton copula (90 degrees) \cr
+		\code{24} = rotated Gumbel copula (90 degrees) \cr
+		\code{26} = rotated Joe copula (90 degrees) \cr
+		\code{33} = rotated Clayton copula (270 degrees) \cr
+		\code{34} = rotated Gumbel copula (270 degrees) \cr
+		\code{36} = rotated Joe copula (270 degrees) \cr
+		}
   \item{par}{A d x d matrix with the pair-copula parameters (optional; default: \code{par = RVM$par}).}
   \item{par2}{A d x d matrix with the second parameters of pair-copula families with two parameters (optional; default: \code{par2 = RVM$par2}).}
   \item{start.V}{Transformations (h-functions and log-likelihoods of each pair-copula) of previous calculations (see output; default: \code{start.V = NA}).}
@@ -41,20 +59,19 @@ occurrence.
 
 
 \references{
+Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2013).
+Selecting and estimating regular vine copulae and application to financial returns.
+Computational Statistics & Data Analysis, 59 (1), 52-69.
+
 Schepsmeier, U. and J. Stoeber (2012).
 Derivatives and Fisher information of bivariate copulas.
 Submitted for publication.
 \url{http://mediatum.ub.tum.de/node?id=1106541}.
 
 Stoeber, J. and U. Schepsmeier (2012).
-Is there significant time-variation in multivariate dependence?.
-In preparation.
-\url{http://de.arxiv.org/abs/1205.4841}.
-
-Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2011).
-Selecting and estimating regular vine copulae and application to financial returns.
+Is there significant time-variation in multivariate copulas?
 Submitted for publication.
-\url{http://mediatum.ub.tum.de/node?id=1079277}
+\url{http://arxiv.org/abs/1205.4841}.
 }
 
 \author{Ulf Schepsmeier, Jakob Stoeber}

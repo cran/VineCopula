@@ -44,14 +44,13 @@ h(u|\boldsymbol{v},\boldsymbol{\theta}) := F(u|\boldsymbol{v}) =
 }
 where \eqn{C_{uv_j|\boldsymbol{v}_{-j}}} is a bivariate copula distribution function with parameter(s) \eqn{\boldsymbol{\theta}}{\theta}
 and \eqn{\boldsymbol{v}_{-j}} denotes a vector with the \eqn{j}-th component \eqn{v_j} removed.
-The notation of h-functions is introduced for convenience. For more details see Dissmann et al. (2011).
+The notation of h-functions is introduced for convenience. For more details see Dissmann et al. (2013).
 }
 
 \references{
-Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2011).
+Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2013).
 Selecting and estimating regular vine copulae and application to financial returns.
-Submitted for publication.
-\url{http://mediatum.ub.tum.de/node?id=1079277}
+Computational Statistics & Data Analysis, 59 (1), 52-69.
 }
 
 \author{Ulf Schepsmeier, Jeffrey Dissmann, Jakob Stoeber}

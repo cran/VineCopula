@@ -10,7 +10,7 @@ Pair-copula families are selected using \code{\link{BiCopSelect}} and estimated 
 
 \usage{
 RVineCopSelect(data, familyset=NA, Matrix, selectioncrit="AIC",
-               indeptest=FALSE, level=0.05)
+               indeptest=FALSE, level=0.05, trunclevel=NA)
 }
 
 \arguments{
@@ -22,9 +22,10 @@ RVineCopSelect(data, familyset=NA, Matrix, selectioncrit="AIC",
   \item{Matrix}{Lower triangular d x d matrix that defines the R-vine tree structure.}  
   \item{selectioncrit}{Character indicating the criterion for pair-copula selection. Possible choices: \code{selectioncrit = "AIC"} (default) or \code{"BIC"} (see \code{\link{BiCopSelect}}).}
   \item{indeptest}{Logical; whether a hypothesis test for the independence of \code{u1} and \code{u2} is performed before bivariate copula selection
-    (default: \code{indeptest = FALSE}; see. \code{\link{BiCopIndTest}}).
+    (default: \code{indeptest = FALSE}; see \code{\link{BiCopIndTest}}).
     The independence copula is chosen for a (conditional) pair if the null hypothesis of independence cannot be rejected.}
   \item{level}{Numeric; significance level of the independence test (default: \code{level = 0.05}).}
+  \item{trunclevel}{Integer; level of truncation.}
 }
 
 \details{
@@ -76,11 +77,14 @@ R-vine copula models with unknown structure can be specified using \code{\link{R
 
 \seealso{\code{\link{RVineStructureSelect}}, \code{\link{BiCopSelect}}, \code{\link{RVineSeqEst}}}
 
-\references{ 
-Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2011).
+\references{
+Brechmann, E. C., C. Czado, and K. Aas (2012).
+Truncated regular vines in high dimensions with applications to financial data.
+Canadian Journal of Statistics 40 (1), 68-85.
+
+Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2013).
 Selecting and estimating regular vine copulae and application to financial returns.
-Submitted for publication.
-\url{http://mediatum.ub.tum.de/node?id=1079277}
+Computational Statistics & Data Analysis, 59 (1), 52-69.
 }
 
 \examples{

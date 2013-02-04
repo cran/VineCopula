@@ -48,7 +48,7 @@ D2RVine(order, family, par, par2=rep(0,length(family)))
 		\code{40} = rotated BB8 copula (270 degrees) 
 		}
   \item{par}{A d*(d-1)/2 vector of pair-copula parameters.}
-  \item{par2}{A d*(d-1)/2 vector of second pair-copula parameters (optional; default: \code{par2 = rep(0,length(family))}), 
+  \item{par2}{A d*(d-1)/2 vector of second pair-copula parameters (optional; default:\cr \code{par2 = rep(0,length(family))}),
   necessary for the t-, BB1, BB6, BB7 and BB8 copulas.}
 }
 
@@ -58,7 +58,7 @@ An \code{\link{RVineMatrix}} object.
 
 \author{Ulf Schepsmeier}
 
-\seealso{\code{\link{RVineMatrix}}, \code{\link{C2RVine}}, \code{\link{R2DVine}}}
+\seealso{\code{\link{RVineMatrix}}, \code{\link{C2RVine}}}
 
 \examples{
 # simulate a sample of size 500 from a 4-dimensional D-vine 

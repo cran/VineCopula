@@ -16,13 +16,13 @@ export(BiCopPar2Tau)
 export(BiCopPar2TailDep)
 export(BiCopTau2Par)
 export(BiCopSelect)
-export(BiCopGofKendall)
 export(BiCopName)
 export(BiCopHfunc)
 export(BiCopDeriv)
 export(BiCopDeriv2)
 export(BiCopHfuncDeriv)
 export(BiCopHfuncDeriv2)
+export(BiCopGofTest)
 
 export(RVineLogLik)
 export(RVineAIC)
@@ -43,10 +43,9 @@ export(RVineStdError)
 
 export(C2RVine)
 export(D2RVine)
-export(R2CVine)
-export(R2DVine)
 
 export(TauMatrix)
+
 
 S3method(print, RVineMatrix)
 

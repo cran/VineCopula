@@ -1,4 +1,4 @@
-RVineSeqEst<-function(data,RVM, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)), progress=FALSE)
+RVineSeqEst<-function(data,RVM, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)), progress=FALSE,weights=NA)
 {
 	data=as.matrix(data)
 	if(any(data>1) || any(data<0)) stop("Data has be in the interval [0,1].")
@@ -68,7 +68,7 @@ RVineSeqEst<-function(data,RVM, method="mle", se=FALSE, max.df=30, max.BB=list(B
           if(k == n) message(oldRVM$Matrix[i,i],",",oldRVM$Matrix[k,i])
           else message(oldRVM$Matrix[i,i],",",oldRVM$Matrix[k,i],"|",paste(oldRVM$Matrix[(k+1):n,i],collapse=","))
         }
-        par.out <- BiCopEst(zr2,zr1,RVM$family[k,i], method, se, max.df, max.BB)
+        par.out <- BiCopEst(zr2,zr1,RVM$family[k,i], method, se, max.df, max.BB,weights)
 				#par1 <- out.par$par
 				Params[k,i] <- par.out$par
 				Params2[k,i] <- par.out$par2
@@ -83,7 +83,7 @@ RVineSeqEst<-function(data,RVM, method="mle", se=FALSE, max.df=30, max.BB=list(B
           if(k == n) message(oldRVM$Matrix[i,i],",",oldRVM$Matrix[k,i])
           else message(oldRVM$Matrix[i,i],",",oldRVM$Matrix[k,i],"|",paste(oldRVM$Matrix[(k+1):n,i],collapse=","))
         }
-        par.out <- BiCopEst(zr2,zr1,RVM$family[k,i], method, se, max.df, max.BB)
+        par.out <- BiCopEst(zr2,zr1,RVM$family[k,i], method, se, max.df, max.BB,weights)
 				#par1 <- out.par$par
 				Params[k,i] <- par.out$par
 				Params2[k,i] <- par.out$par2

@@ -48,7 +48,7 @@ C2RVine(order, family, par, par2=rep(0,length(family)))
 		\code{40} = rotated BB8 copula (270 degrees)
 		}
   \item{par}{A d*(d-1)/2 vector of pair-copula parameters.}
-  \item{par2}{A d*(d-1)/2 vector of second pair-copula parameters (optional; default: \code{par2 = rep(0,length(family))}), necessary for the t-, BB1, BB6, BB7 and BB8 copulas.}
+  \item{par2}{A d*(d-1)/2 vector of second pair-copula parameters (optional; default:\cr \code{par2 = rep(0,length(family))}), necessary for the t-, BB1, BB6, BB7 and BB8 copulas.}
 }
 
 \value{
@@ -57,18 +57,7 @@ An \code{\link{RVineMatrix}} object.
 
 \author{Ulf Schepsmeier, Eike Brechmann}
 
-\references{
-Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2011).
-Selecting and estimating regular vine copulae and application to financial returns.
-Submitted for publication.
-\url{http://mediatum.ub.tum.de/node?id=1079277}
-
-Kurowicka, D. and H. Joe (Eds.) (2011).
-DEPENDENCE MODELING: Vine Copula Handbook.
-Singapore: World Scientific Publishing Co.
-}
-
-\seealso{\code{\link{RVineMatrix}}, \code{\link{D2RVine}}, \code{\link{R2CVine}}}
+\seealso{\code{\link{RVineMatrix}}, \code{\link{D2RVine}}}
 
 \examples{
 # simulate a sample of size 500 from a 4-dimensional C-vine  

@@ -141,6 +141,9 @@ out <- .C("VineLogLikRvineGradient",
 	#V$tilde_indirect = array(tilde_vindirect,dim=c(n,n,N,n,n))
 	#V$tilde_value = array(tilde_value,dim=c(n,n,N,n,n))
 
+	
+
+
 #out2=list(gradient=gradient,V=V)
 out2=list(gradient=gradient)
 return(out2)

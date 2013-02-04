@@ -2,7 +2,7 @@ RVineTreePlot = function(data=NULL, RVM, method="mle", max.df=30, max.BB=list(BB
 
   if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
 
-  if(edge.labels[1] != FALSE & !all(edge.labels %in% c("family","par","par2","theotau","emptau","copula"))) stop("Edge label not implemented.")
+  if(edge.labels[1] != FALSE & !all(edge.labels %in% c("family","par","par2","theotau","emptau","pair"))) stop("Edge label not implemented.")
   if(is.null(data) & any(edge.labels == "emptau")) stop("Empirical Kendall's tau values cannot be obtained if no data is provided.")
 
   if(is.null(data)==FALSE && (any(data>1) || any(data<0))) stop("Data has be in the interval [0,1].")
@@ -66,7 +66,7 @@ RVineTreePlot = function(data=NULL, RVM, method="mle", max.df=30, max.BB=list(BB
       if(edge.labels[jj] == "par2") elabels[[1]][1,jj] = parMat2[d,d-1]
       if(edge.labels[jj] == "theotau") elabels[[1]][1,jj] = theoTauMat[d,d-1]
       if(edge.labels[jj] == "emptau") elabels[[1]][1,jj] = empTauMat[d,d-1]
-	  if(edge.labels[jj] == "copula") elabels[[1]][1,jj] = paste(RVM$names[RVM$Matrix[d-1,d-1]],RVM$names[RVM$Matrix[d,d-1]],sep=",")
+      if(edge.labels[jj] == "pair") elabels[[1]][1,jj] = paste(RVM$names[RVM$Matrix[d-1,d-1]],RVM$names[RVM$Matrix[d,d-1]],sep=",")
     }
   } 
 
@@ -83,7 +83,7 @@ RVineTreePlot = function(data=NULL, RVM, method="mle", max.df=30, max.BB=list(BB
         if(edge.labels[jj] == "par2") elabels[[1]][d-i,jj] = parMat2[d,i]
         if(edge.labels[jj] == "theotau") elabels[[1]][d-i,jj] = theoTauMat[d,i]
         if(edge.labels[jj] == "emptau") elabels[[1]][d-i,jj] = empTauMat[d,i]
-		if(edge.labels[jj] == "copula") elabels[[1]][d-i,jj] = paste(RVM$names[RVM$Matrix[i,i]],RVM$names[RVM$Matrix[d,i]],sep=",")
+		    if(edge.labels[jj] == "pair") elabels[[1]][d-i,jj] = paste(RVM$names[RVM$Matrix[i,i]],RVM$names[RVM$Matrix[d,i]],sep=",")
       }
     } 
     # edges in further trees
@@ -112,13 +112,12 @@ RVineTreePlot = function(data=NULL, RVM, method="mle", max.df=30, max.BB=list(BB
           if(edge.labels[jj] == "par2") elabels[[k+1]][d-i-k,jj] = parMat2[d-k,i]
           if(edge.labels[jj] == "theotau") elabels[[k+1]][d-i-k,jj] = theoTauMat[d-k,i]
           if(edge.labels[jj] == "emptau") elabels[[k+1]][d-i-k,jj] = empTauMat[d-k,i]
-		  if(edge.labels[jj] == "copula") 
-		  {
-			handle1=paste(RVM$names[RVM$Matrix[i,i]],RVM$names[RVM$Matrix[d-k,i]],sep=",")
-			handle2=paste(RVM$names[RVM$Matrix[(d-k+1):d,i]],sep=",")
-			handle3=paste(handle1,handle2,sep="|")
-			elabels[[k+1]][d-i-k,jj] = handle3 #paste(handle1,handle2,sep="|")
-		  }
+    		  if(edge.labels[jj] == "pair"){
+      			handle1=paste(RVM$names[RVM$Matrix[i,i]],RVM$names[RVM$Matrix[d-k,i]],sep=",")
+      			handle2=paste(RVM$names[RVM$Matrix[(d-k+1):d,i]],collapse=",")
+      			handle3=paste(handle1,handle2,sep="|")
+      			elabels[[k+1]][d-i-k,jj] = handle3 #paste(handle1,handle2,sep="|")
+    		  }
         }
       } 
 
@@ -130,6 +129,9 @@ RVineTreePlot = function(data=NULL, RVM, method="mle", max.df=30, max.BB=list(BB
 
   }
 
+  # label the nodes
+  for(j in 1:(d-1)) for(k in 1:d) edges[[j]][edges[[j]]==k] = RVM$names[k] 
+  
   # convert to edge lists
   edgelist = list()
   for(j in 1:(d-1)) edgelist[[j]] = matrix(NA,d-j,2)

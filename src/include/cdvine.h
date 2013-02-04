@@ -10,6 +10,9 @@
 **
 */
 
+#if !defined(CDVINE_H)
+#define CDVINE_H
+
 //////////////////////////////////////////////////////////////
 // Function to simulate from a pair-copula construction (vine)
 // Input:
@@ -59,3 +62,5 @@ void VineLogLikm(int* T, int* d, int* type, int* family, double* par, double* da
 /////////////////////////////////////////////////////////////
 
 void VineLogLikmP(int* T, int* d, int* type, int* family, double* par, int* mpar, double* data,  double* out, double* ll, double* vv);
+
+#endif

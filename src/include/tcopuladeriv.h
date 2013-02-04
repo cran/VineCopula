@@ -1,3 +1,6 @@
+#if !defined(TCOPULA_H)
+#define TCOPULA_H
+
 // File tcopuladeriv.c
 void diffPDF_rho_tCopula(double* u, double* v, int* n, double* param, int* copula, double* out);
 void diffPDF_nu_tCopula(double* u, double* v, int* n, double* param, int* copula, double* out);
@@ -18,3 +21,5 @@ void diff2hfunc_v_tCopula(double* u, double* v, int* n, double* param, int* copu
 void diff2hfunc_rho_v_tCopula(double* u, double* v, int* n, double* param, int* copula, double* out);
 void diff2hfunc_nu_v_tCopula(double* u, double* v, int* n, double* param, int* copula, double* out);
 void diff2hfunc_rho_nu_tCopula(double* u, double* v, int* n, double* param, int* copula, double* out);
+
+#endif

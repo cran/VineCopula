@@ -10,7 +10,8 @@ Tree structures are determined and appropriate pair-copula families are selected
 
 \usage{
 RVineStructureSelect(data, familyset=NA, type=0, selectioncrit="AIC",
-                     indeptest=FALSE, level=0.05, progress=FALSE)
+                     indeptest=FALSE, level=0.05, trunclevel=NA,
+                     progress=FALSE, weights=NA)
 }
 
 \arguments{
@@ -58,10 +59,12 @@ RVineStructureSelect(data, familyset=NA, type=0, selectioncrit="AIC",
     Similarly, R-vine copula models with pre-specified tree structure can be specified using \code{\link{RVineCopSelect}}.}
   \item{selectioncrit}{Character indicating the criterion for pair-copula selection. Possible choices: \code{selectioncrit = "AIC"} (default) or \code{"BIC"} (see \code{\link{BiCopSelect}}).}
   \item{indeptest}{Logical; whether a hypothesis test for the independence of \code{u1} and \code{u2} is performed before bivariate copula selection
-    (default: \code{indeptest = FALSE}; cp. \code{\link{BiCopIndTest}}).
+    (default: \code{indeptest = FALSE}; see \code{\link{BiCopIndTest}}).
     The independence copula is chosen for a (conditional) pair if the null hypothesis of independence cannot be rejected.}
   \item{level}{Numerical; significance level of the independence test (default: \code{level = 0.05}).}
+  \item{trunclevel}{Integer; level of truncation.}
   \item{progress}{Logical; whether the tree-wise specification progress is printed (default: \code{progress = FALSE}).}
+  \item{weights}{Numerical; weights for each observation (opitional).}
 }
 
 \details{
@@ -89,10 +92,13 @@ Example code is shown below.
 }
 
 \references{
-Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2011).
+Brechmann, E. C., C. Czado, and K. Aas (2012).
+Truncated regular vines in high dimensions with applications to financial data.
+Canadian Journal of Statistics 40 (1), 68-85.
+
+Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2013).
 Selecting and estimating regular vine copulae and application to financial returns.
-Submitted for publication.
-\url{http://mediatum.ub.tum.de/node?id=1079277}
+Computational Statistics & Data Analysis, 59 (1), 52-69.
 }
 
 \author{Jeffrey Dissmann, Eike Brechmann, Ulf Schepsmeier}

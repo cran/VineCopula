@@ -1,4 +1,4 @@
-RVineCopSelect <- function(data,familyset=NA,Matrix,selectioncrit="AIC",indeptest=FALSE,level=0.05){
+RVineCopSelect <- function(data,familyset=NA,Matrix,selectioncrit="AIC",indeptest=FALSE,level=0.05,trunclevel=NA){
 
 	n = dim(data)[2]
 	N = nrow(data)
@@ -12,9 +12,12 @@ RVineCopSelect <- function(data,familyset=NA,Matrix,selectioncrit="AIC",indeptes
   if(!is.na(familyset[1])) for(i in 1:length(familyset)) if(!(familyset[i] %in% c(0,1:10,13,14,16:20,23,24,26:30,33,34,36:40))) stop("Copula family not implemented.")
   if(selectioncrit != "AIC" && selectioncrit != "BIC") stop("Selection criterion not implemented.")
   if(level < 0 & level > 1) stop("Significance level has to be between 0 and 1.")
-  
+
+  if(is.na(trunclevel)) trunclevel = n
+
   types = familyset
-	
+	if(trunclevel == 0) types = 0
+
 	M = Matrix
 
   Mold = M
@@ -23,12 +26,12 @@ RVineCopSelect <- function(data,familyset=NA,Matrix,selectioncrit="AIC",indeptes
 	M = reorderRVineMatrix(M)
 
   data = data[,o[length(o):1]]
-                                  
+
   MaxMat = createMaxMat(M)
   CondDistr = neededCondDistr(M)
-  
+
   Types = matrix(0,n,n)
-  
+
   Params = matrix(0,n,n)
   Params2 = matrix(0,n,n)
 
@@ -51,13 +54,17 @@ RVineCopSelect <- function(data,familyset=NA,Matrix,selectioncrit="AIC",indeptes
 				zr2 = V$indirect[k,(n-m+1),]
 			}
 
-      #outcop = BiCopSelect(zr1,zr2,types,selectioncrit,indeptest,level)
-      outcop = BiCopSelect(zr2,zr1,types,selectioncrit,indeptest,level) 
-       
+      if(n+1-k > trunclevel){
+        outcop = BiCopSelect(zr2,zr1,0,selectioncrit,indeptest,level)
+      }else{
+        #outcop = BiCopSelect(zr1,zr2,types,selectioncrit,indeptest,level)
+        outcop = BiCopSelect(zr2,zr1,types,selectioncrit,indeptest,level)
+      }
+
       Types[k,i] = outcop$family
       Params[k,i] = outcop$par
       Params2[k,i] = outcop$par2
-                                                              
+
 			if(CondDistr$direct[k-1,i])
         #V$direct[k-1,i,] = outcop$CondOn.2
 				V$direct[k-1,i,] = .C("Hfunc1",as.integer(Types[k,i]),as.integer(N),as.double(zr1),as.double(zr2),as.double(Params[k,i]),as.double(Params2[k,i]),as.double(rep(0,N)),PACKAGE='VineCopula')[[7]]

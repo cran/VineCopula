@@ -21,10 +21,9 @@ An \code{N} x d matrix of data simulated from the given R-vine copula model.
 }
 
 \references{
-Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2011).
+Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2013).
 Selecting and estimating regular vine copulae and application to financial returns.
-Submitted for publication.
-\url{http://mediatum.ub.tum.de/node?id=1079277}
+Computational Statistics & Data Analysis, 59 (1), 52-69.
 }
 
 \author{Jeffrey Dissmann}

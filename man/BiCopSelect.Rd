@@ -11,7 +11,7 @@ The corresponding parameter estimates are obtained by maximum likelihood estimat
 
 \usage{
 BiCopSelect(u1, u2, familyset=NA, selectioncrit="AIC",
-            indeptest=FALSE, level=0.05)
+            indeptest=FALSE, level=0.05, weights=NA)
 }
 
 \arguments{
@@ -55,9 +55,10 @@ BiCopSelect(u1, u2, familyset=NA, selectioncrit="AIC",
 		}
   \item{selectioncrit}{Character indicating the criterion for bivariate copula selection. Possible choices: \code{selectioncrit = "AIC"} (default) or \code{"BIC"}.}
   \item{indeptest}{Logical; whether a hypothesis test for the independence of \code{u1} and \code{u2} is performed before bivariate copula selection
-    (default: \code{indeptest = FALSE}; cp. \code{\link{BiCopIndTest}}).
+    (default: \code{indeptest = FALSE}; see \code{\link{BiCopIndTest}}).
     The independence copula is chosen if the null hypothesis of independence cannot be rejected.}
   \item{level}{Numeric; significance level of the independence test (default: \code{level = 0.05}).}
+  \item{weights}{Numerical; weights for each observation (opitional).}
 }
 
 \value{

@@ -1,5 +1,5 @@
-RVineStructureSelect = function(data,familyset=NA,type=0,selectioncrit="AIC",indeptest=FALSE,level=0.05,progress=FALSE){
-  
+RVineStructureSelect = function(data,familyset=NA,type=0,selectioncrit="AIC",indeptest=FALSE,level=0.05,trunclevel=NA,progress=FALSE,weights=NA){
+
   if(type == 0) type = "RVine"
   else if(type == 1) type = "CVine"
   if(type != "RVine" & type != "CVine") stop("Vine model not implemented.")
@@ -17,22 +17,28 @@ RVineStructureSelect = function(data,familyset=NA,type=0,selectioncrit="AIC",ind
   	
 	if(is.null(colnames(data))) colnames(data) = paste("V",1:n,sep="") 
 
+  if(is.na(trunclevel)) trunclevel = d
+
 	RVine = list(Tree = NULL, Graph=NULL)
+
+  if(trunclevel == 0) familyset = 0
 	
-	g = initializeFirstGraph(data)
+	g = initializeFirstGraph(data,weights)
 	mst = findMaximumTauTree(g,mode=type)
-	VineTree = fit.FirstTreeCopulas(mst,data,familyset,selectioncrit,indeptest,level)
+	VineTree = fit.FirstTreeCopulas(mst,data,familyset,selectioncrit,indeptest,level,weights=weights)
 	
 	RVine$Tree[[1]] = VineTree
 	RVine$Graph[[1]] = g
 	oldVineGraph  = VineTree
 	
 	for(i in 2:(n-1)){
+
+    if(trunclevel == i-1) familyset = 0
 	
-		g = buildNextGraph(VineTree)
+		g = buildNextGraph(VineTree,weights)
 		mst = findMaximumTauTree(g,mode=type)
 		
-		VineTree = fit.TreeCopulas(mst, VineTree,familyset,selectioncrit,indeptest,level,progress)
+		VineTree = fit.TreeCopulas(mst, VineTree,familyset,selectioncrit,indeptest,level,progress,weights=weights)
 		
 		RVine$Tree[[i]] = VineTree
 		RVine$Graph[[i]] = g
@@ -41,7 +47,7 @@ RVineStructureSelect = function(data,familyset=NA,type=0,selectioncrit="AIC",ind
 	return(as.RVM(RVine))
 }
 
-initializeFirstGraph <- function(data.univ)
+initializeFirstGraph <- function(data.univ,weights)
 {
 
 	#C = cor(data.univ,method="kendall")
@@ -52,11 +58,12 @@ initializeFirstGraph <- function(data.univ)
 	{
 		for(j in (i+1):q)
 		{
-			tau=fasttau(data.univ[,i],data.univ[,j])
+			tau=fasttau(data.univ[,i],data.univ[,j],weights)
 			C[i,j]=tau
 			C[j,i]=tau
 		}
 	}
+
 	rownames(C)=colnames(C)=colnames(data.univ)
 
 	g = graph.adjacency(C, mode="lower",weighted=TRUE,diag=FALSE)
@@ -94,7 +101,7 @@ findMaximumTauTree <- function(g,mode="RVine")
 	}
 }
 
-fit.FirstTreeCopulas <- function(mst,data.univ,type,copulaSelectionBy,testForIndependence,testForIndependence.level)
+fit.FirstTreeCopulas <- function(mst,data.univ,type,copulaSelectionBy,testForIndependence,testForIndependence.level,weights=NA)
 {
 	
 	d = ecount(mst)
@@ -129,7 +136,7 @@ fit.FirstTreeCopulas <- function(mst,data.univ,type,copulaSelectionBy,testForInd
 			E(mst)[i-1]$Copula.Name = paste(V(mst)[a[1]-1]$name,V(mst)[a[2]-1]$name,sep=" , ")	
 	}
 
-	outForACopula = lapply(X = parameterForACopula, FUN=wrapper_fit.ACopula, type,copulaSelectionBy,testForIndependence,testForIndependence.level)
+	outForACopula = lapply(X = parameterForACopula, FUN=wrapper_fit.ACopula, type,copulaSelectionBy,testForIndependence,testForIndependence.level,weights)
 	
 	for(i in 0:(d-1))
 	{
@@ -144,7 +151,7 @@ fit.FirstTreeCopulas <- function(mst,data.univ,type,copulaSelectionBy,testForInd
 	return(mst)
 }
 
-fit.TreeCopulas <- function(mst, oldVineGraph, type,copulaSelectionBy,testForIndependence,testForIndependence.level,progress)
+fit.TreeCopulas <- function(mst, oldVineGraph, type,copulaSelectionBy,testForIndependence,testForIndependence.level,progress,weights=NA)
 {
 	d = ecount(mst)
 	
@@ -201,7 +208,7 @@ fit.TreeCopulas <- function(mst, oldVineGraph, type,copulaSelectionBy,testForInd
 		E(mst)[i]$Copula.CondName.1 = n2
 	}
 
-	outForACopula = lapply(X = parameterForACopula, FUN=wrapper_fit.ACopula, type,copulaSelectionBy,testForIndependence,testForIndependence.level)
+	outForACopula = lapply(X = parameterForACopula, FUN=wrapper_fit.ACopula, type,copulaSelectionBy,testForIndependence,testForIndependence.level,weights)
 	
 	for(i in 0:(d-1))
 	{
@@ -216,7 +223,7 @@ fit.TreeCopulas <- function(mst, oldVineGraph, type,copulaSelectionBy,testForInd
 	return(mst)
 }	
 
-buildNextGraph <- function(oldVineGraph)
+buildNextGraph <- function(oldVineGraph,weights=NA)
 {
 
 	EL = get.edgelist(oldVineGraph)
@@ -265,7 +272,7 @@ buildNextGraph <- function(oldVineGraph)
 			
 			keine_nas = !(is.na(zr1) | is.na(zr2))
 			#E(g)[i]$weight = cor(x=zr1[keine_nas],y=zr2[keine_nas], method="kendall")
-			E(g)[i]$weight = fasttau(zr1[keine_nas],zr2[keine_nas])
+			E(g)[i]$weight = fasttau(zr1[keine_nas],zr2[keine_nas],weights)
 			
 			name.node1 = strsplit( V(g)[con[1]]$name,split=" *[,|] *")[[1]]
 			name.node2 = strsplit( V(g)[con[2]]$name,split=" *[,|] *")[[1]]
@@ -357,10 +364,10 @@ intern_SchnittDifferenz = function(liste1,liste2){
 	return(out)
 }
 
-fit.ACopula <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,level=0.05) 
+fit.ACopula <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,level=0.05,weights=NA) 
 {
 
-	out=BiCopSelect(u1,u2,familyset,selectioncrit,indeptest,level)
+	out=BiCopSelect(u1,u2,familyset,selectioncrit,indeptest,level,weights=weights)
 	if(out$family%in%c(23,24,26:30))
 	{
 		out$family=out$family+10

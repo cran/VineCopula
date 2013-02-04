@@ -88,7 +88,7 @@ For more and detailed information about the goodness-of-fit test see Belgorodski
 }
 
 \seealso{
-\code{\link{BiCopGofKendall}}, \code{\link{RVineVuongTest}}, \code{\link{RVineClarkeTest}}, \code{\link{BiCopSelect}}
+\code{\link{BiCopGofTest}}, \code{\link{RVineVuongTest}}, \code{\link{RVineClarkeTest}}, \code{\link{BiCopSelect}}
 }
 
 \author{Ulf Schepsmeier, Eike Brechmann, Natalia Belgorodski}
@@ -110,6 +110,7 @@ Econometrica 57 (2), 307-333.
 }
 
 \examples{
+\dontrun{
 # simulate from a t-copula
 dat = BiCopSim(500,2,0.7,5)
 
@@ -118,4 +119,5 @@ vcgof = BiCopVuongClarke(dat[,1],dat[,2],familyset=c(1:10))
 
 # display the Vuong test scores
 vcgof[1,]
+}
 }

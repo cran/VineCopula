@@ -29,7 +29,8 @@ RVineTreePlot(data=NULL, RVM, method="mle", max.df=30,
     \code{"par"}: pair-copula parameters\cr
     \code{"par2"}: second pair-copula parameters\cr
     \code{"theotau"}: theoretical Kendall's tau values corresponding to pair-copula families and parameters (see \code{\link{BiCopPar2Tau}})\cr
-    \code{"emptau"}: empirical Kendall's tau values (only if data is provided!)}
+    \code{"emptau"}: empirical Kendall's tau values (only if data is provided!)\cr
+	  \code{"pair"}: indices of (conditioned) pair of variables identified by the edges}
   \item{P}{A list of matrices with two columns for the x-y-coordinates of the nodes in the plot(s) (optional; default: \code{P = NULL}).}
 }
 

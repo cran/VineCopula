@@ -580,7 +580,7 @@ void hesse_step(int* T, int* d, int* family, int* kk, int* ii, int* kkk, int* ii
 				double* barvalue_out, double* barvdirect_out, double* barvindirect_out, int* kk_second, int* kkk_second)
 {
 
-	int ii_out, iii_out, kk_out, kkk_out, kk_second_out, kkk_second_out;
+	int ii_out, iii_out, kk_out, kkk_out, kk_second_out, kkk_second_out, margin=0;
 	int tcop_help=0;
 	int tausche=0, t_cop=0;
 	int *calcupdate_out, *calcupdate2_out;
@@ -634,42 +634,42 @@ void hesse_step(int* T, int* d, int* family, int* kk, int* ii, int* kkk, int* ii
 		tcop_help=2;
 		VineLogLikRvineDeriv(T, d, family, &kk_out, &ii_out, maxmat, matrix, condirect, conindirect, par, par2, data, 
 							  &der1, //Zielvariable
-							ll, vv, vv2, calcupdate_out, tilde_vdirect, tilde_vindirect, tilde_value, &tcop_help);
+							ll, vv, vv2, calcupdate_out, tilde_vdirect, tilde_vindirect, tilde_value, &tcop_help, &margin);
 	}
 	else if((family[(kk_out)+(*d)*(ii_out-1)-1]==2) && kk_second_out==0)
 	{
 		tcop_help=1;
 		VineLogLikRvineDeriv(T, d, family, &kk_out, &ii_out, maxmat, matrix, condirect, conindirect, par, par2, data, 
 							  &der1, //Zielvariable
-							ll, vv, vv2, calcupdate_out, tilde_vdirect, tilde_vindirect, tilde_value, &tcop_help);
+							ll, vv, vv2, calcupdate_out, tilde_vdirect, tilde_vindirect, tilde_value, &tcop_help, &margin);
 	}
 	else
 	{
 		tcop_help=0;
 		VineLogLikRvineDeriv(T, d, family, &kk_out, &ii_out, maxmat, matrix, condirect, conindirect, par, par2, data, 
 							  &der1, //Zielvariable
-							ll, vv, vv2, calcupdate_out, tilde_vdirect, tilde_vindirect, tilde_value, &tcop_help);
+							ll, vv, vv2, calcupdate_out, tilde_vdirect, tilde_vindirect, tilde_value, &tcop_help, &margin);
 	}
 	if((family[(kkk_out)+(*d)*(iii_out-1)-1]==2) && kkk_second_out==1)
 	{
 		tcop_help=2;
 		VineLogLikRvineDeriv(T, d, family, &kkk_out, &iii_out, maxmat, matrix, condirect, conindirect, par, par2, data, 
 							  &der2, //Zielvariable
-							ll, vv, vv2, calcupdate2_out, hat_vdirect, hat_vindirect, hat_value, &tcop_help);
+							ll, vv, vv2, calcupdate2_out, hat_vdirect, hat_vindirect, hat_value, &tcop_help, &margin);
 	}
 	else if((family[(kkk_out)+(*d)*(iii_out-1)-1]==2) && kkk_second_out==0)
 	{
 		tcop_help=1;
 		VineLogLikRvineDeriv(T, d, family, &kkk_out, &iii_out, maxmat, matrix, condirect, conindirect, par, par2, data, 
 							  &der2, //Zielvariable
-							ll, vv, vv2, calcupdate2_out, hat_vdirect, hat_vindirect, hat_value, &tcop_help);
+							ll, vv, vv2, calcupdate2_out, hat_vdirect, hat_vindirect, hat_value, &tcop_help, &margin);
 	}
 	else
 	{
 		tcop_help=0;
 		VineLogLikRvineDeriv(T, d, family, &kkk_out, &iii_out, maxmat, matrix, condirect, conindirect, par, par2, data, 
 							  &der2, //Zielvariable
-							ll, vv, vv2, calcupdate2_out, hat_vdirect, hat_vindirect, hat_value, &tcop_help);
+							ll, vv, vv2, calcupdate2_out, hat_vdirect, hat_vindirect, hat_value, &tcop_help, &margin);
 	}
 
 	//subder1=sum(array(tilde_value_array,dim=c(d,d,N))[kk_out,,])
@@ -818,9 +818,13 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 							der2=0;
 							subder1=0;
 							subder2=0;
-							for(j=0;j<*d;j++)
+							for(t=0;t<*T;t++)
 							{
-								for(t=0;t<*T;t++)
+								der1=0;
+								der2=0;
+								subder1=0;
+								subder2=0;
+								for(j=0;j<*d;j++)
 								{
 									subhess[(t1+1)+((dd+tt)*t2)-1]+=barvalue_out[(k2)+(*d)*j+(*d)*(*d)*t-1];
 									subder1+=tilde_value[(k2)+(*d)*j+(*d)*(*d)*t-1];
@@ -831,12 +835,18 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 										der2+=hat_value[(i+1)+(*d)*j+(*d)*(*d)*t-1];
 									}
 								}
+									//Rprintf("%d, %d, %d, %d, der1: %f\t der2: %f\n",i1, k1, i2, k2,der1,der2);
+									//Rprintf("t1: %d \t t2: %d \n",t1,t2);
+								der[(t1+1)+((dd+tt)*t2)-1]+=der1*der2;
+								der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
+								subder[(t1+1)+((dd+tt)*t2)-1]+=subder1*subder2;
+								subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
 							}
 							subhess[(t2+1)+((dd+tt)*t1)-1]=subhess[(t1+1)+((dd+tt)*t2)-1];
-							der[(t1+1)+((dd+tt)*t2)-1]=der1*der2;
-							der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
-							subder[(t1+1)+((dd+tt)*t2)-1]=subder1*subder2;
-							subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
+							//der[(t1+1)+((dd+tt)*t2)-1]=der1*der2;
+							//der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
+							//subder[(t1+1)+((dd+tt)*t2)-1]=subder1*subder2;
+							//subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
 						}
 					}
 					t2++;
@@ -875,9 +885,13 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 								der2=0;
 								subder1=0;
 								subder2=0;
-								for(j=0;j<*d;j++)
+								for(t=0;t<*T;t++)
 								{
-									for(t=0;t<*T;t++)
+									der1=0;
+									der2=0;
+									subder1=0;
+									subder2=0;
+									for(j=0;j<*d;j++)
 									{
 										subhess[(t1+1)+((dd+tt)*t2)-1]+=barvalue_out[(k2)+(*d)*j+(*d)*(*d)*t-1];
 										subder1+=tilde_value[(kk_second)+(*d)*j+(*d)*(*d)*t-1];
@@ -888,12 +902,16 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 											der2+=hat_value[(i+1)+(*d)*j+(*d)*(*d)*t-1];
 										}
 									}
+									der[(t1+1)+((dd+tt)*t2)-1]+=der1*der2;
+									der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
+									subder[(t1+1)+((dd+tt)*t2)-1]+=subder1*subder2;
+									subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
 								}
 								subhess[(t2+1)+((dd+tt)*t1)-1]=subhess[(t1+1)+((dd+tt)*t2)-1];
-								der[(t1+1)+((dd+tt)*t2)-1]=der1*der2;
-								der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
-								subder[(t1+1)+((dd+tt)*t2)-1]=subder1*subder2;
-								subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
+								//der[(t1+1)+((dd+tt)*t2)-1]=der1*der2;
+								//der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
+								//subder[(t1+1)+((dd+tt)*t2)-1]=subder1*subder2;
+								//subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
 
 							}
 							
@@ -953,9 +971,13 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 									der2=0;
 									subder1=0;
 									subder2=0;
-									for(j=0;j<*d;j++)
+									for(t=0;t<*T;t++)
 									{
-										for(t=0;t<*T;t++)
+										der1=0;
+										der2=0;
+										subder1=0;
+										subder2=0;
+										for(j=0;j<*d;j++)
 										{
 											subhess[(t1+1)+((dd+tt)*t2)-1]+=barvalue_out[(k2)+(*d)*j+(*d)*(*d)*t-1];
 											subder1+=tilde_value[(kk_second)+(*d)*j+(*d)*(*d)*t-1];
@@ -966,12 +988,16 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 												der2+=hat_value[(i+1)+(*d)*j+(*d)*(*d)*t-1];
 											}
 										}
+										der[(t1+1)+((dd+tt)*t2)-1]+=der1*der2;
+										der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
+										subder[(t1+1)+((dd+tt)*t2)-1]+=subder1*subder2;
+										subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
 									}
 									subhess[(t2+1)+((dd+tt)*t1)-1]=subhess[(t1+1)+((dd+tt)*t2)-1];
-									der[(t1+1)+((dd+tt)*t2)-1]=der1*der2;
-									der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
-									subder[(t1+1)+((dd+tt)*t2)-1]=subder1*subder2;
-									subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
+									//der[(t1+1)+((dd+tt)*t2)-1]=der1*der2;
+									//der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
+									//subder[(t1+1)+((dd+tt)*t2)-1]=subder1*subder2;
+									//subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
 								}
 							}
 							t2++;

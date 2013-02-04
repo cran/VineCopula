@@ -14,6 +14,7 @@
 #include "include/memoryhandling.h"
 #include "include/tools.h"
 #include "include/likelihood.h"
+#include <math.h>
 
 #define UMAX  1-1e-10
 
@@ -314,6 +315,18 @@ void copPdf(double* u, double* v, int* n, double* param, int* copula, double* ou
 ///////////////////////////////////////////////////////
 // New
 
+double log1mexp(double a)
+{
+	double result;
+if (a<log(2)) {
+	result=log(-expm1(-a));
+}else{
+	result=log1p(-exp(-a));	
+}
+	return result;	
+}	
+
+
 
 void archCDF(double* u, double* v, int* n, double* param, int* copula, double* out)
 {
@@ -347,7 +360,7 @@ void archCDF(double* u, double* v, int* n, double* param, int* copula, double* o
 		}
 		else if(*copula==5)	//Frank
 		{
-			double nu;
+			/*double nu;
 			t1 = -param[0]*u[j];
 			t2 = -param[0]*v[j];
 			t3 = exp(t1);
@@ -357,7 +370,14 @@ void archCDF(double* u, double* v, int* n, double* param, int* copula, double* o
 			nu = 1-exp(-param[0]);
 			t7 = t5*t6;
 			t8 = nu-t7;
-			out[j] = -1/param[0]*log(t8/nu);
+			out[j] = -1/param[0]*log(t8/nu);*/
+			if (param[0]>0) {
+				t1=-log1p(exp(-param[0]) * expm1(param[0]-u[j]*param[0])/expm1(-param[0]));
+				t2=-log1p(exp(-param[0]) * expm1(param[0]-v[j]*param[0])/expm1(-param[0]));
+				out[j] = -log1mexp(t1+t2-log1mexp(param[0]))/param[0];
+			} else {
+				out[j] =-1/param[0] * log(1 + exp(-(-log((exp(-param[0] * u[j]) - 1)/(exp(-param[0]) - 1)) + -log((exp(-param[0] * v[j]) - 1)/(exp(-param[0]) - 1)))) * (exp(-param[0]) - 1));	
+			}	
 		}
 		else if(*copula==6)	//Joe
 		{

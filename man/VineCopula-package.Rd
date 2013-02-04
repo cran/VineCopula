@@ -15,8 +15,8 @@ For C- and D-vines links to the package CDVine are provided.
 }
 
 \section{Remark}{
-The package VineCopula is a continuation of the package CDVine by U. Schepsmeier and E. C. Brechmann. It includes all functions
-implemented in CDVine for the bivariate case (BiCop-functions). 
+The package VineCopula is a continuation of the package CDVine by U. Schepsmeier and E. C. Brechmann (see Brechmann and Schepsmeier (2013)).
+It includes all functions implemented in CDVine for the bivariate case (BiCop-functions).
 }
 
 \section{Bivariate copula families}{
@@ -52,7 +52,7 @@ Rotated Joe-Frank (90 and 270 degrees) \tab \eqn{(-\infty,-1]} \tab \eqn{[-1,0)}
 }
 
 \section{R-vine copula models}{
-The specification of an R-vine is done in matrix notation, introduced by Dissmann et al. (2011). One matrix contains the R-vine tree structure,
+The specification of an R-vine is done in matrix notation, introduced by Dissmann et al. (2013). One matrix contains the R-vine tree structure,
 one the copula families utilized and two matrices corresponding parameter values. 
 These four matrices are stored in an \code{RVineMatrix} object created by the function \code{RVineMatrix}. Each matrix is a d x d lower triangular matrix.
 Since C- and D-vines are special cases, boundary cases, of R-vines one can write each C- or D-vine in R-vine notation. The transformation
@@ -73,8 +73,8 @@ We are especially grateful to Harry Joe for his contributions to the implementat
 \tabular{ll}{
 Package: \tab VineCopula\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2012-06-28\cr
+Version: \tab 1.1\cr
+Date: \tab 2013-02-04\cr
 License: \tab GPL (>=2)\cr
 Depends: \tab R (\eqn{\geq 2.11.0}{>= 2.11.0}), MASS, mvtnorm, igraph0 \cr
 Suggests: \tab CDVine, TSP \cr
@@ -82,7 +82,8 @@ LazyLoad: \tab yes
 }
 }
 
-\author{Ulf Schepsmeier, Jakob Stoeber, Eike Christian Brechmann <VineCopula@ma.tum.de>
+\author{
+Ulf Schepsmeier, Jakob Stoeber, Eike Christian Brechmann <VineCopula@ma.tum.de>
 }
 
 \references{ 
@@ -103,18 +104,22 @@ Truncated regular vines in high dimensions with applications to financial data.
 Canadian Journal of Statistics 40 (1), 68-85.
 
 Brechmann, E. C. and C. Czado (2011).
-Risk management with high-dimensional vine copulas: An Analysis of the Euro Stoxx 50.
+Risk management with high-dimensional vine copulas: An analysis of the Euro Stoxx 50.
 Submitted for publication.
 \url{http://mediatum.ub.tum.de/node?id=1079276}.
+
+Brechmann, E. C. and U. Schepsmeier (2013).
+Modeling Dependence with C- and D-Vine Copulas: The R Package CDVine.
+Journal of Statistical Software, 52 (3), 1-27.
+\url{http://www.jstatsoft.org/v52/i03/}.
 
 Czado, C., U. Schepsmeier, and A. Min (2012).
 Maximum likelihood estimation of mixed C-vines with application to exchange rates.
 Statistical Modelling, 12(3), 229-255.
 
-Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2011).
+Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2013).
 Selecting and estimating regular vine copulae and application to financial returns.
-Submitted for publication.
-\url{http://mediatum.ub.tum.de/node?id=1079277}.
+Computational Statistics & Data Analysis, 59 (1), 52-69.
 
 Joe, H. (1996).
 Families of m-variate distributions with given margins and m(m-1)/2 bivariate dependence parameters.
@@ -123,7 +128,7 @@ Hayward: Institute of Mathematical Statistics.
 
 Joe, H. (1997).
 Multivariate Models and Dependence Concepts.
-Chapman and Hall, London.
+London: Chapman and Hall.
 
 Knight, W. R. (1966).
 A computer method for calculating Kendall's tau with ungrouped data.
@@ -134,7 +139,7 @@ Uncertainty Analysis with High Dimensional Dependence Modelling.
 Chichester: John Wiley.
 
 Kurowicka, D. and H. Joe (Eds.) (2011).
-DEPENDENCE MODELING: Vine Copula Handbook.
+Dependence Modeling: Vine Copula Handbook.
 Singapore: World Scientific Publishing Co.
 
 Schepsmeier, U. and J. Stoeber (2012).
@@ -143,7 +148,7 @@ Submitted for publication.
 \url{http://mediatum.ub.tum.de/node?id=1106541}.
 
 Stoeber, J. and U. Schepsmeier (2012).
-Is there significant time-variation in multivariate dependence?
-In preparation.
-\url{http://de.arxiv.org/abs/1205.4841}.
+Is there significant time-variation in multivariate copulas?
+Submitted for publication.
+\url{http://arxiv.org/abs/1205.4841}.
 }

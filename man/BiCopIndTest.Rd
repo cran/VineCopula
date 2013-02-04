@@ -47,7 +47,7 @@ Journal of Hydrologic Engineering, 12 (4), 347-368.
 
 \author{Jeffrey Dissmann}
 
-\seealso{\code{\link{BiCopPar2Tau}}, \code{\link{BiCopTau2Par}}, \code{\link{BiCopSelect}}, \cr \code{\link{RVineCopSelect}}, \code{\link{RVineStructureSelect}}}
+\seealso{\code{\link{BiCopGofTest}}, \code{\link{BiCopPar2Tau}}, \code{\link{BiCopTau2Par}}, \code{\link{BiCopSelect}},\cr \code{\link{RVineCopSelect}}, \code{\link{RVineStructureSelect}}}
 
 \examples{
 ## Example 1: Gaussian copula with large dependence parameter

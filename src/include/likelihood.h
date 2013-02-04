@@ -1,3 +1,6 @@
+#if !defined(LIKELIHOOD_H)
+#define LIKELIHOOD_H
+
 // File likelihood.c
 //void gen(double* u, int* n, double* param, int* copula, double* out);
 //void genInv(double* u, int* n, double* param, int* copula, double* out);
@@ -16,3 +19,5 @@ void dbb1(double* u, double* v, int* n, double* param, double* out);
 void dbb6(double* u, double* v, int* n, double* param, double* out);
 void dbb7(double* u, double* v, int* n, double* param, double* out);
 void dbb8(double* u, double* v, int* n, double* param, double* out);
+
+#endif

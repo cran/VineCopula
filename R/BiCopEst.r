@@ -1,5 +1,5 @@
 BiCopEst <-
-function(u1,u2,family, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)))
+function(u1,u2,family, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)),weights=NA)
 {
   # Function that estimates the parameter(s) of the bivatiate copula
   #---------------------------------------------------------
@@ -162,7 +162,7 @@ function(u1,u2,family, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6)
 		{
 			theta1 <- sin(tau*pi/2)
 			delta1 <- min(10,(max.df+2)/2 )      # Nehme die Mitte zwischen 2S und max.df So kann man mit dem Startwert auch nicht außerhalb des vom User gesetzten Bereiches sein.
-			delta = MLE_intern(cbind(u1,u2),c(theta1,delta1),family=family,se=FALSE,max.df,max.BB,cor.fixed=TRUE)$par[2]
+			delta = MLE_intern(cbind(u1,u2),c(theta1,delta1),family=family,se=FALSE,max.df,max.BB,cor.fixed=TRUE,weights)$par[2]
 		}
 		else if(family==7 || family==17)	## BB1
 		{
@@ -279,7 +279,7 @@ function(u1,u2,family, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6)
 	
 		if(family!=0)
 		{
-			out=MLE_intern(cbind(u1,u2),c(theta1, delta),family=family,se,max.df,max.BB)
+			out=MLE_intern(cbind(u1,u2),c(theta1, delta),family=family,se,max.df,max.BB,weights)
 			theta=out$par
 			if(se==TRUE)
 				se1=out$se
@@ -381,6 +381,7 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 {
 
 	n = dim(data)[1]
+	if(any(is.na(weights))) weights=NULL
 
 	if(family %in% c(7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40))
 	{
@@ -426,7 +427,7 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 		      up = c(-1.001,-0.001)
 		      low = -max.BB$BB8
 		}
-
+		
 		if(se == TRUE){
 			optimout = optim(par=start.parm,fn=t_LL,method="L-BFGS-B",lower=low,upper=up,control=list(fnscale=-1,maxit = 500),hessian=TRUE)
 		}else{
@@ -467,11 +468,19 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 				gr[2]=sum(BiCopDeriv(data[,1],data[,2],family=2,par=param[1],par2=param[2],deriv="par2",log=TRUE))
 				return(gr)
 			}
-
-			if(se == TRUE){
-				optimout = optim(par=start.parm,fn=t_LL,gr=gr_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500),hessian=TRUE,lower=c(-0.9999,2.0001),upper=c(0.9999,max.df))
+			
+			if(is.null(weights)){
+				if(se == TRUE){
+					optimout = optim(par=start.parm,fn=t_LL,gr=gr_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500),hessian=TRUE,lower=c(-0.9999,2.0001),upper=c(0.9999,max.df))
+				}else{
+					optimout = optim(par=start.parm,fn=t_LL,gr=gr_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500),lower=c(-0.9999,2.0001),upper=c(0.9999,max.df))
+				}
 			}else{
-				optimout = optim(par=start.parm,fn=t_LL,gr=gr_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500),lower=c(-0.9999,2.0001),upper=c(0.9999,max.df))
+				if(se == TRUE){
+					optimout = optim(par=start.parm,fn=t_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500),hessian=TRUE,lower=c(-0.9999,2.0001),upper=c(0.9999,max.df))
+				}else{
+					optimout = optim(par=start.parm,fn=t_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500),lower=c(-0.9999,2.0001),upper=c(0.9999,max.df))
+				}	
 			}
 
 			if(optimout$par[2] >= (max.df-0.0001)) warning(paste("Degrees of freedom of the t-copula estimated to be larger than ",max.df,". Consider using the Gaussian copula instead.",sep=""))
@@ -502,7 +511,11 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 			}
 
 			if(se == TRUE){
-				optimout = optim(par=start.parm[2],fn=t_LL,gr=gr_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500),hessian=TRUE,lower=2.0001,upper=max.df)
+				if(is.null(weights)){
+					optimout = optim(par=start.parm[2],fn=t_LL,gr=gr_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500),hessian=TRUE,lower=2.0001,upper=max.df)
+				}else{
+					optimout = optim(par=start.parm[2],fn=t_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500),hessian=TRUE,lower=2.0001,upper=max.df)	
+				}
 			}else{
 				optimout = optimize(f=t_LL,maximum=TRUE,interval=c(2.0001,max.df))
 				optimout$par=optimout$maximum
@@ -523,7 +536,7 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 			}
 			else
 			{
-				ll = .C("LL_mod_seperate",as.integer(family),as.integer(n),as.double(data[,2]), as.double(data[,1]), as.double(param[1]),as.double(param[2]), as.double(rep(0,n)),PACKAGE='VineCopula')[[7]]%*%weights
+				ll = .C("LL_mod_seperate",as.integer(family),as.integer(n),as.double(data[,2]), as.double(data[,1]), as.double(param[1]),as.double(0), as.double(rep(0,n)),PACKAGE='VineCopula')[[7]]%*%weights
 			}
 			if(is.infinite(ll) || is.na(ll) || ll< -10^300) ll = -10^300
 
@@ -544,36 +557,59 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 		  up = 0.9999
 		}else if(family %in% c(3,13)){
 		  low = 0.0001
+		  up=BiCopTau2Par(family,0.99)
+			if(t_LL(up)==-10^300) up=BiCopTau2Par(family,0.95)
+			if(t_LL(up)==-10^300) up=BiCopTau2Par(family,0.9)
 		}else if(family %in% c(4,14)){
 		  low = 1.0001
+		  up=BiCopTau2Par(family,0.99)
+		  if(t_LL(up)==-10^300) up=BiCopTau2Par(family,0.95)
+		  if(t_LL(up)==-10^300) up=BiCopTau2Par(family,0.9)
+		}else if(family %in% c(5)){
+		  low = BiCopTau2Par(family,-0.99)
+		  if(t_LL(low)==-10^300) low=BiCopTau2Par(family,-0.95)
+		  if(t_LL(low)==-10^300) low=BiCopTau2Par(family,-0.9)
+		  up=BiCopTau2Par(family,0.99)
+			if(t_LL(up)==-10^300) up=BiCopTau2Par(family,0.95)
+			if(t_LL(up)==-10^300) up=BiCopTau2Par(family,0.9)
 		}else if(family %in% c(6,16)){
 		  low = 1.0001
+		  up=BiCopTau2Par(family,0.99)
+			if(t_LL(up)==-10^300) up=BiCopTau2Par(family,0.95)
+			if(t_LL(up)==-10^300) up=BiCopTau2Par(family,0.9)
 		}else if(family %in% c(23,33)){
 		  up = -0.0001
+		  low=BiCopTau2Par(family,-0.99)
+			if(t_LL(low)==-10^300) low=BiCopTau2Par(family,-0.95)
+			if(t_LL(low)==-10^300) low=BiCopTau2Par(family,-0.9)
 		}else if(family %in% c(24,34)){
 		  up = -1.0001
+		  low=BiCopTau2Par(family,-0.99)
+			if(t_LL(low)==-10^300) low=BiCopTau2Par(family,-0.95)
+			if(t_LL(low)==-10^300) low=BiCopTau2Par(family,-0.9)
 		}else if(family %in% c(26,36)){
 		  up = -1.0001
+		  low=BiCopTau2Par(family,-0.99)
+			if(t_LL(low)==-10^300) low=BiCopTau2Par(family,-0.95)
+			if(t_LL(low)==-10^300) low=BiCopTau2Par(family,-0.9)
 		}
 
 		pscale = ifelse(family==1, 0.001, 1)
-		#if(family %in% c(1,3,4,5,6,13,14,15,16,23,24,26,33,34,36))
-		#{
-			if(se == TRUE){
-			  optimout = optim(par=start.parm[1],fn=t_LL,gr=gr_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500,parscale=pscale),lower=low,upper=up,hessian=TRUE)
+
+		if(se == TRUE){
+			if(is.null(weights)){
+			  optimout = try(expr = optim(par=start.parm[1],fn=t_LL,gr=gr_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500,parscale=pscale),lower=low,upper=up,hessian=TRUE), silent = TRUE)
+			  if (class(optimout) == "try-error") {
+				  optimout = optim(par=start.parm[1],fn=t_LL,gr=NULL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500,parscale=pscale),lower=low,upper=up,hessian=TRUE)
+			  }
 			}else{
-			  optimout = optim(par=start.parm[1],fn=t_LL,gr=gr_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500,parscale=pscale),lower=low,upper=up)
+				optimout = optim(par=start.parm[1],fn=t_LL,gr=NULL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500,parscale=pscale),lower=low,upper=up,hessian=TRUE)
 			}
+		}else{
+		  optimout = optimize(f=t_LL,interval=c(low,up),maximum=TRUE)
+		  optimout$par=optimout$maximum
+		}
 			optimout$par=c(optimout$par,0)
-		#}
-		#else
-		#{
-		#if(se == TRUE){
-		 #     optimout = optim(par=start.parm,fn=t_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500,parscale=pscale),lower=low,upper=up,hessian=TRUE)
-		  #  }else{
-		   #   optimout = optim(par=start.parm,fn=t_LL,method="L-BFGS-B",control=list(fnscale=-1,maxit = 500,parscale=pscale),lower=low,upper=up)
-		   # }
-		#}
 
 	}
 	
@@ -628,8 +664,9 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 }
 
 
-fasttau<- function(x, y)
+fasttau<- function(x, y,weights=NA)
 {
+	if(any(is.na(weights))){
   m=length(x)
   n=length(y)
   if(m == 0 || n == 0) stop("both 'x' and 'y' must be non-empty")
@@ -646,6 +683,8 @@ fasttau<- function(x, y)
 		V=as.integer(0),
 		PACKAGE='VineCopula')
   ktau=out$tau
-
+	}else{
+	ktau=TauMatrix(matrix(c(x,y),length(x),2),weights)[2,1]	
+	}
 return(ktau)
 }

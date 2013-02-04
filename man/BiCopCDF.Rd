@@ -16,7 +16,6 @@ BiCopCDF(u1, u2, family, par, par2=0)
   \item{family}{An integer defining the bivariate copula family: \cr
 		\code{0} = independence copula \cr
 	        \code{1} = Gaussian copula \cr
-	        \code{2} = Student t copula (t-copula) \cr
 	        \code{3} = Clayton copula \cr
 	        \code{4} = Gumbel copula \cr
 	        \code{5} = Frank copula \cr
@@ -48,24 +47,29 @@ BiCopCDF(u1, u2, family, par, par2=0)
 		\code{40} = rotated BB8 copula (270 degrees) 
 		}
   \item{par}{Copula parameter.}
-  \item{par2}{Second parameter for bivariate copulas with two parameters (t, BB1, BB6, BB7, BB8; default: \code{par2 = 0}).}
+  \item{par2}{Second parameter for bivariate copulas with two parameters (t, BB1, BB6, BB7, BB8; default: \code{par2 = 0}). \code{par2} should be an positive integer for the Students's t copula \code{family=2}.}
 }
 
 \value{
 A numeric vector of the bivariate copula distribution function evaluated at \code{u1} and \code{u2}.
 }
 
+\note{
+The calculation of the cumulative distribution function (CDF) of the Student's t copula (\code{family=2}) is not implemented any more since the calculation was wrong for non-integer degrees-of-freedom.
+}
+
+
 \author{Eike Brechmann}
 
 \seealso{\code{\link{BiCopPDF}}, \code{\link{BiCopHfunc}}, \code{\link{BiCopSim}}}
 
 \examples{
-# simulate from a bivariate t-copula
-simdata = BiCopSim(300,2,-0.7,par2=4)
+# simulate from a bivariate Clayton
+simdata = BiCopSim(300,3,3.4)
 
 # evaluate the distribution function of the bivariate t-copula
 u1 = simdata[,1]
 u2 = simdata[,2]
-BiCopCDF(u1,u2,2,-0.7,par2=4)
+BiCopCDF(u1,u2,3,3.4)
 }
 

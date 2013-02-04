@@ -33,7 +33,7 @@
 
 
 void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
-						  double* out, double* ll, double* vv, double* vv2, int* calcupdate, double* tilde_vdirect, double* tilde_vindirect, double* tilde_value, int* tcop)
+						  double* out, double* ll, double* vv, double* vv2, int* calcupdate, double* tilde_vdirect, double* tilde_vindirect, double* tilde_value, int* tcop, int* margin)
 {
 	int i, j, k, t, m, **fam, **calc;
 	
@@ -163,30 +163,64 @@ void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* ma
 		diffhfunc_rho_tCopula(zr1,zr2,T,param,&fam[*kk-1][*ii-1],tildevdirect[*kk-2][*ii-1]);
 		diffhfunc_rho_tCopula(zr2,zr1,T,param,&fam[*kk-1][*ii-1],tildevindirect[*kk-2][*ii-1]);
 		diffPDF_rho_tCopula(zr1,zr2,T,param,&fam[*kk-1][*ii-1],tildevalue[*kk-1][*ii-1]);
+		for(t=0;t<*T;t++ ) 
+		{
+			tildevalue[*kk-1][*ii-1][t]=tildevalue[*kk-1][*ii-1][t]/cop[t];
+		}
 	}
 	else if(*tcop==2)
 	{
 		diffhfunc_nu_tCopula_new(zr1,zr2,T,param,&fam[*kk-1][*ii-1],tildevdirect[*kk-2][*ii-1]);
 		diffhfunc_nu_tCopula_new(zr2,zr1,T,param,&fam[*kk-1][*ii-1],tildevindirect[*kk-2][*ii-1]);
 		diffPDF_nu_tCopula_new(zr1,zr2,T,param,&fam[*kk-1][*ii-1],tildevalue[*kk-1][*ii-1]);
+		for(t=0;t<*T;t++ ) 
+		{
+			tildevalue[*kk-1][*ii-1][t]=tildevalue[*kk-1][*ii-1][t]/cop[t];
+		}
 	}
 	else
 	{
-		diffhfunc_mod(zr1,zr2,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],tildevdirect[*kk-2][*ii-1]);
-		diffhfunc_mod2(zr2,zr1,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],tildevindirect[*kk-2][*ii-1]);
-		diffPDF_mod(zr1,zr2,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],tildevalue[*kk-1][*ii-1]);
+		if( *margin == 0 )		//Das ist unser bisheriger Fall mit stetigen Variablen (ohne t-copula)
+		{		
+			diffhfunc_mod(zr1,zr2,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],tildevdirect[*kk-2][*ii-1]);
+			diffhfunc_mod2(zr2,zr1,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],tildevindirect[*kk-2][*ii-1]);
+			diffPDF_mod(zr1,zr2,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],tildevalue[*kk-1][*ii-1]);
+			for(t=0;t<*T;t++ ) 
+			{
+				tildevalue[*kk-1][*ii-1][t]=tildevalue[*kk-1][*ii-1][t]/cop[t];
+			}
+		}
+		else if( *margin== 1)	// Ableitung nach dem ersten Argument = margin1
+		{
+			diffhfunc_v_mod2(zr2,zr1,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],tildevindirect[*kk-2][*ii-1]);
+			diffPDF_u_mod(zr1,zr2,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],tildevalue[*kk-1][*ii-1]); // hier könnte difflPDF stehen
+			for(t=0;t<*T;t++ ) 
+			{
+				tildevdirect[*kk-2][*ii-1][t]=cop[t];
+				tildevalue[*kk-1][*ii-1][t]=tildevalue[*kk-1][*ii-1][t]/cop[t];
+			}
+		}
+		else					// Ableitung nach dem zweiten Argument = margin2
+		{
+			diffhfunc_v_mod(zr1,zr2,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],tildevdirect[*kk-2][*ii-1]);
+			diffPDF_v_mod(zr1,zr2,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],tildevalue[*kk-1][*ii-1]); // hier könnte difflPDF stehen
+			for(t=0;t<*T;t++ ) 
+			{
+				tildevindirect[*kk-2][*ii-1][t]=cop[t];
+				tildevalue[*kk-1][*ii-1][t]=tildevalue[*kk-1][*ii-1][t]/cop[t];
+			}
+		
+		}
 	}
 	
 		
-	for(t=0;t<*T;t++ ) 
-	{
-		tildevalue[*kk-1][*ii-1][t]=tildevalue[*kk-1][*ii-1][t]/cop[t];
-	}
+	
 	//Rprintf("%f \n",tildevalue[*kk-1][*ii-1][1]);
 	for(t=0;t<*T;t++ ) 
 	{
-	sumloglik+=tildevalue[*kk-1][*ii-1][t];
+		sumloglik+=tildevalue[*kk-1][*ii-1][t];
 	}
+	
 	for(i=*ii-1; i>-1; i--)
     {
 		for(k=*kk-2;k>i;k--)
@@ -369,7 +403,7 @@ void VineLogLikRvineGradient(int* T, int* d, int* family, int* maxmat, int* matr
 						  double* out, double* ll, double* vv, double* vv2, int* posParams) 
 						  //double* tilde_vdirect_array, double* tilde_vindirect_array, double* tilde_value_array)
 {
-	int kk, ii, tt, i, j, tcop=0, dd=1, aa=0;
+	int kk, ii, tt, i, j, tcop=0, dd=1, aa=0, margin=0;
 	int *calc;
 	calc = Calloc(((*d)*(*d)),int);
 	double *tilde_vdirect, *tilde_vindirect, *tilde_value;
@@ -417,15 +451,15 @@ void VineLogLikRvineGradient(int* T, int* d, int* family, int* maxmat, int* matr
 				if(fam[kk-1][ii-1]==2)
 				{
 					tcop=1;
-					VineLogLikRvineDeriv(T, d, family, &kk, &ii, maxmat, matrix, condirect, conindirect, par, par2, data, &out[tt], ll, vv, vv2, calc, tilde_vdirect, tilde_vindirect, tilde_value, &tcop);
+					VineLogLikRvineDeriv(T, d, family, &kk, &ii, maxmat, matrix, condirect, conindirect, par, par2, data, &out[tt], ll, vv, vv2, calc, tilde_vdirect, tilde_vindirect, tilde_value, &tcop, &margin);
 					tcop=2;
-					VineLogLikRvineDeriv(T, d, family, &kk, &ii, maxmat, matrix, condirect, conindirect, par, par2, data, &out[aa-1+dd], ll, vv, vv2, calc, tilde_vdirect, tilde_vindirect, tilde_value, &tcop);
+					VineLogLikRvineDeriv(T, d, family, &kk, &ii, maxmat, matrix, condirect, conindirect, par, par2, data, &out[aa-1+dd], ll, vv, vv2, calc, tilde_vdirect, tilde_vindirect, tilde_value, &tcop, &margin);
 					dd++;
 				}
 				else
 				{
 					tcop=0;
-					VineLogLikRvineDeriv(T, d, family, &kk, &ii, maxmat, matrix, condirect, conindirect, par, par2, data, &out[tt], ll, vv, vv2, calc, tilde_vdirect, tilde_vindirect, tilde_value, &tcop);
+					VineLogLikRvineDeriv(T, d, family, &kk, &ii, maxmat, matrix, condirect, conindirect, par, par2, data, &out[tt], ll, vv, vv2, calc, tilde_vdirect, tilde_vindirect, tilde_value, &tcop, &margin);
 				}
 				
 				/*
@@ -445,6 +479,4 @@ void VineLogLikRvineGradient(int* T, int* d, int* family, int* maxmat, int* matr
 Free(calc);free_intmatrix(pospar,*d);free_intmatrix(fam,*d);
 Free(tilde_vdirect);Free(tilde_vindirect);Free(tilde_value);
 }
-
-
 

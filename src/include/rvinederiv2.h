@@ -1,3 +1,6 @@
+#if !defined(RVINEDERIV2_H)
+#define RVINEDERIV2_H
+
 //////////////////////////////////////////////////////////////
 // Function to compute the second derivative of log-likelihood for the pair-copula construction (Rvine)
 // (by J.S. and U.S.)
@@ -45,3 +48,5 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 			double* out, double* subhess, double* der, double* subder);
 
 void calcupdate_func(int* d, int* matrix, int* i, int* j, int* calc);
+
+#endif

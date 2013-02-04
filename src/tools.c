@@ -282,3 +282,44 @@ void ktau_matrix(double *data, int *d, int *N, double *out)
 
 	Free(X);Free(Y);free_matrix(x, *d);
 }
+
+
+/////////////////////////////////////////////////////////////////////
+// Code form Daniel Berg, R-package copulaGOF
+//     AD: Anderson-Darling  GOF test
+//     (Cumulative distribution function test)
+//     INPUT:
+//          cdf         CDF for which to compute the test
+//          n             Length of cdf
+/////////////////////////////////////////////////////////////////////
+void ADtest(double* cdf, int* n, double* out)
+{
+  int j;
+  double sum=0.0;
+  for(j=0;j<*n;j++) sum += (2.0*((double)j+1.0)-1.0)*(log(cdf[j])+log(1.0-cdf[*n-1-j]));
+  *out = -(double)*n-(1.0/(double)*n)*sum;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Code form Daniel Berg, R-package copulaGOF
+// Function to compute cumulative distribution function of a uniform vector x ($\hat F(x)$)
+///////////////////////////////////////////////////////////////////////////////
+void CumDist(double* x, int* i_n, int* i_m, double* out)
+{
+  int i,j,n,m;
+  double *y;
+  n=*i_n; m=*i_m;
+  y = malloc(m*sizeof(double));
+  for(i=0;i<m;i++)
+  {
+    y[i]=0.0;
+    for(j=0;j<n;j++)
+    {
+      if(x[j]<=((double)i+1.0)/((double)m+1.0)) y[i] += 1.0/((double)n+1.0);
+    }
+    if(y[i]==0.0) y[i] = 1.0/((double)n+1.0);
+    out[i] = y[i];
+  }
+  free(y);
+}

@@ -3,14 +3,19 @@
 #
 # Input:
 # data		data matrix
+# weights   vector of weights
 #
 # Output:
 # ktauMarix	Kendall's tau matrix
+#
+#
+# Algorithm for weighted tau adapted from matlab code by http://www.mathworks.com/matlabcentral/fileexchange/27361-weighted-kendall-rank-correlation-matrix/content/kendalltau.m
 ############################################
 
-TauMatrix <- function(data)
+TauMatrix <- function(data,weights=NA)
 {
 	data=as.matrix(data)
+	if(any(is.na(weights))){
 	if(any(data>1) || any(data<0)) stop("Data has be in the interval [0,1].")
 	d=dim(data)[2]
 	N=dim(data)[1]
@@ -41,6 +46,17 @@ TauMatrix <- function(data)
 	{
 		rownames(ktauMatrix)=colnames(ktauMatrix)=colnames(data)
 	}
-
+	}else{
+	T=dim(data)[1]
+	A=data
+	out=combn(1:T,2)
+	i1=out[1,]
+	i2=out[2,]
+	w=as.numeric(weights)/sqrt(sum(as.numeric(weights[i1]*weights[i2])))
+	tau=sign(A[i1,]-A[i2,])
+	tau=t(tau) %*% (tau*w[i1]*w[i2])
+	temp=diag(tau)
+	ktauMatrix=tau / sqrt(temp%*%t(temp))
+	}
 return(ktauMatrix)
 }

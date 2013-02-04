@@ -55,15 +55,14 @@ If the analytical gradient is used for maximization, computations may be up to 1
 }
 
 \references{
-Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2011).
+Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2013).
 Selecting and estimating regular vine copulae and application to financial returns.
-Submitted for publication.
-\url{http://mediatum.ub.tum.de/node?id=1079277}
+Computational Statistics & Data Analysis, 59 (1), 52-69.
 
 Stoeber, J. and U. Schepsmeier (2012).
-Is there significant time-variation in multivariate dependence?
-In preparation.
-\url{http://de.arxiv.org/abs/1205.4841}.
+Is there significant time-variation in multivariate copulas?
+Submitted for publication.
+\url{http://arxiv.org/abs/1205.4841}.
 }
 
 \author{Ulf Schepsmeier, Jeffrey Dissmann}

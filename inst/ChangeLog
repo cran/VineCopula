@@ -1,0 +1,29 @@
+Changes for R-package VineCopula
+
+Ulf Schepsmeier, Jakob Stoeber and Eike Christian Brechmann <VineCopula@ma.tum.de>
+
+
+Version 1.1 (February 4, 2013)
+
+- New functions:
+  * BiCopGofTest Goodness-of-fit test for bivariate copulas based on White's information matrix equality as introduced by Wanling and Prokhorov (2011).
+    The formally included function BiCopGofKendall is now part BiCopGofTest (method="kendall").
+
+- Additional edge label "pair" in RVineTreePlot to display the indices of the (conditioned) pairs of variables identified by the edges.
+
+- In RVineStructureSelect and RVineCopSelect a truncation level can be set.
+
+- Improved inverse h-functions for the Gumbel and Joe copulas (thanks to Harry Joe).
+
+- C to R wrapping functions for the h-functions (Hfunc1, Hfunc2), the bivariate log-likelihood function (LL_mod_seperate), the bivariate Archimedean copula CDF (archCDF)
+  and the simulation function for C- and D-vines (pcc) (request of Benedikt Graeler for the R-package "spcopula").
+  
+- The functions R2CVine and R2Dine were removed, since they were only correct in special cases.
+
+- Bug fixes:
+  * Work around for a problem with optim and the analytical gradient in BiCopEst
+  * Improvement of the bivariate maximum likelihood estimation (BiCopEst)
+  * In the functions BiCopCDF and BiCopGoFTest(..., method="Kendall") the t-copula is not implemented any more. 
+    The calculation of the CDF was incorrect for non-integer values of the degrees-of-freedom parameter.
+    The implemented algorithm in the mvtnorm package only works for integer values of the degrees-of-freedom parameter.
+  * Improvement in the calculation of the cdf of the Frank copula (BiCopCDF).

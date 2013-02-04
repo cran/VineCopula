@@ -10,7 +10,7 @@ or maximum likelihood estimation for one and two parameter copula families suppo
 
 \usage{
 BiCopEst(u1, u2, family, method="mle", se=FALSE, max.df=30,
-         max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)))
+         max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)),weights=NA)
 }
 
 \arguments{
@@ -56,6 +56,7 @@ BiCopEst(u1, u2, family, method="mle", se=FALSE, max.df=30,
   \item{max.df}{Numeric; upper bound for the estimation of the degrees of freedom parameter of the t-copula (default: \code{max.df = 30}).}
   \item{max.BB}{List; upper bounds for the estimation of the two parameters (in absolute values) of the BB1, BB6, BB7 and BB8 copulas \cr
     (default: \code{max.BB = list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1))}).}
+  \item{weights}{Numerical; weights for each observation (opitional).}
 }
 
 \details{
