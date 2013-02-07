@@ -3,6 +3,12 @@ Changes for R-package VineCopula
 Ulf Schepsmeier, Jakob Stoeber and Eike Christian Brechmann <VineCopula@ma.tum.de>
 
 
+Version 1.1-1 (February 7, 2013)
+
+- Bug fix:
+  * Fixed issue with the inverse h-function of the Gumbel copula
+  
+
 Version 1.1 (February 4, 2013)
 
 - New functions:
@@ -26,4 +32,4 @@ Version 1.1 (February 4, 2013)
   * In the functions BiCopCDF and BiCopGoFTest(..., method="Kendall") the t-copula is not implemented any more. 
     The calculation of the CDF was incorrect for non-integer values of the degrees-of-freedom parameter.
     The implemented algorithm in the mvtnorm package only works for integer values of the degrees-of-freedom parameter.
-  * Improvement in the calculation of the cdf of the Frank copula (BiCopCDF).
+  * Improvement in the calculation of the cdf of the Frank copula (BiCopCDF)

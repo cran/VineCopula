@@ -622,14 +622,16 @@ void Hfunc(int* family, int* n, double* u, double* v, double* theta, double* nu,
 }
 
 ///////////////////////////////////////////////////////////////
-void qcondgum(double* p, double* z1, double* de, double* out)
+void qcondgum(double* q, double* u, double* de, double* out)
 {
-  double a,g,gp,z2,con,de1,dif;
+  double a,p,g,gp,z1,z2,con,de1,dif;
   double mxdif;
   int iter;
 
-  con=log(1.-*p)-*z1+(1.-*de)*log(*z1); de1=*de-1.;
-  a=pow(2.*pow(*z1,*de),1./(*de));
+  p = 1-*q;
+  z1 = -log(*u);
+  con=log(1.-p)-z1+(1.-*de)*log(z1); de1=*de-1.;
+  a=pow(2.*pow(z1,*de),1./(*de));
   mxdif=1; iter=0;
   dif=.1;  // needed in case first step leads to NaN
   while(mxdif>1.e-6 && iter<20)
@@ -638,11 +640,11 @@ void qcondgum(double* p, double* z1, double* de, double* out)
     if(isnan(g) || isnan(gp) || isnan(g/gp) ) { dif/=-2.; }  // added for de>50
     else dif=g/gp;
     a-=dif; iter++;
-    while(a<=*z1) { dif/=2.; a+=dif; }
+    while(a<=z1) { dif/=2.; a+=dif; }
     mxdif=fabs(dif);
   }
-  z2=pow(pow(a,*de)-pow(*z1,*de),1./(*de));
-	*out = z2;
+  z2=pow(pow(a,*de)-pow(z1,*de),1./(*de));
+	*out = exp(-z2);
 }
 
 void qcondjoe(double* q, double* u, double* de, double* out)
@@ -905,7 +907,6 @@ void Hinv(int* family, int* n, double* u, double* v, double* theta, double* nu, 
   int j;
   double *hinv;
   hinv = Calloc(*n,double);
-  double z1,z2;
 
 	for(int i=0;i<*n;i++)
 	{
@@ -941,10 +942,7 @@ void Hinv(int* family, int* n, double* u, double* v, double* theta, double* nu, 
     {
       //double nu=0.0;
       //HNumInv(family,&u[j],&v[j],theta,&nu,&hinv[j]);
-
-      z1 = -log(v[j]);
-      qcondgum(&u[j],&z1,theta,&z2);
-      hinv[j] = exp(-z2);
+      qcondgum(&u[j],&v[j],theta,&hinv[j]);
     }
     else if(*family==5) //frank - numerical inversion
     {
@@ -990,13 +988,11 @@ void Hinv(int* family, int* n, double* u, double* v, double* theta, double* nu, 
 	  }
 	else if(*family==14) //rotated gumbel (180°) - must turn to numerical inversion
 		{
-			//int jj=4;
+      //int jj=4;
 			u[j]=1-u[j];
 			v[j]=1-v[j];
 			//HNumInv(&jj,&u[j],&v[j],theta,nu,&hinv[j]);
-      z1 = -log(v[j]);
-      qcondgum(&u[j],&z1,theta,&z2);
-      hinv[j] = exp(-z2);
+      qcondgum(&u[j],&v[j],theta,&hinv[j]);
       hinv[j]=1-hinv[j];
 			u[j]=1-u[j];
 			v[j]=1-v[j];
@@ -1005,7 +1001,6 @@ void Hinv(int* family, int* n, double* u, double* v, double* theta, double* nu, 
 		{
 			u[j]=1-u[j];
 			v[j]=1-v[j];			
-      qcondjoe(&u[j],&v[j],theta,&hinv[j]);
       if(*theta<40)
       {
 	      qcondjoe(&u[j],&v[j],theta,&hinv[j]);

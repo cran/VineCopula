@@ -1,8 +1,8 @@
 Package: VineCopula
 Type: Package
 Title: Statistical inference of vine copulas
-Version: 1.1
-Date: 2013-02-04
+Version: 1.1-1
+Date: 2013-02-07
 Author: Ulf Schepsmeier, Jakob Stoeber, Eike Christian Brechmann
 Maintainer: Ulf Schepsmeier <schepsmeier@ma.tum.de>
 Depends: R (>= 2.11.0), MASS, mvtnorm, igraph0
@@ -17,6 +17,6 @@ Description: This package provides functions for statistical inference
         links to the package CDVine are provided.
 License: GPL (>= 2)
 LazyLoad: yes
-Packaged: 2013-02-04 09:26:46 UTC; Eike
+Packaged: 2013-02-07 14:29:57 UTC; Eike
 Repository: CRAN
-Date/Publication: 2013-02-04 14:35:38
+Date/Publication: 2013-02-07 17:24:28

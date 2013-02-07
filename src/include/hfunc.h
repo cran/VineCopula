@@ -13,7 +13,7 @@ void pcondbb1(double* u, double* v, int* n, double* param, double* out);
 void pcondbb6(double* u, double* v, int* n, double* param, double* out);
 void pcondbb7(double* u, double* v, int* n, double* param, double* out);
 void pcondbb8(double* u, double* v, int* n, double* param, double* out);
-void qcondgum(double* p, double* z1, double* de, double* out);
+void qcondgum(double* q, double* u, double* de, double* out);
 void qcondjoe(double* q, double* u, double* de, double* out);
 //void qcondbb1(double* q, double* u, double* de, double* th, double* out);
 
