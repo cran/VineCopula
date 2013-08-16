@@ -22,7 +22,7 @@ RVineHessian <-function(data,RVM)
 	n<-d
 	N<-T
 	if(n != dim(RVM)) stop("Dimensions of 'data' and 'RVM' do not match.")
-	if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+	if(!is(RVM,"RVineMatrix")) stop("'RVM' has to be an RVineMatrix object.")
   
 
 	o = diag(RVM$Matrix)

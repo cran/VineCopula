@@ -1,6 +1,6 @@
 import(MASS)
 import(mvtnorm)
-import(igraph0)
+import(igraph)
 
 export(BiCopEst)
 export(BiCopMetaContour)
@@ -28,6 +28,7 @@ export(RVineLogLik)
 export(RVineAIC)
 export(RVineBIC)
 export(RVineMatrix)
+export(RVineMatrixCheck)
 export(RVineSim)
 export(RVineSeqEst)
 export(RVineCopSelect)
@@ -46,6 +47,7 @@ export(D2RVine)
 
 export(TauMatrix)
 
+export(RVineCor2pcor,RVinePcor2cor, RVineMatrixNormalize)
 
 S3method(print, RVineMatrix)
 

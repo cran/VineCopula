@@ -1,6 +1,6 @@
 RVineSim<-function(N,RVM)
 {	
-  if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+  if(!is(RVM, "RVineMatrix")) stop("'RVM' has to be an RVineMatrix object.")
   
 	n = dim(RVM)
 	

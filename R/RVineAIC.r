@@ -11,7 +11,7 @@ RVineAIC <-function(data,RVM,par=RVM$par,par2=RVM$par2){
 	n<-d
 	N<-T
 	if(n != dim(RVM)) stop("Dimensions of 'data' and 'RVM' do not match.")
-  if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+  if(!is(RVM,"RVineMatrix")) stop("'RVM' has to be an RVineMatrix object.")
   
 	npar = sum(RVM$family >= 1, na.rm=TRUE) + sum(RVM$family %in% c(2,7:10,17:20,27:30,37:40),na.rm=TRUE)
   npar_pair = (RVM$family>=1)+(RVM$family%in%c(2,7:10,17:20,27:30,37:40))

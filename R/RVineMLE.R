@@ -1,6 +1,6 @@
 RVineMLE <- function(data, RVM, start=RVM$par, start2=RVM$par2, maxit=200, max.df=30, max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)), grad=FALSE, hessian=FALSE, se=FALSE, ...)
 {
-  if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+  if(!is(RVM, "RVineMatrix")) stop("'RVM' has to be an RVineMatrix object.")
 	if(maxit<=0) stop("'maxit' has to be greater than zero.")	
                                                
   if(max.df<=2) stop("The upper bound for the degrees of freedom parameter has to be larger than 2.")
@@ -279,7 +279,7 @@ RVineMLE <- function(data, RVM, start=RVM$par, start2=RVM$par2, maxit=200, max.d
 	}
 	pscale=c(pscale,rep(1,nParams2))
 
-	if(!exists("factr"))		# Toleranz etwas hoch setzen (gröber)
+	if(!exists("factr"))		# Toleranz etwas hoch setzen (gr?ber)
 		factr=1e8
 
 	if(all(Copula.Types %in% c(0,1,2,3:6,13,14,16,23,24,26,33,34,36,43,44)) && grad==TRUE)

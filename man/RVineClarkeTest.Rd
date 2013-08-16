@@ -63,45 +63,22 @@ Political Analysis, 15, 347-363.
 
 
 \examples{
-# define first 5-dimensional RVineMatrix object
-Matrix1 = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
-Matrix1 = matrix(Matrix1,5,5)
+\dontrun{
+# load data set
+data(daxreturns)
 
-family1 = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
-family1 = matrix(family1,5,5)
+# select the R-vine structure, families and parameters
+RVM = RVineStructureSelect(daxreturns[,1:5],c(1:6))
 
-par1 = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
-         0,0,0,0,4.8,0,0,0,0,0)
-par1 = matrix(par1,5,5)
+# select the C-vine structure, families and parameters
+CVM = RVineStructureSelect(daxreturns[,1:5],c(1:6),type="CVine")
 
-RVM1 = RVineMatrix(Matrix=Matrix1,family=family1,par=par1,
-                   par2=matrix(0,5,5),names=c("V1","V2","V3","V4","V5"))
-                  
-# define second 5-dimensional RVineMatrix object
-Matrix2 = c(5,4,3,2,1,0,4,3,2,1,0,0,3,2,1,0,0,0,2,1,0,0,0,0,1)
-Matrix2 = matrix(Matrix2,5,5)
-
-family2 = c(0,3,1,3,2,0,0,1,5,3,0,0,0,2,3,0,0,0,0,1,0,0,0,0,0)
-family2 = matrix(family2,5,5)
-
-par2 = c(0,0.8,0.3,1.5,0.8,0,0,-0.4,1.6,1.2,0,0,0,-0.4,1.5,
-         0,0,0,0,0.6,0,0,0,0,0)
-par2 = matrix(par2,5,5)
-
-nu2 = c(0,0,0,0,5,0,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0)
-nu2 = matrix(nu2,5,5)
-
-RVM2 = RVineMatrix(Matrix=Matrix2,family=family2,par=par2,par2=nu2,
-                   names=c("V1","V2","V3","V4","V5"))                  
-
-# simulate a sample of size 300 from the first R-vine copula model
-simdata = RVineSim(300,RVM1)
-
-# compare the two models based on this sample
-clarke = RVineClarkeTest(simdata,RVM1,RVM2)
+# compare the two models based on the data
+clarke = RVineClarkeTest(daxreturns[,1:5],RVM,CVM)
 clarke$statistic
 clarke$statistic.Schwarz
 clarke$p.value
 clarke$p.value.Schwarz
+}
 }
 

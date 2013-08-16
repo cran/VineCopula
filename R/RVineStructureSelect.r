@@ -2,26 +2,38 @@ RVineStructureSelect = function(data,familyset=NA,type=0,selectioncrit="AIC",ind
 
   if(type == 0) type = "RVine"
   else if(type == 1) type = "CVine"
+  else if(type == 2 || type == "DVine") stop("Code to determine the order of the nodes in a D-vine using the package TSP is provided as an example in the documentation of this function." )
   if(type != "RVine" & type != "CVine") stop("Vine model not implemented.")
 
 	n = dim(data)[2]
 	d = dim(data)[1]
 	
-	if(dim(data)[1]<2) stop("Number of observations has to be at least 2.")
-  if(d<2) stop("Dimension has to be at least 2.")
-  if(any(data>1) || any(data<0)) stop("Data has be in the interval [0,1].")
-	
-  if(!is.na(familyset[1])) for(i in 1:length(familyset)) if(!(familyset[i] %in% c(0,1:10,13,14,16:20,23,24,26:30,33,34,36:40))) stop("Copula family not implemented.")  
-  if(selectioncrit != "AIC" && selectioncrit != "BIC") stop("Selection criterion not implemented.")
-  if(level < 0 & level > 1) stop("Significance level has to be between 0 and 1.")
+	if(dim(data)[1]<2) 
+    stop("Number of observations has to be at least 2.")
+  if(d<2) 
+    stop("Dimension has to be at least 2.")
+  if(any(data>1) || any(data<0)) 
+    stop("Data has to be in the interval [0,1].")
+  if(any(is.na(familyset))) {
+    familyset <- c(1:10,13,14,16:20,23,24,26:30,33,34,36:40)
+  }
+  if(any(!(familyset %in% c(0,1:10,13,14,16:20,23,24,26:30,33,34,36:40))))
+    stop("Copula family not implemented.")
+  if(selectioncrit != "AIC" && selectioncrit != "BIC") 
+    stop("Selection criterion not implemented.")
+  if(level < 0 || level > 1) 
+    stop("Significance level has to be between 0 and 1.")
   	
-	if(is.null(colnames(data))) colnames(data) = paste("V",1:n,sep="") 
+	if(is.null(colnames(data))) 
+    colnames(data) = paste("V",1:n,sep="") 
 
-  if(is.na(trunclevel)) trunclevel = d
+  if(is.na(trunclevel)) 
+    trunclevel = d
 
 	RVine = list(Tree = NULL, Graph=NULL)
 
-  if(trunclevel == 0) familyset = 0
+  if(trunclevel == 0) 
+    familyset = 0
 	
 	g = initializeFirstGraph(data,weights)
 	mst = findMaximumTauTree(g,mode=type)

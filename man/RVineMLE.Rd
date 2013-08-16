@@ -71,6 +71,7 @@ Submitted for publication.
 \code{\link{RVineHessian}}}
 
 \examples{
+\dontrun{
 # define 5-dimensional R-vine tree structure matrix
 Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
 Matrix = matrix(Matrix,5,5)
@@ -97,4 +98,5 @@ simdata = RVineSim(300,RVM)
 # compute the MLE
 mle = RVineMLE(simdata,RVM,grad=TRUE)
 mle$RVM
+}
 }

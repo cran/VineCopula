@@ -3,6 +3,24 @@ Changes for R-package VineCopula
 Ulf Schepsmeier, Jakob Stoeber and Eike Christian Brechmann <VineCopula@ma.tum.de>
 
 
+Version 1.1-2 (July, 09, 2013)
+
+- Changed dependency from "igraph0" to "igraph" since the support for "igraph0" will be quit soon.
+
+- Additional validy check of the R-vine matrix in RVineMatrix (Code provided by Harry Joe)
+  Also available as separate function "RVineMatrixCheck"
+
+- New bivariate copula: Reflection asymmetric Archimedean copula
+  In our functions it is "family=41", and 51, 61, and 71 for the rotated versions.
+  So far only implemented in some bivariate functions (not documented so far; experimental)
+
+- New author: Benedikt Gräler  
+  
+- Bug fix:
+  * New (correct) examples for the Clarke and Vuong test
+  * Fixed memory problem in the C-function ktau (TauMatrix)
+  
+
 Version 1.1-1 (February 7, 2013)
 
 - Bug fix:

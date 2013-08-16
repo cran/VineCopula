@@ -84,152 +84,176 @@ double StableGammaDivision(double x1, double x2)
 
 void ktau(double *X, double *Y, int *N, double *tau, double *S, double *D, int *T, int *U, int *V)
 {
-  // Defining variables
-  int K, L, I, J, Iend, Jend;
-  int i, j, m;
-  //double *Y2=(double *)malloc((*N)*sizeof(double));
-  double *Y2 = (double*) Calloc(*N, double);
-  //double *X2=(double *)malloc((*N)*sizeof(double));
-  double *X2 = (double*) Calloc(*N, double);
-  double *xptr,*yptr; // HJ addition for swapping
-  boolean Iflag, Jflag, Xflag;
-  *S = 0.; *D = 0.; *T = 0; *U = 0; *V = 0;
+	// Defining variables
+	int K, L, I, J, Iend, Jend;
+	int i, j, m;
+	// double *Y2, *X2;
+	//double *Y2=(double *)malloc((*N)*sizeof(double));
+	double *Y2 = Calloc(*N, double);
+	//double *X2=(double *)malloc((*N)*sizeof(double));
+	double *X2 = Calloc(*N, double);
+	double *xptr,*yptr; // HJ addition for swapping
+	boolean Iflag, Jflag, Xflag;
+	*S = 0.; *D = 0.; *T = 0; *U = 0; *V = 0;
 
-  /* 1.1 Sort X and Y in X order */
-  /* Break ties in X according to Y */
-  K=1;
-  do
-  {
-    L=0;
-    do
-    {
-      I = L;
-      J = (I+K)<(*N)?(I+K):(*N);
-      Iend = J;
-      Jend = (J+K)<(*N)?(J+K):(*N);
-      do
-      {
-	Iflag = (I < Iend);
-	Jflag = (J < Jend);
-	Xflag = ((X[I] > X[J]) | ((X[I] == X[J]) & (Y[I] > Y[J])));
-	if((Iflag & !Jflag) | (Iflag & Jflag & !Xflag))
+	/* 1.1 Sort X and Y in X order */
+	/* Break ties in X according to Y */
+	K=1;
+	do
 	{
-	  X2[L] = X[I];
-	  Y2[L] = Y[I];
-	  I++;
-	  L++;
-	};
-	if((!Iflag && Jflag) | (Iflag && Jflag && Xflag))
-	{
-	  X2[L] = X[J];
-	  Y2[L] = Y[J];
-	  J++;
-	  L++;
-	};
-      } while(Iflag | Jflag);
-    } while(L < *N);
-    // Swap lists
-    xptr=X; X=X2; X2=xptr;
-    yptr=Y; Y=Y2; Y2=yptr;
-#ifdef OLD
-    for(i = 0; i < *N; i++)
-    { Xtem = X[i]; Ytem = Y[i];
-      X[i] = X2[i]; Y[i] = Y2[i];
-      X2[i] = Xtem; Y2[i] = Ytem;
-    };
-#endif
-    K *= 2;
-  } while (K < *N);
+		L=0;
+		do
+		{
+			I = L;
+			J = (I+K)<(*N)?(I+K):(*N);
+			Iend = J;
+			Jend = (J+K)<(*N)?(J+K):(*N);
+			do
+			{
+				Iflag = (I < Iend);
+				Jflag = (J < Jend);
+				if (Iflag & Jflag) 
+				{
+				 	Xflag = ((X[I] > X[J]) | ((X[I] == X[J]) & (Y[I] > Y[J])));
+				} 
+				else
+				{
+					Xflag = FALSE;
+				}
+				if((Iflag & !Jflag) | (Iflag & Jflag & !Xflag))
+				{
+					X2[L] = X[I];
+					Y2[L] = Y[I];
+					I++;
+					L++;
+				};
+				if((!Iflag && Jflag) | (Iflag && Jflag && Xflag))
+				{
+					X2[L] = X[J];
+					Y2[L] = Y[J];
+					J++;
+					L++;
+				};
+			} 
+			while(Iflag | Jflag);
+		} 
+		while(L < *N);
+		
+		// Swap lists
+		xptr=X; X=X2; X2=xptr;
+		yptr=Y; Y=Y2; Y2=yptr;
+		#ifdef OLD
+		for(i = 0; i < *N; i++)
+		{ 
+			Xtem = X[i]; Ytem = Y[i];
+			X[i] = X2[i]; Y[i] = Y2[i];
+			X2[i] = Xtem; Y2[i] = Ytem;
+		};
+		#endif
+		K *= 2;
+	} 
+	while (K < *N);
 
-  /* 1.2 Count pairs of tied X, T */
-  j = 1;
-  m = 1;
-  for(i = 1; i < *N; i++)
+	/* 1.2 Count pairs of tied X, T */
+	j = 1;
+	m = 1;
+	for(i = 1; i < *N; i++)
     if(X[i] == X[i-1])
     {
-      j++;
-      if(Y[i] == Y[i-1])
-	m++;
+		j++;
+		if(Y[i] == Y[i-1])
+		m++;
     }
     else if(j > 1)
     {
       *T += j * (j - 1) / 2;
       if(m > 1)
-	*V += m * (m - 1) / 2;
+		*V += m * (m - 1) / 2;
       j = 1;
       m = 1;
     };
-  *T += j * (j - 1) / 2;
-  *V += m * (m - 1) / 2;
+	*T += j * (j - 1) / 2;
+	*V += m * (m - 1) / 2;
 
-  /* 2.1 Sort Y again and count exchanges, S */
-  /* Keep original relative order if tied */
+	/* 2.1 Sort Y again and count exchanges, S */
+	/* Keep original relative order if tied */
 
-  K=1;
-  do
-  {
-    L=0;
-    do
-    {
-      I = L;
-      J = (I+K)<(*N)?(I+K):(*N);
-      Iend = J;
-      Jend = (J+K)<(*N)?(J+K):(*N);
-      do
-      {
-	Iflag = (I < Iend);
-	Jflag = (J < Jend);
-	Xflag = (Y[I] > Y[J]);
-	if((Iflag & !Jflag) | (Iflag & Jflag & !Xflag))
+	K=1;
+	do
 	{
-	  X2[L] = X[I];
-	  Y2[L] = Y[I];
-	  I++;
-	  L++;
-	};
-	if((!Iflag && Jflag) | (Iflag && Jflag && Xflag))
-	{
-	  X2[L] = X[J];
-	  Y2[L] = Y[J];
-	  *S += Iend - I;
-	  J++;
-	  L++;
-	};
-      } while(Iflag | Jflag);
-    } while(L < *N);
+		L=0;
+		do
+		{
+			I = L;
+			J = (I+K)<(*N)?(I+K):(*N);
+			Iend = J;
+			Jend = (J+K)<(*N)?(J+K):(*N);
+			do
+			{
+				Iflag = (I < Iend);
+				Jflag = (J < Jend);
+				if (Iflag & Jflag) 
+				{
+				 	Xflag = (Y[I] > Y[J]);
+				} 
+				else
+				{
+					Xflag = FALSE;
+				}
+				if((Iflag & !Jflag) | (Iflag & Jflag & !Xflag))
+				{
+					X2[L] = X[I];
+					Y2[L] = Y[I];
+					I++;
+					L++;
+				};
+				if((!Iflag && Jflag) | (Iflag && Jflag && Xflag))
+				{
+					X2[L] = X[J];
+					Y2[L] = Y[J];
+					*S += Iend - I;
+					J++;
+					L++;
+				};
+			} 
+			while((Iflag | Jflag));
+		} 
+		while(L < *N);
     
-    // Swap lists
-    xptr=X; X=X2; X2=xptr;
-    yptr=Y; Y=Y2; Y2=yptr;
-#ifdef OLD
-    for(i = 0; i < *N; i++)
-    { Xtem = X[i]; Ytem = Y[i];
-      X[i] = X2[i]; Y[i] = Y2[i];
-      X2[i] = Xtem; Y2[i] = Ytem;
-    };
-#endif
-    K *= 2;
-  } while (K < *N);
+		// Swap lists
+		xptr=X; X=X2; X2=xptr;
+		yptr=Y; Y=Y2; Y2=yptr;
+		#ifdef OLD
+		for(i = 0; i < *N; i++)
+		{ 
+			Xtem = X[i]; Ytem = Y[i];
+			X[i] = X2[i]; Y[i] = Y2[i];
+			X2[i] = Xtem; Y2[i] = Ytem;
+		};
+		#endif
+		K *= 2;
+	} 
+	while (K < *N);
 
-  /* 2.2 Count pairs of tied Y, U */
-  j=1;
-  for(i = 1; i < *N; i++)
-    if(Y[i] == Y[i-1])
-      j++;
-    else if(j > 1)
-    {
-      *U += j * (j - 1) / 2;
-      j = 1;
-    };
-  *U += j * (j - 1) / 2;
+	/* 2.2 Count pairs of tied Y, U */
+	j=1;
+	for(i = 1; i < *N; i++)
+		if(Y[i] == Y[i-1])
+			j++;
+		else if(j > 1)
+		{
+			*U += j * (j - 1) / 2;
+			j = 1;
+		};
+	*U += j * (j - 1) / 2;
 
 
-  /* 3. Calc. Kendall's Score and Denominator */
-  *D = 0.5 * *N * (*N - 1);
-  *S = *D - (2. * *S + *T + *U - *V);
-  //if(*T > 0 | *U > 0) // adjust for ties
+	/* 3. Calc. Kendall's Score and Denominator */
+	*D = 0.5 * (*N) * (*N - 1);
+	*S = *D - (2. * (*S) + *T + *U - *V);
+	//if(*T > 0 | *U > 0) // adjust for ties
     *D = sqrt((*D - *T) * (*D - *U));
-  *tau = *S / *D;
+	*tau = (*S) / (*D);
 
 
   Free(Y2);
@@ -284,42 +308,3 @@ void ktau_matrix(double *data, int *d, int *N, double *out)
 }
 
 
-/////////////////////////////////////////////////////////////////////
-// Code form Daniel Berg, R-package copulaGOF
-//     AD: Anderson-Darling  GOF test
-//     (Cumulative distribution function test)
-//     INPUT:
-//          cdf         CDF for which to compute the test
-//          n             Length of cdf
-/////////////////////////////////////////////////////////////////////
-void ADtest(double* cdf, int* n, double* out)
-{
-  int j;
-  double sum=0.0;
-  for(j=0;j<*n;j++) sum += (2.0*((double)j+1.0)-1.0)*(log(cdf[j])+log(1.0-cdf[*n-1-j]));
-  *out = -(double)*n-(1.0/(double)*n)*sum;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-// Code form Daniel Berg, R-package copulaGOF
-// Function to compute cumulative distribution function of a uniform vector x ($\hat F(x)$)
-///////////////////////////////////////////////////////////////////////////////
-void CumDist(double* x, int* i_n, int* i_m, double* out)
-{
-  int i,j,n,m;
-  double *y;
-  n=*i_n; m=*i_m;
-  y = malloc(m*sizeof(double));
-  for(i=0;i<m;i++)
-  {
-    y[i]=0.0;
-    for(j=0;j<n;j++)
-    {
-      if(x[j]<=((double)i+1.0)/((double)m+1.0)) y[i] += 1.0/((double)n+1.0);
-    }
-    if(y[i]==0.0) y[i] = 1.0/((double)n+1.0);
-    out[i] = y[i];
-  }
-  free(y);
-}

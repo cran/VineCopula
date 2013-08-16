@@ -249,8 +249,8 @@ void difflPDF_mod(double* u, double* v, int* n, double* param, int* copula, doub
   negu = (double *) malloc(*n*sizeof(double));
   nparam = (double *) malloc(2*sizeof(double));
   int ncopula;
-  nparam[0]=-param[0];
-  nparam[1]=-param[1];
+  nparam[0]= -param[0];
+  nparam[1]= -param[1];
   int i;
 
 

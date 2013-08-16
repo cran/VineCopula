@@ -453,7 +453,13 @@ void archCDF(double* u, double* v, int* n, double* param, int* copula, double* o
             t10 = pow(t9,1/param[0]);
             out[j] = 1/param[1]*(1-t10);
         }
-
+		else if(*copula==41)
+		{
+			t1=qgamma(1.0-u[j],param[0],1,1,0);
+			t2=qgamma(1.0-v[j],param[0],1,1,0);
+			t3=pow(pow(t1,param[0])+pow(t2,param[0]),(1.0/param[0]));
+			out[j]=1.0-pgamma(t3,param[0],1,1,0);
+		}
 		}
 	}
 
@@ -714,13 +720,13 @@ void LL_mod(int* family, int* n, double* u, double* v, double* theta, double* nu
 			LL(&nfamily, n, u,  negv, &ntheta, &nnu, loglik);
 		}
 	}else{
-  if(((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30)) )	// 90° rotated copulas
+  if((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30) | (*family==61) )	// 90° rotated copulas
     {
 	  nfamily = (*family)-20;
       for (int i = 0; i < *n; ++i) {negv[i] = 1 - v[i];}
       LL(&nfamily, n, u,  negv, &ntheta, &nnu, loglik);
     }
-  else if(((*family==33) | (*family==34) | (*family==36) | (*family==37) | (*family==38) | (*family==39) | (*family==40)) )	// 270° rotated copulas
+  else if((*family==33) | (*family==34) | (*family==36) | (*family==37) | (*family==38) | (*family==39) | (*family==40) | (*family==71))	// 270° rotated copulas
     {
 	  nfamily = (*family)-30;
       for (int i = 0; i < *n; ++i) {negu[i] = 1 - u[i];}
@@ -776,13 +782,13 @@ void LL_mod2(int* family, int* n, double* u, double* v, double* theta, double* n
 		}
 	}else{
 	
-  if(((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30)))	// 90° rotated copulas
+  if((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30) | (*family==61) )	// 90° rotated copulas
     {
 	  nfamily = (*family)-20;
       for (int i = 0; i < *n; ++i) {negu[i] = 1 - u[i];}
       LL(&nfamily, n, negu,  v, &ntheta, &nnu, loglik);
     }
-  else if(((*family==33) | (*family==34) | (*family==36) | (*family==37) | (*family==38) | (*family==39) | (*family==40)))	// 270° rotated copulas
+  else if((*family==33) | (*family==34) | (*family==36) | (*family==37) | (*family==38) | (*family==39) | (*family==40) | (*family==71))	// 270° rotated copulas
     {
 	  nfamily = (*family)-30;
       for (int i = 0; i < *n; ++i) {negv[i] = 1 - v[i];}
@@ -1209,6 +1215,41 @@ void LL(int* family, int* n, double* u, double* v, double* theta, double* nu, do
 			else ll += log(fuc[j]);
 		}
 		Free(fuc); Free(param);
+  }
+  else if(*family==41)		// New: 1-parametric asymmetric copula (from Harry Joe)
+  {
+	double tem1, tem2, con, sm, tem;
+	
+	for(j=0;j<*n;j++)
+	{
+		dat[0] = 1-u[j]; dat[1] = 1-v[j];
+		tem1=qgamma(1.0-dat[0],*theta,1,1,0);
+		tem2=qgamma(1.0-dat[1],*theta,1,1,0);
+		con=gammafn(1.0+(*theta))/(*theta);
+		sm=pow(tem1,*theta)+pow(tem2,*theta);
+		tem=pow(sm,(1.0/(*theta)));
+		f=con*tem*exp(-tem+tem1+tem2)/sm;
+		
+		if(log(f)>XINFMAX) ll += log(XINFMAX);
+		else ll += log(f);
+	}
+  }
+  else if(*family==51)		// New: rotated 1-parametric asymmetric copula (from Harry Joe)
+  {
+	double tem1, tem2, con, sm, tem;
+	
+	for(j=0;j<*n;j++)
+	{
+		tem1=qgamma(1.0-u[j],*theta,1,1,0);
+		tem2=qgamma(1.0-v[j],*theta,1,1,0);
+		con=gammafn(1.0+(*theta))/(*theta);
+		sm=pow(tem1,*theta)+pow(tem2,*theta);
+		tem=pow(sm,(1.0/(*theta)));
+		f=con*tem*exp(-tem+tem1+tem2)/sm;
+		
+		if(log(f)>XINFMAX) ll += log(XINFMAX);
+		else ll += log(f);
+	}
   }
   else 
   {

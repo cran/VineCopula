@@ -69,6 +69,12 @@ RVineMatrix(Matrix, family=array(0,dim=dim(Matrix)),
 	\item{par2}{Second pair-copula parameter matrix with parameters necessary for pair-copula families with two parameters.}
 }
 
+\note{
+The \code{print} function writes the R-vine matrix defined by \code{Matrix}. A detailed output is given by \code{print(RVM, detail=TRUE)}, 
+where \code{RVM} is the \code{\link{RVineMatrix}} object. \cr
+The \code{\link{RVineMatrix}} function automatically checks if the given matrix is a valid R-vine matrix (see \code{\link{RVineMatrixCheck}}).
+}
+
 \references{
 Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2013).
 Selecting and estimating regular vine copulae and application to financial returns.
@@ -77,7 +83,7 @@ Computational Statistics & Data Analysis, 59 (1), 52-69.
 
 \author{Jeffrey Dissmann}
 
-\seealso{\code{\link{RVineMLE}}, \code{\link{RVineSim}}, \code{\link{C2RVine}}, \code{\link{D2RVine}}}
+\seealso{\code{\link{RVineMatrixCheck}}, \code{\link{RVineMLE}}, \code{\link{RVineSim}}, \code{\link{C2RVine}}, \code{\link{D2RVine}}}
 
 \examples{
 # define 5-dimensional R-vine tree structure matrix
@@ -99,4 +105,7 @@ par2 = matrix(0,5,5)
 # define RVineMatrix object
 RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
                   names=c("V1","V2","V3","V4","V5"))
+
+# Print detailed information
+print(RVM, detail=TRUE)
 }

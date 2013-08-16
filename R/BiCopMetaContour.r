@@ -382,6 +382,86 @@ cop.pdf <- function(u1, u2, param, copula)
   d2=1-u2
   return( ((1-d1)^(theta)+(1-d2)^(theta)-(1-d1)^(theta)*(1-d2)^(theta))^(1/(theta)-2)*(1-d1)^(theta-1)*(1-d2)^(theta-1)*(theta-1+(1-d1)^(theta)+(1-d2)^(theta)-(1-d1)^(theta)*(1-d2)^(theta)) )
   }
+  else if(copula==41)	#New: Archimedean copula based on integrated positive stable LT; reflection asymmetric copula (from Harry Joe)
+  {
+	de=param
+	tem1=qgamma(1-u1,de)
+	tem2=qgamma(1-u2,de)
+	con=gamma(1+de)/de
+	sm=tem1^de+tem2^de
+	tem=sm^(1/de)
+	pdf=con*tem*exp(-tem+tem1+tem2)/sm
+	return(pdf)
+  }
+  else if(copula==51)	# rotated reflection asymmetric copula (180)
+  {
+	de=param
+	d1=1-u1
+	d2=1-u2
+	tem1=qgamma(1-d1,de)
+	tem2=qgamma(1-d2,de)
+	con=gamma(1+de)/de
+	sm=tem1^de+tem2^de
+	tem=sm^(1/de)
+	pdf=con*tem*exp(-tem+tem1+tem2)/sm
+	return(pdf)
+  }
+  else if(copula==61)	# rotated reflection asymmetric copula (90)
+  {
+	de=-param
+	d1=1-u1
+	d2=u2
+	tem1=qgamma(1-d1,de)
+	tem2=qgamma(1-d2,de)
+	con=gamma(1+de)/de
+	sm=tem1^de+tem2^de
+	tem=sm^(1/de)
+	pdf=con*tem*exp(-tem+tem1+tem2)/sm
+	return(pdf)
+  }
+  else if(copula==71)	# rotated reflection asymmetric copula (270)
+  {
+	de=-param
+	d1=u1
+	d2=1-u2
+	tem1=qgamma(1-d1,de)
+	tem2=qgamma(1-d2,de)
+	con=gamma(1+de)/de
+	sm=tem1^de+tem2^de
+	tem=sm^(1/de)
+	pdf=con*tem*exp(-tem+tem1+tem2)/sm
+	return(pdf)
+  }
+  else if(copula==42)	# 2-parametric asymmetric copula (thanks to Benedikt Gräler)
+  {
+	a=param[1]
+	b=param[2] 
+	return( pmax(a * u2 * (((12 - 9 * u1) * u1 - 3) * u2 + u1 * (6 * u1 - 8) + 2) + b * (u2 * ((u1 * (9 * u1 - 12) + 3) * u2 + (12 - 6 * u1) * u1 - 4) - 2 * u1 + 1) + 1,0) ) 
+  }
+  else if(copula==52)	# rotated 2-parametric asymmetric copula (180)
+  {
+	a=param[1]
+	b=param[2] 
+	d1=1-u1
+	d2=1-u2
+	return( pmax(a * d2 * (((12 - 9 * d1) * d1 - 3) * d2 + d1 * (6 * d1 - 8) + 2) + b * (d2 * ((d1 * (9 * d1 - 12) + 3) * d2 + (12 - 6 * d1) * d1 - 4) - 2 * d1 + 1) + 1,0) ) 
+  }
+  else if(copula==62)	# rotated 2-parametric asymmetric copula (180)
+  {
+	a=-param[1]
+	b=-param[2] 
+	d1=1-u1
+	d2=u2
+	return( pmax(a * d2 * (((12 - 9 * d1) * d1 - 3) * d2 + d1 * (6 * d1 - 8) + 2) + b * (d2 * ((d1 * (9 * d1 - 12) + 3) * d2 + (12 - 6 * d1) * d1 - 4) - 2 * d1 + 1) + 1,0) ) 
+  }
+  else if(copula==52)	# rotated 2-parametric asymmetric copula (180)
+  {
+	a=-param[1]
+	b=-param[2] 
+	d1=u1
+	d2=1-u2
+	return( pmax(a * d2 * (((12 - 9 * d1) * d1 - 3) * d2 + d1 * (6 * d1 - 8) + 2) + b * (d2 * ((d1 * (9 * d1 - 12) + 3) * d2 + (12 - 6 * d1) * d1 - 4) - 2 * d1 + 1) + 1,0) ) 
+  }
 }
 
 
@@ -434,9 +514,9 @@ family="emp", par=0, par2=0, PLOT=TRUE, margins="norm", margins.par=0, xylim=NA,
   if(is.null(u1)==FALSE && (any(u1>1) || any(u1<0))) stop("Data has be in the interval [0,1].")
   if(is.null(u2)==FALSE && (any(u2>1) || any(u2<0))) stop("Data has be in the interval [0,1].")
   #if(length(u1)!=length(u2)) stop("Lengths of 'u1' and 'u2' do not match.")
-  if(!(family %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40, "emp"))) stop("Copula family not implemented.")
-  if(c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40) %in% family && par2==0) stop("For t-, BB1 and BB7 copulas, 'par2' must be set.")
-  if(c(1,3,4,5,6,13,14,16,23,24,26,33,34,36) %in% family && length(par)<1) stop("'par' not set.")
+  if(!(family %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40,41,42,51,52,61,62,71,72, "emp"))) stop("Copula family not implemented.")
+  if(c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,42,52,62,72) %in% family && par2==0) stop("For t-, BB1 and BB7 copulas, 'par2' must be set.")
+  if(c(1,3,4,5,6,11,13,14,16,23,24,26,33,34,36,41,51,61,71) %in% family && length(par)<1) stop("'par' not set.")
   
   # size sollte nicht zu gross sein
   if(size>1000) stop("Size parameter should not be greater than 1000. Otherwise computational time and memory space are too large.")
@@ -472,7 +552,16 @@ family="emp", par=0, par2=0, PLOT=TRUE, margins="norm", margins.par=0, xylim=NA,
 	if((family==29 || family==39) && par2>=0) stop("The second parameter of the rotated BB7 copula has to be negative.")
 	if((family==30 || family==40) && par>-1) stop("The first parameter of the rotated BB8 copula has to be in the interval (-oo,-1].")
 	if((family==30 || family==40) && (par2>=0 || par2<(-1))) stop("The second parameter of the rotated BB8 copula has to be in the interval [-1,0).")
-
+	if((family==41 || family==51) && par<=0) stop("The parameter of the reflection asymmetric copula has to be positive.")
+	if((family==61 || family==71) && par>=0) stop("The parameter of the rotated reflection asymmetric copula has to be negative.")
+	if(family==42)
+	{
+		a=par
+		b=par2
+		limA=(b - 3 - sqrt(9 + 6 * b - 3 * b^2))/2
+		if(abs(b)>1) stop("The second parameter of the two-parametric asymmetric copulas has to be in the interval [-1,1]")
+		if(a>1 || a<limA) stop("The first parameter of the two-parametric asymmetric copula has to be in the interval [limA(par2),1]")
+	}
 
   if(PLOT!=TRUE && PLOT!=FALSE) stop("The parameter 'PLOT' has to be set to 'TRUE' or 'FALSE'.")
 
@@ -527,7 +616,7 @@ family="emp", par=0, par2=0, PLOT=TRUE, margins="norm", margins.par=0, xylim=NA,
 
   if(family!="emp")
   {
-  if(family %in% c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40))
+  if(family %in% c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,42,52,62,72))
 	 z <- matrix(data=meta.dens(x1=rep(x=x, each=size), x2=rep(x=y, times=size), param=c(par,par2), copula=family, 
    margins=margins, margins.par=margins.par), nrow=size, byrow=TRUE)
   else

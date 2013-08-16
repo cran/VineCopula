@@ -6,7 +6,7 @@ RVineSeqEst<-function(data,RVM, method="mle", se=FALSE, max.df=30, max.BB=list(B
 	N = nrow(data)
 	if(dim(data)[2] != dim(RVM)) stop("Dimensions of 'data' and 'RVM' do not match.")
   if(N < 2) stop("Number of observations has to be at least 2.")
-  if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+  if(!is(RVM,"RVineMatrix")) stop("'RVM' has to be an RVineMatrix object.")
 
   if(method!="mle" && method!="itau") stop("Estimation method has to be either 'mle' or 'itau'.")
   if(is.logical(se)==FALSE) stop("'se' has to be a logical variable (TRUE or FALSE).")

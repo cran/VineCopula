@@ -60,6 +60,7 @@ Journal of Hydrologic Engineering, 12 (4), 347-368.
 \seealso{\code{\link{BiCopMetaContour}}, \code{\link{BiCopChiPlot}}, \code{\link{BiCopLambda}}, \code{\link{BiCopGofTest}}}
 
 \examples{
+\dontrun{
 # Gaussian and Clayton copulas
 n = 500
 tau = 0.5
@@ -79,4 +80,5 @@ dev.new(width=10,height=5)
 par(mfrow=c(1,2))
 BiCopKPlot(dat1[,1],dat1[,2],main="Gaussian copula")
 BiCopKPlot(dat2[,1],dat2[,2],main="Clayton copula")
+}
 }

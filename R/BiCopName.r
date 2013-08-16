@@ -39,6 +39,10 @@ if(is.numeric(family))	# Zahl zu Name
 		else if(family==39) fam="BB7_270"
 		else if(family==40) fam="BB8_270"
 		else if(family==100) fam="NP"    #changed Mathias
+		else if(family==41) fam="1-par AS"
+		else if(family==51) fam="1-par AS180"
+		else if(family==61) fam="1-par AS90"
+		else if(family==71) fam="1-par AS270"
 		else stop("Family not implemented.")
 	}
 	else			# langer Name
@@ -76,6 +80,10 @@ if(is.numeric(family))	# Zahl zu Name
 		else if(family==39) fam="Rotated Joe-Clayton 270 degrees"
 		else if(family==40) fam="Rotated Joe-Frank 270 degrees"
 		else if(family==100) fam="Nonparametric"  #changed Mathias
+		else if(family==41) fam="1-parametric asymmetric"
+		else if(family==51) fam="Rotated 1-parametric asymmetric 180 degree"
+		else if(family==61) fam="Rotated 1-parametric asymmetric 90 degree"
+		else if(family==71) fam="Rotated 1-parametric asymmetric 270 degree"
 		else stop("Family not implemented.")
 	}
 }
@@ -113,6 +121,10 @@ else	# Name zu Zahl
 	else if(family=="BB7_270" || family=="Rotated Joe-Clayton 270 degrees") fam=39
 	else if(family=="BB8_270" || family=="Rotated Joe-Frank 270 degrees") fam=40
 	else if(family=="NP" || family=="Nonparametric") fam=100 #changed Mathias
+	else if(family=="1-par AS" || family=="1-parametric asymmetric") fam=41
+	else if(family=="1-par AS180" || family=="Rotated 1-parametric asymmetric 180 degree") fam=51
+	else if(family=="1-par AS90" || family=="Rotated 1-parametric asymmetric 90 degree") fam=61
+	else if(family=="1-par AS270" || family=="Rotated 1-parametric asymmetric 270 degree") fam=71
 	else stop("Family not implemented.")
 }
 

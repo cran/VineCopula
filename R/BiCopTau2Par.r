@@ -1,6 +1,6 @@
 BiCopTau2Par<-function(family,tau){
 
-  if(!(family %in% c(0,1,3,4,5,6,13,14,16,23,24,26,33,34,36))) stop("Copula family not implemented.")
+  if(!(family %in% c(0,1,3,4,5,6,13,14,16,23,24,26,33,34,36,41,51,61,71))) stop("Copula family not implemented.")
 
   if(family == 0){
     par = 0
@@ -28,7 +28,12 @@ BiCopTau2Par<-function(family,tau){
     if(tau>=0) stop("Rotated Joe copula cannot be used for tau>=0.")
     par = -Joe.itau.JJ(-tau)
   }
-
+  else if(family %in% c(41,51)){
+	par = ipsA.tau2cpar(tau)
+  }
+  else if(family %in% c(61,71)){
+	par=-ipsA.tau2cpar(-tau)
+  }
   return(par)
 
 }

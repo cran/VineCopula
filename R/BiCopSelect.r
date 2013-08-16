@@ -1,13 +1,23 @@
 BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,level=0.05,weights=NA)
 {
-  if(is.null(u1)==TRUE || is.null(u2)==TRUE) stop("u1 and/or u2 are not set or have length zero.")
-  if(length(u1)!=length(u2)) stop("Lengths of 'u1' and 'u2' do not match.")
-  if(length(u1)<2) stop("Number of observations has to be at least 2.")
-  if(any(u1>1) || any(u1<0)) stop("Data has be in the interval [0,1].")
-  if(any(u2>1) || any(u2<0)) stop("Data has be in the interval [0,1].")	
-  if(!is.na(familyset[1])) for(i in 1:length(familyset)) if(!(familyset[i] %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40))) stop("Copula family not implemented.")  
-  if(selectioncrit != "AIC" && selectioncrit != "BIC") stop("Selection criterion not implemented.")
-  if(level < 0 & level > 1) stop("Significance level has to be between 0 and 1.")
+  if(is.null(u1)==TRUE || is.null(u2)==TRUE) 
+    stop("u1 and/or u2 are not set or have length zero.")
+  if(length(u1)!=length(u2)) 
+    stop("Lengths of 'u1' and 'u2' do not match.")
+  if(length(u1)<2) 
+    stop("Number of observations has to be at least 2.")
+  if(any(u1>1) || any(u1<0)) 
+    stop("Data has to be in the interval [0,1].")
+  if(any(u2>1) || any(u2<0)) 
+    stop("Data has to be in the interval [0,1].")	
+  if(any(is.na(familyset)))
+    familyset <- c(1:10,13,14,16:20,23,24,26:30,33,34,36:40,41,51,61,71)
+  if(any(!(familyset %in% c(0,1:10,13,14,16:20,23,24,26:30,33,34,36:40,41,51,61,71))))
+    stop("Copula family not implemented.")
+  if(selectioncrit != "AIC" && selectioncrit != "BIC") 
+    stop("Selection criterion not implemented.")
+  if(level < 0 || level > 1) 
+    stop("Significance level has to be between 0 and 1.")
   
   out=list()
 
@@ -22,7 +32,7 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
 
   }else{
   
-    if(!is.na(familyset[1]) && (!any(c(1,2,5,23,24,26:30,33,34,36:40) %in% familyset) || !any(c(1:10,13,14,16:20) %in% familyset))) stop("'familyset' has to include at least one bivariate copula family for positive and one for negative dependence.")
+    if(!is.na(familyset[1]) && (!any(c(1,2,5,23,24,26:30,33,34,36:40,41,51,61,71) %in% familyset) || !any(c(1:10,13,14,16:20,41,51,61,71) %in% familyset))) stop("'familyset' has to include at least one bivariate copula family for positive and one for negative dependence.")
 
     emp_tau = fasttau(data1,data2,weights)
 
@@ -57,11 +67,13 @@ BiCopSelect <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
 	    start[[28]] = start[[38]] = c(-1.5, -1.5)
 	    start[[29]] = start[[39]] = c(-1.5, -0.5)
 	    start[[30]] = start[[40]] = c(-1.5,-0.5)
+		start[[41]] = start[[51]] = ipsA.tau2cpar(emp_tau)
+		start[[61]] = start[[71]] = -ipsA.tau2cpar(emp_tau)
 
     	if(emp_tau < 0){
-    		todo = c(1,2,5,23,24,26:30,33,34,36:40)
+    		todo = c(1,2,5,23,24,26:30,33,34,36:40,41,51,61,71)
     	}else{
-    		todo = c(1:10,13,14,16:20)
+    		todo = c(1:10,13,14,16:20,41,51,61,71)
     	}
     	if(!is.na(familyset[1])) todo = todo[which(todo %in% familyset)]
 

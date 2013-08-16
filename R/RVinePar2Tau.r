@@ -1,6 +1,6 @@
 RVinePar2Tau = function(RVM){
 
-  if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+  if(!is(RVM,"RVineMatrix")) stop("'RVM' has to be an RVineMatrix object.")
   
 	taus = RVM$par
 	n = dim(RVM)

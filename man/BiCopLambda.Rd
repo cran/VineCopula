@@ -87,6 +87,7 @@ Diploma thesis, Technische Universitaet Muenchen.\cr
 \seealso{\code{\link{BiCopMetaContour}}, \code{\link{BiCopKPlot}}, \code{\link{BiCopChiPlot}}}
 
 \examples{
+\dontrun{
 # Clayton and rotated Clayton copulas
 n = 1000
 tau = 0.5
@@ -116,6 +117,6 @@ par(mfrow=c(1,3))
 BiCopLambda(rot_dat,dat[,2])  # empirical lambda-function	
 BiCopLambda(family=3,par=-theta)	# theoretical lambda-function
 BiCopLambda(rot_dat,dat[,2],family=3,par=-theta)	# both
-
+}
 }
 

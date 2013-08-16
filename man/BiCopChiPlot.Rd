@@ -75,6 +75,7 @@ Journal of Hydrologic Engineering, 12 (4), 347-368.
 \seealso{\code{\link{BiCopMetaContour}}, \code{\link{BiCopKPlot}}, \code{\link{BiCopLambda}}}
 
 \examples{
+\dontrun{
 # chi-plots for bivariate Gaussian copula data
 n = 500
 tau = 0.5
@@ -94,4 +95,4 @@ BiCopChiPlot(dat[,1],dat[,2],mode="lower",xlim=c(-1,1),
 BiCopChiPlot(dat[,1],dat[,2],mode="upper",xlim=c(-1,1),
              ylim=c(-1,1),main="Upper chi-plot")
 }
-
+}

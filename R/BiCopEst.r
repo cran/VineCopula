@@ -22,7 +22,7 @@ function(u1,u2,family, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6)
   if(length(u1)<2) stop("Number of observations has to be at least 2.")
   if(any(u1>1) || any(u1<0)) stop("Data has be in the interval [0,1].")
   if(any(u2>1) || any(u2<0)) stop("Data has be in the interval [0,1].")
-  if(!(family %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40))) stop("Copula family not implemented.")
+  if(!(family %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40,41,51,61,71))) stop("Copula family not implemented.")
 
   if(max.df<=2) stop("The upper bound for the degrees of freedom parameter has to be larger than 2.")
   if(!is.list(max.BB)) stop("'max.BB' has to be a list.")
@@ -95,6 +95,12 @@ function(u1,u2,family, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6)
 		if(tau>=0) {warning("Rotated Joe copula cannot be used for positively dependent data."); tau=-0.05}
 		theta=-Joe.itau.JJ(-tau)
     }
+	else if(family %in% c(41,51)){
+		theta = ipsA.tau2cpar(tau)
+	}
+	else if(family %in% c(61,71)){
+		theta=-ipsA.tau2cpar(-tau)
+	}
 
     se1=0
     if(method=="itau" && se==TRUE)
@@ -124,6 +130,13 @@ function(u1,u2,family, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6)
 				-((-2+2*euler+2*log(2)+digamma(1/x)+digamma(1/2*(2+x)/x)+x)/(-2+x)^2)+((-trigamma(1/x)/x^2+trigamma(1/2*(2+x)/x)*(1/(2+x)-(2+x)/(2*x^2))+1)/(-2+x))
 			}
 		}
+		else if(family %in% c(41,51,61,71))
+		{
+			tauder=function(x)
+			{
+				2*sqrt(pi)*gamma(0.5+x)*(digamma(1+x)-digamma(0.5+x))/gamma(1+x)
+			}
+		}
 
 		l <- 1
 		for (j in 1:(p-1)) 
@@ -139,9 +152,9 @@ function(u1,u2,family, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6)
 
 		if(family == 0)
 			D = 0
-		else if(family %in% c(1,3,4,5,6,13,14,16))
+		else if(family %in% c(1,3,4,5,6,13,14,16,41,51))
 			D = 1 / tauder(theta)
-		else if(family %in% c(23,33,24,34,26,36))
+		else if(family %in% c(23,33,24,34,26,36,61,71))
 			D = 1 / tauder(-theta)
 
 
@@ -356,6 +369,24 @@ Joe.itau.JJ<-function(tau)
 	}
 }
 
+ipsA.tau2cpar=function(tau,mxiter=20, eps=1.e-6,dstart=0,iprint=FALSE)
+{ con=log((1-tau)*sqrt(pi)/2)
+  de=dstart
+  if(dstart<=0) de=tau+1
+  iter=0
+  diff=1
+  while(iter<mxiter & max(abs(diff))>eps)
+  { g=con+lgamma(1+de)-lgamma(de+.5)
+    gp=digamma(1+de)-digamma(de+.5)
+    iter=iter+1
+    diff=g/gp
+    de=de-diff
+    while(min(de)<=0.) { diff=diff/2; de=de+diff }
+    if(iprint) cat(iter," ",de," ",diff,"\n")
+  }
+  if(iter>=mxiter) cat("did not converge\n")
+  de
+}
 
 
 
@@ -590,6 +621,18 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 		}else if(family %in% c(26,36)){
 		  up = -1.0001
 		  low=BiCopTau2Par(family,-0.99)
+			if(t_LL(low)==-10^300) low=BiCopTau2Par(family,-0.95)
+			if(t_LL(low)==-10^300) low=BiCopTau2Par(family,-0.9)
+		}
+		else if(family %in% c(41,51))
+		{
+			low=0.0001
+			up=BiCopTau2Par(family,0.85)
+			#if(t_LL(up)==-10^300) up=BiCopTau2Par(family,0.95)
+			#if(t_LL(up)==-10^300) up=BiCopTau2Par(family,0.9)
+		}else if(family %in% c(61,71)){
+		  up = -0.0001
+		  low=BiCopTau2Par(family,-0.85)
 			if(t_LL(low)==-10^300) low=BiCopTau2Par(family,-0.95)
 			if(t_LL(low)==-10^300) low=BiCopTau2Par(family,-0.9)
 		}

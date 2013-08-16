@@ -33,7 +33,7 @@ if(is.vector(data)){
     n<-d
     N<-T
 	  if(n != dim(RVM)) stop("Dimensions of 'data' and 'RVM' do not match.")
-    if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+    if(!is(RVM,"RVineMatrix")) stop("'RVM' has to be an RVineMatrix object.")
   
 
 #if(any(is.na(calcupdate)))
