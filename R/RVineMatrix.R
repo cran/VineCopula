@@ -14,7 +14,7 @@ RVineMatrix  = function(Matrix,family=array(0,dim=dim(Matrix)),par=array(NA,dim=
 	if(any(par2!=NA) & dim(par2)[1]!=dim(par2)[2]) stop("Second parameter matrix has to be quadratic.")
 	if(any(family!=0) & dim(family)[1]!=dim(family)[2]) stop("Copula family matrix has to be quadratic.")
 	if(max(Matrix)>dim(Matrix)[1]) stop("Error in the structure matrix.")
-	if(any(!(family %in% c(0,1:10,13,14,16:20,23,24,26:30,33,34,36:40,43,44)))) stop("Copula family not implemented.")
+	if(any(!(family %in% c(0,1:10,13,14,16:20,23,24,26:30,33,34,36:40,43,44,104,114,124,134,204,214,224,234)))) stop("Copula family not implemented.")
 	if(length(names)>0 & length(names)!=dim(Matrix)[1]) stop("Length of the vector 'names' is not correct.")
 	
 	if(RVineMatrixCheck(Matrix)!=1) stop("'Matrix' is not a valid R-vine matrix")
@@ -50,6 +50,10 @@ RVineMatrix  = function(Matrix,family=array(0,dim=dim(Matrix)),par=array(NA,dim=
 				if((family[i,j]==29 || family[i,j]==39) && par2[i,j]>=0) stop("The second parameter of the rotated BB7 copula has to be negative.")
 				if((family[i,j]==30 || family[i,j]==40) && par[i,j]>-1) stop("The first parameter of the rotated BB8 copula has to be in the interval (-oo,-1].")
 				if((family[i,j]==30 || family[i,j]==40) && (par2[i,j]>=0 || par2[i,j]<(-1))) stop("The second parameter of the rotated BB8 copula has to be in the interval [-1,0).")
+				if ((family[i,j]==104 || family[i,j]==114 || family[i,j]==204 || family[i,j]==214) && par[i,j]<1) stop("Please choose 'par' of the Tawn copula in [1,oo).")
+				if ((family[i,j]==104 || family[i,j]==114 || family[i,j]==204 || family[i,j]==214) && (par2[i,j]<0 || par2[i,j]>1)) stop("Please choose 'par2' of the Tawn copula in [0,1].")
+				if ((family[i,j]==124 || family[i,j]==134 || family[i,j]==224 || family[i,j]==234) && par[i,j]>-1) stop("Please choose 'par' of the Tawn copula in (-oo,-1].")
+				if ((family[i,j]==124 || family[i,j]==134 || family[i,j]==224 || family[i,j]==234) && (par2[i,j]<0 || par2[i,j]>1)) stop("Please choose 'par2' of the Tawn copula in [0,1].")
 			}
 		}
 	}
@@ -127,7 +131,7 @@ print.RVineMatrix = function(x, detail=FALSE, ...){
 			if(RVine$family[d,i]!=0)
 			{
 				a=paste(a," with par=", round(RVine$par[d,i],2), sep="")
-				if(RVine$family[d,i]%in%c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40))
+				if(RVine$family[d,i]%in%c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,104,114,124,134,204,214,224,234))
 				{
 					a=paste(a," and par2=", round(RVine$par2[d,i],2), sep="")
 				}
@@ -154,7 +158,7 @@ print.RVineMatrix = function(x, detail=FALSE, ...){
 				if(RVine$family[d-j+1,i]!=0)
 				{
 					a=paste(a," with par=", round(RVine$par[d-j+1,i],2), sep="")
-					if(RVine$family[d-j+1,i]%in%c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40))
+					if(RVine$family[d-j+1,i]%in%c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,104,114,124,134,204,214,224,234))
 					{
 						a=paste(a," and par2=", round(RVine$par2[d-j+1,i],2), sep="")
 					}

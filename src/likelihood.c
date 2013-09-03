@@ -14,6 +14,7 @@
 #include "include/memoryhandling.h"
 #include "include/tools.h"
 #include "include/likelihood.h"
+#include "include/evCopula.h"
 #include <math.h>
 
 #define UMAX  1-1e-10
@@ -720,7 +721,7 @@ void LL_mod(int* family, int* n, double* u, double* v, double* theta, double* nu
 			LL(&nfamily, n, u,  negv, &ntheta, &nnu, loglik);
 		}
 	}else{
-  if((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30) | (*family==61) )	// 90° rotated copulas
+  if((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30) | (*family==61))	// 90° rotated copulas
     {
 	  nfamily = (*family)-20;
       for (int i = 0; i < *n; ++i) {negv[i] = 1 - v[i];}
@@ -732,6 +733,18 @@ void LL_mod(int* family, int* n, double* u, double* v, double* theta, double* nu
       for (int i = 0; i < *n; ++i) {negu[i] = 1 - u[i];}
       LL(&nfamily, n, negu,  v, &ntheta, &nnu, loglik);
     }
+	else if((*family==124) | (*family==224))
+	{
+		nfamily = (*family)-20;
+		for (int i = 0; i < *n; ++i) {negu[i] = 1 - u[i];}
+		LL(&nfamily, n, u,  negv, &ntheta, nu, loglik);
+	}
+	else if((*family==134) | (*family==234))
+	{
+		nfamily = (*family)-30;
+		for (int i = 0; i < *n; ++i) {negv[i] = 1 - v[i];}
+		LL(&nfamily, n, negu,  v, &ntheta, nu, loglik);
+	}
   else {
     LL(family, n, u,  v, theta, nu, loglik);
   }
@@ -782,7 +795,7 @@ void LL_mod2(int* family, int* n, double* u, double* v, double* theta, double* n
 		}
 	}else{
 	
-  if((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30) | (*family==61) )	// 90° rotated copulas
+  if((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30) | (*family==61))	// 90° rotated copulas
     {
 	  nfamily = (*family)-20;
       for (int i = 0; i < *n; ++i) {negu[i] = 1 - u[i];}
@@ -794,6 +807,18 @@ void LL_mod2(int* family, int* n, double* u, double* v, double* theta, double* n
       for (int i = 0; i < *n; ++i) {negv[i] = 1 - v[i];}
       LL(&nfamily, n, u,  negv, &ntheta, &nnu, loglik);
     }
+	else if((*family==124) | (*family==224))
+	{
+		nfamily = (*family)-20;
+		for (int i = 0; i < *n; ++i) {negu[i] = 1 - u[i];}
+		LL(&nfamily, n, negu,  v, &ntheta, nu, loglik);
+	}
+	else if((*family==134) | (*family==234))
+	{
+		nfamily = (*family)-30;
+		for (int i = 0; i < *n; ++i) {negv[i] = 1 - v[i];}
+		LL(&nfamily, n, u,  negv, &ntheta, nu, loglik);
+	}
   else {
     LL(family, n, u,  v, theta, nu, loglik);
   }
@@ -1247,6 +1272,52 @@ void LL(int* family, int* n, double* u, double* v, double* theta, double* nu, do
 		tem=pow(sm,(1.0/(*theta)));
 		f=con*tem*exp(-tem+tem1+tem2)/sm;
 		
+		if(log(f)>XINFMAX) ll += log(XINFMAX);
+		else ll += log(f);
+	}
+  }
+  else if(*family==104)		//New: Tawn
+  {
+	int T=1;
+	double par3=1.0;
+	for(j=0;j<*n;j++)
+	{
+		TawnPDF(&u[j], &v[j], &T, theta, nu, &par3, &f);
+		if(log(f)>XINFMAX) ll += log(XINFMAX);
+		else ll += log(f);
+	}
+  }
+  else if(*family==114)		//New: rotated Tawn
+  {
+	int T=1;
+	double par3=1.0;
+	for(j=0;j<*n;j++)
+	{
+		dat[0] = 1-u[j]; dat[1] = 1-v[j];
+		TawnPDF(&dat[0], &dat[1], &T, theta, nu, &par3, &f);
+		if(log(f)>XINFMAX) ll += log(XINFMAX);
+		else ll += log(f);
+	}
+  }
+  else if(*family==204)		//New: Tawn2
+  {
+	int T=1;
+	double par2=1.0;
+	for(j=0;j<*n;j++)
+	{
+		TawnPDF(&u[j], &v[j], &T, theta, &par2, nu, &f);
+		if(log(f)>XINFMAX) ll += log(XINFMAX);
+		else ll += log(f);
+	}
+  }
+  else if(*family==214)		//New: rotated Tawn2
+  {
+	int T=1;
+	double par2=1.0;
+	for(j=0;j<*n;j++)
+	{
+		dat[0] = 1-u[j]; dat[1] = 1-v[j];
+		TawnPDF(&dat[0], &dat[1], &T, theta, &par2, nu, &f);
 		if(log(f)>XINFMAX) ll += log(XINFMAX);
 		else ll += log(f);
 	}

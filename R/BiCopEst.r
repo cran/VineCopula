@@ -22,7 +22,7 @@ function(u1,u2,family, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6)
   if(length(u1)<2) stop("Number of observations has to be at least 2.")
   if(any(u1>1) || any(u1<0)) stop("Data has be in the interval [0,1].")
   if(any(u2>1) || any(u2<0)) stop("Data has be in the interval [0,1].")
-  if(!(family %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40,41,51,61,71))) stop("Copula family not implemented.")
+  if(!(family %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40,41,51,61,71,104,114,124,134,204,214,224,234))) stop("Copula family not implemented.")
 
   if(max.df<=2) stop("The upper bound for the degrees of freedom parameter has to be larger than 2.")
   if(!is.list(max.BB)) stop("'max.BB' has to be a list.")
@@ -40,7 +40,7 @@ function(u1,u2,family, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6)
 
   if(is.logical(se)==FALSE) stop("'se' has to be a logical variable (TRUE or FALSE).")
 
-  if(method=="itau" && family %in% c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40))
+  if(method=="itau" && family %in% c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,104,114,124,134,204,214,224,234))
   {
   message("For two parameter copulas the estimation method 'itau' cannot be used. The method is automatically set to 'mle'.")
   method="mle"
@@ -167,7 +167,7 @@ function(u1,u2,family, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6)
 		theta1=0
 		delta=0
 
-		if(!(family%in%c(2,6,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40)))
+		if(!(family%in%c(2,6,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,104,114,124,134,204,214,224,234)))
 		{
 			theta1=theta
 		}
@@ -289,10 +289,73 @@ function(u1,u2,family, method="mle", se=FALSE, max.df=30, max.BB=list(BB1=c(5,6)
 				theta1=max(-1.5,-max((max.BB$BB8[1]+1.001)/2,1.001))
 			}
 		}
+		else if(family==104 || family==114)
+		{
+			if(tau<0)
+			{
+				print("The Tawn or survival Tawn copula cannot be used for negatively dependent data.")
+				delta=1
+				theta1=1.001
+			}
+			else
+			{
+				delta=0.5	# psi1
+				theta1=2		
+			}
+		}
+		else if(family==124 || family==134)
+		{
+			if(tau>0)
+			{
+				print("The rotated Tawn copula cannot be used for positively dependent data.")
+				delta=1
+				theta1=-1.001
+			}
+			else
+			{
+				delta=0.5	# psi1
+				theta1=-2		
+			}
+		}
+		else if(family==204 || family==214)
+		{
+			if(tau<0)
+			{
+				print("The Tawn2 or survival Tawn2 copula cannot be used for negatively dependent data.")
+				delta=1
+				theta1=1.001
+			}
+			else
+			{
+				delta=0.5	# psi1
+				theta1=2		
+			}
+		}
+		else if(family==224 || family==234)
+		{
+			if(tau>0)
+			{
+				print("The rotated Tawn2 copula cannot be used for positively dependent data.")
+				delta=1
+				theta1=-1.001
+			}
+			else
+			{
+				delta=0.5		# psi1
+				theta1=-2		
+			}
+		}
 	
-		if(family!=0)
+		if(family!=0 && family<100)
 		{
 			out=MLE_intern(cbind(u1,u2),c(theta1, delta),family=family,se,max.df,max.BB,weights)
+			theta=out$par
+			if(se==TRUE)
+				se1=out$se
+		}
+		else if(family!=0 && family>100)		# New
+		{
+			out=MLE_intern_Tawn(cbind(u1,u2),c(theta1, delta),family=family,se)
 			theta=out$par
 			if(se==TRUE)
 				se1=out$se
@@ -421,11 +484,11 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 
 			if(is.null(weights))
 			{
-               ll = .C("LL_mod",as.integer(family),as.integer(n),as.double(data[,2]),as.double(data[,1]),as.double(param[1]),as.double(param[2]),as.double(0),PACKAGE='VineCopula')[[7]]
+               ll = .C("LL_mod2",as.integer(family),as.integer(n),as.double(data[,1]),as.double(data[,2]),as.double(param[1]),as.double(param[2]),as.double(0),PACKAGE='VineCopula')[[7]]
 			}
 			else
 			{
-               ll = .C("LL_mod_seperate",as.integer(family),as.integer(n),as.double(data[,2]), as.double(data[,1]), as.double(param[1]),as.double(param[2]), as.double(rep(0,n)),PACKAGE='VineCopula')[[7]]%*%weights
+               ll = .C("LL_mod_seperate",as.integer(family),as.integer(n),as.double(data[,1]), as.double(data[,2]), as.double(param[1]),as.double(param[2]), as.double(rep(0,n)),PACKAGE='VineCopula')[[7]]%*%weights
 			}
 
 			if(is.infinite(ll) || is.na(ll)  || ll< -10^300) ll = -10^300
@@ -446,7 +509,7 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 		      low = c(1.001,0.001)
 		      up = max.BB$BB8
 		}else if(family == 27 | family==37){
-		      up = c(-1.001,-0.001)
+		      up = c(-0.001,-1.001)
 		      low = -max.BB$BB1
 		}else if(family == 28 | family==38){
 		      up = c(-1.001,-1.001)
@@ -480,11 +543,11 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 				{	
 					if(is.null(weights))
 					{
-						ll = .C("LL_mod",as.integer(family),as.integer(n),as.double(data[,2]),as.double(data[,1]),as.double(param[1]),as.double(param[2]),as.double(0),PACKAGE='VineCopula')[[7]]
+						ll = .C("LL_mod2",as.integer(family),as.integer(n),as.double(data[,1]),as.double(data[,2]),as.double(param[1]),as.double(param[2]),as.double(0),PACKAGE='VineCopula')[[7]]
 					}
 					else
 					{
-						ll = .C("LL_mod_seperate",as.integer(family),as.integer(n),as.double(data[,2]), as.double(data[,1]), as.double(param[1]),as.double(param[2]), as.double(rep(0,n)),PACKAGE='VineCopula')[[7]]%*%weights
+						ll = .C("LL_mod_seperate",as.integer(family),as.integer(n),as.double(data[,1]), as.double(data[,2]), as.double(param[1]),as.double(param[2]), as.double(rep(0,n)),PACKAGE='VineCopula')[[7]]%*%weights
 					}
 
 					if(is.infinite(ll) || is.na(ll)  || ll< -10^10) ll = -10^10
@@ -523,11 +586,11 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 			{
 				if(is.null(weights))
 				{
-					 ll = .C("LL_mod",as.integer(family),as.integer(n),as.double(data[,2]),as.double(data[,1]),as.double(start.parm[1]),as.double(param[1]),as.double(0),PACKAGE='VineCopula')[[7]]
+					 ll = .C("LL_mod2",as.integer(family),as.integer(n),as.double(data[,1]),as.double(data[,2]),as.double(start.parm[1]),as.double(param[1]),as.double(0),PACKAGE='VineCopula')[[7]]
 				}
 				else
 				{
-					 ll = .C("LL_mod_seperate",as.integer(family),as.integer(n),as.double(data[,2]), as.double(data[,1]), as.double(start.parm[1]),as.double(param[1]), as.double(rep(0,n)),PACKAGE='VineCopula')[[7]]%*%weights
+					 ll = .C("LL_mod_seperate",as.integer(family),as.integer(n),as.double(data[,1]), as.double(data[,2]), as.double(start.parm[1]),as.double(param[1]), as.double(rep(0,n)),PACKAGE='VineCopula')[[7]]%*%weights
 				}
 
 				if(is.infinite(ll) || is.na(ll)  || ll< -10^300) ll = -10^300
@@ -563,11 +626,11 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 		{
 			if(is.null(weights))
 			{
-				ll = .C("LL_mod",as.integer(family),as.integer(n),as.double(data[,2]), as.double(data[,1]), as.double(param),as.double(0), as.double(0),PACKAGE='VineCopula')[[7]]
+				ll = .C("LL_mod2",as.integer(family),as.integer(n),as.double(data[,1]), as.double(data[,2]), as.double(param),as.double(0), as.double(0),PACKAGE='VineCopula')[[7]]
 			}
 			else
 			{
-				ll = .C("LL_mod_seperate",as.integer(family),as.integer(n),as.double(data[,2]), as.double(data[,1]), as.double(param[1]),as.double(0), as.double(rep(0,n)),PACKAGE='VineCopula')[[7]]%*%weights
+				ll = .C("LL_mod_seperate",as.integer(family),as.integer(n),as.double(data[,1]), as.double(data[,2]), as.double(param[1]),as.double(0), as.double(rep(0,n)),PACKAGE='VineCopula')[[7]]%*%weights
 			}
 			if(is.infinite(ll) || is.na(ll) || ll< -10^300) ll = -10^300
 
@@ -705,6 +768,69 @@ function(data,start.parm,family,se=FALSE,max.df=30,max.BB=list(BB1=c(5,6),BB6=c(
 	out$value=optimout$value
 	return(out)
 }
+
+
+# New for Tawn
+
+MLE_intern_Tawn <-
+function(data,start.parm,family,se=FALSE)
+{
+
+	n = dim(data)[1]
+	tau <- fasttau(data[,1],data[,2])
+
+	if(family==104 || family==114 || family==204 || family==214)
+	{
+		parlower<-c(1.001,max(tau,0.0001))
+		parupper<-c(20,min(tau+0.1,0.99))
+	}
+	else if(family==124 || family==134 || family==224 || family==234)
+	{
+		parlower<-c(-20,max(-tau,0.0001))
+		parupper<-c(-1.001,min(-tau+0.1,0.99))
+	}
+	
+	# Hier fehlt noch die log-likelihood Funktion
+	loglikfunc = function(param)
+	{
+		ll = .C("LL_mod2",as.integer(family),as.integer(n),as.double(data[,1]), as.double(data[,2]), as.double(param[1]),as.double(param[2]), as.double(0),PACKAGE='VineCopula')[[7]]
+		if(is.infinite(ll) || is.na(ll) || ll< -10^300) ll = -10^300
+		#print(param)
+		#print(ll)
+		return(ll)
+	}
+	
+	out=list()
+	#print(start.parm)
+	if(se == TRUE)
+	{
+		optimout=optim(par=start.parm,fn=loglikfunc,method=c("L-BFGS-B"),lower=parlower,upper=parupper,control=list(fnscale=-1,maxit=500), hessian=TRUE)
+		if(det(optimout$hessian)==0){
+			  var = diag(1,dim(optimout$hessian)[1])
+			}else{
+			  var = (-solve(optimout$hessian))
+			}
+
+			out$se = sqrt(diag(var))
+	}
+	else
+	{
+		optimout=optim(par=start.parm,fn=loglikfunc,method=c("L-BFGS-B"),lower=parlower,upper=parupper,control=list(fnscale=-1,maxit=500))
+	}
+
+	out$par = optimout$par
+	out$value=optimout$value
+	return(out)
+}
+
+
+
+
+
+
+
+
+
 
 
 fasttau<- function(x, y,weights=NA)

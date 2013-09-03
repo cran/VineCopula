@@ -59,10 +59,9 @@ Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2013).
 Selecting and estimating regular vine copulae and application to financial returns.
 Computational Statistics & Data Analysis, 59 (1), 52-69.
 
-Stoeber, J. and U. Schepsmeier (2012).
-Is there significant time-variation in multivariate copulas?
-Submitted for publication.
-\url{http://arxiv.org/abs/1205.4841}.
+Stoeber, J. and U. Schepsmeier (2013).
+Estimating standard errors in regular vine copula models. Computational Statistics, 1-29
+\url{http://link.springer.com/article/10.1007/s00180-013-0423-8#}.
 }
 
 \author{Ulf Schepsmeier, Jeffrey Dissmann}

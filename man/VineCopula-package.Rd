@@ -28,6 +28,11 @@ The two parameter BB1, BB6, BB7 and BB8 copulas are however numerically instable
 in particular, if BB6, BB7 and BB8 copulas are close to the Joe copula which is a boundary case of these three copula families.
 In general, the user should be careful with extreme parameter choices.
 
+As an asymmetric extension of the Gumbel copula, the Tawn copula with three parameters is also included in the package.
+Both the Gumbel and the Tawn copula are extreme-value copulas, which can be defined in terms of their corresponding Pickands dependence functions.
+For simplicity, we implemented two versions of the Tawn copula with two parameters each.
+Each type has one of the asymmetry parameters fixed to 1, so that the corresponding Pickands dependence is either left- or right-skewed. In the manual we will call these two new copulas "Tawn type 1" and "Tawn type 2".
+
 The following table shows the parameter ranges of bivariate copula families with parameters \code{par} and \code{par2}:
 \tabular{lll}{
 Copula family \tab \code{par} \tab \code{par2} \cr
@@ -48,6 +53,8 @@ Rotated Clayton-Gumbel (90 and 270 degrees) \tab \eqn{(-\infty,0)} \tab \eqn{(-\
 Rotated Joe-Gumbel (90 and 270 degrees) \tab \eqn{(-\infty,-1]} \tab \eqn{(-\infty,-1]} \cr
 Rotated Joe-Clayton (90 and 270 degrees) \tab \eqn{(-\infty,-1]} \tab \eqn{(-\infty,0)} \cr
 Rotated Joe-Frank (90 and 270 degrees) \tab \eqn{(-\infty,-1]} \tab \eqn{[-1,0)} \cr
+(Survival) Tawn type 1 and type 2 \tab \eqn{[1,\infty)} \tab \eqn{[0,1]} \cr
+Rotated Tawn type 1 and type 2 (90 and 270 degrees) \tab \eqn{(-\infty,-1]} \tab \eqn{[0,1]} \cr
 }  
 }
 
@@ -56,7 +63,7 @@ The specification of an R-vine is done in matrix notation, introduced by Dissman
 one the copula families utilized and two matrices corresponding parameter values. 
 These four matrices are stored in an \code{RVineMatrix} object created by the function \code{RVineMatrix}. Each matrix is a d x d lower triangular matrix.
 Since C- and D-vines are special cases, boundary cases, of R-vines one can write each C- or D-vine in R-vine notation. The transformation
-of notation to or from an R-vine can be done via \code{C2RVine, D2RVine, R2CVine} and \code{R2DVine}, which provide an interface to the package CDVine.
+of notation to an R-vine can be done via \code{C2RVine} and \code{D2RVine}, which provide an interface to the package CDVine.
 For more details see the documentation of the functions.
 }
 
@@ -73,17 +80,17 @@ We are especially grateful to Harry Joe for his contributions to the implementat
 \tabular{ll}{
 Package: \tab VineCopula\cr
 Type: \tab Package\cr
-Version: \tab 1.1-2\cr
-Date: \tab 2013-08-16\cr
+Version: \tab 1.2\cr
+Date: \tab 2013-11-11\cr
 License: \tab GPL (>=2)\cr
 Depends: \tab R (\eqn{\geq 2.11.0}{>= 2.11.0}), MASS, mvtnorm, igraph \cr
-Suggests: \tab CDVine, TSP \cr
+Suggests: \tab CDVine, TSP, ADGofTest \cr
 LazyLoad: \tab yes
 }
 }
 
 \author{
-Ulf Schepsmeier, Jakob Stoeber, Eike Christian Brechmann <VineCopula@ma.tum.de>
+Ulf Schepsmeier, Jakob Stoeber, Eike Christian Brechmann, Benedikt Graeler <VineCopula@ma.tum.de>
 }
 
 \references{ 
@@ -105,7 +112,7 @@ Canadian Journal of Statistics 40 (1), 68-85.
 
 Brechmann, E. C. and C. Czado (2011).
 Risk management with high-dimensional vine copulas: An analysis of the Euro Stoxx 50.
-Submitted for publication.
+Statistics & Risk Modeling, to appear
 \url{http://mediatum.ub.tum.de/node?id=1079276}.
 
 Brechmann, E. C. and U. Schepsmeier (2013).
@@ -120,6 +127,11 @@ Statistical Modelling, 12(3), 229-255.
 Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka (2013).
 Selecting and estimating regular vine copulae and application to financial returns.
 Computational Statistics & Data Analysis, 59 (1), 52-69.
+
+Eschenburg, P. (2013).
+Properties of extreme-value copulas
+Diploma thesis, Technische Universitaet Muenchen
+\url{http://mediatum.ub.tum.de/node?id=1145695}
 
 Joe, H. (1996).
 Families of m-variate distributions with given margins and m(m-1)/2 bivariate dependence parameters.
@@ -142,13 +154,29 @@ Kurowicka, D. and H. Joe (Eds.) (2011).
 Dependence Modeling: Vine Copula Handbook.
 Singapore: World Scientific Publishing Co.
 
+Nelsen, R. (2006). 
+An introduction to copulas. 
+Springer
+
 Schepsmeier, U. and J. Stoeber (2012).
 Derivatives and Fisher information of bivariate copulas.
-Submitted for publication.
-\url{http://mediatum.ub.tum.de/node?id=1106541}.
+Statistical Papers.
+\url{http://link.springer.com/article/10.1007/s00362-013-0498-x}.
 
-Stoeber, J. and U. Schepsmeier (2012).
-Is there significant time-variation in multivariate copulas?
-Submitted for publication.
-\url{http://arxiv.org/abs/1205.4841}.
+Schepsmeier, U. (2013)
+A goodness-of-fit test for regular vine copula models. 
+Preprint
+\url{http://arxiv.org/abs/1306.0818}
+
+Schepsmeier, U. (2013)
+Efficient goodness-of-fit tests in multi-dimensional vine copula models. 
+\url{http://arxiv.org/abs/1309.5808}
+
+Stoeber, J. and U. Schepsmeier (2013).
+Estimating standard errors in regular vine copula models. Computational Statistics, 1-29
+\url{http://link.springer.com/article/10.1007/s00180-013-0423-8#}.
+
+White, H. (1982)
+Maximum likelihood estimation of misspecified models,
+Econometrica, 50, 1-26.
 }

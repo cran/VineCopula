@@ -1,5 +1,8 @@
-BiCopGofTest<-function(u1, u2, family, par=0, par2=0, method="white", max.df=30, B=100, level=0.05)
+BiCopGofTest<-function(u1, u2, family, par=0, par2=0, method="white", max.df=30, B=100)
 {
+	if(method=="White") method="white"
+	if(method=="Kendall") method="kendall"
+
 	if(is.null(u1)==TRUE || is.null(u2)==TRUE) stop("u1 and/or u2 are not set or have length zero.")
 	if(length(u1)!=length(u2)) stop("Lengths of 'u1' and 'u2' do not match.")
 	if(any(u1>1) || any(u1<0)) stop("Data has be in the interval [0,1].")
@@ -38,7 +41,7 @@ BiCopGofTest<-function(u1, u2, family, par=0, par2=0, method="white", max.df=30,
 	}
 	if(family==2 && method=="kendall") stop("The goodness-of-fit test based on Kendall's process is not implemented for the t-copula.")
 	if(family%in%c(7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40) && method=="white") stop("The goodness-of-fit test based on White's information matrix equality is not implemented for the BB copulas.")
-	if((level < 0 || level > 1) && method=="kendall") stop("Significance level has to be between 0 and 1.")
+	#if((level < 0 || level > 1) && method=="kendall") stop("Significance level has to be between 0 and 1.")
 	
 	T=length(u1)
 
@@ -123,6 +126,75 @@ BiCopGofTest<-function(u1, u2, family, par=0, par2=0, method="white", max.df=30,
 		}
 		out=list(p.value=pvalue,statistic=test)
 	}
+	else if(method=="IR")
+	{
+		# Information ratio GOF
+		# Step 1: maximum likelihood estimation
+		if(family==2)
+		{
+			if(par==0)
+			{
+				pars=BiCopEst(u1,u2,family=family,method="mle",max.df=max.df)
+				theta=pars$par
+				nu=pars$par2
+				print(theta)
+				print(nu)
+			}
+			else
+			{
+				theta=par
+				nu=par2
+			}
+		}
+		else
+		{
+			nu=0
+			theta=BiCopEst(u1,u2,family=family,method="mle")$par
+		}
+		
+		# Step 2: Calculation of Hesse and gradient
+		if(family==2)
+		{
+			grad=c(0,0)
+			rho_teil=f_rho(u1,u2,theta,nu)
+			nu_teil=f_nu(u1,u2,theta,nu)
+			rho_nu_teil=f_rho_nu(u1,u2,theta,nu)
+			H = matrix(c(rho_teil,rho_nu_teil,rho_nu_teil,nu_teil),2,2)    # Hesse matrix
+			grad[1]=BiCopDeriv(u1,u2,family=family,par=theta,par2=nu,deriv="par", log=TRUE)
+			grad[2]=BiCopDeriv(u1,u2,family=family,par=theta,par2=nu,deriv="par2", log=TRUE)
+			C=grad%*%t(grad)	
+		}
+		else
+		{
+		  d=rep(0,T)
+		  for(t in 1:T)
+		  {
+		    b=BiCopPDF(u1[t],u2[t],family,theta,nu)
+		    d[t]=BiCopDeriv2(u1[t],u2[t],family=family,par=theta,par2=nu, deriv="par")/b 
+		  }
+		  H=mean(d)
+			C=BiCopDeriv(u1,u2,family=family,par=theta,par2=nu,deriv="par", log=TRUE)
+		}
+		Phi=-solve(H)%*%C
+		IR=trace(Phi)/dim(H)[1]		#Zwischenergebnis
+		
+		#Bootstrap procedure
+		if(B==0)
+		{
+			out=list(IR=IR, p.value=NULL)
+		}
+		else
+		{
+			IR_boot=boot.IR(family,theta,nu,B,length(u1))
+			sigma2=var(IR_boot)
+			IR_new=((IR-1)/sqrt(sigma2))^2
+			IR_boot=((IR_boot-1)/sqrt(sigma2))^2
+			p.value = mean(IR_boot>=IR_new)
+			
+			out=list(IR=IR,p.value=p.value)
+		}
+		
+	}
 	else if(method=="kendall")
 	{
 		if(family %in% c(13,14,16,17,18,19,20)){
@@ -161,9 +233,9 @@ BiCopGofTest<-function(u1, u2, family, par=0, par2=0, method="white", max.df=30,
 			sn.obs<-ostat$Sn
 			tn.obs<-ostat$Tn
 			
-			k<-as.integer((1-level)*B)
-			sn.critical <- sn.boot[k]	# critical value of test at level 0.05
-			tn.critical <- tn.boot[k]	# critical value of test at level 0.05
+			#k<-as.integer((1-level)*B)
+			#sn.critical <- sn.boot[k]	# critical value of test at level 0.05
+			#tn.critical <- tn.boot[k]	# critical value of test at level 0.05
 			
 			
 			pv.sn<-sapply(sn.obs,function(x) (1/B)*length(which(sn.boot[1:B]>=x))) # P-value of Sn
@@ -251,7 +323,7 @@ if (fam==2)			# t
     sam.par<-suppressWarnings({BiCopEst(sam[,1], sam[,2],family=fam)}) # parameter estimation of sample data
     sim<-BiCopSim(10000,fam,sam.par$par,sam.par$par2)	# generate data for the simulation of theo. K(t)
 	
-	#par2 muss auf einen Integer gesetzt werden für mvtnorm
+	#par2 muss auf einen Integer gesetzt werden f?r mvtnorm
 	param$par2=round(param$par2)
 	
     cormat = matrix(c(1,param$par,param$par,1),2,2)
@@ -435,4 +507,51 @@ Tn<-max(tn.obs)*sqrt(n)
 out<-list(Sn=Sn, Tn=Tn)
 return(out)
 }
+
+
+############################
+
+# bootstrap for IR
+
+boot.IR<-function(family,theta,nu,B,n)
+{
+	#theta und nu sind die geschaetzten Parameter
+	IR=rep(0,B)
+	for(i in 1:B)
+	{
+		sam=BiCopSim(n,family,theta,nu)
+		sam.par<-BiCopEst(sam[,1], sam[,2],family=family) # parameter estimation of sample data
+		if(family==2)
+		{
+			theta2=sam.par[1]
+			nu2=sam.par[2]
+			grad=c(0,0)
+			rho_teil=f_rho(sam[,1],sam[,2],theta2,nu2)
+			nu_teil=f_nu(sam[,1],sam[,2],theta2,nu2)
+			rho_nu_teil=f_rho_nu(sam[,1],sam[,2],theta2,nu2)
+			H = matrix(c(rho_teil,rho_nu_teil,rho_nu_teil,nu_teil),2,2)    # Hesse matrix
+			grad[1]=BiCopDeriv(sam[,1],sam[,2],family=family,par=theta2,par2=nu2,deriv="par", log=TRUE)
+			grad[2]=BiCopDeriv(sam[,1],sam[,2],family=family,par=theta2,par2=nu2,deriv="par2", log=TRUE)
+			C=grad%*%t(grad)	
+		}
+		else
+		{
+			theta2=sam.par
+			nu2=0
+			d=rep(0,T)
+			for(t in 1:T)
+			{
+			  b=BiCopPDF(sam[t,1],sam[t,2],family,theta,nu)
+			  d[t]=BiCopDeriv2(sam[t,1],sam[t,2],family=family,par=theta,par2=nu, deriv="par")/b 
+			}
+			H=mean(d)
+			C=BiCopDeriv(sam[,1],sam[,2],family=family,par=theta2,par2=nu2,deriv="par", log=TRUE)
+		}
+		Phi=-solve(H)%*%C
+		IR[i]=trace(Phi)/dim(H)[1]
+	}
+	
+	return(IR)
+}
+
 

@@ -43,6 +43,14 @@ if(is.numeric(family))	# Zahl zu Name
 		else if(family==51) fam="1-par AS180"
 		else if(family==61) fam="1-par AS90"
 		else if(family==71) fam="1-par AS270"
+		else if(family==104) fam="Tawn"
+		else if(family==114) fam="Tawn180"
+		else if(family==124) fam="Tawn90"
+		else if(family==134) fam="Tawn270"
+		else if(family==204) fam="Tawn2"
+		else if(family==214) fam="Tawn2_180"
+		else if(family==224) fam="Tawn2_90"
+		else if(family==234) fam="Tawn2_270"
 		else stop("Family not implemented.")
 	}
 	else			# langer Name
@@ -84,6 +92,14 @@ if(is.numeric(family))	# Zahl zu Name
 		else if(family==51) fam="Rotated 1-parametric asymmetric 180 degree"
 		else if(family==61) fam="Rotated 1-parametric asymmetric 90 degree"
 		else if(family==71) fam="Rotated 1-parametric asymmetric 270 degree"
+		else if(family==104) fam="Tawn  type 1"
+		else if(family==114) fam="Rotated Tawn type 1 180 degrees"
+		else if(family==124) fam="Rotated Tawn type 1 90 degrees"
+		else if(family==134) fam="Rotated Tawn type 1 270 degrees"
+		else if(family==204) fam="Tawn  type 2"
+		else if(family==214) fam="Rotated Tawn type 2 180 degrees"
+		else if(family==224) fam="Rotated Tawn type 2 90 degrees"
+		else if(family==234) fam="Rotated Tawn type 2 270 degrees"
 		else stop("Family not implemented.")
 	}
 }
@@ -125,6 +141,14 @@ else	# Name zu Zahl
 	else if(family=="1-par AS180" || family=="Rotated 1-parametric asymmetric 180 degree") fam=51
 	else if(family=="1-par AS90" || family=="Rotated 1-parametric asymmetric 90 degree") fam=61
 	else if(family=="1-par AS270" || family=="Rotated 1-parametric asymmetric 270 degree") fam=71
+	else if(family=="Tawn" || family=="Tawn type 1") fam=104
+	else if(family=="Tawn180" || family=="Rotated Tawn type 1 180 degrees") fam=114
+	else if(family=="Tawn90" || family=="Rotated Tawn type 1 90 degrees") fam=124
+	else if(family=="Tawn270" || family=="Rotated Tawn type 1 270 degrees") fam=134
+	else if(family=="Tawn2" || family=="Tawn type 2") fam=204
+	else if(family=="Tawn2_180" || family=="Rotated Tawn type 2 180 degrees") fam=214
+	else if(family=="Tawn2_90" || family=="Rotated Tawn type 2 90 degrees") fam=224
+	else if(family=="Tawn2_270" || family=="Rotated Tawn type 2 270 degrees") fam=234
 	else stop("Family not implemented.")
 }
 

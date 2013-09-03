@@ -52,8 +52,8 @@ A numeric vector of the bivariate copula derivative with respect to \code{deriv}
 \references{
 Schepsmeier, U. and J. Stoeber (2012).
 Derivatives and Fisher information of bivariate copulas.
-Submitted for publication.
-\url{http://mediatum.ub.tum.de/node?id=1106541}.
+Statistical Papers.
+\url{http://link.springer.com/article/10.1007/s00362-013-0498-x}.
 }
 
 \seealso{\code{\link{RVineGrad}}, \code{\link{RVineHessian}}, \code{\link{BiCopDeriv2}}, \code{\link{BiCopHfuncDeriv}}}

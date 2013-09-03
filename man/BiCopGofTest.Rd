@@ -11,8 +11,7 @@ It computes the test statistics and p-values.
 }
 
 \usage{
-BiCopGofTest(u1, u2, family, par=0, par2=0, method="white", max.df=30, B=100,
-             level=0.05)
+BiCopGofTest(u1, u2, family, par=0, par2=0, method="white", max.df=30, B=100)
 }
 
 \arguments{
@@ -59,8 +58,7 @@ BiCopGofTest(u1, u2, family, par=0, par2=0, method="white", max.df=30, B=100,
 		\code{"kendall"} = goodness-of-fit test based on Kendall's process }
   \item{B}{Integer; number of bootstrap samples (default: \code{B = 100}).
     For \code{B = 0} only the the test statistics are returned.\cr
-    WARNING: If \code{B} is chosen too large, computations will take very long.}
-  \item{level}{Numeric; significance level of the goodness-of-fit test (default: \code{level = 0.05}).}  
+    WARNING: If \code{B} is chosen too large, computations will take very long.} 
 }
 
 \value{
@@ -89,7 +87,7 @@ against the alternative
 }
 where \eqn{\boldsymbol{H}(\theta)} is the expected Hessian matrix and \eqn{\boldsymbol{C}(\theta)} is the expected outer product of the score function.
 For the calculation of the test statistic we use the consistent maximum likelihood estimator \eqn{\hat{\theta}} and the sample counter parts of \eqn{\boldsymbol{H}(\theta)} and \eqn{\boldsymbol{C}(\theta)}.
-The correction of the covariance-matrix in the test staistic for the uncertainty in the margins is skipped. The implemented tests assumes that where is no uncertainty in the margins.
+The correction of the covariance-matrix in the test statistic for the uncertainty in the margins is skipped. The implemented tests assumes that where is no uncertainty in the margins.
 The correction can be found in Wanling and Prokhorov (2011). It involves two-dimensional integrals.\cr
 WARNING: For the t-copula the test may be instable. The results for the t-copula therefore have to treated carefully.\cr
 \cr

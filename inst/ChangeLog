@@ -1,9 +1,35 @@
 Changes for R-package VineCopula
 
-Ulf Schepsmeier, Jakob Stoeber and Eike Christian Brechmann <VineCopula@ma.tum.de>
+Ulf Schepsmeier, Jakob Stoeber, Eike Christian Brechmann and Benedikt Graeler <VineCopula@ma.tum.de>
 
 
-Version 1.1-2 (July, 09, 2013)
+Version 1.2 (October 09, 2013)
+
+- New functionality:
+  * RVinePIT 		Calculation of the probability integral transform (PIT) for R-vines
+  * RVineGofTest 	15 different goodness-of-fit tests for R-vine copulas (Schepsmeier 2013).
+  * print.RVM		A more detailed summary is printed if print(RVM, detail=TRUE) is set.
+  * BetaMatrix  Matrix of empirical Blomqvist's beta values
+  * BiCopPar2Beta   Blomqvist's beta value of a bivariate copula
+  * RVinePar2Beta   Blomqvist's beta values of an R-vine copula model
+  * New copula familes for most of the BiCop as well as for the RVine-functions: As an asymmetric extension of the Gumbel copula, the Tawn copula with three parameters is now also included in the package.
+Both the Gumbel and the Tawn copula are extreme-value copulas, which can be defined in terms of their corresponding Pickands dependence functions.
+For simplicity, we implemented two versions of the Tawn copula with two parameters each.
+Each type has one of the asymmetry parameters fixed to 1, so that the corresponding Pickands dependence is either left- or right-skewed. In the manual we will call these two new copulas "Tawn type 1" and "Tawn type 2". 
+The families 104,114,124,134 denote the Tawn copula and their rotated versions in the case of left skewness (Tawn type 1).
+The families 204,214,224,234 denote the Tawn copula and their rotated versions in the case of right skewness (Tawn type 2).
+  
+- Bug fix:
+  * BiCopPar2Tau: corrected calculation of Kendall's tau of rotated BB7 (Reported by Giampiero Marra. Thanks!)
+  * RVineStructureSelect: Corrected code for the igraph package
+  * RVineTreePlot: Now a 3-dimensional R-vine can be plotted too.
+  * Corrected upper tail dependence coefficient for the survival BB1 copula (BiCopPar2TailDep)
+  * Minor improvment in BiCopSelect regarding the starting values for parameter estimation
+
+- Documentation update
+
+
+Version 1.1-2 (July 09, 2013)
 
 - Changed dependency from "igraph0" to "igraph" since the support for "igraph0" will be quit soon.
 
@@ -14,7 +40,7 @@ Version 1.1-2 (July, 09, 2013)
   In our functions it is "family=41", and 51, 61, and 71 for the rotated versions.
   So far only implemented in some bivariate functions (not documented so far; experimental)
 
-- New author: Benedikt Gräler  
+- New author: Benedikt Gr?ler  
   
 - Bug fix:
   * New (correct) examples for the Clarke and Vuong test

@@ -11,8 +11,8 @@ RVineClarkeTest <- function(data, RVM1, RVM2){
 	Model1.ll = RVineLogLik(data,RVM1,separate=TRUE)$loglik
 	Model2.ll = RVineLogLik(data,RVM2,separate=TRUE)$loglik
   
-	anz.1 = sum(RVM1$family >= 1, na.rm=TRUE) + sum(RVM1$family %in% c(2,7:10,17:20,27:30,37:40),na.rm=TRUE)
-	anz.2 = sum(RVM2$family >= 1, na.rm=TRUE) + sum(RVM2$family %in% c(2,7:10,17:20,27:30,37:40),na.rm=TRUE)
+	anz.1 = sum(RVM1$family >= 1, na.rm=TRUE) + sum(RVM1$family %in% c(2,7:10,17:20,27:30,37:40, 104,114,124,134,204,214,224,234),na.rm=TRUE)
+	anz.2 = sum(RVM2$family >= 1, na.rm=TRUE) + sum(RVM2$family %in% c(2,7:10,17:20,27:30,37:40, 104,114,124,134,204,214,224,234),na.rm=TRUE)
  
   B = sum(Model1.ll-Model2.ll > 0)
   B.Schwarz = sum(Model1.ll-Model2.ll-(anz.1-anz.2)*log(N)/(2*N) > 0)

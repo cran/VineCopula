@@ -1,6 +1,6 @@
 RVineTreePlot = function(data=NULL, RVM, method="mle", max.df=30, max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)), tree="ALL", edge.labels=c("family"), P=NULL){
 
-  if(!is(RVM, "RVineMatrix")) stop("'RVM' has to be an RVineMatrix object.")
+  if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
 
   if(edge.labels[1] != FALSE & !all(edge.labels %in% c("family","par","par2","theotau","emptau","pair"))) stop("Edge label not implemented.")
   if(is.null(data) & any(edge.labels == "emptau")) stop("Empirical Kendall's tau values cannot be obtained if no data is provided.")
@@ -141,12 +141,16 @@ RVineTreePlot = function(data=NULL, RVM, method="mle", max.df=30, max.BB=list(BB
   for(j in 1:(d-2)) edgelist[[2]][j,] = c(paste(edges[[2]][j,1,],collapse=","),paste(edges[[2]][j,2,],collapse=","))
 
   # separate conditioned and conditioning sets
-  for(i in 3:(d-1)){
-    for(j in 1:(d-i)){
-      edgelist[[i]][j,1] = paste(paste(edges[[i]][j,1,1:2],collapse=","),paste(edges[[i]][j,1,3:i],collapse=","),sep="|")
-      edgelist[[i]][j,2] = paste(paste(edges[[i]][j,2,1:2],collapse=","),paste(edges[[i]][j,2,3:i],collapse=","),sep="|")
-    }
-  }
+  if(d>3)
+  {
+	for(i in 3:(d-1)){
+		for(j in 1:(d-i))
+		{
+			edgelist[[i]][j,1] = paste(paste(edges[[i]][j,1,1:2],collapse=","),paste(edges[[i]][j,1,3:i],collapse=","),sep="|")
+			edgelist[[i]][j,2] = paste(paste(edges[[i]][j,2,1:2],collapse=","),paste(edges[[i]][j,2,3:i],collapse=","),sep="|")
+		}
+	}
+	}
   
   
 

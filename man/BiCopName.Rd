@@ -47,6 +47,14 @@ No. \tab Short name \tab Long name \cr
 \code{38} \tab \code{"BB6_270"} \tab \code{"Rotated Joe-Gumbel 270 degrees"} \cr
 \code{39} \tab \code{"BB7_270"} \tab \code{"Rotated Joe-Clayton 270 degrees"} \cr
 \code{40} \tab \code{"BB8_270"} \tab \code{"Rotated Frank-Joe 270 degrees"} \cr
+\code{104} \tab \code{"Tawn"} \tab \code{"Tawn type 1"} \cr
+\code{114} \tab \code{"Tawn180"} \tab \code{"Rotated Tawn type 1 180 degrees"} \cr
+\code{124} \tab \code{"Tawn90"} \tab \code{"Rotated Tawn type 1 90 degrees"} \cr
+\code{134} \tab \code{"Tawn270"} \tab \code{"Rotated Tawn type 1 270 degrees"} \cr
+\code{204} \tab \code{"Tawn2"} \tab \code{"Tawn type 2"} \cr
+\code{214} \tab \code{"Tawn2_180"} \tab \code{"Rotated Tawn type 2 180 degrees"} \cr
+\code{224} \tab \code{"Tawn2_90"} \tab \code{"Rotated Tawn type 2 90 degrees"} \cr
+\code{234} \tab \code{"Tawn2_270"} \tab \code{"Rotated Tawn type 2 270 degrees"} \cr
 }
 }
 \item{short}{Logical; if the number of a bivariate copula family is used and \code{short = TRUE} (default),

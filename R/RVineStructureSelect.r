@@ -2,38 +2,26 @@ RVineStructureSelect = function(data,familyset=NA,type=0,selectioncrit="AIC",ind
 
   if(type == 0) type = "RVine"
   else if(type == 1) type = "CVine"
-  else if(type == 2 || type == "DVine") stop("Code to determine the order of the nodes in a D-vine using the package TSP is provided as an example in the documentation of this function." )
   if(type != "RVine" & type != "CVine") stop("Vine model not implemented.")
 
 	n = dim(data)[2]
 	d = dim(data)[1]
 	
-	if(dim(data)[1]<2) 
-    stop("Number of observations has to be at least 2.")
-  if(d<2) 
-    stop("Dimension has to be at least 2.")
-  if(any(data>1) || any(data<0)) 
-    stop("Data has to be in the interval [0,1].")
-  if(any(is.na(familyset))) {
-    familyset <- c(1:10,13,14,16:20,23,24,26:30,33,34,36:40)
-  }
-  if(any(!(familyset %in% c(0,1:10,13,14,16:20,23,24,26:30,33,34,36:40))))
-    stop("Copula family not implemented.")
-  if(selectioncrit != "AIC" && selectioncrit != "BIC") 
-    stop("Selection criterion not implemented.")
-  if(level < 0 || level > 1) 
-    stop("Significance level has to be between 0 and 1.")
+	if(dim(data)[1]<2) stop("Number of observations has to be at least 2.")
+  if(d<2) stop("Dimension has to be at least 2.")
+  if(any(data>1) || any(data<0)) stop("Data has be in the interval [0,1].")
+	
+  if(!is.na(familyset[1])) for(i in 1:length(familyset)) if(!(familyset[i] %in% c(0,1:10,13,14,16:20,23,24,26:30,33,34,36:40, 104,114,124,134,204,214,224,234))) stop("Copula family not implemented.")  
+  if(selectioncrit != "AIC" && selectioncrit != "BIC") stop("Selection criterion not implemented.")
+  if(level < 0 & level > 1) stop("Significance level has to be between 0 and 1.")
   	
-	if(is.null(colnames(data))) 
-    colnames(data) = paste("V",1:n,sep="") 
+	if(is.null(colnames(data))) colnames(data) = paste("V",1:n,sep="") 
 
-  if(is.na(trunclevel)) 
-    trunclevel = d
+  if(is.na(trunclevel)) trunclevel = d
 
 	RVine = list(Tree = NULL, Graph=NULL)
 
-  if(trunclevel == 0) 
-    familyset = 0
+  if(trunclevel == 0) familyset = 0
 	
 	g = initializeFirstGraph(data,weights)
 	mst = findMaximumTauTree(g,mode=type)
@@ -42,6 +30,7 @@ RVineStructureSelect = function(data,familyset=NA,type=0,selectioncrit="AIC",ind
 	RVine$Tree[[1]] = VineTree
 	RVine$Graph[[1]] = g
 	oldVineGraph  = VineTree
+  
 	
 	for(i in 2:(n-1)){
 
@@ -86,7 +75,7 @@ initializeFirstGraph <- function(data.univ,weights)
 	E(g)$name = paste(get.edgelist(g)[,1],get.edgelist(g)[,2],sep=",")
 	
 	for(i in 1:ecount(g)){
-		E(g)$conditionedSet[[i]] = get.edges(g,i-1)
+		E(g)$conditionedSet[[i]] = get.edges(g,i)
 	}
 	return(g)
 }
@@ -100,11 +89,11 @@ findMaximumTauTree <- function(g,mode="RVine")
 	}
 	else if(mode == "CVine")
 	{
-		M = abs(get.adjacency(g,attr="weight"))
+		M = abs(get.adjacency(g,attr="weight",sparse=0))
 		sumtaus = rowSums(M)
-		root = which.max(sumtaus) -1 
+		root = which.max(sumtaus)
 		
-		Ecken = get.edges(g,0:(ecount(g)-1))
+		Ecken = get.edges(g,1:ecount(g))
 		pos = Ecken[,2]== root | Ecken[,1]== root
 		
 		mst = delete.edges(g, E(g)[!pos])
@@ -124,40 +113,40 @@ fit.FirstTreeCopulas <- function(mst,data.univ,type,copulaSelectionBy,testForInd
 	{
 		parameterForACopula[[i]] = list()
 		
-		a = get.edges(mst,i-1)+1
+		a = get.edges(mst,i)
 		
 		parameterForACopula[[i]]$zr1 = data.univ[,a[1]]
 		parameterForACopula[[i]]$zr2 = data.univ[,a[2]]
 		
-		E(mst)[i-1]$Copula.Data.1 =  list(data.univ[,a[1]])
-		E(mst)[i-1]$Copula.Data.2 =  list(data.univ[,a[2]])
+		E(mst)[i]$Copula.Data.1 =  list(data.univ[,a[1]])
+		E(mst)[i]$Copula.Data.2 =  list(data.univ[,a[2]])
 		
-		if(is.null(V(mst)[a[1]-1]$name))
-			E(mst)[i-1]$Copula.CondName.1 = a[1]-1
+		if(is.null(V(mst)[a[1]]$name))
+			E(mst)[i]$Copula.CondName.1 = a[1]
 		else
-			E(mst)[i-1]$Copula.CondName.1 = V(mst)[a[1]-1]$name
+			E(mst)[i]$Copula.CondName.1 = V(mst)[a[1]]$name
 		
-		if(is.null(V(mst)[a[2]-1]$name))
-			E(mst)[i-1]$Copula.CondName.2 = a[2]-1
+		if(is.null(V(mst)[a[2]]$name))
+			E(mst)[i]$Copula.CondName.2 = a[2]
 		else
-			E(mst)[i-1]$Copula.CondName.2 = V(mst)[a[2]-1]$name
+			E(mst)[i]$Copula.CondName.2 = V(mst)[a[2]]$name
 		
-		if(is.null(V(mst)[a[1]-1]$name) || is.null(V(mst)[a[2]-1]$name))
-			E(mst)[i-1]$Copula.Name = paste(a[1]-1,a[2]-1,sep=" , ")
+		if(is.null(V(mst)[a[1]]$name) || is.null(V(mst)[a[2]]$name))
+			E(mst)[i]$Copula.Name = paste(a[1],a[2],sep=" , ")
 		else
-			E(mst)[i-1]$Copula.Name = paste(V(mst)[a[1]-1]$name,V(mst)[a[2]-1]$name,sep=" , ")	
+			E(mst)[i]$Copula.Name = paste(V(mst)[a[1]]$name,V(mst)[a[2]]$name,sep=" , ")
 	}
 
 	outForACopula = lapply(X = parameterForACopula, FUN=wrapper_fit.ACopula, type,copulaSelectionBy,testForIndependence,testForIndependence.level,weights)
 	
-	for(i in 0:(d-1))
+	for(i in 1:d)
 	{
-		E(mst)$Copula.param[[i+1]] = c(outForACopula[[i+1]]$par,outForACopula[[i+1]]$par2)
-		E(mst)[i]$Copula.type = outForACopula[[i+1]]$family
-    E(mst)[i]$Copula.out = list(outForACopula[[i+1]])
+		E(mst)$Copula.param[[i]] = c(outForACopula[[i]]$par,outForACopula[[i]]$par2)
+		E(mst)[i]$Copula.type = outForACopula[[i]]$family
+    E(mst)[i]$Copula.out = list(outForACopula[[i]])
 		
-		E(mst)[i]$Copula.CondData.1 <- list(outForACopula[[i+1]]$CondOn.1)
-		E(mst)[i]$Copula.CondData.2 <- list(outForACopula[[i+1]]$CondOn.2)	
+		E(mst)[i]$Copula.CondData.1 <- list(outForACopula[[i]]$CondOn.1)
+		E(mst)[i]$Copula.CondData.2 <- list(outForACopula[[i]]$CondOn.2)
 	}
 	
 	return(mst)
@@ -169,9 +158,9 @@ fit.TreeCopulas <- function(mst, oldVineGraph, type,copulaSelectionBy,testForInd
 	
 	parameterForACopula = list()
 	
-	for(i in 0:(d-1))
+	for(i in 1:d)
 	{
-		parameterForACopula[[i+1]] = list()
+		parameterForACopula[[i]] = list()
 		
 		con = get.edge(mst,i)
 		
@@ -210,8 +199,8 @@ fit.TreeCopulas <- function(mst, oldVineGraph, type,copulaSelectionBy,testForInd
 		if(progress == TRUE) message(n1," + ",n2," --> ", E(mst)[i]$name)
 		
 		
-		parameterForACopula[[i+1]]$zr1 = zr1
-		parameterForACopula[[i+1]]$zr2 = zr2
+		parameterForACopula[[i]]$zr1 = zr1
+		parameterForACopula[[i]]$zr2 = zr2
 
 		E(mst)[i]$Copula.Data.1 =  list(zr1)
 		E(mst)[i]$Copula.Data.2 =  list(zr2)
@@ -222,14 +211,14 @@ fit.TreeCopulas <- function(mst, oldVineGraph, type,copulaSelectionBy,testForInd
 
 	outForACopula = lapply(X = parameterForACopula, FUN=wrapper_fit.ACopula, type,copulaSelectionBy,testForIndependence,testForIndependence.level,weights)
 	
-	for(i in 0:(d-1))
+	for(i in 1:d)
 	{
-		E(mst)$Copula.param[[i+1]] = c(outForACopula[[i+1]]$par,outForACopula[[i+1]]$par2)
-		E(mst)[i]$Copula.type = outForACopula[[i+1]]$family
-		E(mst)[i]$Copula.out = list(outForACopula[[i+1]])
+		E(mst)$Copula.param[[i]] = c(outForACopula[[i]]$par,outForACopula[[i]]$par2)
+		E(mst)[i]$Copula.type = outForACopula[[i]]$family
+		E(mst)[i]$Copula.out = list(outForACopula[[i]])
 		
-		E(mst)[i]$Copula.CondData.2 <- list(outForACopula[[i+1]]$CondOn.1)
-		E(mst)[i]$Copula.CondData.1 <- list(outForACopula[[i+1]]$CondOn.2)	
+		E(mst)[i]$Copula.CondData.2 <- list(outForACopula[[i]]$CondOn.1)
+		E(mst)[i]$Copula.CondData.1 <- list(outForACopula[[i]]$CondOn.2)
 	}
 	
 	return(mst)
@@ -250,7 +239,7 @@ buildNextGraph <- function(oldVineGraph,weights=NA)
 		V(g)$conditioningSet = E(oldVineGraph)$conditioningSet
 	}
 	
-	for(i in 0:(ecount(g)-1)){
+	for(i in 1:ecount(g)){
 		
 		con = get.edge(g,i)
 		
@@ -327,8 +316,8 @@ buildNextGraph <- function(oldVineGraph,weights=NA)
 			
 			out = intern_SchnittDifferenz(l1,l2)
 			
-			suppressWarnings({E(g)$conditionedSet[i+1] = list(out$differenz)})
-			suppressWarnings({E(g)$conditioningSet[i+1]  = list(out$schnitt)})
+			suppressWarnings({E(g)$conditionedSet[i] = list(out$differenz)})
+			suppressWarnings({E(g)$conditioningSet[i]  = list(out$schnitt)})
 		}
 		
 		E(g)[i]$todel = !ok
@@ -380,11 +369,11 @@ fit.ACopula <- function(u1,u2,familyset=NA,selectioncrit="AIC",indeptest=FALSE,l
 {
 
 	out=BiCopSelect(u1,u2,familyset,selectioncrit,indeptest,level,weights=weights)
-	if(out$family%in%c(23,24,26:30))
+	if(out$family%in%c(23,24,26:30,124,224))
 	{
 		out$family=out$family+10
 	}
-	else if(out$family%in%c(33,34,36:40))
+	else if(out$family%in%c(33,34,36:40,134,234))
 	{
 		out$family=out$family-10
 	}
@@ -464,7 +453,7 @@ as.RVM = function(RVine){
 
 	}
 
-	M = M+1
+	M = M#+1
 	M[is.na(M)]=0
 	Type[is.na(Type)]=0
 

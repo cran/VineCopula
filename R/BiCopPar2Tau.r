@@ -1,8 +1,8 @@
 BiCopPar2Tau<-function(family,par,par2=0)
 {
-	if(!(family %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40, 41,42,51,61,71))) stop("Copula family not implemented.")
-	if(c(7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40) %in% family && par2==0) stop("For t-, BB1, BB6, BB7 and BB8 copulas, 'par2' must be set.")
-	if(c(1,3,4,5,6,13,14,16,23,24,26,33,34,36,41,51,61,71) %in% family && length(par)<1) stop("'par' not set.")
+	if(!(family %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40,41,42,51,52,61,62,71,72,104,114,124,134,204,214,224,234))) stop("Copula family not implemented.")
+	if(c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,42,52,62,72,104,114,124,134,204,214,224,234) %in% family && par2==0) stop("For t-, BB1, BB6, BB7, BB8 and Tawn copulas, 'par2' must be set.")
+	if(c(1,3,4,5,6,11,13,14,16,23,24,26,33,34,36,41,51,61,71) %in% family && length(par)<1) stop("'par' not set.")
 	
 	if((family==1 || family==2) && abs(par[1])>=1) stop("The parameter of the Gaussian and t-copula has to be in the interval (-1,1).")
 	#if(family==2 && par2<=2) stop("The degrees of freedom parameter of the t-copula has to be larger than 2.")
@@ -39,6 +39,10 @@ BiCopPar2Tau<-function(family,par,par2=0)
 		if(abs(b)>1) stop("The second parameter of the two-parametric asymmetric copulas has to be in the interval [-1,1]")
 		if(a>1 || a<limA) stop("The first parameter of the two-parametric asymmetric copula has to be in the interval [limA(par2),1]")
 	}
+	if ((family==104 || family==114 || family==204 || family==214) && par<1) stop("Please choose 'par' of the Tawn copula in [1,oo).")
+	if ((family==104 || family==114 || family==204 || family==214) && (par2<0 || par2>1)) stop("Please choose 'par2' of the Tawn copula in [0,1].")
+	if ((family==124 || family==134 || family==224 || family==234) && par>-1) stop("Please choose 'par' of the Tawn copula in (-oo,-1].")
+	if ((family==124 || family==134 || family==224 || family==234) && (par2<0 || par2>1)) stop("Please choose 'par2' of the Tawn copula in [0,1].")
   
   if(family==0)
 	{
@@ -91,8 +95,8 @@ BiCopPar2Tau<-function(family,par,par2=0)
 	}
 	else if(family==9 || family==19)
 	{
-		theta=par
-		delta=par2
+		#theta=par
+		#delta=par2
 		#tau=1-2/(delta*(2-theta))+4/(theta^2*delta)*gamma(delta+2)*gamma((2-2*theta)/(theta)+1)/gamma(delta+3+(2-2*theta)/(theta))
 		kt<-function(t) {( (1-(1-t)^par)^-par2-1 )/( -par*par2*(1-t)^(par-1)*(1-(1-t)^par)^(-par2-1) )}
 		tau=1+4*integrate(kt,0,1)$value
@@ -147,7 +151,7 @@ BiCopPar2Tau<-function(family,par,par2=0)
 		theta=-par
 		delta=-par2
 		#tau=1-2/(delta*(2-theta))+4/(theta^2*delta)*gamma(delta+2)*gamma((2-2*theta)/(theta)+1)/gamma(delta+3+(2-2*theta)/(theta))
-		kt<-function(t) {( (1-(1-t)^par)^(-par2)-1 )/( -par*par2*(1-t)^(par-1)*(1-(1-t)^par)^(par2-1) )}
+		kt<-function(t) {( (1-(1-t)^theta)^(-delta)-1 )/( -theta*delta*(1-t)^(theta-1)*(1-(1-t)^theta)^(-delta-1) )}
 		tau=1+4*integrate(kt,0,1)$value
 		tau=-tau
 	}
@@ -178,6 +182,30 @@ BiCopPar2Tau<-function(family,par,par2=0)
 	{
 		tau=(75*par2-par2^2+par*(25-par2))/450
 	}
+	else if(family==104 || family==114 || family==204 || family==214)
+	{
+		par3=1
+		tau_int=function(t)
+		{
+			Afunc = .C("Tawn2",as.double(t),as.integer(length(t)),as.double(par),as.double(par2),as.double(1),as.double(rep(0,length(t))),PACKAGE='VineCopula')[[6]]
+			Afunc2Deriv = .C("d2Tawn",as.double(t),as.integer(length(t)),as.double(par),as.double(par2),as.double(1),as.double(rep(0,length(t))),PACKAGE='VineCopula')[[6]]
+			(t*(1-t))*Afunc2Deriv/ Afunc
+		}
+		tau<-integrate(tau_int,0,1)[[1]]
+	}
+	else if(family==124 || family==134 || family==224 || family==234)
+	{
+		par3=1
+		tau_int=function(t)
+		{
+			Afunc = .C("Tawn2",as.double(t),as.integer(length(t)),as.double(-par),as.double(par2),as.double(1),as.double(rep(0,length(t))),PACKAGE='VineCopula')[[6]]
+			Afunc2Deriv = .C("d2Tawn",as.double(t),as.integer(length(t)),as.double(-par),as.double(par2),as.double(1),as.double(rep(0,length(t))),PACKAGE='VineCopula')[[6]]
+			(t*(1-t))*Afunc2Deriv/ Afunc
+		}
+		tau<-integrate(tau_int,0,1)[[1]]
+		tau=-tau
+	}
 
 return(tau)
 }
+

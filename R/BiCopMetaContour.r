@@ -213,6 +213,7 @@ bb6pdf=function(u,v,th,de)
 }
 
 
+
 #################################################################################
 # cop.pdf									#
 # Input:									#
@@ -462,6 +463,62 @@ cop.pdf <- function(u1, u2, param, copula)
 	d2=1-u2
 	return( pmax(a * d2 * (((12 - 9 * d1) * d1 - 3) * d2 + d1 * (6 * d1 - 8) + 2) + b * (d2 * ((d1 * (9 * d1 - 12) + 3) * d2 + (12 - 6 * d1) * d1 - 4) - 2 * d1 + 1) + 1,0) ) 
   }
+  else if(copula==104)	# Tawn copula (psi2 fix)
+  {
+	par=param[1]
+	par2=param[2]
+	fam=104
+	return(BiCopPDF(u1,u2,fam,par,par2))
+  }
+  else if(copula==114)	# Tawn copula (psi2 fix)
+  {
+	par=param[1]
+	par2=param[2]
+	fam=104
+	return(BiCopPDF(1-u1,1-u2,fam,par,par2))
+  }
+  else if(copula==124)	# Tawn copula (psi2 fix)
+  {
+	par=-param[1]
+	par2=param[2]
+	fam=104
+	return(BiCopPDF(1-u1,u2,fam,par,par2))
+  }
+  else if(copula==134)	# Tawn copula (psi2 fix)
+  {
+	par=-param[1]
+	par2=param[2]
+	fam=104
+	return(BiCopPDF(u1,1-u2,fam,par,par2))
+  }
+  else if(copula==204)	# Tawn copula (psi1 fix)
+  {
+	par=param[1]
+	par2=param[2]
+	fam=204
+	return(BiCopPDF(u1,u2,fam,par,par2))
+  }
+  else if(copula==214)	# Tawn copula (psi1 fix)
+  {
+	par=param[1]
+	par2=param[2]
+	fam=204
+	return(BiCopPDF(1-u1,1-u2,fam,par,par2))
+  }
+  else if(copula==224)	# Tawn copula (psi1 fix)
+  {
+	par=-param[1]
+	par2=param[2]
+	fam=204
+	return(BiCopPDF(1-u1,u2,fam,par,par2))
+  }
+  else if(copula==234)	# Tawn copula (psi1 fix)
+  {
+	par=-param[1]
+	par2=param[2]
+	fam=204
+	return(BiCopPDF(u1,1-u2,fam,par,par2))
+  }
 }
 
 
@@ -514,8 +571,8 @@ family="emp", par=0, par2=0, PLOT=TRUE, margins="norm", margins.par=0, xylim=NA,
   if(is.null(u1)==FALSE && (any(u1>1) || any(u1<0))) stop("Data has be in the interval [0,1].")
   if(is.null(u2)==FALSE && (any(u2>1) || any(u2<0))) stop("Data has be in the interval [0,1].")
   #if(length(u1)!=length(u2)) stop("Lengths of 'u1' and 'u2' do not match.")
-  if(!(family %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40,41,42,51,52,61,62,71,72, "emp"))) stop("Copula family not implemented.")
-  if(c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,42,52,62,72) %in% family && par2==0) stop("For t-, BB1 and BB7 copulas, 'par2' must be set.")
+  if(!(family %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40,41,42,51,52,61,62,71,72,104,114,124,134,204,214,224,234, "emp"))) stop("Copula family not implemented.")
+  if(c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,42,52,62,72,104,114,124,134,204,214,224,234) %in% family && par2==0) stop("For t-, BB1, BB6, BB7, BB8 and Tawn copulas, 'par2' must be set.")
   if(c(1,3,4,5,6,11,13,14,16,23,24,26,33,34,36,41,51,61,71) %in% family && length(par)<1) stop("'par' not set.")
   
   # size sollte nicht zu gross sein
@@ -562,6 +619,10 @@ family="emp", par=0, par2=0, PLOT=TRUE, margins="norm", margins.par=0, xylim=NA,
 		if(abs(b)>1) stop("The second parameter of the two-parametric asymmetric copulas has to be in the interval [-1,1]")
 		if(a>1 || a<limA) stop("The first parameter of the two-parametric asymmetric copula has to be in the interval [limA(par2),1]")
 	}
+	if ((family==104 || family==114 || family==204 || family==214) && par<1) stop("Please choose 'par' of the Tawn copula in [1,oo).")
+	if ((family==104 || family==114 || family==204 || family==214) && (par2<0 || par2>1)) stop("Please choose 'par2' of the Tawn copula in [0,1].")
+	if ((family==124 || family==134 || family==224 || family==234) && par>-1) stop("Please choose 'par' of the Tawn copula in (-oo,-1].")
+	if ((family==124 || family==134 || family==224 || family==234) && (par2<0 || par2>1)) stop("Please choose 'par2' of the Tawn copula in [0,1].")
 
   if(PLOT!=TRUE && PLOT!=FALSE) stop("The parameter 'PLOT' has to be set to 'TRUE' or 'FALSE'.")
 
@@ -616,7 +677,7 @@ family="emp", par=0, par2=0, PLOT=TRUE, margins="norm", margins.par=0, xylim=NA,
 
   if(family!="emp")
   {
-  if(family %in% c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,42,52,62,72))
+  if(family %in% c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,42,52,62,72,104,114,124,134,204,214,224,234))
 	 z <- matrix(data=meta.dens(x1=rep(x=x, each=size), x2=rep(x=y, times=size), param=c(par,par2), copula=family, 
    margins=margins, margins.par=margins.par), nrow=size, byrow=TRUE)
   else

@@ -12,22 +12,22 @@ The given matrix is tested to be a valid R-vine matrix.
 
 \arguments{
   \item{M}{A dxd vine matrix: only lower triangle is used;
-For the check, M is assumed to be in natural order, i.e. 1:d on diagonal.
-Further M[j-1,j]=j-1 and M[j,j]=j
+For the check, M is assumed to be in natural order, i.e. d:1 on diagonal.
+Further M[j+1,j]=d-j and M[j,j]=d-j
 }
 }
 
 \value{
 \item{code}{
 	\code{1} for OK; \cr
-	\code{-3} diagonal can not be put in order 1:d; \cr
-	\code{-2} for not permutation of 1:j in column d-j; \cr
+	\code{-3} diagonal can not be put in order d:1; \cr
+	\code{-2} for not permutation of j:d in column d-j; \cr
 	\code{-1} if cannot find proper binary array from array in natural order. 
 }
 }
 
 \note{
-The matrix M do not have to be given in natural order or the diagonal in order 1:d. The test checks if it can be done in order to be a valid R-vine matrix. \cr
+The matrix M do not have to be given in natural order or the diagonal in order d:1. The test checks if it can be done in order to be a valid R-vine matrix. \cr
 If a function in this package needs the natural order the \code{RVineMatrix} object is automatically "normalized". \cr
 The function \code{\link{RVineMatrix}} automatically checks if the given R-vine matrix is valid.
 }

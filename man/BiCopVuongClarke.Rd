@@ -50,7 +50,15 @@ BiCopVuongClarke(u1, u2, familyset=NA,
 		\code{37} = rotated BB1 copula (270 degrees) \cr
 		\code{38} = rotated BB6 copula (270 degrees) \cr
 		\code{39} = rotated BB7 copula (270 degrees) \cr
-		\code{40} = rotated BB8 copula (270 degrees) 
+		\code{40} = rotated BB8 copula (270 degrees) \cr
+    \code{104} = Tawn type 1 copula \cr
+    \code{114} = rotated Tawn type 1 copula (180 degrees) \cr
+    \code{124} = rotated Tawn type 1 copula (90 degrees)  \cr
+    \code{134} = rotated Tawn type 1 copula (270 degrees) \cr
+    \code{204} = Tawn type 2 copula  \cr
+    \code{214} = rotated Tawn type 2 copula (180 degrees) \cr
+    \code{224} = rotated Tawn type 2 copula (90 degrees)  \cr
+    \code{234} = rotated Tawn type 2 copula (270 degrees) \cr
 		}
 	\item{correction}{Correction for the number of parameters.
     Possible choices: \code{correction = FALSE} (no correction; default), \code{"Akaike"} and \code{"Schwarz"}.}

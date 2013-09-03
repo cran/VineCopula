@@ -45,10 +45,18 @@ BiCopSim(N, family, par, par2=0)
 		\code{37} = rotated BB1 copula (270 degrees) \cr
 		\code{38} = rotated BB6 copula (270 degrees) \cr
 		\code{39} = rotated BB7 copula (270 degrees) \cr
-		\code{40} = rotated BB8 copula (270 degrees) 
+		\code{40} = rotated BB8 copula (270 degrees) \cr
+    \code{104} = Tawn type 1 copula \cr
+    \code{114} = rotated Tawn type 1 copula (180 degrees) \cr
+    \code{124} = rotated Tawn type 1 copula (90 degrees)  \cr
+    \code{134} = rotated Tawn type 1 copula (270 degrees) \cr
+    \code{204} = Tawn type 2 copula  \cr
+    \code{214} = rotated Tawn type 2 copula (180 degrees) \cr
+    \code{224} = rotated Tawn type 2 copula (90 degrees)  \cr
+    \code{234} = rotated Tawn type 2 copula (270 degrees) \cr
 		}
   \item{par}{Copula parameter.}
-  \item{par2}{Second parameter for bivariate copulas with two parameters (t, BB1,BB6, BB7, BB8; default: \code{par2 = 0}).}
+  \item{par2}{Second parameter for the two parameter BB1, BB6, BB7, BB8, Tawn type 1 and type 2 copulas (default: \code{par2 = 0}).}
 }
 
 \value{

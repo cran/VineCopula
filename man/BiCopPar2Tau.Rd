@@ -44,10 +44,18 @@ BiCopPar2Tau(family, par, par2=0)
 		\code{37} = rotated BB1 copula (270 degrees) \cr
 		\code{38} = rotated BB6 copula (270 degrees) \cr
 		\code{39} = rotated BB7 copula (270 degrees) \cr
-		\code{40} = rotated BB8 copula (270 degrees) 
+		\code{40} = rotated BB8 copula (270 degrees) \cr
+    \code{104} = Tawn type 1 copula \cr
+    \code{114} = rotated Tawn type 1 copula (180 degrees) \cr
+    \code{124} = rotated Tawn type 1 copula (90 degrees)  \cr
+    \code{134} = rotated Tawn type 1 copula (270 degrees) \cr
+    \code{204} = Tawn type 2 copula  \cr
+    \code{214} = rotated Tawn type 2 copula (180 degrees) \cr
+    \code{224} = rotated Tawn type 2 copula (90 degrees)  \cr
+    \code{234} = rotated Tawn type 2 copula (270 degrees) \cr
 		}
   \item{par}{Copula parameter.}
-  \item{par2}{Second parameter for the two parameter BB1, BB6, BB7 and BB8 copulas (default: \code{par2 = 0}).
+  \item{par2}{Second parameter for the two parameter t-, BB1, BB6, BB7, BB8, Tawn type 1 and type 2 copulas (default: \code{par2 = 0}).
     Note that the degrees of freedom parameter of the t-copula does not need to be set,
     because the theoretical Kendall's tau value of the t-copula is independent of this choice.}
 }                                                                                  
@@ -77,6 +85,15 @@ No. \tab Kendall's tau \cr
 \code{29, 39} \tab \eqn{-1-4\int_0^1 ( (1-(1-t)^{-\theta})^{\delta} - )/( -\theta\delta(1-t)^{-\theta-1}(1-(1-t)^{-\theta})^{\delta-1} ) dt} \cr
 \code{30, 40} \tab \eqn{-1-4\int_0^1 -\log \left( ((1+t\delta)^{-\theta}-1)/((1+\delta)^{-\theta}-1) \right)} \cr 
 	 \tab \eqn{* (1+t\delta-(1+t\delta)^{\theta}-(1+t\delta)^{\theta}t\delta)/(\theta\delta) dt} \cr
+   \code{104,114} \tab \eqn{\int_0^1 \frac{t(1-t)A^{\prime\prime}(t)}{A(t)}dt} \cr
+   \tab with \eqn{A(t) = (1-\delta)t+[(\delta(1-t))^{\theta}+t^{\theta}]^{1/\theta}} \cr
+   \code{204,214} \tab \eqn{\int_0^1 \frac{t(1-t)A^{\prime\prime}(t)}{A(t)}dt} \cr
+   \tab with \eqn{A(t) = (1-\delta)(1-t)+[(1-t)^{-\theta}+(\delta t)^{-\theta}]^{-1/\theta}} \cr
+   \code{124,134} \tab \eqn{-\int_0^1 \frac{t(1-t)A^{\prime\prime}(t)}{A(t)}dt} \cr
+   \tab with \eqn{A(t) = (1-\delta)t+[(\delta(1-t))^{-\theta}+t^{-\theta}]^{-1/\theta}} \cr
+   \code{224,234} \tab \eqn{-\int_0^1 \frac{t(1-t)A^{\prime\prime}(t)}{A(t)}dt} \cr
+   \tab with \eqn{A(t) = (1-\delta)(1-t)+[(1-t)^{-\theta}+(\delta t)^{-\theta}]^{-1/\theta}} \cr
+   
 }
 }
 

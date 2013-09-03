@@ -48,6 +48,12 @@ export(D2RVine)
 export(TauMatrix)
 
 export(RVineCor2pcor,RVinePcor2cor, RVineMatrixNormalize)
+export(RVinePIT)
+export(RVineGofTest)
+
+export(BiCopPar2Beta)
+export(RVinePar2Beta)
+export(BetaMatrix)
 
 S3method(print, RVineMatrix)
 
