@@ -169,7 +169,7 @@ void  Hfunc1(int* family,int* n,double* u,double* v,double* theta,double* nu,dou
 		else if(v[i]>UMAX) v[i]=UMAX;
 	}
 	
-  if((*family==43))
+  if((*family)==43)
   {
 	  nfamily=3;
 	  if(*theta > 0){
@@ -180,7 +180,7 @@ void  Hfunc1(int* family,int* n,double* u,double* v,double* theta,double* nu,dou
 		for (int i = 0; i < *n; ++i) {negv[i]=1 - v[i];}
 		Hfunc(&nfamily, n, u, negv, &ntheta, &nnu, out);
 	  }
-  }else if((*family==44))
+  }else if((*family)==44)
 	{
 		nfamily=4;
 		if(*theta > 0){
@@ -306,7 +306,7 @@ void  Hfunc2(int* family,int* n,double* v,double* u,double* theta,double* nu,dou
 		else if(v[i]>UMAX) v[i]=UMAX;
 	}
 	
-	if((*family==43))
+	if((*family)==43)
 	{
 		nfamily=3;
 		if(*theta > 0){
@@ -318,7 +318,7 @@ void  Hfunc2(int* family,int* n,double* v,double* u,double* theta,double* nu,dou
 			Hfunc(&nfamily, n, negv, u, &ntheta, &nnu, out);
 			for (int i = 0; i < *n; i++) {out[i]=1-out[i];};
 		}
-	}else if((*family==44))
+	}else if((*family)==44)
 	{
 		nfamily=4;
 		if(*theta > 0){

@@ -1,4 +1,4 @@
-RVineLogLik <-function(data,RVM,par=RVM$par,par2=RVM$par2,separate=FALSE){
+RVineLogLik <-function(data,RVM,par=RVM$par,par2=RVM$par2,separate=FALSE,verbose=TRUE){
 	
   if(is.vector(data)){
     data = t(as.matrix(data))
@@ -104,10 +104,10 @@ RVineLogLik <-function(data,RVM,par=RVM$par,par2=RVM$par2,separate=FALSE){
   	{
   		V$value=matrix(ll,n,n)
   	}
-	if(any(V$value %in% c(NA,NaN,-Inf,Inf))) {
-	print(V$value[V$value %in% c(NA,NaN,-Inf,Inf)])
-	print(th)
-	print(th2)
+	if(any(V$value %in% c(NA,NaN,-Inf,Inf)) & verbose) {
+  	print(V$value[V$value %in% c(NA,NaN,-Inf,Inf)])
+  	print(th)
+  	print(th2)
 	}
 	V$value[V$value %in% c(NA,NaN,-Inf,Inf)] <- -1e10
 	#if(any(V$value %in% c(NA,NaN,-Inf,Inf))) print("Fehler in V$value")

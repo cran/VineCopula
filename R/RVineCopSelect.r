@@ -1,23 +1,35 @@
-RVineCopSelect <- function(data,familyset=NA,Matrix,selectioncrit="AIC",indeptest=FALSE,level=0.05,trunclevel=NA){
+RVineCopSelect <- function(data,familyset=NA,Matrix,selectioncrit="AIC",indeptest=FALSE,level=0.05,trunclevel=NA) {
 
 	n = dim(data)[2]
 	N = nrow(data)
 
-	if(dim(Matrix)[1]!=dim(Matrix)[2]) stop("Structure matrix has to be quadratic.")
-	if(max(Matrix)>dim(Matrix)[1]) stop("Error in the structure matrix.")
+	if(dim(Matrix)[1]!=dim(Matrix)[2]) 
+    stop("Structure matrix has to be quadratic.")
+	if(max(Matrix)>dim(Matrix)[1]) 
+    stop("Error in the structure matrix.")
 
-	if(N<2) stop("Number of observations has to be at least 2.")
-	if(n<2) stop("Dimension has to be at least 2.")
-	if(any(data>1) || any(data<0)) stop("Data has be in the interval [0,1].")
-  if(!is.na(familyset[1])) for(i in 1:length(familyset)) if(!(familyset[i] %in% c(0,1:10,13,14,16:20,23,24,26:30,33,34,36:40,104,114,124,134,204,214,224,234))) stop("Copula family not implemented.")
-  if(selectioncrit != "AIC" && selectioncrit != "BIC") stop("Selection criterion not implemented.")
-  if(level < 0 & level > 1) stop("Significance level has to be between 0 and 1.")
+	if(N<2) 
+    stop("Number of observations has to be at least 2.")
+	if(n<2) 
+    stop("Dimension has to be at least 2.")
+	if(any(data>1) || any(data<0)) 
+    stop("Data has be in the interval [0,1].")
+  if(!is.na(familyset[1])) {
+      if(any(!(familyset %in% c(0,1:10,13,14,16:20,23,24,26:30,33,34,36:40,104,114,124,134,204,214,224,234)))) 
+        stop("Copula family not implemented.")
+  }
+  if(selectioncrit != "AIC" && selectioncrit != "BIC") 
+    stop("Selection criterion not implemented.")
+  if(level < 0 & level > 1) 
+    stop("Significance level has to be between 0 and 1.")
 
-  if(is.na(trunclevel)) trunclevel = n
+  if(is.na(trunclevel)) 
+    trunclevel = n
 
   types = familyset
-	if(trunclevel == 0) types = 0
-
+	if(trunclevel == 0) 
+    types = 0
+  
 	M = Matrix
 
   Mold = M
@@ -41,7 +53,6 @@ RVineCopSelect <- function(data,familyset=NA,Matrix,selectioncrit="AIC",indeptes
   V$direct[n,,] = t(data[,n:1])
 
 	for(i in (n-1):1){
-
 		for(k in n:(i+1)){
 
 			m = MaxMat[k,i]
@@ -74,9 +85,10 @@ RVineCopSelect <- function(data,familyset=NA,Matrix,selectioncrit="AIC",indeptes
 		}
 	}
 
-  varnames = rep(0,n)
-  for(i in 1:n) varnames[i] = paste("V", i, sep="")
-print(Types)
+  varnames = paste("V", 1:n, sep="")
+ 
+ print(Types)
+  
   RVM = RVineMatrix(Mold, family=Types, par=Params, par2=Params2, names=varnames)
 
 	return(RVM)

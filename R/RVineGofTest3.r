@@ -13,7 +13,7 @@ RVineGofTest<-function(data,RVM,method="White",statistic="CvM",B=200,alpha=2)
 	d=dim(data)[2]
 	
 	if(d != dim(RVM)) stop("Dimensions of 'data' and 'RVM' do not match.")
-    if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+    if(is(RVM)[1] != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
 	
 	if(statistic=="Cramer-von Mises") statistic="CvM"
 	else if(statistic=="Kolmogorov-Smirnov") statistic="KS"

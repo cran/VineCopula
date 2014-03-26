@@ -5,7 +5,7 @@
 
 \description{
 This function performs a goodness-of-fit test for bivariate copulas,
-either based on White's information matrix equality (White 1982) as introduced by Wanling and Prokhorov (2011)
+either based on White's information matrix equality (White 1982) as introduced by Huang and Prokhorov (2011)
 or based on Kendall's process.
 It computes the test statistics and p-values.
 }
@@ -75,7 +75,7 @@ For \code{method = "kendall"}
 
 \details{
 \code{method="white"}:\cr
-This goodness-of fit test uses the information matrix equality of White (1982) and was investigated by Wanling and Prokhorov (2011).
+This goodness-of fit test uses the information matrix equality of White (1982) and was investigated by Huang and Prokhorov (2011).
 The main contribution is that under correct model specification the Fisher Information can be equivalently calculated as minus the expected Hessian matrix or as the expected outer product of the score function.
 The null hypothesis is 
 \deqn{
@@ -88,7 +88,7 @@ against the alternative
 where \eqn{\boldsymbol{H}(\theta)} is the expected Hessian matrix and \eqn{\boldsymbol{C}(\theta)} is the expected outer product of the score function.
 For the calculation of the test statistic we use the consistent maximum likelihood estimator \eqn{\hat{\theta}} and the sample counter parts of \eqn{\boldsymbol{H}(\theta)} and \eqn{\boldsymbol{C}(\theta)}.
 The correction of the covariance-matrix in the test statistic for the uncertainty in the margins is skipped. The implemented tests assumes that where is no uncertainty in the margins.
-The correction can be found in Wanling and Prokhorov (2011). It involves two-dimensional integrals.\cr
+The correction can be found in Huang and Prokhorov (2011). It involves two-dimensional integrals.\cr
 WARNING: For the t-copula the test may be instable. The results for the t-copula therefore have to treated carefully.\cr
 \cr
 \code{method = "kendall"}:\cr
@@ -96,12 +96,16 @@ This copula goodness-of-fit test is based on Kendall's process as investigated b
 For rotated copulas the input arguments are transformed and the goodness-of-fit procedure for the corresponding non-rotated copula is used.
 }
 
-\author{Ulf Schepsmeier, Huang Wanling, Jiying Luo, Eike Brechmann}
+\author{Ulf Schepsmeier, Wanling Huang, Jiying Luo, Eike Brechmann}
 
 \references{
 Genest, C. and L.-P. Rivest (1993).
 Statistical inference procedures for bivariate Archimedean copulas.
 Journal of the American Statistical Association, 88 (423), 1034-1043.
+
+Huang, w. and A. Prokhorov (2011).
+A goodness-of-fit test for copulas.
+to appear in Econometric Reviews
 
 Luo J. (2011).
 Stepwise estimation of D-vines with arbitrary specified copula pairs and EDA tools.
@@ -111,10 +115,6 @@ Diploma thesis, Technische Universitaet Muenchen.\cr
 Wang, W. and M. T. Wells (2000).
 Model selection and semiparametric inference for bivariate failure-time data.
 Journal of the American Statistical Association, 95 (449), 62-72.
-
-Wanling, H. and A. Prokhorov (2011).
-A goodness-of-fit test for copulas.
-Submitted for publication.
 
 White, H. (1982)
 Maximum likelihood estimation of misspecified models,

@@ -13,7 +13,7 @@ gof_ECP<-function(data,RVM,B=200, method="ECP", statisticName="CvM")
 	d=dim(data)[2]
 	
 	if(d != dim(RVM)) stop("Dimensions of 'data' and 'RVM' do not match.")
-    if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+    if(!("RVineMatrix" %in% is(RVM))) stop("'RVM' has to be an RVineMatrix object.")
 	
 	if(statisticName=="Cramer-von Mises" || statisticName=="CvM") statisticName=3
 	else if(statisticName=="Kolmogorov-Smirnov" || statisticName=="KS") statisticName=2

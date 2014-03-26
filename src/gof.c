@@ -465,8 +465,8 @@ void MySample(int *k, int *n, int *y)
 
 void gofECP(int* T, int* d, int* family, int* maxmat, int* matrix, int* conindirect, double* par, double* par2, double* data, double* statistic, int* statisticName)
 {
-	double *znull, *Chat1, *Chat2;
-	int T2=1000, i=0, t=0;
+	double *znull, *Chat1, *Chat2, U=0;
+	int T2=1000, i=0, t=0, takeU=0;
 	znull = malloc(*d*1000*sizeof(double));
 	Chat1 = malloc(*T*sizeof(double));
 	Chat2 = malloc(*T*sizeof(double));
@@ -479,7 +479,7 @@ void gofECP(int* T, int* d, int* family, int* maxmat, int* matrix, int* conindir
 		}
 	}
 
-	SimulateRVine(&T2, d, family, maxmat, matrix, conindirect, par, par2, znull);
+	SimulateRVine(&T2, d, family, maxmat, matrix, conindirect, par, par2, znull, &U, &takeU);
 	
 	
 	ChatZj(data, data, T, d, T, Chat1);

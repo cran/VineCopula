@@ -5,8 +5,8 @@ RVineClarkeTest <- function(data, RVM1, RVM2){
   if(dim(data)[2]<2) stop("Dimension has to be at least 2.")
   if(N<2) stop("Number of observations has to be at least 2.")
   if(any(data>1) || any(data<0)) stop("Data has be in the interval [0,1].")
-  if(is(RVM1) != "RVineMatrix") stop("'RVM1' has to be an RVineMatrix object.")
-  if(is(RVM2) != "RVineMatrix") stop("'RVM2' has to be an RVineMatrix object.")
+  if(is(RVM1)[1] != "RVineMatrix") stop("'RVM1' has to be an RVineMatrix object.")
+  if(is(RVM2)[1] != "RVineMatrix") stop("'RVM2' has to be an RVineMatrix object.")
   
 	Model1.ll = RVineLogLik(data,RVM1,separate=TRUE)$loglik
 	Model2.ll = RVineLogLik(data,RVM2,separate=TRUE)$loglik

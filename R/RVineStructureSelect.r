@@ -196,17 +196,30 @@ fit.TreeCopulas <- function(mst, oldVineGraph, type,copulaSelectionBy,testForInd
 			zr2 = E(oldVineGraph)[con[2]]$Copula.CondData.1
 			n2 = E(oldVineGraph)[con[2]]$Copula.CondName.1
 		}
-		if(progress == TRUE) message(n1," + ",n2," --> ", E(mst)[i]$name)
 		
+		if(is.list(zr1)){
+			zr1a=as.vector(zr1[[1]])
+			zr2a=as.vector(zr2[[1]])
+			n1a=as.vector(n1[[1]])
+			n2a=as.vector(n2[[1]])
+		}
+		else{
+			zr1a=zr1
+			zr2a=zr2
+			n1a=n1
+			n2a=n2
+		}
 		
-		parameterForACopula[[i]]$zr1 = zr1
-		parameterForACopula[[i]]$zr2 = zr2
+		if(progress == TRUE) message(n1a," + ",n2a," --> ", E(mst)[i]$name)
+		
+		parameterForACopula[[i]]$zr1 = zr1a
+		parameterForACopula[[i]]$zr2 = zr2a
 
-		E(mst)[i]$Copula.Data.1 =  list(zr1)
-		E(mst)[i]$Copula.Data.2 =  list(zr2)
+		E(mst)[i]$Copula.Data.1 =  list(zr1a)
+		E(mst)[i]$Copula.Data.2 =  list(zr2a)
 		
-		E(mst)[i]$Copula.CondName.2 = n1
-		E(mst)[i]$Copula.CondName.1 = n2
+		E(mst)[i]$Copula.CondName.2 = n1a
+		E(mst)[i]$Copula.CondName.1 = n2a
 	}
 
 	outForACopula = lapply(X = parameterForACopula, FUN=wrapper_fit.ACopula, type,copulaSelectionBy,testForIndependence,testForIndependence.level,weights)
@@ -270,10 +283,20 @@ buildNextGraph <- function(oldVineGraph,weights=NA)
 			}else{
 				zr2 = E(oldVineGraph)[con[2]]$Copula.CondData.1
 			}
-			
-			keine_nas = !(is.na(zr1) | is.na(zr2))
+			#print(is.list(zr1))
+			if(is.list(zr1)){
+				zr1a=as.vector(zr1[[1]])
+				zr2a=as.vector(zr2[[1]])
+			}
+			else{
+				zr1a=zr1
+				zr2a=zr2
+			}
+			keine_nas = !(is.na(zr1a) | is.na(zr2a))
+			#print(keine_nas)
+			#print(zr1a)
 			#E(g)[i]$weight = cor(x=zr1[keine_nas],y=zr2[keine_nas], method="kendall")
-			E(g)[i]$weight = fasttau(zr1[keine_nas],zr2[keine_nas],weights)
+			E(g)[i]$weight = fasttau(zr1a[keine_nas],zr2a[keine_nas],weights)
 			
 			name.node1 = strsplit( V(g)[con[1]]$name,split=" *[,|] *")[[1]]
 			name.node2 = strsplit( V(g)[con[2]]$name,split=" *[,|] *")[[1]]
@@ -311,9 +334,16 @@ buildNextGraph <- function(oldVineGraph,weights=NA)
 					paste(schnitt, collapse= ","),
 					sep= " | ")
 			
-			l1 = c(V(g)[con[1]]$conditionedSet,V(g)[con[1]]$conditioningSet)
-			l2 = c(V(g)[con[2]]$conditionedSet,V(g)[con[2]]$conditioningSet)
-			
+			if(is.list(V(g)[con[1]]$conditionedSet))
+			{
+				l1 = c(as.vector(V(g)[con[1]]$conditionedSet[[1]]),as.vector(V(g)[con[1]]$conditioningSet[[1]]))
+				l2 = c(as.vector(V(g)[con[2]]$conditionedSet[[1]]),as.vector(V(g)[con[2]]$conditioningSet[[1]]))
+			}
+			else
+			{
+				l1 = c(V(g)[con[1]]$conditionedSet,V(g)[con[1]]$conditioningSet)
+				l2 = c(V(g)[con[2]]$conditionedSet,V(g)[con[2]]$conditioningSet)
+			}
 			out = intern_SchnittDifferenz(l1,l2)
 			
 			suppressWarnings({E(g)$conditionedSet[i] = list(out$differenz)})
@@ -390,21 +420,39 @@ as.RVM = function(RVine){
 
 	n = length(RVine$Tree)+1
 	con = list()
-	names = V(RVine$Tree[[1]])$name
+	nam = V(RVine$Tree[[1]])$name
 
 	conditionedSets = NULL
 	corresppondingParams = list()
 	corresppondingTypes = list()
 
-	conditionedSets[[n-1]][[1]] = (E(RVine$Tree[[n-1]])$conditionedSet)
-	for(k in 1:(n-2)){
-		conditionedSets[[k]] = E(RVine$Tree[[k]])$conditionedSet
-		corresppondingParams[[k]] = as.list(E(RVine$Tree[[k]])$Copula.param)
-		corresppondingTypes[[k]] = as.list(E(RVine$Tree[[k]])$Copula.type)
+	if(is.list(E(RVine$Tree[[n-1]])$conditionedSet))
+	{
+		conditionedSets[[n-1]][[1]] = (E(RVine$Tree[[n-1]])$conditionedSet[[1]])	
+		for(k in 1:(n-2)){
+			#conditionedSets[[k]] = E(RVine$Tree[[k]])$conditionedSet[[1]]
+		  conditionedSets[[k]] = E(RVine$Tree[[k]])$conditionedSet
+			corresppondingParams[[k]] = as.list(E(RVine$Tree[[k]])$Copula.param)
+			corresppondingTypes[[k]] = as.list(E(RVine$Tree[[k]])$Copula.type)
+		}
+		
+		corresppondingParams[[n-1]] = list()
+		corresppondingParams[[n-1]] = as.list(E(RVine$Tree[[n-1]])$Copula.param)
+		corresppondingTypes[[n-1]] = as.list(E(RVine$Tree[[n-1]])$Copula.type)
+		#print(corresppondingParams)
 	}
-	corresppondingParams[[n-1]] = list()
-	corresppondingParams[[n-1]][[1]] = (E(RVine$Tree[[n-1]])$Copula.param)
-	corresppondingTypes[[n-1]] = as.list(E(RVine$Tree[[n-1]])$Copula.type)
+	else{
+		conditionedSets[[n-1]][[1]] = (E(RVine$Tree[[n-1]])$conditionedSet)
+		for(k in 1:(n-2)){
+			conditionedSets[[k]] = E(RVine$Tree[[k]])$conditionedSet
+			corresppondingParams[[k]] = as.list(E(RVine$Tree[[k]])$Copula.param)
+			corresppondingTypes[[k]] = as.list(E(RVine$Tree[[k]])$Copula.type)
+		}
+		#print(conditionedSets)
+		corresppondingParams[[n-1]] = list()
+		corresppondingParams[[n-1]] = as.list(E(RVine$Tree[[n-1]])$Copula.param)
+		corresppondingTypes[[n-1]] = as.list(E(RVine$Tree[[n-1]])$Copula.type)
+	}
 
 	Param = array(dim=c(n,n))
 	Params2 = array(0,dim=c(n,n))
@@ -457,6 +505,6 @@ as.RVM = function(RVine){
 	M[is.na(M)]=0
 	Type[is.na(Type)]=0
 
-	return(RVineMatrix(M, family = Type, par = Param, par2 = Params2, names = names))
+	return(RVineMatrix(M, family = Type, par = Param, par2 = Params2, names = nam))
 
 }

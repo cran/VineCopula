@@ -17,7 +17,7 @@ RVineStructureSelect(data, familyset=NA, type=0, selectioncrit="AIC",
 \arguments{
   \item{data}{An N x d data matrix (with uniform margins).}
   \item{familyset}{An integer vector of pair-copula families to select from (the independence copula MUST NOT be specified in this vector unless one wants to fit an independence vine!).
-    The vector has to include at least one pair-copula family that allows for positive and one that allows for negative dependence.
+    The vector has to include at least one pair-copula family that allows for positive and one that allows for negative dependence. Not listed copula families might be included to better handle limit cases. 
     If \code{familyset = NA} (default), selection among all possible families is performed.
     Coding of pair-copula families: \cr
 		\code{1} = Gaussian copula \cr
@@ -118,9 +118,7 @@ Computational Statistics & Data Analysis, 59 (1), 52-69.
 data(daxreturns)
 
 # select the R-vine structure, families and parameters
-\dontrun{
-RVM = RVineStructureSelect(daxreturns,c(1:6),progress=TRUE)
-}
+RVM = RVineStructureSelect(daxreturns[,1:4],c(1:6),progress=TRUE)
 
 # specify a C-vine copula model with only Clayton, Gumbel and Frank copulas
 \dontrun{

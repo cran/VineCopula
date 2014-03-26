@@ -1,5 +1,5 @@
-\name{RVineSim}          
-\alias{RVineSim}                     
+\name{RVineSim}
+\alias{RVineSim}
 
 \title{Simulation from an R-vine copula model}
 
@@ -8,12 +8,15 @@ This function simulates from a given R-vine copula model.
 }
 
 \usage{
-RVineSim(N, RVM)
+RVineSim(N, RVM, U=NULL)
 }
 
 \arguments{
   \item{N}{Number of d-dimensional observations to simulate.}
-  \item{RVM}{An \code{\link{RVineMatrix}} object containing the information of the R-vine copula model.}
+  \item{RVM}{An \code{\link{RVineMatrix}} object containing the
+    information of the R-vine copula model.}
+  \item{U}{If not \code{\link{NULL}}, an (N,d)-matrix of U[0,1] random variates
+    to be transformed to the copula sample.}
 }
 
 \value{

@@ -1,6 +1,6 @@
 RVineMLE <- function(data, RVM, start=RVM$par, start2=RVM$par2, maxit=200, max.df=30, max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)), grad=FALSE, hessian=FALSE, se=FALSE, ...)
 {
-  if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+  if(is(RVM)[1] != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
 	if(maxit<=0) stop("'maxit' has to be greater than zero.")	
                                                
   if(max.df<=2) stop("The upper bound for the degrees of freedom parameter has to be larger than 2.")
@@ -205,7 +205,7 @@ RVineMLE <- function(data, RVM, start=RVM$par, start2=RVM$par2, maxit=200, max.d
       		}else if(Copula.Types[todo[i]] %in% c(30,40)){ #rotated bb8
       				lb[nParams+i] = -max.BB$BB8[2]
         				ub[nParams+i] = -0.001
-      		}else if(Copula.Types[i] %in% c(104,114,124,134,204,214,224,234)){ #Tawn
+      		}else if(Copula.Types[todo[i]] %in% c(104,114,124,134,204,214,224,234)){ #Tawn
       				lb[nParams+i] = 0.001
       				ub[nParams+i] = 0.99
       		}
@@ -302,11 +302,14 @@ RVineMLE <- function(data, RVM, start=RVM$par, start2=RVM$par2, maxit=200, max.d
 		pscale[i] = ifelse(Copula.Types[i] %in% c(1,2,43,44), 0.01, 1)
 	}
   pscale2=numeric()
-  for(i in 1:nParams2)
+  if(nParams2>0)
   {
-    pscale2[i] = ifelse(Copula.Types[i] %in% c(104,114,124,134,204,214,224,234), 0.05, 1)
-  }
-	pscale=c(pscale,pscale2)
+	  for(i in 1:nParams2)
+	  {
+		pscale2[i] = ifelse(Copula.Types[i] %in% c(104,114,124,134,204,214,224,234), 0.05, 1)
+	  }
+		pscale=c(pscale,pscale2)
+	}
 
 	if(!exists("factr"))		# Toleranz etwas hoch setzen (groeber)
 		factr=1e8

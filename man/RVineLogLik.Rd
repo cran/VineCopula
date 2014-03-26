@@ -8,7 +8,8 @@ This function calculates the log-likelihood of a d-dimensional R-vine copula mod
 }
 
 \usage{
-RVineLogLik(data, RVM, par=RVM$par, par2=RVM$par2, separate=FALSE)
+RVineLogLik(data, RVM, par=RVM$par, par2=RVM$par2, separate=FALSE,
+            verbose=TRUE)
 }
 
 \arguments{
@@ -16,7 +17,8 @@ RVineLogLik(data, RVM, par=RVM$par, par2=RVM$par2, separate=FALSE)
   \item{RVM}{An \code{\link{RVineMatrix}} object including the structure and the pair-copula families and parameters.}
   \item{par}{A d x d matrix with the pair-copula parameters (optional; default: \code{par = RVM$par}).}
   \item{par2}{A d x d matrix with the second parameters of pair-copula families with two parameters (optional; default: \code{par2 = RVM$par2}).}
-  \item{separate}{Logical; whether log-likelihoods are returned pointwisely (default: \code{separate = FALSE}).}
+  \item{separate}{Logical; whether log-likelihoods are returned point wisely (default: \code{separate = FALSE}).}
+  \item{verbose}{In case something goes wrong, additional output will be plotted.}
 }
 
 \value{

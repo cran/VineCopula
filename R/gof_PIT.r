@@ -13,7 +13,7 @@ gof_PIT<-function(data,RVM,weight="Breymann",B=200, statisticName="AD", alpha=2)
 	d=dim(data)[2]
 	
 	if(d != dim(RVM)) stop("Dimensions of 'data' and 'RVM' do not match.")
-    if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+    if(!("RVineMatrix" %in% is(RVM))) stop("'RVM' has to be an RVineMatrix object.")
 	
 	if(weight=="Breymann") method=1
 	else if(weight=="Berg") method=2

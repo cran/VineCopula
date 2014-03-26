@@ -54,6 +54,7 @@ A list of matrices \code{P} with two columns for the x-y-coordinates of the node
 \seealso{\code{\link{BiCopName}}}
 
 \examples{
+set.seed(666)
 # define 5-dimensional R-vine tree structure matrix
 Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
 Matrix = matrix(Matrix,5,5)
@@ -74,6 +75,9 @@ par2 = matrix(0,5,5)
 RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
                   names=c("V1","V2","V3","V4","V5"))
 
+# set random seed for testing
+set.seed(666)
+
 # plot all trees with pair-copula families and
 # theoretical Kendall's tau values as edge labels
 P = RVineTreePlot(data=NULL,RVM=RVM,tree="ALL",
@@ -82,7 +86,9 @@ P = RVineTreePlot(data=NULL,RVM=RVM,tree="ALL",
 # manipulate the first matrix of x-y-coordinates
 P[[1]][1,] = P[[1]][1,]*2  
 
+# re-set random seed for testing
+set.seed(666)
 # plot only the first tree with new coordinates
-RVineTreePlot(data=NULL,RVM=RVM,tree=1,edge.labels=FALSE,P=P)
+P = RVineTreePlot(data=NULL,RVM=RVM,tree=1,edge.labels=FALSE,P=P)
 }
 

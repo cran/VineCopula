@@ -92,7 +92,7 @@ T=dim(data)[1]
 loglik.temp=rep(0,T)
 for(i in 1:T)
 {
-	out <- .C("LL_mod",
+	out <- .C("LL_mod2",
               as.integer(fam),
               as.integer(1),
               as.double(data[i,1]),

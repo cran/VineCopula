@@ -1,7 +1,7 @@
 BiCopPar2Tau<-function(family,par,par2=0)
 {
 	if(!(family %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40,41,42,51,52,61,62,71,72,104,114,124,134,204,214,224,234))) stop("Copula family not implemented.")
-	if(c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,42,52,62,72,104,114,124,134,204,214,224,234) %in% family && par2==0) stop("For t-, BB1, BB6, BB7, BB8 and Tawn copulas, 'par2' must be set.")
+	if(c(7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,42,52,62,72,104,114,124,134,204,214,224,234) %in% family && par2==0) stop("For BB1, BB6, BB7, BB8 and Tawn copulas, 'par2' must be set.")
 	if(c(1,3,4,5,6,11,13,14,16,23,24,26,33,34,36,41,51,61,71) %in% family && length(par)<1) stop("'par' not set.")
 	
 	if((family==1 || family==2) && abs(par[1])>=1) stop("The parameter of the Gaussian and t-copula has to be in the interval (-1,1).")

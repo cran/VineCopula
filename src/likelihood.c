@@ -679,6 +679,7 @@ void dbb8(double* u, double* v, int* n, double* param, double* out)
 // loglik    output
 //////////////////////////////////////////////////////////////
 
+/*
 void LL_mod(int* family, int* n, double* u, double* v, double* theta, double* nu, double* loglik)
 {
   double* negv;
@@ -721,13 +722,13 @@ void LL_mod(int* family, int* n, double* u, double* v, double* theta, double* nu
 			LL(&nfamily, n, u,  negv, &ntheta, &nnu, loglik);
 		}
 	}else{
-  if((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30) | (*family==61))	// 90° rotated copulas
+  if((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30) | (*family==61))	// 90? rotated copulas
     {
 	  nfamily = (*family)-20;
       for (int i = 0; i < *n; ++i) {negv[i] = 1 - v[i];}
       LL(&nfamily, n, u,  negv, &ntheta, &nnu, loglik);
     }
-  else if((*family==33) | (*family==34) | (*family==36) | (*family==37) | (*family==38) | (*family==39) | (*family==40) | (*family==71))	// 270° rotated copulas
+  else if((*family==33) | (*family==34) | (*family==36) | (*family==37) | (*family==38) | (*family==39) | (*family==40) | (*family==71))	// 270? rotated copulas
     {
 	  nfamily = (*family)-30;
       for (int i = 0; i < *n; ++i) {negu[i] = 1 - u[i];}
@@ -752,6 +753,7 @@ void LL_mod(int* family, int* n, double* u, double* v, double* theta, double* nu
   free(negv);
   free(negu);
 }
+*/
 
 void LL_mod2(int* family, int* n, double* u, double* v, double* theta, double* nu, double* loglik)
 {
@@ -771,7 +773,7 @@ void LL_mod2(int* family, int* n, double* u, double* v, double* theta, double* n
 		if(v[i]<UMIN) v[i]=UMIN;
 		else if(v[i]>UMAX) v[i]=UMAX;
 	}
-	if((*family==43))
+	if((*family)==43)
 	{
 		nfamily=3;
 		if(*theta > 0){
@@ -782,7 +784,7 @@ void LL_mod2(int* family, int* n, double* u, double* v, double* theta, double* n
 			for (int i = 0; i < *n; ++i) {negu[i] = 1 - u[i];}
 			LL(&nfamily, n, negu,  v, &ntheta, &nnu, loglik);
 		}
-	}else if((*family==44))
+	}else if((*family)==44)
 	{
 		nfamily=4;
 		if(*theta > 0){
@@ -795,13 +797,13 @@ void LL_mod2(int* family, int* n, double* u, double* v, double* theta, double* n
 		}
 	}else{
 	
-  if((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30) | (*family==61))	// 90° rotated copulas
+  if((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30) | (*family==61))	// 90? rotated copulas
     {
 	  nfamily = (*family)-20;
       for (int i = 0; i < *n; ++i) {negu[i] = 1 - u[i];}
       LL(&nfamily, n, negu,  v, &ntheta, &nnu, loglik);
     }
-  else if((*family==33) | (*family==34) | (*family==36) | (*family==37) | (*family==38) | (*family==39) | (*family==40) | (*family==71))	// 270° rotated copulas
+  else if((*family==33) | (*family==34) | (*family==36) | (*family==37) | (*family==38) | (*family==39) | (*family==40) | (*family==71))	// 270? rotated copulas
     {
 	  nfamily = (*family)-30;
       for (int i = 0; i < *n; ++i) {negv[i] = 1 - v[i];}
@@ -1056,7 +1058,7 @@ void LL(int* family, int* n, double* u, double* v, double* theta, double* nu, do
 		Free(fuc); Free(param);
 
   }
-  else if(*family==13) //rotated Clayton (180°)
+  else if(*family==13) //rotated Clayton (180?)
   {
 		if(*theta == 0) ll = 0; 
 	  else if(*theta < XEPS) ll = 0;
@@ -1072,7 +1074,7 @@ void LL(int* family, int* n, double* u, double* v, double* theta, double* nu, do
 		  }
       }
   }
-  else if(*family==14) //rotated Gumbel (180°)
+  else if(*family==14) //rotated Gumbel (180?)
   {
 			for(j=0;j<*n;j++)
 			{
@@ -1084,7 +1086,7 @@ void LL(int* family, int* n, double* u, double* v, double* theta, double* nu, do
 				else ll += log(f);
 			}
   }
-  else if(*family==16) //rotated Joe (180°)
+  else if(*family==16) //rotated Joe (180?)
   {
 	for(j=0;j<*n;j++)
 		{
@@ -1278,7 +1280,7 @@ void LL(int* family, int* n, double* u, double* v, double* theta, double* nu, do
   }
   else if(*family==104)		//New: Tawn
   {
-	int T=1;
+	int T=1; //length of sample, different from T in TawnPDF
 	double par3=1.0;
 	for(j=0;j<*n;j++)
 	{
@@ -1289,7 +1291,7 @@ void LL(int* family, int* n, double* u, double* v, double* theta, double* nu, do
   }
   else if(*family==114)		//New: rotated Tawn
   {
-	int T=1;
+	int T=1; // length of sample, different from T in TawnPDF
 	double par3=1.0;
 	for(j=0;j<*n;j++)
 	{
@@ -1301,7 +1303,7 @@ void LL(int* family, int* n, double* u, double* v, double* theta, double* nu, do
   }
   else if(*family==204)		//New: Tawn2
   {
-	int T=1;
+	int T=1; // length of sample, different from T in TawnPDF
 	double par2=1.0;
 	for(j=0;j<*n;j++)
 	{
@@ -1312,7 +1314,7 @@ void LL(int* family, int* n, double* u, double* v, double* theta, double* nu, do
   }
   else if(*family==214)		//New: rotated Tawn2
   {
-	int T=1;
+	int T=1; // length of sample, different from T in TawnPDF
 	double par2=1.0;
 	for(j=0;j<*n;j++)
 	{
@@ -1363,7 +1365,7 @@ void copLik_mod(int* family, int* n, double* u, double* v, double* theta, double
 		else if(v[i]>UMAX) v[i]=UMAX;
 	}
 
-if((*family==43))
+if((*family)==43)
 	{
 		nfamily=3;
 		if(*theta > 0){
@@ -1374,7 +1376,7 @@ if((*family==43))
 			for (i = 0; i < *n; ++i) {negv[i] = 1 - v[i];}
 			copLik(&nfamily, n, u,  negv, &ntheta, &nnu, coplik);
 		}
-	}else if((*family==44))
+	}else if((*family)==44)
 	{
 		nfamily=4;
 		if(*theta > 0){
@@ -1387,13 +1389,13 @@ if((*family==43))
 		}
 	}else{
 
-  if(((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30)) )	// 90° rotated copulas
+  if(((*family==23) | (*family==24) | (*family==26) | (*family==27) | (*family==28) | (*family==29) | (*family==30)) )	// 90? rotated copulas
     {
 	  nfamily = (*family)-20;
       for (int i = 0; i < *n; ++i) {negv[i] = 1 - v[i];}
       copLik(&nfamily, n, u,  negv, &ntheta, &nnu, coplik);
     }
-  else if(((*family==33) | (*family==34) | (*family==36) | (*family==37) | (*family==38) | (*family==39) | (*family==40)) )	// 270° rotated copulas
+  else if(((*family==33) | (*family==34) | (*family==36) | (*family==37) | (*family==38) | (*family==39) | (*family==40)) )	// 270? rotated copulas
     {
 	  nfamily = (*family)-30;
       for (int i = 0; i < *n; ++i) {negu[i] = 1 - u[i];}
@@ -1617,7 +1619,7 @@ void copLik(int* family, int* n, double* u, double* v, double* theta, double* nu
 		}
 		Free(fuc); Free(param);
 	}
-  else if(*family==13) //rotated Clayton (180°)
+  else if(*family==13) //rotated Clayton (180?)
   {
 		if(*theta == 0) lik = 1.0; 
 		else
@@ -1630,7 +1632,7 @@ void copLik(int* family, int* n, double* u, double* v, double* theta, double* nu
 		  }
       }
   }
-  else if(*family==14) //rotated Gumbel (180°)
+  else if(*family==14) //rotated Gumbel (180?)
   {
 			for(j=0;j<*n;j++)
 			{
@@ -1641,7 +1643,7 @@ void copLik(int* family, int* n, double* u, double* v, double* theta, double* nu
 				lik *= f;
 			}
   }
-  else if(*family==16) //rotated Joe (180°)
+  else if(*family==16) //rotated Joe (180?)
   {
 	for(j=0;j<*n;j++)
 		{
@@ -1814,7 +1816,7 @@ void copLik(int* family, int* n, double* u, double* v, double* theta, double* nu
 
 
 /////////////////////////////////////////////////////////////
-// log likelihood einzeln (für Jakobs EM algo)
+// log likelihood einzeln (f?r Jakobs EM algo)
 //
 /////////////////////////////////////////////////////////////
 

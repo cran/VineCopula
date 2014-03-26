@@ -237,11 +237,13 @@ as.RVineMatrix = function(RVine){
 
 	n = length(RVine$Tree)+1
 	con = list()
-	names = V(RVine$Tree[[1]])$name
+	nam = V(RVine$Tree[[1]])$name
 	
 	conditionedSets = NULL
 	corresppondingParams = list()
 	corresppondingTypes = list()
+	
+	print(is.list(E(RVine$Tree[[n-1]])$conditionedSet))
 	
 	conditionedSets[[n-1]][[1]] = (E(RVine$Tree[[n-1]])$conditionedSet)
 	for(k in 1:(n-2)){
@@ -299,7 +301,7 @@ as.RVineMatrix = function(RVine){
 	M[is.na(M)]=0
 	Type[is.na(Type)]=0
 	
-	return(RVineMatrix(M, family = Type, par = Param, par2 = Params2, names = names))
+	return(RVineMatrix(M, family = Type, par = Param, par2 = Params2, names = nam))
 	
 }
 

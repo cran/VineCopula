@@ -18,7 +18,7 @@ BiCopSelect(u1, u2, familyset=NA, selectioncrit="AIC",
   \item{u1,u2}{Data vectors of equal length with values in [0,1].}
   \item{familyset}{Vector of bivariate copula families to select from
     (the independence copula MUST NOT be specified in this vector, otherwise it will be selected).
-    The vector has to include at least one bivariate copula family that allows for positive and one that allows for negative dependence.
+    The vector has to include at least one bivariate copula family that allows for positive and one that allows for negative dependence. Not listed copula families might be included to better handle limit cases. 
     If \code{familyset = NA} (default), selection among all possible families is performed.
     Coding of bivariate copula families: \cr
 	        \code{1} = Gaussian copula \cr
@@ -66,7 +66,7 @@ BiCopSelect(u1, u2, familyset=NA, selectioncrit="AIC",
     (default: \code{indeptest = FALSE}; see \code{\link{BiCopIndTest}}).
     The independence copula is chosen if the null hypothesis of independence cannot be rejected.}
   \item{level}{Numeric; significance level of the independence test (default: \code{level = 0.05}).}
-  \item{weights}{Numerical; weights for each observation (opitional).}
+  \item{weights}{Numerical; weights for each observation (optional).}
 }
 
 \value{

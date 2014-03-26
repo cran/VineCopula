@@ -1,7 +1,32 @@
 Changes for R-package VineCopula
 
-Ulf Schepsmeier, Jakob Stoeber, Eike Christian Brechmann and Benedikt Graeler <VineCopula@ma.tum.de>
+Current authors: Ulf Schepsmeier, Tobias Erhardt and Benedikt Graeler
+Former authors: Eike Brechmann and Jakob Stoeber
+Maintainer: Tobias Erhardt <tobias.erhardt@tum.de>
 
+Version 1.3 (March 26, 2014)
+
+- Maintainer changed from Ulf Schepsmeier to Tobias Erhardt (tobias.erhardt@tum.de)
+
+Version 1.2-1 (March 21, 2014)
+
+- Moved copula from depends to the more appropriate import field
+- Added tests generated from example code
+
+Version 1.2-1 (March 4, 2014)
+
+- New functionality:
+  * RVineSim allows to commit a (N,d)-matrix of U[0,1] random variates to be transformed to the copula sample. 
+    For example if you want to use quasi random variables instead of the pseudo random variables implemented in R (Thanks to Marius Hofert)
+  * The package now contains class wrappers that are compatible with the copula class from the copula R-package. These include all bivariate families currently implemented: The class representation for different rotated families of e.g the BB6 family are represented as BB6Copula, r90B6Copula, surBB6Copula and r270BB6Copula. These bivariate classes are fully compatible with the standard copula methods such as dCopula, pCopula, rCopula or fitCopula including persp and contour. A vine copula can as well be coerced into a class representation of vineCopula. However, the support of the standard methods is limited. See the corresponding help pages for details. Earlier introduced R-wrapper of C-functions have been removed, as they are no longer needed by the spcopula R-package
+  * added parameter "verbose" to RVineLogLik to allow to suppres some debug output
+	
+- Bug fix:
+  * RVineMLE: the optim argument "parscale" was not correctly defined for all cases.
+  * RVineAIC/BIC: Instead of the function arguments "par" and "par2" the calculation was based on RVM$par and RVM$par2. 
+    This is corrected now. (reported by Marcel Duellmann; thanks)
+  * RVineStructureSelect: The new igraph version returned a different variable type causing an error in the second and higher order tree selection.
+  
 
 Version 1.2 (October 09, 2013)
 
@@ -9,10 +34,12 @@ Version 1.2 (October 09, 2013)
   * RVinePIT 		Calculation of the probability integral transform (PIT) for R-vines
   * RVineGofTest 	15 different goodness-of-fit tests for R-vine copulas (Schepsmeier 2013).
   * print.RVM		A more detailed summary is printed if print(RVM, detail=TRUE) is set.
-  * BetaMatrix  Matrix of empirical Blomqvist's beta values
+  * BetaMatrix  	Matrix of empirical Blomqvist's beta values
   * BiCopPar2Beta   Blomqvist's beta value of a bivariate copula
   * RVinePar2Beta   Blomqvist's beta values of an R-vine copula model
-  * New copula familes for most of the BiCop as well as for the RVine-functions: As an asymmetric extension of the Gumbel copula, the Tawn copula with three parameters is now also included in the package.
+  * RVineCor2pcor	correlations to partial correlations for R-vines
+  * RVinePcor2cor	partial correlations to correlations for R-vines
+  * New copula families for most of the BiCop as well as for the RVine-functions: As an asymmetric extension of the Gumbel copula, the Tawn copula with three parameters is now also included in the package.
 Both the Gumbel and the Tawn copula are extreme-value copulas, which can be defined in terms of their corresponding Pickands dependence functions.
 For simplicity, we implemented two versions of the Tawn copula with two parameters each.
 Each type has one of the asymmetry parameters fixed to 1, so that the corresponding Pickands dependence is either left- or right-skewed. In the manual we will call these two new copulas "Tawn type 1" and "Tawn type 2". 
@@ -24,7 +51,7 @@ The families 204,214,224,234 denote the Tawn copula and their rotated versions i
   * RVineStructureSelect: Corrected code for the igraph package
   * RVineTreePlot: Now a 3-dimensional R-vine can be plotted too.
   * Corrected upper tail dependence coefficient for the survival BB1 copula (BiCopPar2TailDep)
-  * Minor improvment in BiCopSelect regarding the starting values for parameter estimation
+  * Minor improvement in BiCopSelect regarding the starting values for parameter estimation
 
 - Documentation update
 
@@ -33,14 +60,14 @@ Version 1.1-2 (July 09, 2013)
 
 - Changed dependency from "igraph0" to "igraph" since the support for "igraph0" will be quit soon.
 
-- Additional validy check of the R-vine matrix in RVineMatrix (Code provided by Harry Joe)
+- Additional validity check of the R-vine matrix in RVineMatrix (Code provided by Harry Joe)
   Also available as separate function "RVineMatrixCheck"
 
 - New bivariate copula: Reflection asymmetric Archimedean copula
   In our functions it is "family=41", and 51, 61, and 71 for the rotated versions.
   So far only implemented in some bivariate functions (not documented so far; experimental)
 
-- New author: Benedikt Gr?ler  
+- New author: Benedikt Graeler  
   
 - Bug fix:
   * New (correct) examples for the Clarke and Vuong test

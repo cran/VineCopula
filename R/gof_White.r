@@ -13,7 +13,7 @@ gof_White<-function(data,RVM,B=200)
 	d=dim(data)[2]
 	
 	if(d != dim(RVM)) stop("Dimensions of 'data' and 'RVM' do not match.")
-    if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+    if(!("RVineMatrix" %in% is(RVM))) stop("'RVM' has to be an RVineMatrix object.")
 	
 	dd=sum(RVM$family!=0)
 	tt=sum(RVM$family==2)
@@ -112,7 +112,7 @@ gof_White2<-function(data,RVM,B=200)
 	d=dim(data)[2]
 	
 	if(d != dim(RVM)) stop("Dimensions of 'data' and 'RVM' do not match.")
-    if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+    if(!("RVineMatrix" %in% is(RVM))) stop("'RVM' has to be an RVineMatrix object.")
 	
 	dd=sum(RVM$family!=0)
 	tt=sum(RVM$family==2)

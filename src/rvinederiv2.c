@@ -112,7 +112,7 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 	calc=create_intmatrix(*d,*d);
 	calc2=create_intmatrix(*d,*d);
 	
-	// Hilfsvariable für die t-copula
+	// Hilfsvariable f?r die t-copula
 	//param=(double*) Calloc(2,double);
 
 	k=0;
@@ -196,7 +196,7 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 		{
 			param[0]=theta[*kk-1][*ii-1];
 			param[1]=nu[*kk-1][*ii-1];
-			if(*tcop==1)		//Für die t-copula
+			if(*tcop==1)		//F?r die t-copula
 			{
 				diff2hfunc_rho_tCopula(zr1,zr2,T,param,&fam[*kk-1][*ii-1],barvdirect[*kk-2][(*ii-1)]);
 				diff2hfunc_rho_tCopula(zr2,zr1,T,param,&fam[*kk-1][*ii-1],barvindirect[*kk-2][(*ii-1)]);
@@ -240,7 +240,7 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 		{
 			param[0]=theta[*kk-1][*ii-1];
 			param[1]=nu[*kk-1][*ii-1];
-			if(*tcop==1 || (*tcop==3 && *kk_second==0))		//Für die t-copula
+			if(*tcop==1 || (*tcop==3 && *kk_second==0))		//F?r die t-copula
 			{
 				diffPDF_rho_tCopula(zr1,zr2,T,param,&fam[*kk-1][*ii-1],helpvar);
 				diff2PDF_rho_u_tCopula_new(zr1,zr2,T,param,&fam[*kk-1][*ii-1],helpvar2);
@@ -275,7 +275,7 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 		{
 			param[0]=theta[*kk-1][*ii-1];
 			param[1]=nu[*kk-1][*ii-1];
-			if(*tcop==1 || (*tcop==3 && *kk_second==0))		//Für die t-copula
+			if(*tcop==1 || (*tcop==3 && *kk_second==0))		//F?r die t-copula
 			{
 				diff2PDF_rho_u_tCopula_new(zr2,zr1,T,param,&fam[*kk-1][*ii-1],helpvar);
 			}
@@ -419,7 +419,7 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 
 				for(t=0;t<*T;t++)
 				{
-					LL_mod(&fam[k][i],&a,&zr1[t],&zr2[t],&theta[k][i],&nu[k][i],&helpvar3[t]);
+					LL_mod2(&fam[k][i],&a,&zr2[t],&zr1[t],&theta[k][i],&nu[k][i],&helpvar3[t]);
 				}
 				diffPDF_u_mod(zr1,zr2,T,param,&fam[k][i],helpvar4);
 				diffhfunc_v_mod2(zr2,zr1,T,param,&fam[k][i],helpvar5);

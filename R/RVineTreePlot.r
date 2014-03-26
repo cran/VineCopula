@@ -1,6 +1,6 @@
 RVineTreePlot = function(data=NULL, RVM, method="mle", max.df=30, max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)), tree="ALL", edge.labels=c("family"), P=NULL){
 
-  if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+  if(is(RVM)[1] != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
 
   if(edge.labels[1] != FALSE & !all(edge.labels %in% c("family","par","par2","theotau","emptau","pair"))) stop("Edge label not implemented.")
   if(is.null(data) & any(edge.labels == "emptau")) stop("Empirical Kendall's tau values cannot be obtained if no data is provided.")
@@ -219,7 +219,7 @@ RVineSeqEstTau<-function(data,RVM, method="mle", se=FALSE, max.df=30, max.BB=lis
 	N = nrow(data)
 	if(dim(data)[2] != dim(RVM)) stop("Dimensions of 'data' and 'RVM' do not match.")
   if(N < 2) stop("Number of observations has to be at least 2.")
-  if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+  if(!("RVineMatrix" %in% is(RVM))) stop("'RVM' has to be an RVineMatrix object.")
 
   if(method!="mle" && method!="itau") stop("Estimation method has to be either 'mle' or 'itau'.")
                                               

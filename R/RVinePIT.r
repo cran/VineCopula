@@ -13,7 +13,7 @@ RVinePIT<-function(data,RVM)
 	d=dim(data)[2]
 	
 	if(d != dim(RVM)) stop("Dimensions of 'data' and 'RVM' do not match.")
-    if(is(RVM) != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
+    if(is(RVM)[1] != "RVineMatrix") stop("'RVM' has to be an RVineMatrix object.")
 	
 	#if(type=="CVine") type=1
 	#else if(type=="DVine") type=2

@@ -72,7 +72,7 @@ RVineGofTest(data,RVM,method="White",statistic="CvM",B=200,alpha=2)
 
 \details{
 \code{method="White"}: \cr
-This goodness-of fit test uses the information matrix equality of White (1982) and was original investigated by Wanling and Prokhorov (2011) for copulas. \cr
+This goodness-of fit test uses the information matrix equality of White (1982) and was original investigated by Huang and Prokhorov (2011) for copulas. \cr
 Schepsmeier (2012) enhanced their approach to the vine copula case. \cr
 The main contribution is that under correct model specification the Fisher Information can be equivalently calculated as minus the expected Hessian matrix or as the expected outer product of the score function.
 The null hypothesis is 
@@ -85,7 +85,7 @@ against the alternative
 }
 where \eqn{\boldsymbol{H}(\theta)} is the expected Hessian matrix and \eqn{\boldsymbol{C}(\theta)} is the expected outer product of the score function. \cr
 For the calculation of the test statistic we use the consistent maximum likelihood estimator \eqn{\hat{\theta}} and the sample counter parts of \eqn{\boldsymbol{H}(\theta)} and \eqn{\boldsymbol{C}(\theta)}. \cr
-The correction of the Covariance-Matrix in the test statistic for the uncertainty in the margins is skipped. The implemented test assumes that there is no uncertainty in the margins. The correction can be found in Wanling and Prokhorov (2011) for bivariate copulas and in Schepsmeier (2013) for vine copulas. It involves multi-dimensional integrals. \cr
+The correction of the Covariance-Matrix in the test statistic for the uncertainty in the margins is skipped. The implemented test assumes that there is no uncertainty in the margins. The correction can be found in Huang and Prokhorov (2011) for bivariate copulas and in Schepsmeier (2013) for vine copulas. It involves multi-dimensional integrals. \cr
 
 \code{method="IR"}: \cr
 As the White test the information matrix ratio test is based on the expected Hessian matrix \eqn{\boldsymbol{H}(\theta)} and the expected outer product of the score function \eqn{\boldsymbol{C}(\theta)}. \cr
@@ -144,6 +144,10 @@ Genest, C., B. Remillard, and D. Beaudoin (2009)
 Goodness-of-fit tests for copulas: a review and power study. 
 Insur. Math. Econ. 44, 199-213.
 
+Huang, w. and A. Prokhorov (2011).
+A goodness-of-fit test for copulas.
+to appear in Econometric Reviews
+
 Schepsmeier, U. (2013)
 A goodness-of-fit test for regular vine copula models. 
 Preprint
@@ -152,10 +156,6 @@ Preprint
 Schepsmeier, U. (2013)
 Efficient goodness-of-fit tests in multi-dimensional vine copula models. 
 \url{http://arxiv.org/abs/1309.5808}
-
-Wanling, H. and A. Prokhorov (2011).
-A Goodness-of-fit Test for Copulas.
-Submitted for publication.
 
 White, H. (1982)
 Maximum likelihood estimation of misspecified models,

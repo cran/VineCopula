@@ -1,0 +1,3351 @@
+
+R version 3.0.3 (2014-03-06) -- "Warm Puppy"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "VineCopula"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> options(pager = "console")
+> library('VineCopula')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("BB1Copula-class")
+> ### * BB1Copula-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BB1Copula-class
+> ### Title: Classes '"BB1Copula"', '"surBB1Copula"', '"r90BB1Copula"' and
+> ###   '"r270BB1Copula"'
+> ### Aliases: BB1Copula-class dduCopula,numeric,BB1Copula-method
+> ###   ddvCopula,numeric,BB1Copula-method dduCopula,matrix,BB1Copula-method
+> ###   ddvCopula,matrix,BB1Copula-method getKendallDistr,BB1Copula-method
+> ###   kendallDistribution,BB1Copula-method surBB1Copula-class
+> ###   dduCopula,numeric,surBB1Copula-method
+> ###   ddvCopula,numeric,surBB1Copula-method
+> ###   dduCopula,matrix,surBB1Copula-method
+> ###   ddvCopula,matrix,surBB1Copula-method r90BB1Copula-class
+> ###   dduCopula,numeric,r90BB1Copula-method
+> ###   ddvCopula,numeric,r90BB1Copula-method
+> ###   dduCopula,matrix,r90BB1Copula-method
+> ###   ddvCopula,matrix,r90BB1Copula-method r270BB1Copula-class
+> ###   dduCopula,numeric,r270BB1Copula-method
+> ###   ddvCopula,numeric,r270BB1Copula-method
+> ###   dduCopula,matrix,r270BB1Copula-method
+> ###   ddvCopula,matrix,r270BB1Copula-method
+> ### Keywords: classes
+> 
+> ### ** Examples
+> 
+> showClass("BB1Copula")
+Class "BB1Copula" [package "VineCopula"]
+
+Slots:
+                                                                       
+Name:        family    dimension   parameters  param.names param.lowbnd
+Class:      numeric      integer      numeric    character      numeric
+                                
+Name:   param.upbnd     fullname
+Class:      numeric    character
+
+Extends: 
+Class "copula", directly
+Class "twoParamBiCop", directly
+Class "Copula", by class "copula", distance 2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BB1Copula")
+> ### * BB1Copula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BB1Copula
+> ### Title: Constructor of the BB1 family and rotated versions thereof
+> ### Aliases: BB1Copula surBB1Copula r90BB1Copula r270BB1Copula
+> ### Keywords: distribution copula
+> 
+> ### ** Examples
+> 
+> library(copula)
+
+Attaching package: 'copula'
+
+The following object is masked from 'package:VineCopula':
+
+    fitCopula
+
+> 
+> persp(BB1Copula(c(1,1.5)),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(surBB1Copula(c(1,1.5)),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r90BB1Copula(c(-1,-1.5)),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r270BB1Copula(c(-1,-1.5)),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:copula'
+
+> nameEx("BB6Copula-class")
+> ### * BB6Copula-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BB6Copula-class
+> ### Title: Classes '"BB6Copula"', '"surBB6Copula"', '"r90BB6Copula"' and
+> ###   '"r270BB6Copula"'
+> ### Aliases: BB6Copula-class dduCopula,numeric,BB6Copula-method
+> ###   ddvCopula,numeric,BB6Copula-method dduCopula,matrix,BB6Copula-method
+> ###   ddvCopula,matrix,BB6Copula-method getKendallDistr,BB6Copula-method
+> ###   kendallDistribution,BB6Copula-method surBB6Copula-class
+> ###   dduCopula,numeric,surBB6Copula-method
+> ###   ddvCopula,numeric,surBB6Copula-method
+> ###   dduCopula,matrix,surBB6Copula-method
+> ###   ddvCopula,matrix,surBB6Copula-method r90BB6Copula-class
+> ###   dduCopula,numeric,r90BB6Copula-method
+> ###   ddvCopula,numeric,r90BB6Copula-method
+> ###   dduCopula,matrix,r90BB6Copula-method
+> ###   ddvCopula,matrix,r90BB6Copula-method r270BB6Copula-class
+> ###   dduCopula,numeric,r270BB6Copula-method
+> ###   ddvCopula,numeric,r270BB6Copula-method
+> ###   dduCopula,matrix,r270BB6Copula-method
+> ###   ddvCopula,matrix,r270BB6Copula-method
+> ### Keywords: classes
+> 
+> ### ** Examples
+> 
+> showClass("BB6Copula")
+Class "BB6Copula" [package "VineCopula"]
+
+Slots:
+                                                                       
+Name:        family    dimension   parameters  param.names param.lowbnd
+Class:      numeric      integer      numeric    character      numeric
+                                
+Name:   param.upbnd     fullname
+Class:      numeric    character
+
+Extends: 
+Class "copula", directly
+Class "twoParamBiCop", directly
+Class "Copula", by class "copula", distance 2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BB6Copula")
+> ### * BB6Copula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BB6Copula
+> ### Title: Constructor of the BB6 family and its derivatives
+> ### Aliases: BB6Copula surBB6Copula r90BB6Copula r270BB6Copula
+> 
+> ### ** Examples
+> 
+> library(copula)
+
+Attaching package: 'copula'
+
+The following object is masked from 'package:VineCopula':
+
+    fitCopula
+
+> 
+> persp(BB6Copula(c(1,1.5)),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(surBB6Copula(c(1,1.5)),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r90BB6Copula(c(-1,-1.5)),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r270BB6Copula(c(-1,-1.5)),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:copula'
+
+> nameEx("BB7Copula-class")
+> ### * BB7Copula-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BB7Copula-class
+> ### Title: Classes '"BB7Copula"', '"surBB7Copula"', '"r90BB7Copula"' and
+> ###   '"r270BB7Copula"'
+> ### Aliases: BB7Copula-class dduCopula,numeric,BB7Copula-method
+> ###   ddvCopula,numeric,BB7Copula-method dduCopula,matrix,BB7Copula-method
+> ###   ddvCopula,matrix,BB7Copula-method getKendallDistr,BB7Copula-method
+> ###   kendallDistribution,BB7Copula-method surBB7Copula-class
+> ###   dduCopula,numeric,surBB7Copula-method
+> ###   ddvCopula,numeric,surBB7Copula-method
+> ###   dduCopula,matrix,surBB7Copula-method
+> ###   ddvCopula,matrix,surBB7Copula-method r90BB7Copula-class
+> ###   dduCopula,numeric,r90BB7Copula-method
+> ###   ddvCopula,numeric,r90BB7Copula-method
+> ###   dduCopula,matrix,r90BB7Copula-method
+> ###   ddvCopula,matrix,r90BB7Copula-method r270BB7Copula-class
+> ###   dduCopula,numeric,r270BB7Copula-method
+> ###   ddvCopula,numeric,r270BB7Copula-method
+> ###   dduCopula,matrix,r270BB7Copula-method
+> ###   ddvCopula,matrix,r270BB7Copula-method
+> ### Keywords: classes
+> 
+> ### ** Examples
+> 
+> showClass("BB7Copula")
+Class "BB7Copula" [package "VineCopula"]
+
+Slots:
+                                                                       
+Name:        family    dimension   parameters  param.names param.lowbnd
+Class:      numeric      integer      numeric    character      numeric
+                                
+Name:   param.upbnd     fullname
+Class:      numeric    character
+
+Extends: 
+Class "copula", directly
+Class "twoParamBiCop", directly
+Class "Copula", by class "copula", distance 2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BB7Copula")
+> ### * BB7Copula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BB7Copula
+> ### Title: Constructor of the BB7 family and its derivatives
+> ### Aliases: BB7Copula surBB7Copula r90BB7Copula r270BB7Copula
+> 
+> ### ** Examples
+> 
+> library(copula)
+
+Attaching package: 'copula'
+
+The following object is masked from 'package:VineCopula':
+
+    fitCopula
+
+> 
+> persp(BB7Copula(c(1,1.5)),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(surBB7Copula(c(1,1.5)),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r90BB7Copula(c(-1,-1.5)),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r270BB7Copula(c(-1,-1.5)),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:copula'
+
+> nameEx("BB8Copula-class")
+> ### * BB8Copula-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BB8Copula-class
+> ### Title: Classes '"BB8Copula"', '"surBB8Copula"', '"r90BB8Copula"' and
+> ###   '"r270BB8Copula"'
+> ### Aliases: BB8Copula-class dduCopula,numeric,BB8Copula-method
+> ###   ddvCopula,numeric,BB8Copula-method dduCopula,matrix,BB8Copula-method
+> ###   ddvCopula,matrix,BB8Copula-method getKendallDistr,BB8Copula-method
+> ###   kendallDistribution,BB8Copula-method surBB8Copula-class
+> ###   dduCopula,numeric,surBB8Copula-method
+> ###   ddvCopula,numeric,surBB8Copula-method
+> ###   dduCopula,matrix,surBB8Copula-method
+> ###   ddvCopula,matrix,surBB8Copula-method r90BB8Copula-class
+> ###   dduCopula,numeric,r90BB8Copula-method
+> ###   ddvCopula,numeric,r90BB8Copula-method
+> ###   dduCopula,matrix,r90BB8Copula-method
+> ###   ddvCopula,matrix,r90BB8Copula-method r270BB8Copula-class
+> ###   dduCopula,numeric,r270BB8Copula-method
+> ###   ddvCopula,numeric,r270BB8Copula-method
+> ###   dduCopula,matrix,r270BB8Copula-method
+> ###   ddvCopula,matrix,r270BB8Copula-method fitCopula,twoParamBiCop-method
+> ### Keywords: classes
+> 
+> ### ** Examples
+> 
+> showClass("BB8Copula")
+Class "BB8Copula" [package "VineCopula"]
+
+Slots:
+                                                                       
+Name:        family    dimension   parameters  param.names param.lowbnd
+Class:      numeric      integer      numeric    character      numeric
+                                
+Name:   param.upbnd     fullname
+Class:      numeric    character
+
+Extends: 
+Class "copula", directly
+Class "twoParamBiCop", directly
+Class "Copula", by class "copula", distance 2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BB8Copula")
+> ### * BB8Copula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BB8Copula
+> ### Title: Constructor of the BB8 family and its derivatives
+> ### Aliases: BB8Copula surBB8Copula r90BB8Copula r270BB8Copula
+> 
+> ### ** Examples
+> 
+> library(copula)
+
+Attaching package: 'copula'
+
+The following object is masked from 'package:VineCopula':
+
+    fitCopula
+
+> 
+> persp(BB8Copula(c(1,0.5)),dCopula, zlim=c(0,10))
+> persp(surBB8Copula(c(1,0.5)),dCopula, zlim=c(0,10))
+> persp(r90BB8Copula(c(-1,-0.5)),dCopula, zlim=c(0,10))
+> persp(r270BB8Copula(c(-1,-0.5)),dCopula, zlim=c(0,10))
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:copula'
+
+> nameEx("BetaMatrix")
+> ### * BetaMatrix
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BetaMatrix
+> ### Title: Matrix of empirical Blomqvist's beta values
+> ### Aliases: BetaMatrix
+> 
+> ### ** Examples
+> 
+> data(daxreturns)
+> Data = as.matrix(daxreturns)
+> 
+> # compute the empirical Blomqvist's betas
+> beta = BetaMatrix(Data)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopCDF")
+> ### * BiCopCDF
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopCDF
+> ### Title: Distribution function of a bivariate copula
+> ### Aliases: BiCopCDF
+> 
+> ### ** Examples
+> 
+> # simulate from a bivariate Clayton
+> simdata = BiCopSim(300,3,3.4)
+> 
+> # evaluate the distribution function of the bivariate t-copula
+> u1 = simdata[,1]
+> u2 = simdata[,2]
+> BiCopCDF(u1,u2,3,3.4)
+  [1] 0.212083894 0.560454175 0.196829776 0.859783373 0.334142797 0.138883599
+  [7] 0.552748610 0.656946696 0.716294284 0.358902123 0.657106132 0.406649144
+ [13] 0.215249319 0.010762322 0.680744432 0.429168263 0.336836485 0.754999947
+ [19] 0.478876720 0.591381592 0.743614123 0.684320242 0.501994536 0.019720627
+ [25] 0.673692866 0.461672664 0.318172610 0.041830170 0.272430716 0.539624409
+ [31] 0.690952756 0.357404390 0.478385703 0.450454976 0.081735412 0.325850276
+ [37] 0.270163818 0.464160879 0.697817469 0.770254930 0.402432651 0.309902564
+ [43] 0.526755239 0.440604149 0.157859951 0.125915290 0.623294168 0.739830600
+ [49] 0.371783278 0.723334913 0.516814728 0.269809505 0.445858863 0.109397786
+ [55] 0.822399359 0.909295094 0.294693765 0.055312093 0.427042357 0.403252652
+ [61] 0.845573559 0.325266686 0.630782109 0.357571974 0.203263111 0.321058009
+ [67] 0.032144353 0.826230667 0.484706552 0.844421805 0.608301620 0.175590037
+ [73] 0.609058333 0.163878464 0.101571465 0.538136460 0.274644551 0.339289595
+ [79] 0.294216757 0.195381304 0.277706814 0.421733480 0.720333595 0.049782599
+ [85] 0.565454106 0.606022665 0.691741950 0.371062856 0.601897391 0.591440556
+ [91] 0.201688601 0.758395667 0.600742911 0.704561061 0.823026172 0.574257107
+ [97] 0.099157544 0.251281107 0.106087540 0.300755602 0.189355553 0.383442247
+[103] 0.156051138 0.353445260 0.237769014 0.569868697 0.754009708 0.626534957
+[109] 0.642565610 0.746343146 0.174386590 0.276468326 0.793197597 0.128246949
+[115] 0.403133907 0.218942785 0.337329582 0.358487519 0.603040975 0.358813218
+[121] 0.270584669 0.584756888 0.291400991 0.270925282 0.453995540 0.750041775
+[127] 0.419655276 0.292947806 0.211477158 0.367187001 0.403616732 0.263279705
+[133] 0.466439291 0.060463864 0.414509798 0.037596575 0.254942295 0.205299452
+[139] 0.174436459 0.449884240 0.024025747 0.703587274 0.030608188 0.210400866
+[145] 0.093855295 0.142735752 0.761364232 0.464621321 0.061121298 0.049605515
+[151] 0.394449212 0.413216316 0.374454880 0.168265886 0.055593257 0.097151257
+[157] 0.780802798 0.227744822 0.065636001 0.870926086 0.510225526 0.405327388
+[163] 0.845888486 0.768194100 0.251842178 0.746537224 0.380903910 0.061307470
+[169] 0.290451789 0.578210814 0.667105491 0.436226140 0.501831663 0.314446545
+[175] 0.343212498 0.260100773 0.643573510 0.736279214 0.480576518 0.747377388
+[181] 0.084991510 0.625430254 0.563728676 0.065672797 0.586906305 0.383323904
+[187] 0.665138618 0.182143650 0.322690699 0.150906032 0.377309335 0.652937289
+[193] 0.167981587 0.764145834 0.112547545 0.094783549 0.792890037 0.121846529
+[199] 0.506278225 0.227685925 0.449045336 0.931289729 0.876824814 0.350126804
+[205] 0.010994635 0.786543245 0.709228011 0.596225473 0.378512582 0.664875538
+[211] 0.373815801 0.426252115 0.280636713 0.083968169 0.814257670 0.515317294
+[217] 0.328967379 0.099903254 0.377995332 0.473178827 0.031442176 0.447588371
+[223] 0.217327056 0.361663573 0.067611532 0.801212727 0.247607998 0.049270220
+[229] 0.576458572 0.324353916 0.136902467 0.001605048 0.257187329 0.474040408
+[235] 0.437713533 0.456113202 0.577646467 0.085121494 0.715134572 0.457893436
+[241] 0.498003300 0.838971972 0.503169431 0.045336633 0.555881808 0.022418980
+[247] 0.194331580 0.334462487 0.373599846 0.438035879 0.509068595 0.599445606
+[253] 0.468924572 0.387566042 0.655708457 0.735283578 0.007562104 0.489784093
+[259] 0.562107349 0.302752252 0.766853423 0.218580395 0.381560134 0.755457200
+[265] 0.955922687 0.272025101 0.251443038 0.057390884 0.289182961 0.155876041
+[271] 0.393765386 0.507388247 0.120671623 0.799010545 0.523637750 0.767031675
+[277] 0.010792082 0.619446682 0.047529687 0.786968380 0.413820169 0.318351521
+[283] 0.835610923 0.218595381 0.278001748 0.129935495 0.147382642 0.715055153
+[289] 0.544744934 0.786205589 0.344101052 0.302395620 0.488473797 0.066509090
+[295] 0.889908357 0.401278597 0.705956499 0.752430964 0.408975709 0.316904963
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopChiPlot")
+> ### * BiCopChiPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopChiPlot
+> ### Title: Chi-plot for bivariate copula data
+> ### Aliases: BiCopChiPlot
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # chi-plots for bivariate Gaussian copula data
+> ##D n = 500
+> ##D tau = 0.5
+> ##D 
+> ##D # simulate copula data
+> ##D fam = 1	
+> ##D theta = BiCopTau2Par(fam,tau)
+> ##D dat = BiCopSim(n,fam,theta)	
+> ##D 
+> ##D # create chi-plots
+> ##D dev.new(width=16,height=5)
+> ##D par(mfrow=c(1,3))
+> ##D BiCopChiPlot(dat[,1],dat[,2],xlim=c(-1,1),ylim=c(-1,1),
+> ##D              main="General chi-plot")
+> ##D BiCopChiPlot(dat[,1],dat[,2],mode="lower",xlim=c(-1,1),
+> ##D              ylim=c(-1,1),main="Lower chi-plot")
+> ##D BiCopChiPlot(dat[,1],dat[,2],mode="upper",xlim=c(-1,1),
+> ##D              ylim=c(-1,1),main="Upper chi-plot")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopDeriv")
+> ### * BiCopDeriv
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopDeriv
+> ### Title: Derivatives of a bivariate copula density
+> ### Aliases: BiCopDeriv
+> 
+> ### ** Examples
+> 
+> # simulate from a bivariate t-copula
+> simdata = BiCopSim(300,2,-0.7,par2=4)
+> 
+> # derivative of the bivariate t-copula with respect to the first parameter
+> u1 = simdata[,1]
+> u2 = simdata[,2]
+> BiCopDeriv(u1,u2,2,-0.7,par2=4, deriv="par")
+  [1]  -1.118981963   1.240853696  -1.001064211   0.126342186   1.175103086
+  [6]   1.125284074  -2.660900650  -2.472195467   1.023015475  -1.226835099
+ [11] -10.758312703  -0.060805698  -1.275771122  -0.874257992  -5.229438212
+ [16]  -1.996785307  -0.024314703  -0.340297829  -1.124279340  -2.830928257
+ [21]  -0.644128690  -1.902583339  -0.198026426  -5.534636646  -0.399781564
+ [26]   0.435400718  -0.424885018   1.472901008  -2.384264853  -2.524411180
+ [31]  -7.785438426  -1.363561693  -1.835639592  -0.722528253  -6.472291697
+ [36]  -0.716665042  -0.964105867   0.829886233  -4.540361690   1.351436336
+ [41]  -1.503828622  -1.074008721  -2.420782826  -0.457655215   1.239990732
+ [46]   1.451559193   1.125103668   0.869236569  -1.879796413  -1.231228404
+ [51]  -2.424107089   1.829094173  -1.221019510  -2.559081446  -1.233727812
+ [56]   1.872628051  -1.838289517   0.971594798  -0.096706898  -1.937842204
+ [61] -15.237257119   0.172804942  -2.778179365  -0.368238987  -3.191034202
+ [66]   1.081925107 -13.105195405  -1.253692526  -2.123195334  -8.688276102
+ [71]  -1.503515318   0.256531438  -2.674138975  -4.198369584  -5.259632795
+ [76]  -1.944954160  -1.969911957   0.006893071   1.207272916   0.571959168
+ [81]  -0.132434126  -0.754275953  -4.565334109   0.127084068  -2.903169549
+ [86]   0.771316852  -4.357864429   0.489405734  -0.218840978   1.257765042
+ [91]   0.720810321  -3.023537238  -5.465362366   0.055533560  -2.703654480
+ [96]  -2.809374993  -2.368171453  -2.796443300  -5.602431270  -1.693541846
+[101]   0.551536277  -1.064635971  -2.851261121   0.383686061  -2.937039105
+[106] -13.728663798   1.428865348  -4.156683579   1.475522589 -11.428897046
+[111]   1.042581628  -2.329817184  -3.371593709   1.422863380   0.041637025
+[116]   1.087794501  -2.304816570  -1.944080252  -1.899435223  -2.039960766
+[121]  -2.645050409  -6.650555229   0.050104775   0.851039002   1.383789144
+[126]   1.465850488  -2.014890698   0.938868515  -2.392303876   1.122254766
+[131]  -1.525108901  -2.071212850  -1.173020644 -10.741866594  -0.542828355
+[136]   1.515200988   0.630401901   0.694797858   0.931185696  -0.680191222
+[141]  -7.933722404  -5.163276704   1.664827305   0.960737875   1.063045879
+[146]   1.342918851 -25.249465414  -1.393407553   1.532198588  -6.911077681
+[151]   0.376116964  -2.132593253   1.552339321  -3.505820153  -1.224401790
+[156]   1.227776973   0.353972461  -2.323316239  -0.313598837  -0.566267188
+[161]  -2.330830899   1.274204534   1.293889346   0.860444774  -2.469578460
+[166] -37.208160647  -0.658022946  -0.468399340   0.542603267   1.471761927
+[171] -62.570186831  -2.007473905  -2.147550775   0.259715654  -1.822814641
+[176]   1.381625780  -3.213788742 -28.991603753  -1.229075644  -3.627148879
+[181]  -0.101623278  -4.587179691   0.581309497  -9.140049046  -2.507966161
+[186]  -2.212019166  -9.855455970  -1.589138378  -0.337898112  -2.553649116
+[191]  -2.226506883   1.333901700   0.465082093   1.189110937   0.796068401
+[196]   1.443132908  -3.501076181  -0.501800492  -2.291129850   0.935368493
+[201]  -1.064749466   1.467016724   1.082767823  -1.259347011 -35.328425259
+[206] -54.951284051   0.718174055  -2.464860924  -1.312713214   0.813159659
+[211]  -2.210898561  -0.448716041  -1.620526551  -2.795506995   1.473304529
+[216]  -5.057278714  -2.325488643  -6.612891371   1.047891665   1.184335554
+[221]   1.067936715  -1.893917726  -1.660850454   1.235448817   1.395848509
+[226]  -8.352631627   0.661067847 -10.045949778   1.301830099   1.184362514
+[231]  -2.365111887 -19.375622882   0.787353636  -1.284525224  -1.465763628
+[236]   1.487875678  -2.800629638   0.974747012  -3.893986259  -1.347791384
+[241]  -1.715161311   1.344923130  -2.191660590   0.729214728  -4.251170941
+[246] -15.846996489   0.963319101  -2.045913223  -2.214253517   0.123732841
+[251]  -1.130187683  -0.976720057   1.550396563  -0.114614937  -2.106725798
+[256]  -3.543205014 -64.153096610  -1.674467836  -2.013424285  -2.506361843
+[261]   0.171864835   1.109748552   1.058702426   0.607026838   0.841762192
+[266]   1.600486017  -0.341279447   1.218882366  -1.075804146  -3.976274166
+[271]   1.462331510  -2.327053523   1.443964144 -70.883566817  -0.662165420
+[276]  -1.690102935 -50.916636504  -3.285496238   1.214680711   1.243536650
+[281]  -0.209042356  -1.987493543   0.412999360  -3.236351739   1.359980628
+[286]  -1.527350949   1.444523027  -2.321816594  -2.549388281   0.552707478
+[291]   1.307238920   1.553288676  -2.277551572  -4.393119872   1.180012547
+[296]  -1.006935254  -0.716277972  -0.594563456  -2.172846043  -1.984262894
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopDeriv2")
+> ### * BiCopDeriv2
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopDeriv2
+> ### Title: Second derivatives of a bivariate copula density
+> ### Aliases: BiCopDeriv2
+> 
+> ### ** Examples
+> 
+> # simulate from a bivariate t-copula
+> simdata = BiCopSim(300,2,-0.7,par2=4)
+> 
+> # second derivative of the bivariate t-copula with respect to the first parameter
+> u1 = simdata[,1]
+> u2 = simdata[,2]
+> BiCopDeriv2(u1,u2,2,-0.7,par2=4, deriv="par")
+  [1]    2.4126542   -6.6825108   -6.3560370  -13.7227857   -9.1816929
+  [6]   -7.0908205   13.7290309   10.7473379    1.2577657    2.6630769
+ [11]   45.1413216   -5.6405356    3.4557714  -38.1175487   23.8842516
+ [16]   10.4429381   -3.4900896   -4.0350153   -5.2822373   14.4093322
+ [21]   -2.3705610    6.3865847   -2.3729617   -8.3403632   -1.7953292
+ [26]   -5.9126744   -0.8925703   -2.7198451   12.1687196   13.2898122
+ [31]   34.8767633    5.5283219    6.8140897    0.5179240   12.8722339
+ [36]   -1.9694262    2.3857559   -7.1967954   19.9757800   -0.8634186
+ [41]    5.8194993    3.3938077    7.1423000   -5.1528390   -6.5129152
+ [46]   -2.6078043   -6.5350832   -6.9423348    9.5969194    1.2028442
+ [51]   12.2097919   -5.3415160    2.3088684    6.2549771   -6.3055972
+ [56]  -20.6839367    8.6985442    1.8900924   -7.2938766    9.6259884
+ [61]  -15.8136161   -4.4191251   13.3567417   -1.6699869   15.6181921
+ [66]   -8.2228638   49.6433734   -6.8637577   11.5149595  -10.1757433
+ [71]    5.7891358   -5.1789980   13.2930910   17.9367741   11.1038423
+ [76]    9.7799834    9.3298570   -3.7109533   -7.6361988   -5.8621277
+ [81]   -7.0977482    0.3699164   18.6443999  -12.3991863   14.2560643
+ [86]   -6.1678671   19.3905631   -7.4826160   -2.0968065   -6.4709585
+ [91]   -6.1599241    7.7973748   19.3468978   -4.3365165   -3.1372378
+ [96]   14.3722621  -12.2920083   14.3064742   16.3602446    4.6174577
+[101]   -5.8752261    2.9774240   11.4235543   -6.1721458   13.0711948
+[106]   24.5566247   -2.0566903   19.3946357   -3.4040873   46.5514372
+[111]   -6.6975421   11.8752549    4.8264870   -1.9410271   -4.8470163
+[116]   -6.5319545   11.8388787    8.7842751    8.5351932   10.8108849
+[121]   13.7383533   17.5443858   -3.4835638   -6.5227577   -7.3817498
+[126]   -3.1497797   10.5288361   -7.0505394   10.7116425   -9.1255948
+[131]    6.4561544    6.1147706   -0.1415321   47.2160109   -2.1404643
+[136]   -3.2675803   -5.8061782   -6.0783318   -6.6882969    0.2205718
+[141]    9.2056534   22.6513172   -5.4130890   -6.4797445   -8.6119575
+[146]   -6.1626208   99.0525948    5.6320135   -4.5034060  -10.8423355
+[151]   -8.2161180   11.7010068   -3.1354411   10.6979666   -7.4363695
+[156]   -7.9862145   -7.0399481   10.7286487   -9.0056350  -19.8533850
+[161]   10.9014112   -0.7675042   -0.2967231   -7.3862615    9.1439497
+[166]  155.9358951   -1.0080337   -9.1237377   -5.7171014   -2.9464925
+[171]  269.9285276   10.3593989    8.7543815   -4.7214883    7.2427847
+[176]   -6.7186224   15.3700517  124.6436795   -9.6978141   11.7143732
+[181]   -7.6979536   20.5984504   -5.7257439   40.5312907   12.7734411
+[186]   12.0655708   42.4723521    4.4524000   -4.4733160    9.1906767
+[191]   12.1270553   -0.8568985   -5.9649734   -7.0021920  -23.9452815
+[196]   -6.2800218    5.3513165   -3.9053336   10.6781184   -6.4459971
+[201]    0.4934674   -2.4424125  -13.7947217    2.6918629  -15.0437654
+[206]  179.5492436   -6.4095059   12.3367635    5.0010992   -6.3084576
+[211]   12.1575256   -3.7222823    6.9552673  -14.7678286   -5.2660209
+[216]  -11.0043502   12.5483203   25.2705550  -12.1320323   -7.5170928
+[221]  -16.7607915    9.6529562    5.9831467   -9.2588542   -1.5943981
+[226]   19.2252029   -5.8827620   41.3950758   -0.7504865   -8.7125535
+[231]    7.1471377 -182.3423219  -11.5964015    0.1386318    5.9833540
+[236]   -6.7067508   14.3516973   -9.2066813   15.6816459    5.2243435
+[241]    1.1197675   -0.8486390   11.8796392    2.1755199    7.3798075
+[246]  -19.7251148   -6.5430234   10.6690874   12.1767844  -16.2087793
+[251]    3.8184437    2.4339272   -5.1251428   -4.2674313    8.5722830
+[256]   12.3852346  276.5338339    3.0855253    9.9835689   12.7594328
+[261]   -6.1429545   -6.5277846   -8.7959204   -6.8613633    3.2834040
+[266]   -6.8909722   -1.5026474    0.2997642    3.2883771   18.6179306
+[271]   -8.1021536   11.2468036   -5.3373429  195.6539596    0.6054940
+[276]    0.9947356  122.5599083   16.1741216    0.2079989   -7.1625500
+[281]   -4.9097796    7.9203020  -10.0926920   15.9586637  -11.5061335
+[286]    1.7095188   -4.9261936    7.3923584   13.3974394   -7.5603040
+[291]   -9.6068616   -8.6709300   12.2354089   11.2373337  -17.6110050
+[296]    2.1594059   -0.8513871   -2.9233828   12.0301834   10.0336656
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopEst")
+> ### * BiCopEst
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopEst
+> ### Title: Parameter estimation for bivariate copula data using inversion
+> ###   of Kendall's tau or maximum likelihood estimation
+> ### Aliases: BiCopEst
+> 
+> ### ** Examples
+> 
+> ## Example 1: bivariate Gaussian copula
+> dat = BiCopSim(500,1,0.7)
+> u1 = dat[,1]
+> v1 = dat[,2]
+> 
+> # empirical Kendall's tau
+> tau1 = cor(u1,v1,method="kendall")
+> 
+> # inversion of empirical Kendall's tau 
+> BiCopTau2Par(1,tau1)
+[1] 0.7045111
+> BiCopEst(u1,v1,family=1,method="itau")$par
+[1] 0.7045111
+> 
+> # maximum likelihood estimate for comparison
+> BiCopEst(u1,v1,family=1,method="mle")$par
+[1] 0.703239
+> 
+> 
+> ## Example 2: bivariate Clayton and survival Gumbel copulas
+> # simulate from a Clayton copula
+> dat = BiCopSim(500,3,2.5)
+> u2 = dat[,1]
+> v2 = dat[,2]
+> 
+> # empirical Kendall's tau
+> tau2 = cor(u2,v2,method="kendall")
+> 
+> # inversion of empirical Kendall's tau for the Clayton copula
+> BiCopTau2Par(3,tau2)
+[1] 2.480802
+> BiCopEst(u2,v2,family=3,method="itau",se=TRUE) 
+$par
+[1] 2.480802
+
+$par2
+[1] 0
+
+$se
+[1] 0.2366735
+
+$se2
+[1] 0
+
+> 
+> # inversion of empirical Kendall's tau for the survival Gumbel copula
+> BiCopTau2Par(14,tau2)
+[1] 2.240401
+> BiCopEst(u2,v2,family=14,method="itau",se=TRUE)
+$par
+[1] 2.240401
+
+$par2
+[1] 0
+
+$se
+[1] 0.1183367
+
+$se2
+[1] 0
+
+> 
+> # maximum likelihood estimates for comparison
+> BiCopEst(u2,v2,family=3,method="mle",se=TRUE)
+$par
+[1] 2.370793
+
+$par2
+[1] 0
+
+$se
+[1] 0.1337379
+
+$se2
+[1] 0
+
+> BiCopEst(u2,v2,family=14,method="mle",se=TRUE)
+$par
+[1] 2.244569
+
+$par2
+[1] 0
+
+$se
+[1] 0.08094233
+
+$se2
+[1] 0
+
+>  
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopGofTest")
+> ### * BiCopGofTest
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopGofTest
+> ### Title: Goodness-of-fit test for bivariate copulas
+> ### Aliases: BiCopGofTest
+> 
+> ### ** Examples
+> 
+> # simulate from a bivariate Clayton copula
+> simdata = BiCopSim(300,3,2)
+> u1 = simdata[,1]
+> u2 = simdata[,2]
+> 
+> # perform White's goodness-of-fit test for the true copula
+> BiCopGofTest(u1,u2,family=3)
+$p.value
+         [,1]
+[1,] 0.174567
+
+$statistic
+        [,1]
+[1,] 1.84328
+
+> 
+> # perform Kendall's goodness-of-fit test for the Frank copula
+> BiCopGofTest(u1,u2,family=5)
+$p.value
+         [,1]
+[1,] 0.499615
+
+$statistic
+          [,1]
+[1,] 0.4557542
+
+> 
+> ## Not run: 
+> ##D # perform Kendall's goodness-of-fit test for the true copula
+> ##D gof = BiCopGofTest(u1,u2,family=3,method="kendall")
+> ##D gof$p.value.CvM
+> ##D gof$p.value.KS
+> ##D 
+> ##D # perform Kendall's goodness-of-fit test for the Frank copula
+> ##D gof = BiCopGofTest(u1,u2,family=5,method="kendall")
+> ##D gof$p.value.CvM
+> ##D gof$p.value.KS
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopHfunc")
+> ### * BiCopHfunc
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopHfunc
+> ### Title: Conditional distribution function (h-function) of a bivariate
+> ###   copula
+> ### Aliases: BiCopHfunc
+> 
+> ### ** Examples
+> 
+> # load data set
+> data(daxreturns)
+> 
+> # h-functions of the Gaussian copula
+> h1 = BiCopHfunc(daxreturns[,2],daxreturns[,1],1,0.5)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopHfuncDeriv")
+> ### * BiCopHfuncDeriv
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopHfuncDeriv
+> ### Title: Derivatives of the h-function of a bivariate copula
+> ### Aliases: BiCopHfuncDeriv
+> 
+> ### ** Examples
+> 
+> # simulate from a bivariate t-copula
+> simdata = BiCopSim(300,2,-0.7,par2=4)
+> 
+> # derivative of the conditional bivariate t-copula 
+> # with respect to the first parameter
+> u1 = simdata[,1]
+> u2 = simdata[,2]
+> BiCopHfuncDeriv(u1,u2,2,-0.7,par2=4, deriv="par")
+  [1]  0.188249864 -0.529552481 -0.873071979 -0.088028377  0.764465081
+  [6]  0.268742673  0.225414839  0.003745044 -0.250411287 -0.552223280
+ [11]  0.542208002  0.733893277  0.171342121  0.040807295  0.271432180
+ [16] -0.194478681  0.539020302 -0.179847959  0.857056553  0.165863800
+ [21] -0.167799319 -0.078433467 -0.493630542  0.014446390 -0.259425789
+ [26] -0.611885828  0.430828031  0.081037733 -0.034159823  0.180985090
+ [31]  0.348575968  0.309101636  0.490238920 -0.491592260 -0.833857762
+ [36] -0.683462885  0.269070347 -0.635325777  0.174910232 -0.232964155
+ [41] -0.415391436  0.301526190  0.625251401  0.781396939  0.315011241
+ [46]  0.272627317 -0.447754453 -0.281985372  0.171307540 -0.133608127
+ [51]  0.291907921 -0.739724153  0.574547234  0.027070515 -0.078697407
+ [56] -0.055992298  0.122430683  0.125977620  0.815021190 -0.275509931
+ [61]  0.002381546  0.545961005  0.080450266  0.523905668 -0.172254706
+ [66]  0.701785048 -0.172723789 -0.075921055 -0.050254540 -0.004517698
+ [71] -0.168177303  0.276160659  0.085267141 -0.493157648 -0.803393801
+ [76] -0.105535945  0.082718102  0.550314064  0.649619473  0.335300268
+ [81] -0.812080987 -0.528871002  0.127874248  0.096408247  0.319461107
+ [86] -0.451052625  0.175261043 -0.732108956 -0.362990020 -0.491085624
+ [91]  0.360448206 -0.004058815  0.646588411 -0.267548058 -0.038478050
+ [96]  0.212768779 -0.998135373 -0.170435923 -0.730189152 -0.581004222
+[101]  0.322766093  0.433218521 -0.028256857  0.656941983 -0.440469944
+[106]  0.905222541 -0.262971427  0.363509687 -0.402981826  0.214369064
+[111]  0.334079146 -0.018541319 -0.011105518  0.283962314 -0.654004721
+[116]  0.434879517 -0.260821403 -0.378586711 -0.094233028  0.090256413
+[121] -0.148528729  0.776349022  0.453877912  0.524258454 -0.655611238
+[126] -0.276919473 -0.202919832  0.593810522  0.002473029 -0.762217436
+[131]  0.351571843 -0.598735354  0.694748439 -0.448698593  0.645639585
+[136]  0.073844504  0.458037528  0.364965458  0.325426427 -0.498972904
+[141] -0.021851288  0.200429313  0.064722731  0.401643084  0.182895921
+[146]  0.290075211  0.202374177 -0.341641916  0.123997416 -1.022736293
+[151]  0.791418025  0.075182652 -0.628108318 -0.665821356  0.075110556
+[156]  0.193194065 -0.196743575  0.008517146  0.106080111 -0.058541640
+[161]  0.377274610 -0.532218210 -0.145163584 -0.243522839 -0.542166366
+[166]  0.257163779 -0.604826143  0.097793845  0.524209816 -0.462202081
+[171]  0.565353924  0.227190890  0.469629855  0.535226709 -0.453294812
+[176]  0.592952517  0.142583522  0.291663625  0.945238268  0.036358344
+[181]  0.134079194  0.430849673 -0.491760062 -0.327047569  0.066055873
+[186] -0.122222031  0.495906313  0.114707985 -0.729711158  0.009699490
+[191] -0.126311498 -0.352044544  0.279501774 -0.265559498 -1.061562943
+[196]  0.193493830 -0.007152737  0.157099375  0.378735445  0.436320677
+[201]  0.637566123 -0.051532157 -0.096214541 -0.562281777 -1.067740592
+[206]  0.129401707 -0.312902602  0.043618794  0.360134505 -0.377298426
+[211] -0.028710528  0.714485775  0.162791794 -1.021347269 -0.204941971
+[216]  1.013500795 -0.072980656 -0.612046689  0.890427012 -0.636068300
+[221]  0.079076573 -0.212462972  0.120505081 -0.768875412  0.133605615
+[226]  0.054428210  0.446353454 -0.217747986 -0.416586417  0.735374745
+[231]  0.033411194  0.017922375 -0.885543628  0.704065045 -0.364867254
+[236] -0.643388103  0.195793043  0.165665240  0.094560066 -0.362209763
+[241]  0.736205610 -0.156423225 -0.004331393  0.164463094  0.809533644
+[246] -1.064867250  0.368145440  0.076047308 -0.033159947  0.998017644
+[251] -0.338624409 -0.263303799 -0.604043499 -0.659764288 -0.052004676
+[256]  0.044678722 -0.287577187  0.652727702 -0.076220083 -0.272904823
+[261] -0.202228846  0.436743099 -0.744262919 -0.245110081 -0.038434502
+[266]  0.702696501  0.331126710  0.111063317  0.273922978 -0.210545575
+[271] -0.722412783  0.343035608  0.248765166  0.095782375 -0.400989487
+[276] -0.080452647 -0.903931896  0.216170769  0.088277759 -0.236777115
+[281]  0.725417313 -0.469282440 -0.130085395 -0.274340107 -0.864874919
+[286]  0.098940531  0.311100164 -0.035244665  0.177627591 -0.201714174
+[291] -0.788477235  0.766407428  0.166684346 -0.031439868 -0.074612756
+[296]  0.490946037 -0.195111014 -0.163693476  0.009665286  0.091437111
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopHfuncDeriv2")
+> ### * BiCopHfuncDeriv2
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopHfuncDeriv2
+> ### Title: Second derivatives of the h-function of a bivariate copula
+> ### Aliases: BiCopHfuncDeriv2
+> 
+> ### ** Examples
+> 
+> # simulate from a bivariate t-copula
+> simdata = BiCopSim(300,2,-0.7,par2=4)
+> 
+> # second derivative of the conditional bivariate t-copula 
+> # with respect to the first parameter
+> u1 = simdata[,1]
+> u2 = simdata[,2]
+> BiCopHfuncDeriv2(u1,u2,2,-0.7,par2=4, deriv="par")
+  [1] -1.215743472  0.676432163  2.070406599  0.683104137 -0.913376318
+  [6] -0.710050633 -0.380729134  0.715399299 -0.665567977  1.632036772
+ [11] -1.361455778 -1.685344162 -1.181894458 -0.469499520 -0.204037487
+ [16]  0.728318453 -1.505687299  1.112256070 -2.074689314 -0.035874194
+ [21]  1.140988554  1.001420431  1.506230774 -0.673163264  1.278770051
+ [26]  1.384114516 -1.479096498 -0.034587398 -0.402780171 -0.262985015
+ [31] -0.509232689 -1.256322024 -1.450544075  1.559790082  2.363910507
+ [36]  1.788485119 -1.310927133  1.148459826  0.200611318 -0.238007528
+ [41]  1.367784069 -1.324986879 -1.729349924 -1.847620251 -0.626541767
+ [46]  0.056696643  0.793239949  0.889475962 -0.813941669  1.132457830
+ [51] -0.736959547 -0.712669433 -1.667752912 -0.915512742  0.882856436
+ [56]  0.304211963 -0.889548077  0.359914961 -1.771627993  0.935265984
+ [61]  0.564255880 -1.448928570  0.391012586 -1.564219917 -0.049588592
+ [66] -0.959530088 -0.221405775  0.865451336  0.392076006  0.619399962
+ [71]  1.113127358 -1.146161833  0.312188735  1.206539497  2.251312538
+ [76]  0.757996573 -0.815804338 -1.506407943 -0.776926112 -1.099202408
+ [81]  1.781350836  1.603927794  0.406758350 -0.720730567 -0.680390201
+ [86]  1.085797569  0.188897844  1.439691619  1.381150730  0.641747384
+ [91] -1.048358632  0.855165407 -1.758635205  1.193376564  0.825690530
+ [96] -0.263726732  2.406048643  0.072652932  2.042330048  1.659772707
+[101] -1.094674103 -1.473395060 -0.707078620 -1.441458068  1.122840702
+[106] -2.669331643 -0.121573944 -0.676155381 -0.089861170  0.066512328
+[111] -0.816865435 -0.449493107  0.842095557  0.166819176  1.581586131
+[116] -0.826388917  0.689697692  1.167586154  0.896278421 -0.578231830
+[121]  0.041291546 -2.203649792 -1.410758735 -1.071857373  0.506897678
+[126]  0.014866922  0.728721363 -1.035222799 -0.704223376  0.968919010
+[131] -1.257308905  1.678239532 -1.854870560  0.954443265 -1.717759694
+[136] -0.050855385 -1.175537697 -1.066627706 -0.891068901  1.566847594
+[141] -0.666235920  0.111578854 -0.098646734 -0.921046249 -0.669680315
+[146] -0.493936312  0.064686084  1.285910807 -0.137078560  2.721847917
+[151] -1.548056974 -0.330918089 -0.761823873  1.824863180 -0.851988078
+[156] -0.581906974  0.970745845 -0.685972832 -0.851197363  0.604360203
+[161] -1.043406276 -1.069780077 -0.157114694  0.850280672  1.502193791
+[166] -0.181079692  1.686734459 -0.841844768 -1.269161100 -0.302119562
+[171] -1.581533120 -0.785922060 -1.346777026 -1.407868569  1.370624566
+[176] -0.463134624  0.201656318 -0.313005054 -2.190453466  0.737473529
+[181] -0.918371700 -0.934926404  1.226189798  0.411049219  0.313656302
+[186]  0.308296668 -1.159197809 -1.090412140  1.763731867 -0.839589582
+[191]  0.303340709 -0.489806305 -1.076115303  0.656174155  1.688811272
+[196] -0.359354765  0.832636390 -1.083901305 -1.059414095 -0.960085381
+[201] -1.761583082  0.020441164  0.522444368  1.646927486  3.070231610
+[206]  0.282791318  1.003790018  0.421914610 -1.332959257  1.007754211
+[211] -0.083555917 -1.774572460 -1.048379325  2.467945526  0.268864809
+[216] -2.632173174 -0.069129025  1.632352676 -1.205081214  0.798267152
+[221] -0.486081590  0.847398456 -1.060023271  0.847943265  0.040175843
+[226]  0.619999191 -1.149872169 -0.058475344 -0.688338660 -0.872893426
+[231] -0.923090391 -0.406848480  1.392437876 -1.878284760  1.296387637
+[236]  0.256310892 -0.190195960 -0.686117150  0.518948145  1.326364046
+[241] -1.963081216 -0.123258855  0.288742491  0.640543838 -2.236818725
+[246]  2.934596365 -0.898891845 -0.609563404 -0.067334917 -1.863728816
+[251]  1.350921535  1.304034506 -0.120235645  1.636173432  0.884165416
+[256]  0.705384705  0.339786539 -1.803572725  0.730842590  0.634917730
+[261]  1.037634486 -0.805216759  1.017710265  0.968425827 -0.159901177
+[266] -0.041044340 -1.364388489  0.151239067 -1.299503843  0.004693169
+[271]  0.441065481 -0.939993819 -0.314391620  0.370992386  1.461259637
+[276]  1.018051366  2.829498895 -0.137895766  0.107473734  0.594214092
+[281] -1.724225973  1.375348766  0.781833388  0.412615262  0.861019514
+[286] -1.068016826 -0.272752391  0.921388304 -0.233123957  0.914511655
+[291]  0.785045559 -0.353592936 -0.391098131 -0.743342764  0.454456708
+[296] -1.553727759  1.212126052  1.121095942 -0.102371048 -0.720134004
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopIndTest")
+> ### * BiCopIndTest
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopIndTest
+> ### Title: Independence test for bivariate copula data
+> ### Aliases: BiCopIndTest
+> 
+> ### ** Examples
+> 
+> ## Example 1: Gaussian copula with large dependence parameter
+> par1 = 0.7
+> fam1 = 1
+> dat1 = BiCopSim(500,fam1,par1)
+> 
+> # perform the asymptotic independence test
+> BiCopIndTest(dat1[,1],dat1[,2])
+$statistic
+[1] 16.63404
+
+$p.value
+[1] 0
+
+> 
+> 
+> ## Example 2: Gaussian copula with small dependence parameter
+> par2 = 0.01
+> fam2 = 1
+> dat2 = BiCopSim(500,fam2,par2)
+> 
+> # perform the asymptotic independence test
+> BiCopIndTest(dat2[,1],dat2[,2])
+$statistic
+[1] 1.453241
+
+$p.value
+[1] 0.1461569
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopKPlot")
+> ### * BiCopKPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopKPlot
+> ### Title: Kendall's plot (K-plot) for bivariate copula data
+> ### Aliases: BiCopKPlot
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Gaussian and Clayton copulas
+> ##D n = 500
+> ##D tau = 0.5
+> ##D 
+> ##D # simulate from Gaussian copula
+> ##D fam1 = 1	
+> ##D theta1 = BiCopTau2Par(fam1,tau)
+> ##D dat1 = BiCopSim(n,fam1,theta1)	
+> ##D 
+> ##D # simulate from Clayton copula
+> ##D fam2 = 3
+> ##D theta2 = BiCopTau2Par(fam2,tau)
+> ##D dat2 = BiCopSim(n,fam2,theta2)
+> ##D 
+> ##D # create K-plots
+> ##D dev.new(width=10,height=5)
+> ##D par(mfrow=c(1,2))
+> ##D BiCopKPlot(dat1[,1],dat1[,2],main="Gaussian copula")
+> ##D BiCopKPlot(dat2[,1],dat2[,2],main="Clayton copula")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopLambda")
+> ### * BiCopLambda
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopLambda
+> ### Title: Lambda-function (plot) for bivariate copula data
+> ### Aliases: BiCopLambda
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Clayton and rotated Clayton copulas
+> ##D n = 1000
+> ##D tau = 0.5
+> ##D 
+> ##D # simulate from Clayton copula
+> ##D fam = 3	
+> ##D theta = BiCopTau2Par(fam,tau)
+> ##D dat = BiCopSim(n,fam,theta)
+> ##D 
+> ##D # create lambda-function plots
+> ##D dev.new(width=16,height=5)
+> ##D par(mfrow=c(1,3))
+> ##D BiCopLambda(dat[,1],dat[,2])	# empirical lambda-function	
+> ##D BiCopLambda(family=fam,par=theta)	# theoretical lambda-function
+> ##D BiCopLambda(dat[,1],dat[,2],family=fam,par=theta)	# both
+> ##D 
+> ##D # simulate from rotated Clayton copula (90 degrees)
+> ##D fam = 23  
+> ##D theta = BiCopTau2Par(fam,-tau)
+> ##D dat = BiCopSim(n,fam,theta)
+> ##D 
+> ##D # rotate the data to standard Clayton copula data
+> ##D rot_dat = 1-dat[,1]
+> ##D 
+> ##D dev.new(width=16,height=5)
+> ##D par(mfrow=c(1,3))
+> ##D BiCopLambda(rot_dat,dat[,2])  # empirical lambda-function	
+> ##D BiCopLambda(family=3,par=-theta)	# theoretical lambda-function
+> ##D BiCopLambda(rot_dat,dat[,2],family=3,par=-theta)	# both
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopMetaContour")
+> ### * BiCopMetaContour
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopMetaContour
+> ### Title: Contour plot of bivariate meta distribution with different
+> ###   margins and copula (theoretical and empirical)
+> ### Aliases: BiCopMetaContour
+> 
+> ### ** Examples
+> 
+> ## Example 1: contour plot of meta Gaussian copula distribution
+> ## with Gaussian margins
+> tau = 0.5
+> fam = 1
+> theta = BiCopTau2Par(fam,tau)	
+> BiCopMetaContour(u1=NULL,u2=NULL,bw=1,size=100,
++                  levels=c(0.01,0.05,0.1,0.15,0.2),
++                  family=fam,par=theta,main="tau=0.5")
+> 
+> 
+> ## Example 2: empirical contour plot with standard normal margins
+> dat = BiCopSim(N=1000,fam,theta)
+> BiCopMetaContour(dat[,1],dat[,2],bw=2,size=100,
++                  levels=c(0.01,0.05,0.1,0.15,0.2),
++                  par=0,family="emp",main="N=1000")
+> 
+> # empirical contour plot with exponential margins
+> BiCopMetaContour(dat[,1],dat[,2],bw=2,size=100,
++                  levels=c(0.01,0.05,0.1,0.15,0.2),
++                  par=0,family="emp",main="n=500",
++                  margins="exp",margins.par=1)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopName")
+> ### * BiCopName
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopName
+> ### Title: Bivariate copula family names
+> ### Aliases: BiCopName
+> 
+> ### ** Examples
+> 
+> # family as number
+> family = 1
+> BiCopName(family,short=TRUE)	 # short version
+[1] "N"
+> BiCopName(family,short=FALSE)	# long version
+[1] "Gaussian"
+> 
+> # family as character expression (short version)
+> family = "C"
+> BiCopName(family)	# as number
+[1] 3
+> 
+> # long version
+> family = "Clayton"
+> BiCopName(family)	# as number
+[1] 3
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopPDF")
+> ### * BiCopPDF
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopPDF
+> ### Title: Density of a bivariate copula
+> ### Aliases: BiCopPDF
+> 
+> ### ** Examples
+> 
+> # simulate from a bivariate t-copula
+> simdata = BiCopSim(300,2,-0.7,par2=4)
+> 
+> # evaluate the density of the bivariate t-copula
+> u1 = simdata[,1]
+> u2 = simdata[,2]
+> BiCopPDF(u1,u2,2,-0.7,par2=4)
+  [1]  1.4509532  0.7450191  1.8841319  1.7781436  0.9356300  0.8177811
+  [7]  1.7640099  1.7900306  0.1805557  1.4960027  4.7939019  1.3124508
+ [13]  1.4847751  4.2339710  2.7018458  1.5585314  1.1721709  1.3683209
+ [19]  1.8857129  1.8239689  1.4396319  1.6819455  1.2040565  4.6814185
+ [25]  1.2789549  1.0715891  1.2477247  0.3931863  1.6853215  1.7119779
+ [31]  3.6163336  1.4391155  1.6270213  1.3335671  3.9591288  1.4571431
+ [37]  1.3719928  0.9563759  2.4986207  0.3128186  1.4980675  1.3835487
+ [43]  1.9285981  1.4993152  0.7354036  0.4082332  0.7851634  0.9227819
+ [49]  1.5333402  1.5704021  1.7039627  0.5321449  1.5098625  2.0504398
+ [55]  2.0153110  1.6097740  1.5482732  0.1588145  1.4363680  1.5611646
+ [61] 10.7965393  1.1209806  1.8398386  1.2563819  1.9618356  0.9084514
+ [67]  5.8878895  2.0636994  1.5799545  6.6466197  1.4992094  1.1200087
+ [73]  1.7884328  2.4028859  3.3494090  1.5586288  1.5892621  1.1677560
+ [79]  0.8178396  1.0017327  1.4430653  1.3570455  2.5727364  1.6772328
+ [85]  1.8677113  0.9238600  2.4250247  1.1397584  1.2010392  0.7256479
+ [91]  0.9471255  2.2343033  3.0432788  1.1762044  2.6748038  1.8143599
+ [97]  3.0861394  1.8103573  3.2703773  1.6526328  1.0123612  1.3970405
+[103]  1.9628508  1.1125880  1.9358269  7.5223244  0.3772627  2.3157766
+[109]  0.4506797  5.1004606  0.8303653  1.6693870  2.5948045  0.3705532
+[115]  1.2117334  0.8011258  1.6581749  1.5985404  1.5860419  1.5657355
+[121]  1.7555414  3.8122667  1.1342192  0.9067486  0.7342144  0.4398795
+[127]  1.5641945  0.8974143  1.7495701  0.9532840  1.4820237  1.7860343
+[133]  1.6090307  4.6918580  1.3724016  0.4203984  0.9705821  0.9548961
+[139]  0.8795845  1.3257603  5.0197995  2.7203733  0.5354001  0.8543785
+[145]  0.9427534  0.6732535 10.3018041  1.4498344  0.4999090  5.6515653
+[151]  1.2456783  1.5775241  0.4078087  2.3607234  2.0848759  0.8325547
+[157]  1.1806543  1.7129055  1.6721061  2.6235600  1.7095824  0.2732758
+[163]  0.2804538  0.9538261  1.8602440 14.2416730  1.3746683  1.7670624
+[169]  1.0079503  0.4156592 22.8242334  1.5670967  1.7056025  1.0934714
+[175]  1.6014404  0.6922932  1.9842416 11.1945396  2.2421284  2.3787593
+[181]  1.4657757  2.4965163  0.9897267  4.1093775  1.7241310  1.6029155
+[187]  4.4162566  1.6043477  1.3925170  1.9037497  1.6077500  0.3044241
+[193]  1.0598432  0.7855435  2.2756730  0.6428059  2.6409788  1.4488698
+[199]  1.6983484  0.8639165  1.5161660  0.3722867  1.3231312  1.5118884
+[205] 22.2053066 22.7677421  0.9624509  1.7196748  1.4355914  0.9121916
+[211]  1.5988648  1.4092142  1.5096132  3.5087530  0.5691759  4.5757083
+[217]  1.6408382  3.4053772  1.2075836  0.8195577  1.5677741  1.5381682
+[223]  1.5722479  0.9173303  0.3449143  4.7069431  0.9601523  4.5702961
+[229]  0.2891748  0.8991030  1.8975717 24.7319236  1.2834306  1.6558974
+[235]  1.4717198  0.6557624  1.8106882  1.0225199  2.3383869  1.4439077
+[241]  1.8447412  0.3095081  1.5999247  0.1055318  2.9658562 11.3953377
+[247]  0.8567873  1.5741799  1.5997922  1.9725311  1.3936658  1.3762864
+[253]  0.5353565  1.2609574  1.6920802  2.2989613 23.3790442  1.7178132
+[259]  1.5849119  1.7238737  1.2197203  0.7913705  0.9572230  1.0426147
+[265]  0.1119637  0.6393720  1.2343863  0.2462628  1.3890449  2.2522210
+[271]  0.7572411  1.6933671  0.5848253 30.7046313  1.2985987  1.8373985
+[277] 23.3352220  1.9883252  0.2466282  0.7731763  1.3484265  1.6579735
+[283]  1.3572918  1.9714652  1.0384721  1.7073857  0.5605196  1.8619266
+[289]  1.7203929  1.1129925  0.9155025  0.7716646  1.6289793  2.8401968
+[295]  1.5914814  1.4042917  1.3976471  1.4433943  1.5849122  1.5682857
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopPar2Beta")
+> ### * BiCopPar2Beta
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopPar2Beta
+> ### Title: Blomqvist's beta value of a bivariate copula
+> ### Aliases: BiCopPar2Beta
+> 
+> ### ** Examples
+> 
+> #Blomqvist's beta for the Clayton copula
+> BiCopPar2Beta(family=3,par=2)
+[1] 0.5118579
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopPar2TailDep")
+> ### * BiCopPar2TailDep
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopPar2TailDep
+> ### Title: Tail dependence coefficients of a bivariate copula
+> ### Aliases: BiCopPar2TailDep
+> 
+> ### ** Examples
+> 
+> ## Example 1: Gaussian copula
+> BiCopPar2TailDep(1,0.7)
+$lower
+[1] 0
+
+$upper
+[1] 0
+
+> 
+> ## Example 2: t copula
+> BiCopPar2TailDep(2,0.7,4)
+$lower
+[1] 0.390684
+
+$upper
+[1] 0.390684
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopPar2Tau")
+> ### * BiCopPar2Tau
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopPar2Tau
+> ### Title: Kendall's tau value of a bivariate copula
+> ### Aliases: BiCopPar2Tau
+> 
+> ### ** Examples
+> 
+> ## Example 1: Gaussian copula
+> tt1 = BiCopPar2Tau(1,0.7)
+> 
+> # transform back
+> BiCopTau2Par(1,tt1)
+[1] 0.7
+> 
+> 
+> ## Example 2: Clayton copula
+> BiCopPar2Tau(3,1.3)
+[1] 0.3939394
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopSelect")
+> ### * BiCopSelect
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopSelect
+> ### Title: Selection and maximum likelihood estimation of bivariate copula
+> ###   families
+> ### Aliases: BiCopSelect
+> 
+> ### ** Examples
+> 
+> ## Example 1: Gaussian copula with large dependence parameter
+> par1 = 0.7
+> fam1 = 1
+> dat1 = BiCopSim(500,fam1,par1)
+> 
+> # select the bivariate copula family and estimate the parameter(s)
+> cop1 = BiCopSelect(dat1[,1],dat1[,2],familyset=c(1:10),indeptest=FALSE,
++        level=0.05)
+> cop1$family
+[1] 1
+> cop1$par
+[1] 0.703239
+> cop1$par2
+[1] 0
+> 
+> 
+> ## Example 2: Gaussian copula with small dependence parameter
+> par2 = 0.01
+> fam2 = 1
+> dat2 = BiCopSim(500,fam2,par2)
+> 
+> # select the bivariate copula family and estimate the parameter(s)
+> cop2 = BiCopSelect(dat2[,1],dat2[,2],familyset=c(1:10),indeptest=TRUE,
++        level=0.05)
+> cop2$family
+[1] 0
+> cop2$par
+[1] 0
+> cop2$par2
+[1] 0
+> 
+> ## Not run: 
+> ##D ## Example 3: empirical data
+> ##D data(daxreturns)
+> ##D cop3 = BiCopSelect(daxreturns[,1],daxreturns[,4],
+> ##D        familyset=c(1:10,13,14,16,23,24,26))
+> ##D cop3$family
+> ##D cop3$par
+> ##D cop3$par2
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopSim")
+> ### * BiCopSim
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopSim
+> ### Title: Simulation from a bivariate copula
+> ### Aliases: BiCopSim
+> 
+> ### ** Examples
+> 
+> # simulate from a bivariate t-copula
+> simdata = BiCopSim(300,2,-0.7,par2=4)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopTau2Par")
+> ### * BiCopTau2Par
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopTau2Par
+> ### Title: Parameter of a bivariate copula for a given Kendall's tau value
+> ### Aliases: BiCopTau2Par
+> 
+> ### ** Examples
+> 
+> ## Example 1: Gaussian copula
+> tt1 = BiCopTau2Par(1,0.5)
+> 
+> # transform back
+> BiCopPar2Tau(1,tt1)
+[1] 0.5
+> 
+> 
+> ## Example 2: Clayton copula
+> BiCopTau2Par(3,0.4)
+[1] 1.333333
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BiCopVuongClarke")
+> ### * BiCopVuongClarke
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BiCopVuongClarke
+> ### Title: Scoring goodness-of-fit test based on Vuong and Clarke tests for
+> ###   bivariate copula data
+> ### Aliases: BiCopVuongClarke
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # simulate from a t-copula
+> ##D dat = BiCopSim(500,2,0.7,5)
+> ##D 
+> ##D # apply the test for families 1-10
+> ##D vcgof = BiCopVuongClarke(dat[,1],dat[,2],familyset=c(1:10))
+> ##D 
+> ##D # display the Vuong test scores
+> ##D vcgof[1,]
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("C2RVine")
+> ### * C2RVine
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: C2RVine
+> ### Title: Transform C-vine to R-vine structure
+> ### Aliases: C2RVine
+> 
+> ### ** Examples
+> 
+> # simulate a sample of size 500 from a 4-dimensional C-vine  
+> # copula model with mixed pair-copulas
+> # load package CDVine
+> library(CDVine)
+Loading required package: MASS
+Loading required package: mvtnorm
+Loading required package: igraph
+
+Attaching package: 'CDVine'
+
+The following objects are masked from 'package:VineCopula':
+
+    BiCopCDF, BiCopChiPlot, BiCopEst, BiCopHfunc, BiCopIndTest,
+    BiCopKPlot, BiCopLambda, BiCopMetaContour, BiCopName, BiCopPDF,
+    BiCopPar2TailDep, BiCopPar2Tau, BiCopSelect, BiCopSim,
+    BiCopTau2Par, BiCopVuongClarke
+
+> d = 4
+> dd = d*(d-1)/2
+> order = 1:d
+> family = c(1,2,3,4,7,3)
+> par = c(0.5,0.4,2,1.5,1.2,1.5)
+> par2 = c(0,5,0,0,2,0)
+> type = 1
+> simdata = CDVineSim(500,family,par,par2,type)
+> 
+> # determine log-likelihood
+> out = CDVineLogLik(simdata,family,par,par2,type)
+> out$loglik
+[1] 1007.06
+> 
+> # transform to R-vine matrix notation
+> RVM = C2RVine(order,family,par,par2)
+> 
+> # check that log-likelihood stays the same
+> out2 = RVineLogLik(simdata,RVM)
+> out2$loglik
+[1] 1007.06
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:CDVine', 'package:igraph', 'package:mvtnorm',
+  'package:MASS'
+
+> nameEx("D2RVine")
+> ### * D2RVine
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: D2RVine
+> ### Title: Transform D-vine to R-vine structure
+> ### Aliases: D2RVine
+> 
+> ### ** Examples
+> 
+> # simulate a sample of size 500 from a 4-dimensional D-vine 
+> # copula model with mixed pair-copulas
+> # load package CDVine
+> library(CDVine)
+Loading required package: MASS
+Loading required package: mvtnorm
+Loading required package: igraph
+
+Attaching package: 'CDVine'
+
+The following objects are masked from 'package:VineCopula':
+
+    BiCopCDF, BiCopChiPlot, BiCopEst, BiCopHfunc, BiCopIndTest,
+    BiCopKPlot, BiCopLambda, BiCopMetaContour, BiCopName, BiCopPDF,
+    BiCopPar2TailDep, BiCopPar2Tau, BiCopSelect, BiCopSim,
+    BiCopTau2Par, BiCopVuongClarke
+
+> d = 4
+> dd = d*(d-1)/2
+> order = 1:d
+> family = c(1,2,3,4,7,3)
+> par = c(0.5,0.4,2,1.5,1.2,1.5)
+> par2 = c(0,5,0,0,2,0)
+> type = 2
+> simdata = CDVineSim(500,family,par,par2,type)
+> 
+> # determine log-likelihood
+> out = CDVineLogLik(simdata,family,par,par2,type)
+> out$loglik
+[1] 1002.935
+> 
+> # transform to R-vine matrix notation
+> RVM = D2RVine(order,family,par,par2)
+> 
+> # check that log-likelihood stays the same
+> out2 = RVineLogLik(simdata,RVM)
+> out2$loglik
+[1] 1002.935
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:CDVine', 'package:igraph', 'package:mvtnorm',
+  'package:MASS'
+
+> nameEx("RVineAICBIC")
+> ### * RVineAICBIC
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineAIC/BIC
+> ### Title: AIC and BIC of an R-vine copula model
+> ### Aliases: RVineAIC RVineBIC
+> 
+> ### ** Examples
+> 
+> # define 5-dimensional R-vine tree structure matrix
+> Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> Matrix = matrix(Matrix,5,5)
+> 
+> # define R-vine pair-copula family matrix
+> family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> family = matrix(family,5,5)
+> 
+> # define R-vine pair-copula parameter matrix
+> par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
++         0,0,0,0,4.8,0,0,0,0,0)
+> par = matrix(par,5,5)
+> 
+> # define second R-vine pair-copula parameter matrix
+> par2 = matrix(0,5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
++                   names=c("V1","V2","V3","V4","V5"))
+> 
+> # simulate a sample of size 300 from the R-vine copula model
+> simdata = RVineSim(300,RVM)
+> 
+> # compute AIC and BIC
+> RVineAIC(simdata,RVM)
+$AIC
+[1] -2452.048
+
+$pair.AIC
+           [,1]       [,2]      [,3]      [,4] [,5]
+[1,]    0.00000    0.00000    0.0000    0.0000    0
+[2,]  -20.63665    0.00000    0.0000    0.0000    0
+[3,]  -84.72522 -116.27100    0.0000    0.0000    0
+[4,] -117.12905  -70.74296 -169.2234    0.0000    0
+[5,] -561.44982 -559.52066 -114.5532 -637.7956    0
+
+> RVineBIC(simdata,RVM)
+$BIC
+[1] -2415.01
+
+$pair.BIC
+           [,1]       [,2]      [,3]      [,4] [,5]
+[1,]    0.00000    0.00000    0.0000    0.0000    0
+[2,]  -16.93286    0.00000    0.0000    0.0000    0
+[3,]  -81.02144 -112.56721    0.0000    0.0000    0
+[4,] -113.42527  -67.03918 -165.5196    0.0000    0
+[5,] -557.74604 -555.81688 -110.8495 -634.0919    0
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineClarkeTest")
+> ### * RVineClarkeTest
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineClarkeTest
+> ### Title: Clarke test comparing two R-vine copula models
+> ### Aliases: RVineClarkeTest
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # load data set
+> ##D data(daxreturns)
+> ##D 
+> ##D # select the R-vine structure, families and parameters
+> ##D RVM = RVineStructureSelect(daxreturns[,1:5],c(1:6))
+> ##D 
+> ##D # select the C-vine structure, families and parameters
+> ##D CVM = RVineStructureSelect(daxreturns[,1:5],c(1:6),type="CVine")
+> ##D 
+> ##D # compare the two models based on the data
+> ##D clarke = RVineClarkeTest(daxreturns[,1:5],RVM,CVM)
+> ##D clarke$statistic
+> ##D clarke$statistic.Schwarz
+> ##D clarke$p.value
+> ##D clarke$p.value.Schwarz
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineCopSelect")
+> ### * RVineCopSelect
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineCopSelect
+> ### Title: Sequential copula selection and estimation of R-vine copula
+> ###   models
+> ### Aliases: RVineCopSelect
+> 
+> ### ** Examples
+> 
+> # define 5-dimensional R-vine tree structure matrix
+> Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> Matrix = matrix(Matrix,5,5)
+> 
+> # define R-vine pair-copula family matrix
+> family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> family = matrix(family,5,5)
+> 
+> # define R-vine pair-copula parameter matrix
+> par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
++         0,0,0,0,4.8,0,0,0,0,0)
+> par = matrix(par,5,5)
+> 
+> # define second R-vine pair-copula parameter matrix
+> par2 = matrix(0,5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
++                   names=c("V1","V2","V3","V4","V5"))
+>                   
+> # simulate a sample of size 1000 from the R-vine copula model
+> simdata = RVineSim(1000,RVM)
+> 
+> # determine the pair-copula families and parameters
+> RVM1 = RVineCopSelect(simdata,familyset=c(1,3,4,5,6),Matrix)
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    0    0    0    0    0
+[2,]    1    0    0    0    0
+[3,]    3    3    0    0    0
+[4,]    4    4    4    0    0
+[5,]    4    1    1    3    0
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineCor2pcor")
+> ### * RVineCor2pcor
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineCor2pcor
+> ### Title: correlations to partial correlations and vice versa for R-vines
+> ### Aliases: RVinePcor2cor RVineCor2pcor
+> ### Keywords: vine partial correlation
+> 
+> ### ** Examples
+> 
+> corMat <- matrix(c(1.00, 0.17, 0.15, 0.14, 0.13,
++                    0.17, 1.00, 0.30, 0.28, 0.05,
++                    0.15, 0.30, 1.00, 0.17, 0.05,
++                    0.14, 0.28, 0.17, 1.00, 0.04,
++                    0.13, 0.05, 0.05, 0.04, 1.00),5,5)
+> 
+> Matrix = matrix(c(5,2,3,1,4,
++                   0,2,3,4,1,
++                   0,0,3,4,1,
++                   0,0,0,4,1,
++                   0,0,0,0,1),5,5)
+> family = matrix(1,5,5)
+> 
+> par = matrix(c(0,0.2,0.9,0.5,0.8,
++                0,  0,0.1,0.6,0.9,
++                0,  0,  0,0.7,0.5,
++                0,  0,  0,  0,0.8,
++                0,  0,  0,  0,  0),5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix,family,par)
+> 
+> # adjust the un-ordered RVine
+> newRVM <- RVineCor2pcor(RVM, corMat)
+> round(cor(qnorm(RVineSim(1000, newRVM)))-corMat, 2)
+      [,1]  [,2]  [,3]  [,4]  [,5]
+[1,]  0.00  0.06 -0.04  0.03  0.02
+[2,]  0.06  0.00  0.00 -0.01  0.03
+[3,] -0.04  0.00  0.00  0.00 -0.01
+[4,]  0.03 -0.01  0.00  0.00 -0.01
+[5,]  0.02  0.03 -0.01 -0.01  0.00
+> 
+> # normalise the RVine
+> normRVM <- RVineMatrixNormalize(RVM)
+> 
+> # adjust the normalised RVine
+> newNormRVM <- RVineCor2pcor(normRVM, corMat)
+> 
+> # newRVM and newNormRVM are the same vine using only different naming:
+> newNormRVM$par - newRVM$par
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    0    0    0    0    0
+[2,]    0    0    0    0    0
+[3,]    0    0    0    0    0
+[4,]    0    0    0    0    0
+[5,]    0    0    0    0    0
+> 
+> # the variable now do have a different ordering in the correlation matrix
+> newNormCor <- cor(qnorm(RVineSim(1000, newNormRVM)))
+> round(newNormCor,2)
+     V1   V4   V3   V2   V5
+V1 1.00 0.15 0.19 0.23 0.11
+V4 0.15 1.00 0.24 0.31 0.05
+V3 0.19 0.24 1.00 0.31 0.08
+V2 0.23 0.31 0.31 1.00 0.02
+V5 0.11 0.05 0.08 0.02 1.00
+> 
+> # permuted, they meet the initial correlation matrix up to +/- 0.01
+> round(newNormCor[c(1,4,3,2,5),c(1,4,3,2,5)]-corMat, 2)
+      V1    V2   V3   V4    V5
+V1  0.00  0.06 0.04 0.01 -0.02
+V2  0.06  0.00 0.01 0.03 -0.03
+V3  0.04  0.01 0.00 0.07  0.03
+V4  0.01  0.03 0.07 0.00  0.01
+V5 -0.02 -0.03 0.03 0.01  0.00
+> 
+> # re-order names of the normalised RVine generating a new RVine
+> normRVM2 <- normRVM
+> normRVM2$names <- c("V1", "V2", "V3", "V4", "V5")
+> 
+> # adjust the normalised RVine
+> newNormRVM2 <- RVineCor2pcor(normRVM2, corMat)
+> # check whether the parameters are different beyond permutation (that's why 
+> # permutation does not work)
+> newNormRVM2$par
+           [,1]       [,2]      [,3] [,4] [,5]
+[1,] 0.00000000 0.00000000 0.0000000 0.00    0
+[2,] 0.01326779 0.00000000 0.0000000 0.00    0
+[3,] 0.02405181 0.08449435 0.0000000 0.00    0
+[4,] 0.12344908 0.26257024 0.2817423 0.00    0
+[5,] 0.05000000 0.14000000 0.1500000 0.17    0
+> newRVM$par
+           [,1]      [,2]      [,3] [,4] [,5]
+[1,] 0.00000000 0.0000000 0.0000000 0.00    0
+[2,] 0.01700237 0.0000000 0.0000000 0.00    0
+[3,] 0.02806717 0.2535236 0.0000000 0.00    0
+[4,] 0.12573797 0.2625702 0.1522041 0.00    0
+[5,] 0.04000000 0.1700000 0.1500000 0.14    0
+> 
+> # adjust the normalised RVine
+> newNormRVM2 <- RVineCor2pcor(normRVM2, corMat[c(1,4,3,2,5),c(1,4,3,2,5)])
+> # check whether the parameters are now identical
+> round(newNormRVM2$par - newRVM$par,2)
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    0    0    0    0    0
+[2,]    0    0    0    0    0
+[3,]    0    0    0    0    0
+[4,]    0    0    0    0    0
+[5,]    0    0    0    0    0
+> 
+> # back and forth
+> RVinePcor2cor(RVineCor2pcor(RVM, corMat))-corMat
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    0    0    0    0    0
+[2,]    0    0    0    0    0
+[3,]    0    0    0    0    0
+[4,]    0    0    0    0    0
+[5,]    0    0    0    0    0
+> RVinePcor2cor(RVineCor2pcor(normRVM, corMat))-corMat
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    0    0    0    0    0
+[2,]    0    0    0    0    0
+[3,]    0    0    0    0    0
+[4,]    0    0    0    0    0
+[5,]    0    0    0    0    0
+> RVinePcor2cor(RVineCor2pcor(normRVM2, corMat))-corMat
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    0    0    0    0    0
+[2,]    0    0    0    0    0
+[3,]    0    0    0    0    0
+[4,]    0    0    0    0    0
+[5,]    0    0    0    0    0
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineGofTest")
+> ### * RVineGofTest
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineGofTest
+> ### Title: Goodness-of-fit tests for R-vine copula models
+> ### Aliases: RVineGofTest
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # load data set
+> ##D data(daxreturns)
+> ##D 
+> ##D # select the R-vine structure, families and parameters
+> ##D RVM = RVineStructureSelect(daxreturns[,1:5],c(1:6))
+> ##D 
+> ##D # White test with asymptotic p-value
+> ##D RVineGofTest(daxreturns[,1:5], RVM, B=0)
+> ##D 
+> ##D # ECP2 test with Cramer-von-Mises test statistic and a bootstrap with 200 replications 
+> ##D # for the calculation of the p-value
+> ##D RVineGofTest(daxreturns[,1:5], RVM, method="ECP2", statistic="CvM", B=200)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineGrad")
+> ### * RVineGrad
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineGrad
+> ### Title: Gradient of the log-likelihood of an R-vine copula model
+> ### Aliases: RVineGrad
+> 
+> ### ** Examples
+> 
+> # define 5-dimensional R-vine tree structure matrix
+> Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> Matrix = matrix(Matrix,5,5)
+> 
+> # define R-vine pair-copula family matrix
+> family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> family = matrix(family,5,5)
+> 
+> # define R-vine pair-copula parameter matrix
+> par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
++         0,0,0,0,4.8,0,0,0,0,0)
+> par = matrix(par,5,5)
+> 
+> # define second R-vine pair-copula parameter matrix
+> par2 = matrix(0,5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
++                   names=c("V1","V2","V3","V4","V5"))
+> 
+> # simulate a sample of size 300 from the R-vine copula model
+> simdata = RVineSim(300,RVM)
+> 
+> # compute the gradient of the first row of the data
+> out2 = RVineGrad(simdata[1,],RVM)
+> out2$gradient
+ [1] -1.07127312  0.05437311  0.30068662  0.21632287 -0.01714034 -0.92504705
+ [7] -7.08792740  0.42859843  0.85375642  0.15721979
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineHessian")
+> ### * RVineHessian
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineHessian
+> ### Title: Hessian matrix of the log-likelihood of an R-vine copula model
+> ### Aliases: RVineHessian
+> 
+> ### ** Examples
+> 
+> # define 5-dimensional R-vine tree structure matrix
+> Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> Matrix = matrix(Matrix,5,5)
+> 
+> # define R-vine pair-copula family matrix
+> family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> family = matrix(family,5,5)
+> 
+> # define R-vine pair-copula parameter matrix
+> par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
++         0,0,0,0,4.8,0,0,0,0,0)
+> par = matrix(par,5,5)
+> 
+> # define second R-vine pair-copula parameter matrix
+> par2 = matrix(0,5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
++                   names=c("V1","V2","V3","V4","V5"))
+> 
+> # simulate a sample of size 300 from the R-vine copula model
+> simdata = RVineSim(300,RVM)
+> 
+> # compute the Hessian matrix of the first row of the data
+> out2 = RVineHessian(simdata[1,],RVM)
+> out2$hessian
+               [,1]         [,2]         [,3]          [,4]          [,5]
+ [1,] -0.0469417246 -0.020882303 -0.004713910   -0.06835056  -0.006351961
+ [2,] -0.0208823026  1.021684036 -0.218010642    0.61177240   0.067208303
+ [3,] -0.0047139100 -0.218010642 -0.172272524    0.13624030   0.014967134
+ [4,] -0.0683505634  0.611772400  0.136240299 -161.69245597 -10.271891948
+ [5,] -0.0063519607  0.067208303  0.014967134  -10.27189195  -0.431074653
+ [6,] -0.0006549605  0.572928421  0.127589835   -0.90706663  -0.099648839
+ [7,] -0.0005626582 -0.005307215 -0.001181904   -0.01671164  -0.001835913
+ [8,] -0.0709997831 -0.056624022 -0.012610039   -0.17830074  -0.019587824
+ [9,] -0.0153504452 -0.509657678 -0.113499587   -0.38521019  -0.042318554
+[10,] -0.0769729967 -0.346100862 -0.077075862   -8.96403351  -0.984773886
+               [,6]          [,7]          [,8]         [,9]       [,10]
+ [1,] -0.0006549605 -0.0005626582 -0.0709997831 -0.015350445 -0.07697300
+ [2,]  0.5729284210 -0.0053072145 -0.0566240224 -0.509657678 -0.34610086
+ [3,]  0.1275898351 -0.0011819044 -0.0126100389 -0.113499587 -0.07707586
+ [4,] -0.9070666341 -0.0167116398 -0.1783007375 -0.385210186 -8.96403351
+ [5,] -0.0996488393 -0.0018359131 -0.0195878239 -0.042318554 -0.98477389
+ [6,] -0.1924051535 -0.0000577784 -0.0006164524 -0.001331816 -0.03099202
+ [7,] -0.0000577784 -0.0724666255 -0.0062466591 -0.003797178 -0.01870598
+ [8,] -0.0006164524 -0.0062466591 -0.2220331369 -0.040513054 -0.19957890
+ [9,] -0.0013318159 -0.0037971776 -0.0405130542  0.029552993 -0.43118064
+[10,] -0.0309920208 -0.0187059839 -0.1995789022 -0.431180640 -2.50728447
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineLogLik")
+> ### * RVineLogLik
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineLogLik
+> ### Title: Log-likelihood of an R-vine copula model
+> ### Aliases: RVineLogLik
+> 
+> ### ** Examples
+> 
+> # define 5-dimensional R-vine tree structure matrix
+> Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> Matrix = matrix(Matrix,5,5)
+> 
+> # define R-vine pair-copula family matrix
+> family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> family = matrix(family,5,5)
+> 
+> # define R-vine pair-copula parameter matrix
+> par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
++         0,0,0,0,4.8,0,0,0,0,0)
+> par = matrix(par,5,5)
+> 
+> # define second R-vine pair-copula parameter matrix
+> par2 = matrix(0,5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
++                   names=c("V1","V2","V3","V4","V5"))
+> 
+> # simulate a sample of size 300 from the R-vine copula model
+> simdata = RVineSim(300,RVM)
+> 
+> # compute the log-likelihood
+> ll = RVineLogLik(simdata,RVM,separate=FALSE)
+> ll$loglik
+[1] 1236.024
+> 
+> # compute the pointwise log-likelihoods
+> ll = RVineLogLik(simdata,RVM,separate=TRUE)
+> ll$loglik
+  [1]  3.5808257  9.6175475  4.7750722  2.1672826  3.6361980  1.7272868
+  [7]  3.2376357  2.4306149  6.0942500  1.7592393  1.7854282  6.9631059
+ [13]  4.7947335  3.1819231  3.1502434  6.8671315  3.3886256  4.7156041
+ [19]  2.8435989  4.3603683  0.9855054  3.7122249  7.7012263 12.0819204
+ [25]  7.8358860  3.6940969  1.8134409  2.0911051  3.4362940  2.4387961
+ [31]  3.8422821  6.4003384  2.2328715  3.3639852  4.8004808  6.4999912
+ [37]  2.8943924  3.2034383  1.7417817  2.4688067  4.8186132  3.0600905
+ [43]  3.7747780  1.8813579  3.9575523  3.0940863  4.3195685  4.6486495
+ [49]  3.4081092  4.0289740  7.3903578  5.4863719  3.2969003  4.2444648
+ [55]  9.0264931  5.8170116  8.2612987  7.4260105  2.5235490  1.0111542
+ [61]  3.0873250  4.7998332  4.8578550  1.4981460  0.2921776  9.5931743
+ [67]  5.0623209  2.1558290  6.1788150  4.7598515  0.5197126  1.3480831
+ [73]  6.0076696  2.8689011  2.9273155  3.3990956  1.8576014  1.5752465
+ [79]  4.0771680  3.5579645  0.6913660  0.3672796  9.1097218  3.2576399
+ [85]  3.6058973  0.9359960  2.2224882  2.2305650  9.2767090  1.5400445
+ [91]  3.7722396  1.7637168  9.2174754  5.9431396  2.9966960  3.4710516
+ [97]  2.3214544  2.9851263  7.5798550  2.2888694  4.1537383  7.4714696
+[103]  1.3110100  5.0892943  4.4429574  5.8924365  1.8435006  9.6499007
+[109]  2.7396629  1.2835764  0.5677453  2.9518542  2.3161859  2.2698319
+[115]  5.4214312  3.1826936  1.2654513  1.6182536  3.0905265  4.1003890
+[121]  4.2093152  4.6723228  5.6956510  3.0549817  3.2526468  2.6758585
+[127]  4.1566311  4.6260827  4.1669783  1.3098856  4.4068752  5.4571564
+[133]  2.1582000  2.8125235  4.9744421  4.2192468  3.8431612  0.8515047
+[139]  6.5954623  1.1230174 11.2111086  5.2691735  2.8519989  3.3167233
+[145] 11.7847949  2.9766559  3.1274502  2.2981027  4.0136008  3.3274786
+[151]  2.8812341  3.5873307  2.2680421  4.1524129 -3.1583899 -3.0862583
+[157]  7.3660586  4.9030319  3.1643268  3.3298844  0.8417590  1.1776603
+[163]  2.6877106  4.1830172  3.0266711  9.9310660  6.6091484  0.9842842
+[169]  3.4916119  2.4888816  2.7458857  9.2702752  9.8904096  3.0572759
+[175]  3.5582646  7.4771541  2.1704012  6.3186828 22.6401131  6.2976239
+[181]  4.2683682  9.5869073  0.1580320  2.6492625 -0.5949592  5.1033317
+[187]  3.2124127  6.6638910  2.1991752  2.7101788  5.5683098  0.6592144
+[193]  4.1553198  0.8031205  7.7560009  5.6484738  2.9127966 -2.9141358
+[199]  5.9967974  3.6198792  1.6215572  7.5433349  2.0918163  6.0864404
+[205] 12.2030641  3.9917256  2.1877814  4.2893452  4.8140894  2.6484385
+[211]  5.6970250  4.5031098  3.7268678  3.2604273  1.5728080  2.1499693
+[217]  3.0651835  2.6438939  3.0576579  0.5308630  2.4653773  2.7737118
+[223]  3.6500674  3.5167765  4.3137058  4.2556030  3.3028149  4.9180947
+[229]  4.7677647  2.6396073  0.7929965  4.9017475  5.7226870  1.2400949
+[235]  5.8496460  5.9455894  3.3539677  3.6474531  5.6324853  7.3691545
+[241]  3.2602061  6.6921467  6.2894212  4.6684430  2.6447229  1.7613827
+[247]  1.9029402  5.0310409  1.8986575 12.1145077  4.1468407  3.7896928
+[253]  5.5353583  2.1685323  3.7649442  2.1396158 11.4839109  4.8406535
+[259]  5.2684968  1.9337058 -0.2371998  2.8860911 15.8316919  2.6951938
+[265]  2.2378553  1.3463117  1.2610971  1.6013800  5.1115123  5.6440190
+[271]  9.6462770  1.7571351  3.5422155  4.1824123  4.2288887  7.7924389
+[277]  2.4856835  3.5269409  0.6464039  3.7194451  3.2831336  1.7727183
+[283]  8.9174762  2.4791850  7.7617804 11.1705013  8.4910285  2.6979636
+[289]  2.1355446  4.6752324  2.8843943  6.6921526  3.7569978  3.1626012
+[295]  3.1405084  3.0743696 13.1359472  2.8505547  5.8055082  6.8392140
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineMLE")
+> ### * RVineMLE
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineMLE
+> ### Title: Maximum likelihood estimation of an R-vine copula model
+> ### Aliases: RVineMLE
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # define 5-dimensional R-vine tree structure matrix
+> ##D Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> ##D Matrix = matrix(Matrix,5,5)
+> ##D 
+> ##D # define R-vine pair-copula family matrix
+> ##D family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> ##D family = matrix(family,5,5)
+> ##D 
+> ##D # define R-vine pair-copula parameter matrix
+> ##D par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
+> ##D         0,0,0,0,4.8,0,0,0,0,0)
+> ##D par = matrix(par,5,5)
+> ##D 
+> ##D # define second R-vine pair-copula parameter matrix
+> ##D par2 = matrix(0,5,5)
+> ##D 
+> ##D # define RVineMatrix object
+> ##D RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
+> ##D                   names=c("V1","V2","V3","V4","V5"))
+> ##D 
+> ##D # simulate a sample of size 300 from the R-vine copula model
+> ##D simdata = RVineSim(300,RVM)
+> ##D 
+> ##D # compute the MLE
+> ##D mle = RVineMLE(simdata,RVM,grad=TRUE)
+> ##D mle$RVM
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineMatrix")
+> ### * RVineMatrix
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineMatrix
+> ### Title: R-vine copula model in matrix notation
+> ### Aliases: RVineMatrix
+> 
+> ### ** Examples
+> 
+> # define 5-dimensional R-vine tree structure matrix
+> Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> Matrix = matrix(Matrix,5,5)
+> 
+> # define R-vine pair-copula family matrix
+> family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> family = matrix(family,5,5)
+> 
+> # define R-vine pair-copula parameter matrix
+> par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
++         0,0,0,0,4.8,0,0,0,0,0)
+> par = matrix(par,5,5)
+> 
+> # define second R-vine pair-copula parameter matrix
+> par2 = matrix(0,5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
++                   names=c("V1","V2","V3","V4","V5"))
+> 
+> # Print detailed information
+> print(RVM, detail=TRUE)
+R-vine matrix:
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    5    0    0    0    0
+[2,]    2    2    0    0    0
+[3,]    3    3    3    0    0
+[4,]    1    4    4    4    0
+[5,]    4    1    1    1    1
+
+Where
+1 <-> V1
+2 <-> V2
+3 <-> V3
+4 <-> V4
+5 <-> V5
+
+Tree 1:
+V5,V4: Gumbel with par=3.9 (tau=0.74)
+V2,V1: Gaussian with par=0.9 (tau=0.71)
+V3,V1: Gaussian with par=0.5 (tau=0.33)
+V4,V1: Clayton with par=4.8 (tau=0.71)
+
+Tree 2:
+V5,V1|V4: Gumbel with par=1.5 (tau=0.33)
+V2,V4|V1: Gumbel with par=1.6 (tau=0.38)
+V3,V4|V1: Gumbel with par=1.9 (tau=0.47)
+
+Tree 3:
+V5,V3|V1,V4: Clayton with par=0.9 (tau=0.31)
+V2,V3|V4,V1: Clayton with par=1.1 (tau=0.35)
+
+Tree 4:
+V5,V2|V3,V1,V4: Gaussian with par=0.2 (tau=0.13)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineMatrixNormalize")
+> ### * RVineMatrixNormalize
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineMatrixNormalize
+> ### Title: Permute the variables to achieve a natural ordering
+> ### Aliases: RVineMatrixNormalize
+> ### Keywords: vine
+> 
+> ### ** Examples
+> 
+> Matrix = matrix(c(5,2,3,1,4,
++                   0,2,3,4,1,
++                   0,0,3,4,1,
++                   0,0,0,4,1,
++                   0,0,0,0,1),5,5)
+> family = matrix(1,5,5)
+> 
+> par = matrix(c(0,0.2,0.9,0.5,0.8,
++                0,  0,0.1,0.6,0.9,
++                0,  0,  0,0.7,0.5,
++                0,  0,  0,  0,0.8,
++                0,  0,  0,  0,  0),5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix,family,par)
+> 
+> # normalise the RVine
+> RVineMatrixNormalize(RVM)
+R-vine matrix:
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    5    0    0    0    0
+[2,]    4    4    0    0    0
+[3,]    3    3    3    0    0
+[4,]    1    2    2    2    0
+[5,]    2    1    1    1    1
+
+Where
+1 <-> V1
+2 <-> V4
+3 <-> V3
+4 <-> V2
+5 <-> V5
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVinePIT")
+> ### * RVinePIT
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVinePIT
+> ### Title: Probability integral transformation for R-vine copula models
+> ### Aliases: RVinePIT
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # load data set
+> ##D data(daxreturns)
+> ##D 
+> ##D # select the R-vine structure, families and parameters
+> ##D RVM = RVineStructureSelect(daxreturns[,1:5],c(1:6))
+> ##D 
+> ##D # PIT data
+> ##D pit=RVinePIT(daxreturns[,1:5],RVM)
+> ##D 
+> ##D par(mfrow=c(1,2))
+> ##D plot(daxreturns[,1],daxreturns[,2])	# correlated data
+> ##D plot(pit[,1],pit[,2])	# i.i.d. data
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVinePar2Beta")
+> ### * RVinePar2Beta
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVinePar2Beta
+> ### Title: Blomqvist's beta values of an R-vine copula model
+> ### Aliases: RVinePar2Beta
+> 
+> ### ** Examples
+> 
+> # define 5-dimensional R-vine tree structure matrix
+> Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> Matrix = matrix(Matrix,5,5)
+> 
+> # define R-vine pair-copula family matrix
+> family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> family = matrix(family,5,5)
+> 
+> # define R-vine pair-copula parameter matrix
+> par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
++         0,0,0,0,4.8,0,0,0,0,0)
+> par = matrix(par,5,5)
+> 
+> # define second R-vine pair-copula parameter matrix
+> par2 = matrix(0,5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
++                   names=c("V1","V2","V3","V4","V5"))
+> 
+> # compute the Blomqvist's beta values
+> BlomBeta = RVinePar2Beta(RVM)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVinePar2Tau")
+> ### * RVinePar2Tau
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVinePar2Tau
+> ### Title: Kendall's tau values of an R-vine copula model
+> ### Aliases: RVinePar2Tau
+> 
+> ### ** Examples
+> 
+> # define 5-dimensional R-vine tree structure matrix
+> Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> Matrix = matrix(Matrix,5,5)
+> 
+> # define R-vine pair-copula family matrix
+> family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> family = matrix(family,5,5)
+> 
+> # define R-vine pair-copula parameter matrix
+> par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
++         0,0,0,0,4.8,0,0,0,0,0)
+> par = matrix(par,5,5)
+> 
+> # define second R-vine pair-copula parameter matrix
+> par2 = matrix(0,5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
++                   names=c("V1","V2","V3","V4","V5"))
+> 
+> # compute the Kendall's tau values
+> tau = RVinePar2Tau(RVM)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineSeqEst")
+> ### * RVineSeqEst
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineSeqEst
+> ### Title: Sequential estimation of an R-vine copula model
+> ### Aliases: RVineSeqEst
+> 
+> ### ** Examples
+> 
+> # define 5-dimensional R-vine tree structure matrix
+> Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> Matrix = matrix(Matrix,5,5)
+> 
+> # define R-vine pair-copula family matrix
+> family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> family = matrix(family,5,5)
+> 
+> # define R-vine pair-copula parameter matrix
+> par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
++         0,0,0,0,4.8,0,0,0,0,0)
+> par = matrix(par,5,5)
+> 
+> # define second R-vine pair-copula parameter matrix
+> par2 = matrix(0,5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
++                   names=c("V1","V2","V3","V4","V5"))
+> 
+> # simulate a sample of size 300 from the R-vine copula model
+> simdata = RVineSim(300,RVM)
+> 
+> # sequential estimation
+> RVineSeqEst(simdata,RVM,method="itau",se=TRUE)
+$RVM
+R-vine matrix:
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    5    0    0    0    0
+[2,]    2    2    0    0    0
+[3,]    3    3    3    0    0
+[4,]    1    4    4    4    0
+[5,]    4    1    1    1    1
+
+Where
+1 <-> V1
+2 <-> V2
+3 <-> V3
+4 <-> V4
+5 <-> V5
+
+$se
+           [,1]        [,2]       [,3]      [,4] [,5]
+[1,] 0.00000000 0.000000000 0.00000000 0.0000000    0
+[2,] 0.05846471 0.000000000 0.00000000 0.0000000    0
+[3,] 0.13478502 0.166094249 0.00000000 0.0000000    0
+[4,] 0.09130678 0.066856911 0.09132192 0.0000000    0
+[5,] 0.24641117 0.008723861 0.03826738 0.5094201    0
+
+$se2
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    0    0    0    0    0
+[2,]    0    0    0    0    0
+[3,]    0    0    0    0    0
+[4,]    0    0    0    0    0
+[5,]    0    0    0    0    0
+
+> RVineSeqEst(simdata,RVM,method="mle",se=TRUE)
+$RVM
+R-vine matrix:
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    5    0    0    0    0
+[2,]    2    2    0    0    0
+[3,]    3    3    3    0    0
+[4,]    1    4    4    4    0
+[5,]    4    1    1    1    1
+
+Where
+1 <-> V1
+2 <-> V2
+3 <-> V3
+4 <-> V4
+5 <-> V5
+
+$se
+           [,1]        [,2]       [,3]      [,4] [,5]
+[1,] 0.00000000 0.000000000 0.00000000 0.0000000    0
+[2,] 0.05184462 0.000000000 0.00000000 0.0000000    0
+[3,] 0.09976547 0.112198162 0.00000000 0.0000000    0
+[4,] 0.07130809 0.061331503 0.08361089 0.0000000    0
+[5,] 0.18453601 0.007043842 0.03380425 0.2992768    0
+
+$se2
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    0    0    0    0    0
+[2,]    0    0    0    0    0
+[3,]    0    0    0    0    0
+[4,]    0    0    0    0    0
+[5,]    0    0    0    0    0
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineSim")
+> ### * RVineSim
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineSim
+> ### Title: Simulation from an R-vine copula model
+> ### Aliases: RVineSim
+> 
+> ### ** Examples
+> 
+> # define 5-dimensional R-vine tree structure matrix
+> Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> Matrix = matrix(Matrix,5,5)
+> 
+> # define R-vine pair-copula family matrix
+> family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> family = matrix(family,5,5)
+> 
+> # define R-vine pair-copula parameter matrix
+> par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
++         0,0,0,0,4.8,0,0,0,0,0)
+> par = matrix(par,5,5)
+> 
+> # define second R-vine pair-copula parameter matrix
+> par2 = matrix(0,5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
++                   names=c("V1","V2","V3","V4","V5"))
+> 
+> # simulate a sample of size 300 from the R-vine copula model
+> simdata = RVineSim(300,RVM)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineStdError")
+> ### * RVineStdError
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineStdError
+> ### Title: Standard errors of an R-vine copula model
+> ### Aliases: RVineStdError
+> 
+> ### ** Examples
+> 
+> # define 5-dimensional R-vine tree structure matrix
+> Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> Matrix = matrix(Matrix,5,5)
+> 
+> # define R-vine pair-copula family matrix
+> family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> family = matrix(family,5,5)
+> 
+> # define R-vine pair-copula parameter matrix
+> par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
++         0,0,0,0,4.8,0,0,0,0,0)
+> par = matrix(par,5,5)
+> 
+> # define second R-vine pair-copula parameter matrix
+> par2 = matrix(0,5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
++                   names=c("V1","V2","V3","V4","V5"))
+> 
+> # simulate a sample of size 300 from the R-vine copula model
+> simdata = RVineSim(300,RVM)
+> 
+> # compute the Hessian matrix of the first row of the data
+> out2 = RVineHessian(simdata,RVM)
+> 
+> # get the standard errors
+> RVineStdError(out2$hessian,RVM)
+$se
+           [,1]        [,2]       [,3]      [,4] [,5]
+[1,] 0.00000000 0.000000000 0.00000000 0.0000000    0
+[2,] 0.05597094 0.000000000 0.00000000 0.0000000    0
+[3,] 0.11207892 0.128197574 0.00000000 0.0000000    0
+[4,] 0.06672259 0.073618523 0.08249627 0.0000000    0
+[5,] 0.15950467 0.007463943 0.02648813 0.2322548    0
+
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineStructureSelect")
+> ### * RVineStructureSelect
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineStructureSelect
+> ### Title: Sequential specification of R- and C-vine copula models
+> ### Aliases: RVineStructureSelect
+> 
+> ### ** Examples
+> 
+> # load data set
+> data(daxreturns)
+> 
+> # select the R-vine structure, families and parameters
+> RVM = RVineStructureSelect(daxreturns[,1:4],c(1:6),progress=TRUE)
+ALV.DE + BAYN.DE --> ALV.DE,BAYN.DE | BAS.DE
+BAS.DE + BMW.DE --> BAS.DE,BMW.DE | ALV.DE
+BAYN.DE + BMW.DE --> BAYN.DE,BMW.DE | ALV.DE,BAS.DE
+> 
+> # specify a C-vine copula model with only Clayton, Gumbel and Frank copulas
+> ## Not run: 
+> ##D CVM = RVineStructureSelect(daxreturns,c(3,4,5),"CVine")
+> ## End(Not run)
+> 
+> # determine the order of the nodes in a D-vine using the package TSP
+> ## Not run: 
+> ##D library(TSP)
+> ##D d = dim(daxreturns)[2]
+> ##D M = 1 - abs(TauMatrix(daxreturns))
+> ##D hamilton = insert_dummy(TSP(M),label="cut")
+> ##D sol = solve_TSP(hamilton,method="repetitive_nn")
+> ##D order = cut_tour(sol,"cut")
+> ##D DVM = D2RVine(order,family=rep(0,d*(d-1)/2),par=rep(0,d*(d-1)/2))
+> ##D RVineCopSelect(daxreturns,c(1:6),DVM$Matrix)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineTreePlot")
+> ### * RVineTreePlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineTreePlot
+> ### Title: Plot function for R-vine trees
+> ### Aliases: RVineTreePlot
+> 
+> ### ** Examples
+> 
+> set.seed(666)
+> # define 5-dimensional R-vine tree structure matrix
+> Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
+> Matrix = matrix(Matrix,5,5)
+> 
+> # define R-vine pair-copula family matrix
+> family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
+> family = matrix(family,5,5)
+> 
+> # define R-vine pair-copula parameter matrix
+> par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
++         0,0,0,0,4.8,0,0,0,0,0)
+> par = matrix(par,5,5)
+> 
+> # define second R-vine pair-copula parameter matrix
+> par2 = matrix(0,5,5)
+> 
+> # define RVineMatrix object
+> RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
++                   names=c("V1","V2","V3","V4","V5"))
+> 
+> # set random seed for testing
+> set.seed(666)
+> 
+> # plot all trees with pair-copula families and
+> # theoretical Kendall's tau values as edge labels
+> P = RVineTreePlot(data=NULL,RVM=RVM,tree="ALL",
++                   edge.labels=c("family","theotau"),P=NULL)
+> 
+> # manipulate the first matrix of x-y-coordinates
+> P[[1]][1,] = P[[1]][1,]*2  
+> 
+> # re-set random seed for testing
+> set.seed(666)
+> # plot only the first tree with new coordinates
+> P = RVineTreePlot(data=NULL,RVM=RVM,tree=1,edge.labels=FALSE,P=P)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RVineVuongTest")
+> ### * RVineVuongTest
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineVuongTest
+> ### Title: Vuong test comparing two R-vine copula models
+> ### Aliases: RVineVuongTest
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # load data set
+> ##D data(daxreturns)
+> ##D 
+> ##D # select the R-vine structure, families and parameters
+> ##D RVM = RVineStructureSelect(daxreturns[,1:5],c(1:6))
+> ##D 
+> ##D # select the C-vine structure, families and parameters
+> ##D CVM = RVineStructureSelect(daxreturns[,1:5],c(1:6),type="CVine")
+> ##D 
+> ##D # compare the two models based on the data
+> ##D vuong = RVineVuongTest(daxreturns[,1:5],RVM,CVM)
+> ##D vuong$statistic
+> ##D vuong$statistic.Schwarz
+> ##D vuong$p.value
+> ##D vuong$p.value.Schwarz
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RvineMatrixCheck")
+> ### * RvineMatrixCheck
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RVineMatrixCheck
+> ### Title: Vine Matrix validation
+> ### Aliases: RVineMatrixCheck
+> 
+> ### ** Examples
+> 
+> A1=matrix(c(6,0,0,0,0,0, 
++ 			5,5,0,0,0,0,
++ 			3,4,4,0,0,0,
++ 			4,3,3,3,0,0,
++ 			1,1,2,2,2,0,
++ 			2,2,1,1,1,1),6,6, byrow=TRUE)
+> b1=RVineMatrixCheck(A1)
+> print(b1)
+[1] 1
+> # improper vine matrix, code=-1
+> A2=matrix(c(6,0,0,0,0,0, 
++ 			5,5,0,0,0,0,
++ 			4,4,4,0,0,0,
++ 			1,3,3,3,0,0,
++ 			3,1,2,2,2,0,
++ 			2,2,1,1,1,1),6,6, byrow=TRUE)
+> b2=RVineMatrixCheck(A2)
+> print(b2)
+[1] -1
+> # improper vine matrix, code=-2
+> A3=matrix(c(6,0,0,0,0,0, 
++ 			3,5,0,0,0,0,
++ 			3,4,4,0,0,0,
++ 			4,3,3,3,0,0,
++ 			1,1,2,2,2,0,
++ 			2,2,1,1,1,1),6,6, byrow=TRUE)
+> b3=RVineMatrixCheck(A3)
+> print(b3)
+[1] -2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("TauMatrix")
+> ### * TauMatrix
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: TauMatrix
+> ### Title: Matrix of empirical Kendall's tau values
+> ### Aliases: TauMatrix
+> 
+> ### ** Examples
+> 
+> data(daxreturns)
+> Data = as.matrix(daxreturns)
+> 
+> # compute the empirical Kendall's taus
+> tau = TauMatrix(Data)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("copulaFromFamilyIndex")
+> ### * copulaFromFamilyIndex
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: copulaFromFamilyIndex
+> ### Title: Construction of a copula object from a VineCopula family index
+> ### Aliases: copulaFromFamilyIndex
+> ### Keywords: ~kwd1 ~kwd2
+> 
+> ### ** Examples
+> 
+> # normalCopula with parameter 0.5
+> copulaFromFamilyIndex(1,0.5)
+Normal copula family 
+Dimension:  2 
+Parameters:
+   rho.1  =  0.5 
+> 
+> # rotated Tawn T2 copula with parameters 
+> copulaFromFamilyIndex(224, -2, 0.5)
+90 deg rotated Tawn type 2 copula family. Number 224 in VineCopula. 
+Dimension:  2 
+Parameters:
+   param1  =  -2 
+   param2  =  0.5 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("daxreturns")
+> ### * daxreturns
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: daxreturns
+> ### Title: Major German Stocks
+> ### Aliases: daxreturns
+> 
+> ### ** Examples
+> 
+> # load the data set
+> data(daxreturns)
+> 
+> # compute the empirical Kendall's tau matrix
+> TauMatrix(daxreturns)
+           ALV.DE    BAS.DE   BAYN.DE    BMW.DE    DAI.DE    DBK.DE    DTE.DE
+ALV.DE  1.0000000 0.4035405 0.3196926 0.3955334 0.4311326 0.5171271 0.3232662
+BAS.DE  0.4035405 1.0000000 0.4229105 0.3543125 0.3814985 0.4110252 0.2790956
+BAYN.DE 0.3196926 0.4229105 1.0000000 0.2902465 0.2994419 0.3246933 0.2671566
+BMW.DE  0.3955334 0.3543125 0.2902465 1.0000000 0.4906725 0.4107386 0.2709094
+DAI.DE  0.4311326 0.3814985 0.2994419 0.4906725 1.0000000 0.4450361 0.2910675
+DBK.DE  0.5171271 0.4110252 0.3246933 0.4107386 0.4450361 1.0000000 0.3407284
+DTE.DE  0.3232662 0.2790956 0.2671566 0.2709094 0.2910675 0.3407284 1.0000000
+EOAN.DE 0.3025647 0.3719509 0.3160055 0.2362178 0.2834246 0.3252217 0.3117272
+FME.DE  0.1860583 0.1928145 0.2004245 0.1999678 0.1745492 0.1721727 0.2303781
+LIN.DE  0.3581041 0.4017671 0.3481504 0.3070430 0.3248008 0.3303896 0.2449444
+MUV2.DE 0.5266479 0.3610866 0.3066937 0.3267354 0.3859977 0.4269349 0.3076819
+RWE.DE  0.2971520 0.3518375 0.2984775 0.2322918 0.2797136 0.3169310 0.2997524
+SAP.DE  0.3714314 0.3324735 0.2750712 0.2930111 0.3302941 0.3678518 0.2795166
+SIE.DE  0.4419102 0.4329448 0.3380206 0.3798625 0.4274216 0.4526013 0.3135126
+VOW3.DE 0.2839530 0.2408752 0.1874495 0.3200448 0.3637407 0.2857951 0.1857149
+          EOAN.DE    FME.DE    LIN.DE   MUV2.DE    RWE.DE    SAP.DE    SIE.DE
+ALV.DE  0.3025647 0.1860583 0.3581041 0.5266479 0.2971520 0.3714314 0.4419102
+BAS.DE  0.3719509 0.1928145 0.4017671 0.3610866 0.3518375 0.3324735 0.4329448
+BAYN.DE 0.3160055 0.2004245 0.3481504 0.3066937 0.2984775 0.2750712 0.3380206
+BMW.DE  0.2362178 0.1999678 0.3070430 0.3267354 0.2322918 0.2930111 0.3798625
+DAI.DE  0.2834246 0.1745492 0.3248008 0.3859977 0.2797136 0.3302941 0.4274216
+DBK.DE  0.3252217 0.1721727 0.3303896 0.4269349 0.3169310 0.3678518 0.4526013
+DTE.DE  0.3117272 0.2303781 0.2449444 0.3076819 0.2997524 0.2795166 0.3135126
+EOAN.DE 1.0000000 0.1908560 0.2744114 0.2833559 0.5555983 0.2520260 0.3245768
+FME.DE  0.1908560 1.0000000 0.1696738 0.1745880 0.1860822 0.1530625 0.1912202
+LIN.DE  0.2744114 0.1696738 1.0000000 0.3082700 0.2644428 0.2720140 0.3673442
+MUV2.DE 0.2833559 0.1745880 0.3082700 1.0000000 0.2816273 0.3039350 0.3764918
+RWE.DE  0.5555983 0.1860822 0.2644428 0.2816273 1.0000000 0.2607766 0.3131334
+SAP.DE  0.2520260 0.1530625 0.2720140 0.3039350 0.2607766 1.0000000 0.3671950
+SIE.DE  0.3245768 0.1912202 0.3673442 0.3764918 0.3131334 0.3671950 1.0000000
+VOW3.DE 0.1687214 0.1145345 0.2256043 0.2505154 0.1699186 0.2316649 0.2699301
+          VOW3.DE
+ALV.DE  0.2839530
+BAS.DE  0.2408752
+BAYN.DE 0.1874495
+BMW.DE  0.3200448
+DAI.DE  0.3637407
+DBK.DE  0.2857951
+DTE.DE  0.1857149
+EOAN.DE 0.1687214
+FME.DE  0.1145345
+LIN.DE  0.2256043
+MUV2.DE 0.2505154
+RWE.DE  0.1699186
+SAP.DE  0.2316649
+SIE.DE  0.2699301
+VOW3.DE 1.0000000
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dduCopula")
+> ### * dduCopula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dduCopula
+> ### Title: partial derivatives of copulas
+> ### Aliases: dduCopula ddvCopula
+> ### Keywords: partial derivative conditional probabilities
+> 
+> ### ** Examples
+> 
+> library(copula)
+
+Attaching package: 'copula'
+
+The following object is masked from 'package:VineCopula':
+
+    fitCopula
+
+> 
+> BB1Cop <- BB1Copula()
+> BB1CopSmpl <- rCopula(100, BB1Cop)
+> 
+> # conditional probabilities of a Gaussian copula given u
+> BB1GivenU <- dduCopula(BB1CopSmpl,BB1Cop)
+> 
+> # vs. conditional probabilities of a Gaussian copula given v
+> BB1GivenV <- ddvCopula(BB1CopSmpl[,c(2,1)],BB1Cop)
+> 
+> plot(BB1GivenU, BB1GivenV)
+> abline(0,1)
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:copula'
+
+> nameEx("joeBiCopula-class")
+> ### * joeBiCopula-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: joeBiCopula-class
+> ### Title: Classes '"joeBiCopula"', '"surJoeBiCopula"', '"r90JoeBiCopula"'
+> ###   and '"r270JoeBiCopula"'
+> ### Aliases: joeBiCopula-class dduCopula,numeric,joeBiCopula-method
+> ###   ddvCopula,numeric,joeBiCopula-method
+> ###   dduCopula,matrix,joeBiCopula-method
+> ###   ddvCopula,matrix,joeBiCopula-method
+> ###   getKendallDistr,joeBiCopula-method
+> ###   kendallDistribution,joeBiCopula-method surJoeBiCopula-class
+> ###   dduCopula,numeric,surJoeBiCopula-method
+> ###   ddvCopula,numeric,surJoeBiCopula-method
+> ###   dduCopula,matrix,surJoeBiCopula-method
+> ###   ddvCopula,matrix,surJoeBiCopula-method r90JoeBiCopula-class
+> ###   dduCopula,numeric,r90JoeBiCopula-method
+> ###   ddvCopula,numeric,r90JoeBiCopula-method
+> ###   dduCopula,matrix,r90JoeBiCopula-method
+> ###   ddvCopula,matrix,r90JoeBiCopula-method r270JoeBiCopula-class
+> ###   dduCopula,numeric,r270JoeBiCopula-method
+> ###   ddvCopula,numeric,r270JoeBiCopula-method
+> ###   dduCopula,matrix,r270JoeBiCopula-method
+> ###   ddvCopula,matrix,r270JoeBiCopula-method
+> ### Keywords: classes
+> 
+> ### ** Examples
+> 
+> showClass("surJoeBiCopula")
+Class "surJoeBiCopula" [package "VineCopula"]
+
+Slots:
+                                                                       
+Name:        family    dimension   parameters  param.names param.lowbnd
+Class:      numeric      integer      numeric    character      numeric
+                                
+Name:   param.upbnd     fullname
+Class:      numeric    character
+
+Extends: 
+Class "copula", directly
+Class "Copula", by class "copula", distance 2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("joeBiCopula")
+> ### * joeBiCopula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: joeBiCopula
+> ### Title: Constructor of the survival and rotated versions of the Joe
+> ###   family
+> ### Aliases: joeBiCopula surJoeBiCopula r90JoeBiCopula r270JoeBiCopula
+> 
+> ### ** Examples
+> 
+> library(copula)
+
+Attaching package: 'copula'
+
+The following object is masked from 'package:VineCopula':
+
+    fitCopula
+
+> 
+> persp(surJoeBiCopula(1.5),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r90JoeBiCopula(-1.5),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r270JoeBiCopula(-1.5),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:copula'
+
+> nameEx("surClaytonCopula-class")
+> ### * surClaytonCopula-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: surClaytonCopula-class
+> ### Title: Classes '"surClaytonCopula"', '"r90ClaytonCopula"' and
+> ###   '"r270ClaytonCopula"'
+> ### Aliases: surClaytonCopula-class
+> ###   dduCopula,matrix,surClaytonCopula-method
+> ###   dduCopula,numeric,surClaytonCopula-method
+> ###   ddvCopula,matrix,surClaytonCopula-method
+> ###   ddvCopula,numeric,surClaytonCopula-method r90ClaytonCopula-class
+> ###   dduCopula,matrix,r90ClaytonCopula-method
+> ###   dduCopula,numeric,r90ClaytonCopula-method
+> ###   ddvCopula,matrix,r90ClaytonCopula-method
+> ###   ddvCopula,numeric,r90ClaytonCopula-method r270ClaytonCopula-class
+> ###   dduCopula,matrix,r270ClaytonCopula-method
+> ###   dduCopula,numeric,r270ClaytonCopula-method
+> ###   ddvCopula,matrix,r270ClaytonCopula-method
+> ###   ddvCopula,numeric,r270ClaytonCopula-method
+> ### Keywords: classes
+> 
+> ### ** Examples
+> 
+> library(copula)
+
+Attaching package: 'copula'
+
+The following object is masked from 'package:VineCopula':
+
+    fitCopula
+
+> 
+> persp(surClaytonCopula(.5),dCopula,zlim=c(0,10))
+> persp(r90ClaytonCopula(-.5),dCopula,zlim=c(0,10))
+> persp(r270ClaytonCopula(-.5),dCopula,zlim=c(0,10))
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:copula'
+
+> nameEx("surClaytonCopula")
+> ### * surClaytonCopula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: surClaytonCopula
+> ### Title: survival and rotated Clayton Copulas
+> ### Aliases: surClaytonCopula r90ClaytonCopula r270ClaytonCopula
+> ### Keywords: copula
+> 
+> ### ** Examples
+> 
+> library(copula)
+
+Attaching package: 'copula'
+
+The following object is masked from 'package:VineCopula':
+
+    fitCopula
+
+> 
+> persp(surClaytonCopula(1.5),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r90ClaytonCopula(-1.5),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r270ClaytonCopula(-1.5),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:copula'
+
+> nameEx("surGumbelCopula-class")
+> ### * surGumbelCopula-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: surGumbelCopula-class
+> ### Title: Classes '"surGumbelCopula"', '"r90GumbelCopula"' and
+> ###   '"r270GumbelCopula"'
+> ### Aliases: surGumbelCopula-class dduCopula,matrix,surGumbelCopula-method
+> ###   dduCopula,numeric,surGumbelCopula-method
+> ###   ddvCopula,matrix,surGumbelCopula-method
+> ###   ddvCopula,numeric,surGumbelCopula-method r90GumbelCopula-class
+> ###   dduCopula,matrix,r90GumbelCopula-method
+> ###   dduCopula,numeric,r90GumbelCopula-method
+> ###   ddvCopula,matrix,r90GumbelCopula-method
+> ###   ddvCopula,numeric,r90GumbelCopula-method r270GumbelCopula-class
+> ###   dduCopula,matrix,r270GumbelCopula-method
+> ###   dduCopula,numeric,r270GumbelCopula-method
+> ###   ddvCopula,matrix,r270GumbelCopula-method
+> ###   ddvCopula,numeric,r270GumbelCopula-method
+> ### Keywords: classes
+> 
+> ### ** Examples
+> 
+> library(copula)
+
+Attaching package: 'copula'
+
+The following object is masked from 'package:VineCopula':
+
+    fitCopula
+
+> 
+> persp(surGumbelCopula(1.5),dCopula,zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r90GumbelCopula(-1.5),dCopula,zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r270GumbelCopula(-1.5),dCopula,zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:copula'
+
+> nameEx("surGumbelCopula")
+> ### * surGumbelCopula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: surGumbelCopula
+> ### Title: survival and rotated Gumbel Copulas
+> ### Aliases: surGumbelCopula r90GumbelCopula r270GumbelCopula
+> ### Keywords: copula
+> 
+> ### ** Examples
+> 
+> library(copula)
+
+Attaching package: 'copula'
+
+The following object is masked from 'package:VineCopula':
+
+    fitCopula
+
+> 
+> persp(surGumbelCopula(1.5),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r90GumbelCopula(-1.5),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> persp(r270GumbelCopula(-1.5),dCopula, zlim=c(0,10))
+Warning in persp.default(xis, yis, zmat, theta = theta, phi = phi, expand = expand,  :
+  surface extends beyond the box
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:copula'
+
+> nameEx("tawnT1Copula-class")
+> ### * tawnT1Copula-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: tawnT1Copula-class
+> ### Title: Class '"tawnT1Copula"'
+> ### Aliases: tawnT1Copula-class dduCopula,matrix,tawnT1Copula-method
+> ###   dduCopula,numeric,tawnT1Copula-method
+> ###   ddvCopula,matrix,tawnT1Copula-method
+> ###   ddvCopula,numeric,tawnT1Copula-method surTawnT1Copula-class
+> ###   dduCopula,matrix,surTawnT1Copula-method
+> ###   dduCopula,numeric,surTawnT1Copula-method
+> ###   ddvCopula,matrix,surTawnT1Copula-method
+> ###   ddvCopula,numeric,surTawnT1Copula-method r90TawnT1Copula-class
+> ###   dduCopula,matrix,r90TawnT1Copula-method
+> ###   dduCopula,numeric,r90TawnT1Copula-method
+> ###   ddvCopula,matrix,r90TawnT1Copula-method
+> ###   ddvCopula,numeric,r90TawnT1Copula-method r270TawnT1Copula-class
+> ###   dduCopula,matrix,r270TawnT1Copula-method
+> ###   dduCopula,numeric,r270TawnT1Copula-method
+> ###   ddvCopula,matrix,r270TawnT1Copula-method
+> ###   ddvCopula,numeric,r270TawnT1Copula-method
+> ### Keywords: classes
+> 
+> ### ** Examples
+> 
+> showClass("tawnT1Copula")
+Class "tawnT1Copula" [package "VineCopula"]
+
+Slots:
+                                                                       
+Name:        family    dimension   parameters  param.names param.lowbnd
+Class:      numeric      integer      numeric    character      numeric
+                                
+Name:   param.upbnd     fullname
+Class:      numeric    character
+
+Extends: 
+Class "copula", directly
+Class "Copula", by class "copula", distance 2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("tawnT1Copula")
+> ### * tawnT1Copula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: tawnT1Copula
+> ### Title: Constructor of the Tawn type 1 family and rotated versions
+> ###   thereof
+> ### Aliases: tawnT1Copula surTawnT1Copula r90TawnT1Copula r270TawnT1Copula
+> ### Keywords: distribution copula
+> 
+> ### ** Examples
+> 
+> library(copula)
+
+Attaching package: 'copula'
+
+The following object is masked from 'package:VineCopula':
+
+    fitCopula
+
+> 
+> persp(tawnT1Copula(),dCopula, zlim=c(0,10))
+> persp(surTawnT1Copula(),dCopula, zlim=c(0,10))
+> persp(r90TawnT1Copula(),dCopula, zlim=c(0,10))
+> persp(r270TawnT1Copula(),dCopula, zlim=c(0,10))
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:copula'
+
+> nameEx("tawnT2Copula-class")
+> ### * tawnT2Copula-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: tawnT2Copula-class
+> ### Title: Class '"tawnT2Copula"'
+> ### Aliases: tawnT2Copula-class dduCopula,matrix,tawnT2Copula-method
+> ###   dduCopula,numeric,tawnT2Copula-method
+> ###   ddvCopula,matrix,tawnT2Copula-method
+> ###   ddvCopula,numeric,tawnT2Copula-method surTawnT2Copula-class
+> ###   dduCopula,matrix,surTawnT2Copula-method
+> ###   dduCopula,numeric,surTawnT2Copula-method
+> ###   ddvCopula,matrix,surTawnT2Copula-method
+> ###   ddvCopula,numeric,surTawnT2Copula-method r90TawnT2Copula-class
+> ###   dduCopula,matrix,r90TawnT2Copula-method
+> ###   dduCopula,numeric,r90TawnT2Copula-method
+> ###   ddvCopula,matrix,r90TawnT2Copula-method
+> ###   ddvCopula,numeric,r90TawnT2Copula-method r270TawnT2Copula-class
+> ###   dduCopula,matrix,r270TawnT2Copula-method
+> ###   dduCopula,numeric,r270TawnT2Copula-method
+> ###   ddvCopula,matrix,r270TawnT2Copula-method
+> ###   ddvCopula,numeric,r270TawnT2Copula-method
+> ### Keywords: classes
+> 
+> ### ** Examples
+> 
+> showClass("tawnT2Copula")
+Class "tawnT2Copula" [package "VineCopula"]
+
+Slots:
+                                                                       
+Name:        family    dimension   parameters  param.names param.lowbnd
+Class:      numeric      integer      numeric    character      numeric
+                                
+Name:   param.upbnd     fullname
+Class:      numeric    character
+
+Extends: 
+Class "copula", directly
+Class "Copula", by class "copula", distance 2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("tawnT2Copula")
+> ### * tawnT2Copula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: tawnT2Copula
+> ### Title: Constructor of the Tawn type 2 family and rotated versions
+> ###   thereof
+> ### Aliases: tawnT2Copula surTawnT2Copula r90TawnT2Copula r270TawnT2Copula
+> ### Keywords: distribution copula
+> 
+> ### ** Examples
+> 
+> library(copula)
+
+Attaching package: 'copula'
+
+The following object is masked from 'package:VineCopula':
+
+    fitCopula
+
+> 
+> persp(tawnT2Copula(),dCopula, zlim=c(0,10))
+> persp(surTawnT2Copula(),dCopula, zlim=c(0,10))
+> persp(r90TawnT2Copula(),dCopula, zlim=c(0,10))
+> persp(r270TawnT2Copula(),dCopula, zlim=c(0,10))
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:copula'
+
+> nameEx("vineCopula-class")
+> ### * vineCopula-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vineCopula-class
+> ### Title: Class '"vineCopula"'
+> ### Aliases: vineCopula-class fitCopula,vineCopula-method
+> ### Keywords: classes
+> 
+> ### ** Examples
+> 
+> showClass("vineCopula")
+Class "vineCopula" [package "VineCopula"]
+
+Slots:
+                                                                       
+Name:       copulas    dimension          RVM   parameters  param.names
+Class:         list      integer  RVineMatrix      numeric    character
+                                             
+Name:  param.lowbnd  param.upbnd     fullname
+Class:      numeric      numeric    character
+
+Extends: 
+Class "copula", directly
+Class "Copula", by class "copula", distance 2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vineCopula")
+> ### * vineCopula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vineCopula
+> ### Title: Constructor of the class 'vineCopula'.
+> ### Aliases: vineCopula
+> ### Keywords: mulitvariate distribution
+> 
+> ### ** Examples
+> 
+> # a C-vine of independent copulas
+> vine <- vineCopula(4L,"CVine")
+> 
+> ## Not run: 
+> ##D library(copula)
+> ##D library(lattice)
+> ##D 
+> ##D cloud(V1~V2+V3, as.data.frame(rCopula(500,vine)))
+> ## End(Not run)
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  11.56 0.25 11.95 NA NA 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

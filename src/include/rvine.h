@@ -5,7 +5,7 @@
 // PCC for R-vine
 ////////////////////////////////////////////
 
-void SimulateRVine(int* T, int* d, int* family, int* maxmat, int* matrix, int* conindirect, double* par, double* par2, double* out);
+void SimulateRVine(int* T, int* d, int* family, int* maxmat, int* matrix, int* conindirect, double* par, double* par2, double* out, double* U, int* takeU);
 
 
 //////////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@ void SimulateRVine(int* T, int* d, int* family, int* maxmat, int* matrix, int* c
 // par2				second set of parameter values (f.e. for student copulas)
 // data				data set for which to compute log-likelihood
 // matrix			an RVineMatrix in vector form
-// condirect, conindirect	Matrizes which tell us where we find the right values 
+// condirect, conindirect	Matrizes which tell us where we find the right values
 // seperate			Control Parameter, do we want to seperate the likelihoods for each data point?
 // calcupdate			matrix which tells us for which parameters we need to redo the calculations, not newly computed values are taken from ll, vv, vv2
 // seperate			Control Parameter, do we want to seperate the likelihoods for each data point?
@@ -28,10 +28,10 @@ void SimulateRVine(int* T, int* d, int* family, int* maxmat, int* matrix, int* c
 // Output:
 // out		Loglikelihood
 // ll		array with the contribution to LL (for each copula)
-// vv,vv2       array for the transformation operated (Hfunc)  
+// vv,vv2       array for the transformation operated (Hfunc)
 /////////////////////////////////////////////////////////////
 
-void VineLogLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
+void VineLogLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data,
 		 double* out, double* ll, double* vv, double* vv2, int* calcupdate, int* seperate);
 
 
@@ -47,17 +47,17 @@ void VineLogLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int*
 // par2				second set of parameter values (f.e. for student copulas)
 // data				data set for which to compute log-likelihood
 // matrix			an RVineMatrix in vector form
-// condirect, conindirect	Matrizes which tell us where we find the right values 
+// condirect, conindirect	Matrizes which tell us where we find the right values
 // seperate			Control Parameter, do we want to seperate the likelihoods for each data point?
 // calcupdate			matrix which tells us for which parameters we need to redo the calculations, not newly computed values are taken from ll, vv, vv2
 //
 // Output:
 // out		Loglikelihood
 // ll		array with the contribution to LL (for each copula)
-// vv,vv2       array for the transformation operated (Hfunc)  
+// vv,vv2       array for the transformation operated (Hfunc)
 /////////////////////////////////////////////////////////////
 
-void VineLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
+void VineLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data,
 		double* out, double* ll, double* vv, double* vv2, int* calcupdate, int* seperate);
 
 #endif
