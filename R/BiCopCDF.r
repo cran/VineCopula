@@ -1,5 +1,6 @@
-BiCopCDF<-function(u1,u2,family,par,par2=0)
-{
+BiCopCDF <- function(u1, u2, family, par, par2 = 0){
+  
+  ## sanity checks
   if(is.null(u1)==TRUE || is.null(u2)==TRUE) stop("u1 and/or u2 are not set or have length zero.")
   if(any(u1>1) || any(u1<0)) stop("Data has be in the interval [0,1].")
   if(any(u2>1) || any(u2<0)) stop("Data has be in the interval [0,1].")
@@ -43,6 +44,7 @@ BiCopCDF<-function(u1,u2,family,par,par2=0)
 
   res = rep(NA, length(u1))
   
+  ## CDFs for the different families
   if(family == 0){
     res = u1*u2
   }else if(family == 1){
@@ -60,59 +62,65 @@ BiCopCDF<-function(u1,u2,family,par,par2=0)
     res = u2-.C("archCDF",as.double(1-u1),as.double(u2),as.integer(length(u1)),as.double(c(-par,-par2)),as.integer(family-20),as.double(rep(0,length(u1))),PACKAGE='VineCopula')[[6]]
   }else if(family %in% c(33,34,36:40,71)){
     res = u1-.C("archCDF",as.double(u1),as.double(1-u2),as.integer(length(u1)),as.double(c(-par,-par2)),as.integer(family-30),as.double(rep(0,length(u1))),PACKAGE='VineCopula')[[6]]
-  }else if(family %in% c(104,114,124,134,204,214,224,234)){		# Kan später ev. mal duch C-Code ersetzt werden
-	## Hilfsterme für die Ableitung ###
-	ta<-function(t,par,par2,par3) {(par2*t)^par+(par3*(1-t))^par}
-	########  Pickands A
-	A<-function(t,par,par2,par3) {(1-par3)*(1-t)+(1-par2)*t+ta(t,par,par2,par3)^(1/par)}
-	
-	w<-function(u1,u2) {log(u2)/log(u1*u2)}
-	C<-function(u,v,par,par2,par3) {(u1*u2)^A(w(u1,u2),par,par2,par3)}
-	
-	if(family==104) 
-	{ 
-		par3=1
-		res=C(u1,u2,par,par2,par3) 
-	}
-	else if(family==114) 
-	{ 
-		par3=1
-		res=u1+u2-1+C(1-u1,1-u2,par,par2,par3) 
-	}
-	else if(family==124) 
-	{ 
-		par3=1
-		res=u2-C(1-u1,u2,-par,par2,par3) 
-	}
-	else if(family==134) 
-	{ 
-		par3=1
-		res=u1-C(u1,1-u2,-par,par2,par3) 
-	}
-	else if(family==204) 
-	{ 
-		par3=par2
-		par2=1
-		res=C(u1,u2,par,par2,par3) 
-	}
-	else if(family==214) 
-	{ 
-		par3=par2
-		par2=1
-		res=u1+u2-1+C(1-u1,1-u2,par,par2,par3) 
-	}
-	else if(family==224) 
-	{ 
-		par3=par2
-		par2=1
-		res=u2-C(1-u1,u2,-par,par2,par3) 
-	}
-	else if(family==234) 
-	{ 
-		par3=par2
-		par2=1
-		res=u1-C(u1,1-u2,-par,par2,par3) 
-	}
+  }else if(family %in% c(104,114,124,134,204,214,224,234)){# maybe replace by C-Code
+    ## auxiliary functions ###
+    ta <- function(t,par,par2,par3){(par2*t)^par+(par3*(1-t))^par}
+    ########  Pickands A
+    A <- function(t,par,par2,par3){
+      (1-par3)*(1-t)+(1-par2)*t+ta(t,par,par2,par3)^(1/par)
+    }
+    
+    w <- function(u1,u2){
+      log(u2)/log(u1*u2)
+    }
+    C <- function(u,v,par,par2,par3){
+      (u1*u2)^A(w(u1,u2),par,par2,par3)
+    }
+    
+    if(family==104) 
+    { 
+      par3=1
+      res=C(u1,u2,par,par2,par3) 
+    }
+    else if(family==114) 
+    { 
+      par3=1
+      res=u1+u2-1+C(1-u1,1-u2,par,par2,par3) 
+    }
+    else if(family==124) 
+    { 
+      par3=1
+      res=u2-C(1-u1,u2,-par,par2,par3) 
+    }
+    else if(family==134) 
+    { 
+      par3=1
+      res=u1-C(u1,1-u2,-par,par2,par3) 
+    }
+    else if(family==204) 
+    { 
+      par3=par2
+      par2=1
+      res=C(u1,u2,par,par2,par3) 
+    }
+    else if(family==214) 
+    { 
+      par3=par2
+      par2=1
+      res=u1+u2-1+C(1-u1,1-u2,par,par2,par3) 
+    }
+    else if(family==224) 
+    { 
+      par3=par2
+      par2=1
+      res=u2-C(1-u1,u2,-par,par2,par3) 
+    }
+    else if(family==234) 
+    { 
+      par3=par2
+      par2=1
+      res=u1-C(u1,1-u2,-par,par2,par3) 
+    }
   }
  
   return(res)

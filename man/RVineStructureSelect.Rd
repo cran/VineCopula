@@ -1,7 +1,7 @@
 \name{RVineStructureSelect}      
 \alias{RVineStructureSelect}
 
-\title{Sequential specification of R- and C-vine copula models}
+\title{Sequential Specification of R- and C-Vine Copula Models}
 
 \description{
 This function fits either an R- or a C-vine copula model to a d-dimensional copula data set.
@@ -9,9 +9,10 @@ Tree structures are determined and appropriate pair-copula families are selected
 }
 
 \usage{
-RVineStructureSelect(data, familyset=NA, type=0, selectioncrit="AIC",
-                     indeptest=FALSE, level=0.05, trunclevel=NA,
-                     progress=FALSE, weights=NA)
+RVineStructureSelect(data, familyset = NA, type = 0,
+                     selectioncrit = "AIC", indeptest = FALSE,
+                     level = 0.05, trunclevel = NA,
+                     progress = FALSE, weights = NA)
 }
 
 \arguments{
@@ -80,6 +81,8 @@ R-vine trees are selected using maximum spanning trees with absolute values of p
 the following optimization problem is solved for each tree:
 \deqn{
 \max \sum_{edges\ e_{ij}\ in\ spanning\ tree} |\hat{\tau}_{ij}|,
+}{
+\max \sum_{edges e_{ij} in spanning tree} |\hat{\tau}_{ij}|,
 }
 where \eqn{\hat{\tau}_{ij}} denote the pairwise empirical Kendall's taus and a spanning tree is a tree on all nodes.
 The setting of the first tree selection step is always a complete graph.
@@ -118,23 +121,25 @@ Computational Statistics & Data Analysis, 59 (1), 52-69.
 data(daxreturns)
 
 # select the R-vine structure, families and parameters
-RVM = RVineStructureSelect(daxreturns[,1:4],c(1:6),progress=TRUE)
+# using only the first 4 variables and the first 750 observations
+# we allow for the copula families: Gauss, t, Clayton, Gumbel, Frank and Joe
+RVM <- RVineStructureSelect(daxreturns[1:750,1:4], c(1:6), progress = TRUE)
 
 # specify a C-vine copula model with only Clayton, Gumbel and Frank copulas
 \dontrun{
-CVM = RVineStructureSelect(daxreturns,c(3,4,5),"CVine")
+CVM <- RVineStructureSelect(daxreturns, c(3,4,5), "CVine")
 }
 
 # determine the order of the nodes in a D-vine using the package TSP
 \dontrun{
 library(TSP)
-d = dim(daxreturns)[2]
-M = 1 - abs(TauMatrix(daxreturns))
-hamilton = insert_dummy(TSP(M),label="cut")
-sol = solve_TSP(hamilton,method="repetitive_nn")
-order = cut_tour(sol,"cut")
-DVM = D2RVine(order,family=rep(0,d*(d-1)/2),par=rep(0,d*(d-1)/2))
-RVineCopSelect(daxreturns,c(1:6),DVM$Matrix)
+d <- dim(daxreturns)[2]
+M <- 1 - abs(TauMatrix(daxreturns))
+hamilton <- insert_dummy(TSP(M), label = "cut")
+sol <- solve_TSP(hamilton, method = "repetitive_nn")
+order <- cut_tour(sol, "cut")
+DVM <- D2RVine(order, family = rep(0,d*(d-1)/2), par = rep(0, d*(d-1)/2))
+RVineCopSelect(daxreturns, c(1:6), DVM$Matrix)
 }
 }
 

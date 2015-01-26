@@ -1,7 +1,7 @@
 \name{BiCopGofTest}
 \alias{BiCopGofTest}
 
-\title{Goodness-of-fit test for bivariate copulas}
+\title{Goodness-of-Fit Test for Bivariate Copulas}
 
 \description{
 This function performs a goodness-of-fit test for bivariate copulas,
@@ -11,11 +11,12 @@ It computes the test statistics and p-values.
 }
 
 \usage{
-BiCopGofTest(u1, u2, family, par=0, par2=0, method="white", max.df=30, B=100)
+BiCopGofTest(u1, u2, family, par = 0, par2 = 0,
+             method = "white", max.df = 30, B = 100)
 }
 
 \arguments{
-  \item{u1,u2}{Numeric vectors of equal length with values in [0,1].}
+  \item{u1, u2}{Numeric vectors of equal length with values in [0,1].}
   \item{family}{An integer defining the bivariate copula family: \cr
 		\code{0} = independence copula \cr
 	    \code{1} = Gaussian copula \cr
@@ -74,7 +75,7 @@ For \code{method = "kendall"}
 }
 
 \details{
-\code{method="white"}:\cr
+\code{method = "white"}:\cr
 This goodness-of fit test uses the information matrix equality of White (1982) and was investigated by Huang and Prokhorov (2011).
 The main contribution is that under correct model specification the Fisher Information can be equivalently calculated as minus the expected Hessian matrix or as the expected outer product of the score function.
 The null hypothesis is 
@@ -125,24 +126,24 @@ Econometrica, 50, 1-26.
 
 \examples{
 # simulate from a bivariate Clayton copula
-simdata = BiCopSim(300,3,2)
-u1 = simdata[,1]
-u2 = simdata[,2]
+set.seed(123)
+simdata <- BiCopSim(300, 3, 2)
+u1 <- simdata[,1]
+u2 <- simdata[,2]
 
 # perform White's goodness-of-fit test for the true copula
-BiCopGofTest(u1,u2,family=3)
+BiCopGofTest(u1, u2, family = 3)
 
 # perform Kendall's goodness-of-fit test for the Frank copula
-BiCopGofTest(u1,u2,family=5)
-
-\dontrun{
+BiCopGofTest(u1, u2, family = 5)
+\donttest{
 # perform Kendall's goodness-of-fit test for the true copula
-gof = BiCopGofTest(u1,u2,family=3,method="kendall")
+gof <- BiCopGofTest(u1, u2, family = 3, method = "kendall")
 gof$p.value.CvM
 gof$p.value.KS
 
 # perform Kendall's goodness-of-fit test for the Frank copula
-gof = BiCopGofTest(u1,u2,family=5,method="kendall")
+gof <- BiCopGofTest(u1, u2, family = 5, method = "kendall")
 gof$p.value.CvM
 gof$p.value.KS
 }

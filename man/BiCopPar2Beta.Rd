@@ -1,14 +1,14 @@
 \name{BiCopPar2Beta}
 \alias{BiCopPar2Beta}
 
-\title{Blomqvist's beta value of a bivariate copula}
+\title{Blomqvist's Beta Value of a Bivariate Copula}
 
 \description{
 This function computes the theoretical Blomqvist's beta value of a bivariate copula for given parameter values.
 }
 
 \usage{
-BiCopPar2Beta(family,par,par2=0)
+BiCopPar2Beta(family, par, par2 = 0)
 }
 
 \arguments{
@@ -84,5 +84,5 @@ Springer
 
 \examples{
 #Blomqvist's beta for the Clayton copula
-BiCopPar2Beta(family=3,par=2)
+BiCopPar2Beta(family = 3, par = 2)
 }

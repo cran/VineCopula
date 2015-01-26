@@ -1,14 +1,14 @@
 \name{C2RVine}            
 \alias{C2RVine}
 
-\title{Transform C-vine to R-vine structure}
+\title{Transform C-Vine to R-Vine Structure}
 
 \description{
 This function transforms a C-vine structure from the package CDVine to the corresponding R-vine structure.
 }
 
 \usage{
-C2RVine(order, family, par, par2=rep(0,length(family)))
+C2RVine(order, family, par, par2 = rep(0, length(family)))
 }
 
 \arguments{
@@ -72,24 +72,24 @@ An \code{\link{RVineMatrix}} object.
 # copula model with mixed pair-copulas
 # load package CDVine
 library(CDVine)
-d = 4
-dd = d*(d-1)/2
-order = 1:d
-family = c(1,2,3,4,7,3)
-par = c(0.5,0.4,2,1.5,1.2,1.5)
-par2 = c(0,5,0,0,2,0)
-type = 1
-simdata = CDVineSim(500,family,par,par2,type)
+d <- 4
+dd <- d*(d-1)/2
+order <- 1:d
+family <- c(1, 2, 3, 4, 7, 3)
+par <- c(0.5, 0.4, 2, 1.5, 1.2, 1.5)
+par2 <- c(0, 5, 0, 0, 2, 0)
+type <- 1
+simdata <- CDVineSim(500, family, par, par2, type)
 
 # determine log-likelihood
-out = CDVineLogLik(simdata,family,par,par2,type)
+out <- CDVineLogLik(simdata, family, par, par2, type)
 out$loglik
 
 # transform to R-vine matrix notation
-RVM = C2RVine(order,family,par,par2)
+RVM <- C2RVine(order, family, par, par2)
 
 # check that log-likelihood stays the same
-out2 = RVineLogLik(simdata,RVM)
+out2 <- RVineLogLik(simdata,RVM)
 out2$loglik
 }
 

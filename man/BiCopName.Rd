@@ -1,14 +1,14 @@
 \name{BiCopName}       
 \alias{BiCopName}
 
-\title{Bivariate copula family names}
+\title{Bivariate Copula Family Names}
 
 \description{
 This function transforms the bivariate copula family number into its character expression and vice versa.
 }
 
 \usage{
-BiCopName(family, short=TRUE)
+BiCopName(family, short = TRUE)
 }
 
 \arguments{
@@ -72,8 +72,8 @@ The transformed bivariate copula family (see table above).
 \examples{
 # family as number
 family = 1
-BiCopName(family,short=TRUE)	 # short version
-BiCopName(family,short=FALSE)	# long version
+BiCopName(family, short = TRUE)	 # short version
+BiCopName(family, short = FALSE)	# long version
 
 # family as character expression (short version)
 family = "C"

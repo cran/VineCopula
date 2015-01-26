@@ -1,10 +1,10 @@
 \name{vineCopula}
 \alias{vineCopula}
 
-\title{Constructor of the class \code{\linkS4class{vineCopula}}.}
+\title{Constructor of the Class \code{\linkS4class{vineCopula}}.}
 \description{Constructs an instance of the \code{\linkS4class{vineCopula}} class.}
 \usage{
-vineCopula(RVM, type="CVine")
+vineCopula(RVM, type = "CVine")
 }
 
 \arguments{
@@ -20,13 +20,13 @@ vineCopula(RVM, type="CVine")
 
 \examples{
 # a C-vine of independent copulas
-vine <- vineCopula(4L,"CVine")
+vine <- vineCopula(4L, "CVine")
 
 \dontrun{
 library(copula)
 library(lattice)
 
-cloud(V1~V2+V3, as.data.frame(rCopula(500,vine)))}
+cloud(V1 ~ V2 + V3, as.data.frame(rCopula(500, vine)))}
 }
 \keyword{ mulitvariate }
 \keyword{ distribution }

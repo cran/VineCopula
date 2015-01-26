@@ -5,7 +5,7 @@
 \alias{r270TawnT2Copula}
 
 \title{
-Constructor of the Tawn type 2 family and rotated versions thereof
+Constructor of the Tawn Type 2 Family and Rotated Versions thereof
 }
 \description{
 Constructs an object of the \code{\linkS4class{tawnT2Copula}} (survival \code{sur}, 90 degree rotated \code{r90} and 270 degree rotated \code{r270}) family for given parameters.
@@ -37,10 +37,10 @@ Benedikt Graeler
 \examples{
 library(copula)
 
-persp(tawnT2Copula(),dCopula, zlim=c(0,10))
-persp(surTawnT2Copula(),dCopula, zlim=c(0,10))
-persp(r90TawnT2Copula(),dCopula, zlim=c(0,10))
-persp(r270TawnT2Copula(),dCopula, zlim=c(0,10))
+persp(tawnT2Copula(), dCopula, zlim = c(0,10))
+persp(surTawnT2Copula(), dCopula, zlim = c(0,10))
+persp(r90TawnT2Copula(), dCopula, zlim = c(0,10))
+persp(r270TawnT2Copula(), dCopula, zlim = c(0,10))
 }
 \keyword{ distribution }
 \keyword{ copula } 

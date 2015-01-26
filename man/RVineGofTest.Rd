@@ -1,14 +1,15 @@
 \name{RVineGofTest}     
 \alias{RVineGofTest}                
 
-\title{Goodness-of-fit tests for R-vine copula models}
+\title{Goodness-of-Fit Tests for R-Vine Copula Models}
 
 \description{
 This function performs a goodness-of-fit test for R-vine copula models. There are 15 different goodness-of-fit tests implemented, described in Schepsmeier (2013).
 }
 
 \usage{
-RVineGofTest(data,RVM,method="White",statistic="CvM",B=200,alpha=2)
+RVineGofTest(data, RVM, method = "White", statistic = "CvM",
+             B = 200, alpha = 2)
 }
 
 \arguments{
@@ -46,73 +47,73 @@ RVineGofTest(data,RVM,method="White",statistic="CvM",B=200,alpha=2)
 		\code{"KS"} = Kolmogorov-Smirnov test statistic (univariate for \code{"Breymann"}, \code{"Berg"} and \code{"Berg2"}, multivariate for \code{"ECP"} and \code{"ECP2"}) \cr
 		\code{"AD"} = Anderson-Darling test statistic (only univariate for \code{"Breymann"}, \code{"Berg"} and \code{"Berg2"})
 		}
-	\item{B}{an integer for the number of bootstrap steps (default \code{B=200})\cr
+	\item{B}{an integer for the number of bootstrap steps (default \code{B = 200})\cr
 	For \code{B = 0} the asymptotic p-value is returned if available, otherwise only the test statistic is returned.\cr
     WARNING: If \code{B} is chosen too large, computations will take very long.}
-	\item{alpha}{an integer of the set \code{2,4,6,...} for the \code{"Berg2"} goodness-of-fit test (default \code{alpha=2})}
+	\item{alpha}{an integer of the set \code{2,4,6,...} for the \code{"Berg2"} goodness-of-fit test (default \code{alpha = 2})}
 }
 
 \value{
-	For \code{method="White"}:
+	For \code{method = "White"}:
 	\item{White}{test statistic}
-	\item{p.value}{p-value, either asymptotic for \code{B=0} or bootstrapped for \code{B>0}}
-	For \code{method="IR"}:
+	\item{p.value}{p-value, either asymptotic for \code{B = 0} or bootstrapped for \code{B > 0}}
+	For \code{method = "IR"}:
 	\item{IR}{test statistic}
 	\item{p.value}{So far no p-value is returned nigher a asymptotic nor a bootstrapped one. How to calculated a bootstrapped p-value is explained in Schepsmeier (2013)}
-	For \code{method="Breymann"}, \code{method="Berg"} and \code{method="Berg2"}:
+	For \code{method = "Breymann"}, \code{method = "Berg"} and \code{method = "Berg2"}:
 	\item{CvM, KS, AD}{test statistic according to the choice of \code{statistic}} 
-	\item{p.value}{p-value, either asymptotic for \code{B=0} or bootstrapped for \code{B>0}. 
+	\item{p.value}{p-value, either asymptotic for \code{B = 0} or bootstrapped for \code{B > 0}. 
 	A asymptotic p-value is only available for the Anderson-Darling test statistic if the R-package \code{ADGofTest} is loaded. \cr
 	Furthermore, a asymptotic p-value can be calculated for the Kolmogorov-Smirnov test statistic. For the Cramer-von Mises no asymptotic p-value is available so far.}
-	For \code{method="ECP"} and \code{method="ECP2"}:
+	For \code{method = "ECP"} and \code{method = "ECP2"}:
 	\item{CvM, KS}{test statistic according to the choice of \code{statistic}}
 	\item{p.value}{bootstrapped p-value}
 }
 
 
 \details{
-\code{method="White"}: \cr
+\code{method = "White"}: \cr
 This goodness-of fit test uses the information matrix equality of White (1982) and was original investigated by Huang and Prokhorov (2011) for copulas. \cr
 Schepsmeier (2012) enhanced their approach to the vine copula case. \cr
 The main contribution is that under correct model specification the Fisher Information can be equivalently calculated as minus the expected Hessian matrix or as the expected outer product of the score function.
 The null hypothesis is 
 \deqn{
 	H_0: \boldsymbol{H}(\theta) + \boldsymbol{C}(\theta) = 0 
-}
+}{H_0: H(\theta) + C(\theta) = 0 }
 against the alternative
 \deqn{
-	H_0: \boldsymbol{H}(\theta) + \boldsymbol{C}(\theta) \neq 0 ,
-}
-where \eqn{\boldsymbol{H}(\theta)} is the expected Hessian matrix and \eqn{\boldsymbol{C}(\theta)} is the expected outer product of the score function. \cr
-For the calculation of the test statistic we use the consistent maximum likelihood estimator \eqn{\hat{\theta}} and the sample counter parts of \eqn{\boldsymbol{H}(\theta)} and \eqn{\boldsymbol{C}(\theta)}. \cr
+	H_1: \boldsymbol{H}(\theta) + \boldsymbol{C}(\theta) \neq 0 ,
+}{H_1: H(\theta) + C(\theta) != 0 }
+where \eqn{\boldsymbol{H}(\theta)}{H(\theta)} is the expected Hessian matrix and \eqn{\boldsymbol{C}(\theta)}{C(\theta)} is the expected outer product of the score function. \cr
+For the calculation of the test statistic we use the consistent maximum likelihood estimator \eqn{\hat{\theta}} and the sample counter parts of \eqn{\boldsymbol{H}(\theta)}{H(\theta)} and \eqn{\boldsymbol{C}(\theta)}{C(\theta)}. \cr
 The correction of the Covariance-Matrix in the test statistic for the uncertainty in the margins is skipped. The implemented test assumes that there is no uncertainty in the margins. The correction can be found in Huang and Prokhorov (2011) for bivariate copulas and in Schepsmeier (2013) for vine copulas. It involves multi-dimensional integrals. \cr
 
-\code{method="IR"}: \cr
-As the White test the information matrix ratio test is based on the expected Hessian matrix \eqn{\boldsymbol{H}(\theta)} and the expected outer product of the score function \eqn{\boldsymbol{C}(\theta)}. \cr
+\code{method = "IR"}: \cr
+As the White test the information matrix ratio test is based on the expected Hessian matrix \eqn{\boldsymbol{H}(\theta)}{H(\theta)} and the expected outer product of the score function \eqn{\boldsymbol{C}(\theta)}{C(\theta)}. \cr
 \deqn{
 	H_0: -\boldsymbol{H}(\theta)^{-1}\boldsymbol{C}(\theta) = I_{p} 
-}
+}{H_0: -H(\theta)^{-1}C(\theta) = I_p}
 against the alternative
 \deqn{
-	H_0: -\boldsymbol{H}(\theta)^{-1}\boldsymbol{C}(\theta) \neq I_{p}  .
-}
+	H_1: -\boldsymbol{H}(\theta)^{-1}\boldsymbol{C}(\theta) \neq I_{p}  .
+}{H_1: -H(\theta)^{-1}C(\theta) != I_p.}
 The test statistic can then be calculated as
 \deqn{
-	IR_n:=tr(\Phi(\theta)/p
+	IR_n:=tr(\Phi(\theta))/p
 }
-with \eqn{\Phi(\theta)=-\boldsymbol{H}(\theta)^{-1}\boldsymbol{C}(\theta)}, p is the number of parameters, i.e. the length of \eqn{\theta}, and tr(A) is the trace of the matrix A \cr
+with \eqn{\Phi(\theta)=-\boldsymbol{H}(\theta)^{-1}\boldsymbol{C}(\theta)}{\Phi(\theta)=-H(\theta)^{-1}C(\theta)}, \eqn{p} is the number of parameters, i.e. the length of \eqn{\theta}, and \eqn{tr(A)} is the trace of the matrix \eqn{A} \cr
 For details see Schepsmeier (2013) \cr
 
-\code{method="Breymann"}, \code{method="Berg"} and \code{method="Berg2"}: \cr
+\code{method = "Breymann"}, \code{method = "Berg"} and \code{method = "Berg2"}: \cr
 These tests are based on the multivariate probability integral transform (PIT) applied in \code{\link{RVinePIT}}. The multivariate data \eqn{y_{i}} returned form the PIT are aggregated to univariate data by different aggregation functions \eqn{\Gamma(\cdot)} in the sum
 \deqn{
 	s_t=\sum_{i=1}^d \Gamma(y_{it}), t=1,...,n
 }
-In Breymann et al. (2003) the weight function is suggested as \eqn{\Gamma(\cdot)=\Phi^{-1}(\cdot)^2}, while in Berg and Bakken (2007) the weight function is either \eqn{\Gamma(\cdot)=|\cdot-0.5|} (\code{method="Berg"}) or \eqn{\Gamma(\cdot)=(\cdot-0.5)^{\alpha},\alpha=2,4,6,...} (\code{method="Berg2"}). \cr
+In Breymann et al. (2003) the weight function is suggested as \eqn{\Gamma(\cdot)=\Phi^{-1}(\cdot)^2}{\Gamma(y)=\Phi^{-1}y^2}, while in Berg and Bakken (2007) the weight function is either \eqn{\Gamma(\cdot)=|\cdot-0.5|}{\Gamma(y)=|y-0.5|} (\code{method="Berg"}) or \eqn{\Gamma(\cdot)=(\cdot-0.5)^{\alpha},\alpha=2,4,6,...}{\Gamma(y)=(y-0.5)^{\alpha},\alpha=2,4,6,...} (\code{method="Berg2"}). \cr
 Furthermore, the \code{"Berg"} and \code{"Berg2"} test are based on the order statistics of the PIT returns. \cr
 See Berg and Bakken (2007) or Schepsmeier (2013) for details. \cr
 
-\code{method="ECP"} and \code{method="ECP2"}: \cr
+\code{method = "ECP"} and \code{method = "ECP2"}: \cr
 Both tests are test for \eqn{H_0: C \in C_0} against \eqn{H_1: C \notin C_0} 
 where C denotes the (vine) copula distribution function and \eqn{C_0} is a class of parametric
 (vine) copulas with \eqn{\Theta\subseteq R^p} being the parameter space of dimension p.
@@ -120,7 +121,7 @@ They are based on the empirical copula process (ECP)
 \deqn{
 	\hat{C}_n(u)-C_{\hat{\theta}_n}(u),
 }
-with \eqn{u=(u_1,\ldots,u_d)\in[0,1]^d} and \eqn{\hat{C}_n(u) = \frac{1}{n+1}\sum_{t=1}^n \boldsymbol{1}_{\{U_{t1}\leq u_1,\ldots,U_{td}\leq u_d \}} }.
+with \eqn{u=(u_1,\ldots,u_d)\in[0,1]^d} and \eqn{\hat{C}_n(u) = \frac{1}{n+1}\sum_{t=1}^n \boldsymbol{1}_{\{U_{t1}\leq u_1,\ldots,U_{td}\leq u_d \}} }{\hat{C}_n(u) = 1/(n+1)\sum_{t=1}^n 1_{U_{t1}\leq u_1,\ldots,U_{td}\leq u_d} }.
 The ECP is utilized in a multivariate Cramer-von Mises (CvM) or multivariate Kolmogorov-Smirnov (KS) based test statistic.
 An extension of the ECP-test is the
 combination of the multivariate PIT approach with the ECP. The general idea is that
@@ -165,18 +166,18 @@ Econometrica, 50, 1-26.
 \seealso{\code{\link{BiCopGofTest}}, \code{\link{RVinePIT}}}
 
 \examples{
-\dontrun{
-# load data set
+\donttest{# load data set
 data(daxreturns)
 
 # select the R-vine structure, families and parameters
-RVM = RVineStructureSelect(daxreturns[,1:5],c(1:6))
+RVM <- RVineStructureSelect(daxreturns[,1:5], c(1:6))
 
 # White test with asymptotic p-value
-RVineGofTest(daxreturns[,1:5], RVM, B=0)
+RVineGofTest(daxreturns[,1:5], RVM, B = 0)
 
-# ECP2 test with Cramer-von-Mises test statistic and a bootstrap with 200 replications 
-# for the calculation of the p-value
-RVineGofTest(daxreturns[,1:5], RVM, method="ECP2", statistic="CvM", B=200)
+# ECP2 test with Cramer-von-Mises test statistic and a bootstrap
+# with 200 replications for the calculation of the p-value
+RVineGofTest(daxreturns[,1:5], RVM, method = "ECP2",
+             statistic = "CvM", B = 200)
 }
 }

@@ -1,14 +1,14 @@
 \name{BiCopPar2TailDep}       
 \alias{BiCopPar2TailDep} 
 
-\title{Tail dependence coefficients of a bivariate copula}
+\title{Tail Dependence Coefficients of a Bivariate Copula}
 
 \description{
 This function computes the theoretical tail dependence coefficients of a bivariate copula for given parameter values. 
 }
 
 \usage{
-BiCopPar2TailDep(family, par, par2=0)
+BiCopPar2TailDep(family, par, par2 = 0)
 }
 
 \arguments{
@@ -121,9 +121,9 @@ Chapman and Hall, London.
 
 \examples{
 ## Example 1: Gaussian copula
-BiCopPar2TailDep(1,0.7)
+BiCopPar2TailDep(1, 0.7)
 
 ## Example 2: t copula
-BiCopPar2TailDep(2,0.7,4)
+BiCopPar2TailDep(2, 0.7, 4)
 }
 

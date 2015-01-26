@@ -1,7 +1,7 @@
 \name{BiCopEst}           
 \alias{BiCopEst}      
 
-\title{Parameter estimation for bivariate copula data using inversion of Kendall's tau or maximum likelihood estimation}
+\title{Parameter Estimation for Bivariate Copula Data}
 
 \description{
 This function estimates the parameter(s) for a bivariate copula using either inversion of empirical Kendall's tau for single parameter copula families 
@@ -9,8 +9,9 @@ or maximum likelihood estimation for one and two parameter copula families suppo
 }
 
 \usage{
-BiCopEst(u1, u2, family, method="mle", se=FALSE, max.df=30,
-         max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)),weights=NA)
+BiCopEst(u1, u2, family, method = "mle", se = FALSE, max.df = 30,
+         max.BB = list(BB1=c(5,6), BB6=c(6,6), BB7=c(5,6), BB8=c(6,1)),
+         weights = NA)
 }
 
 \arguments{
@@ -89,7 +90,7 @@ Moreover, standard errors of the degrees of freedom parameter estimate cannot be
 
 \value{                         
   \item{par, par2}{Estimated copula parameter(s).}
-  \item{se,se2}{Standard error(s) of the parameter estimate(s) (if \code{se = TRUE}).}
+  \item{se, se2}{Standard error(s) of the parameter estimate(s) (if \code{se = TRUE}).}
 }
 
 \references{
@@ -100,45 +101,45 @@ Chapman and Hall, London.
 
 \author{Ulf Schepsmeier, Eike Brechmann, Jakob Stoeber, Carlos Almeida}
 
-\seealso{\code{\link{BiCopPar2Tau}}, \code{\link{BiCopTau2Par}} \code{\link{RVineSeqEst}}, \code{\link{BiCopSelect}}}
+\seealso{\code{\link{BiCopPar2Tau}}, \code{\link{BiCopTau2Par}}, \code{\link{RVineSeqEst}}, \code{\link{BiCopSelect}}}
 
 \examples{
 ## Example 1: bivariate Gaussian copula
-dat = BiCopSim(500,1,0.7)
-u1 = dat[,1]
-v1 = dat[,2]
+dat <- BiCopSim(500, 1, 0.7)
+u1 <- dat[,1]
+v1 <- dat[,2]
 
 # empirical Kendall's tau
-tau1 = cor(u1,v1,method="kendall")
+tau1 <- cor(u1, v1, method = "kendall")
 
 # inversion of empirical Kendall's tau 
-BiCopTau2Par(1,tau1)
-BiCopEst(u1,v1,family=1,method="itau")$par
+BiCopTau2Par(1, tau1)
+BiCopEst(u1, v1, family = 1, method = "itau")$par
 
 # maximum likelihood estimate for comparison
-BiCopEst(u1,v1,family=1,method="mle")$par
+BiCopEst(u1, v1, family = 1, method = "mle")$par
 
 
 ## Example 2: bivariate Clayton and survival Gumbel copulas
 # simulate from a Clayton copula
-dat = BiCopSim(500,3,2.5)
-u2 = dat[,1]
-v2 = dat[,2]
+dat <- BiCopSim(500, 3, 2.5)
+u2 <- dat[,1]
+v2 <- dat[,2]
 
 # empirical Kendall's tau
-tau2 = cor(u2,v2,method="kendall")
+tau2 <- cor(u2, v2, method = "kendall")
 
 # inversion of empirical Kendall's tau for the Clayton copula
-BiCopTau2Par(3,tau2)
-BiCopEst(u2,v2,family=3,method="itau",se=TRUE) 
+BiCopTau2Par(3, tau2)
+BiCopEst(u2, v2, family = 3, method = "itau", se = TRUE) 
 
 # inversion of empirical Kendall's tau for the survival Gumbel copula
-BiCopTau2Par(14,tau2)
-BiCopEst(u2,v2,family=14,method="itau",se=TRUE)
+BiCopTau2Par(14, tau2)
+BiCopEst(u2, v2, family = 14, method = "itau", se = TRUE)
 
 # maximum likelihood estimates for comparison
-BiCopEst(u2,v2,family=3,method="mle",se=TRUE)
-BiCopEst(u2,v2,family=14,method="mle",se=TRUE)
+BiCopEst(u2, v2, family = 3, method = "mle", se = TRUE)
+BiCopEst(u2, v2, family = 14, method = "mle", se = TRUE)
  
 }
 

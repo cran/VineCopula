@@ -2,11 +2,12 @@
 \alias{surClaytonCopula}
 \alias{r90ClaytonCopula}
 \alias{r270ClaytonCopula}
+
 \title{
-survival and rotated Clayton Copulas
+Survival and Rotated Clayton Copulas
 }
 \description{
-these are wrappers to functions from \code{\link{VineCopula-package}}
+These are wrappers to functions from \code{\link{VineCopula-package}}
 }
 \usage{
 surClaytonCopula(param)
@@ -27,8 +28,8 @@ Benedikt Graeler
 \examples{
 library(copula)
 
-persp(surClaytonCopula(1.5),dCopula, zlim=c(0,10))
-persp(r90ClaytonCopula(-1.5),dCopula, zlim=c(0,10))
-persp(r270ClaytonCopula(-1.5),dCopula, zlim=c(0,10))
+persp(surClaytonCopula(1.5), dCopula, zlim = c(0,10))
+persp(r90ClaytonCopula(-1.5), dCopula, zlim = c(0,10))
+persp(r270ClaytonCopula(-1.5), dCopula, zlim = c(0,10))
 }
 \keyword{copula}

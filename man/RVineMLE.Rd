@@ -1,16 +1,17 @@
 \name{RVineMLE}        
 \alias{RVineMLE}              
 
-\title{Maximum likelihood estimation of an R-vine copula model}
+\title{Maximum Likelihood Estimation of an R-Vine Copula Model}
 
 \description{
 This function calculates the maxiumum likelihood estimate (MLE) of the R-vine copula model parameters using sequential estimates as initial values (if not provided).
 }
 
 \usage{
-RVineMLE(data, RVM, start=RVM$par, start2=RVM$par2, maxit=200, max.df=30,
-         max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)),
-         grad=FALSE, hessian=FALSE, se=FALSE, ...)
+RVineMLE(data, RVM, start = RVM$par, start2 = RVM$par2,
+         maxit = 200, max.df = 30,
+         max.BB = list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)),
+         grad = FALSE, hessian = FALSE, se = FALSE, ...)
 }
 
 \arguments{
@@ -20,7 +21,7 @@ RVineMLE(data, RVM, start=RVM$par, start2=RVM$par2, maxit=200, max.df=30,
     (optional; otherwise they are calculated via \cr \code{\link{RVineSeqEst}}; default: \code{start = RVM$par}).}
   \item{start2}{Lower triangular d x d matrix with zero diagonal entries with starting values for the second parameters of pair-copula families with two parameters
     (optional; otherwise they are calculated via \code{\link{RVineSeqEst}}; default: \code{start2 = RVM$par2}).}
-  \item{maxit}{The maximum number of iteration steps (optional; default: \code{maxit = 500}).}
+  \item{maxit}{The maximum number of iteration steps (optional; default: \code{maxit = 200}).}
   \item{max.df}{Numeric; upper bound for the estimation of the degrees of freedom parameter of the t-copula
     (default: \code{max.df = 30}; for more details see \code{\link{BiCopEst}}).}
   \item{max.BB}{List; upper bounds for the estimation of the two parameters (in absolute values) of the BB1, BB6, BB7 and BB8 copulas \cr
@@ -70,32 +71,45 @@ Estimating standard errors in regular vine copula models. Computational Statisti
 \code{\link{RVineHessian}}}
 
 \examples{
-\dontrun{
+\donttest{
 # define 5-dimensional R-vine tree structure matrix
-Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
-Matrix = matrix(Matrix,5,5)
+Matrix <- c(5, 2, 3, 1, 4,
+            0, 2, 3, 4, 1,
+            0, 0, 3, 4, 1,
+            0, 0, 0, 4, 1,
+            0, 0, 0, 0, 1)
+Matrix <- matrix(Matrix, 5, 5)
 
 # define R-vine pair-copula family matrix
-family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
-family = matrix(family,5,5)
+family <- c(0, 1, 3, 4, 4,
+            0, 0, 3, 4, 1,
+            0, 0, 0, 4, 1,
+            0, 0, 0, 0, 3,
+            0, 0, 0, 0, 0)
+family <- matrix(family, 5, 5)
 
 # define R-vine pair-copula parameter matrix
-par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
-        0,0,0,0,4.8,0,0,0,0,0)
-par = matrix(par,5,5)
+par <- c(0, 0.2, 0.9, 1.5, 3.9,
+         0, 0, 1.1, 1.6, 0.9,
+         0, 0, 0, 1.9, 0.5,
+         0, 0, 0, 0, 4.8,
+         0, 0, 0, 0, 0)
+par <- matrix(par, 5, 5)
 
 # define second R-vine pair-copula parameter matrix
-par2 = matrix(0,5,5)
+par2 <- matrix(0, 5, 5)
 
 # define RVineMatrix object
-RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
-                  names=c("V1","V2","V3","V4","V5"))
+RVM <- RVineMatrix(Matrix = Matrix, family = family,
+                   par = par, par2 = par2,
+                   names = c("V1", "V2", "V3", "V4", "V5"))
 
 # simulate a sample of size 300 from the R-vine copula model
-simdata = RVineSim(300,RVM)
+set.seed(123)
+simdata <- RVineSim(300, RVM)
 
 # compute the MLE
-mle = RVineMLE(simdata,RVM,grad=TRUE)
+mle <- RVineMLE(simdata, RVM, grad=TRUE)
 mle$RVM
 }
 }

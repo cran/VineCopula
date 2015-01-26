@@ -433,7 +433,7 @@ cop.pdf <- function(u1, u2, param, copula)
 	pdf=con*tem*exp(-tem+tem1+tem2)/sm
 	return(pdf)
   }
-  else if(copula==42)	# 2-parametric asymmetric copula (thanks to Benedikt Gräler)
+  else if(copula==42)	# 2-parametric asymmetric copula (thanks to Benedikt Gr?ler)
   {
 	a=param[1]
 	b=param[2] 
@@ -567,23 +567,25 @@ else if(margins=="exp")
 BiCopMetaContour <- function(u1=NULL, u2=NULL, bw=1, size=100, levels=c(0.01,0.05,0.1,0.15,0.2), 
 family="emp", par=0, par2=0, PLOT=TRUE, margins="norm", margins.par=0, xylim=NA, ...)
 {
+  
+  ## sanity checks
   if((is.null(u1)==TRUE || is.null(u2)==TRUE) && family=="emp") stop("'u1' and/or 'u2' not set or of length zero.")
-  if(is.null(u1)==FALSE && (any(u1>1) || any(u1<0))) stop("Data has be in the interval [0,1].")
-  if(is.null(u2)==FALSE && (any(u2>1) || any(u2<0))) stop("Data has be in the interval [0,1].")
+  if(is.null(u1)==FALSE && (any(u1>1) || any(u1<0))) stop("Data has to be in the interval [0,1].")
+  if(is.null(u2)==FALSE && (any(u2>1) || any(u2<0))) stop("Data has to be in the interval [0,1].")
   #if(length(u1)!=length(u2)) stop("Lengths of 'u1' and 'u2' do not match.")
   if(!(family %in% c(0,1,2,3,4,5,6,7,8,9,10,13,14,16,17,18,19,20,23,24,26,27,28,29,30,33,34,36,37,38,39,40,41,42,51,52,61,62,71,72,104,114,124,134,204,214,224,234, "emp"))) stop("Copula family not implemented.")
   if(c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,42,52,62,72,104,114,124,134,204,214,224,234) %in% family && par2==0) stop("For t-, BB1, BB6, BB7, BB8 and Tawn copulas, 'par2' must be set.")
   if(c(1,3,4,5,6,11,13,14,16,23,24,26,33,34,36,41,51,61,71) %in% family && length(par)<1) stop("'par' not set.")
   
-  # size sollte nicht zu gross sein
+  ## Limits for size parameter
   if(size>1000) stop("Size parameter should not be greater than 1000. Otherwise computational time and memory space are too large.")
   if(size<50) stop("Size parameter should not be smaller than 50.")
   
-  # bw richtig
+  ## limits bandwidth parameter
   if(bw<1) stop("The bandwidth parameter 'bw' should be greater or equal to 1.")
   if(bw>5) stop("The bandwidth parameter 'bw' should not be greater than 5.")
   
-  # Parameterbereiche abfragen
+  ## sanity checks for pair-copula parameters
   if((family==1 || family==2) && abs(par[1])>=1) stop("The parameter of the Gaussian and t-copula has to be in the interval (-1,1).")
 	if(family==2 && par2<=2) stop("The degrees of freedom parameter of the t-copula has to be larger than 2.")
 	if((family==3 || family==13) && par<=0) stop("The parameter of the Clayton copula has to be positive.")
@@ -635,7 +637,7 @@ family="emp", par=0, par2=0, PLOT=TRUE, margins="norm", margins.par=0, xylim=NA,
 
   if(is.null(u1) && is.null(u2) && family!="emp")
   {
-    # theoretischer contourplot
+    # margins for theoretical contour plot
     u1=runif(1000)
     u2=runif(1000)
   }
@@ -646,68 +648,67 @@ family="emp", par=0, par2=0, PLOT=TRUE, margins="norm", margins.par=0, xylim=NA,
   {
   x1 <- qnorm(p=u1)
   x2 <- qnorm(p=u2)
-  if(is.na(xylim)) xylim=c(-3,3)
+  if(any(is.na(xylim))) xylim=c(-3,3)
   }
   else if(margins=="t")
   {
   x1 <- qt(p=u1, df=margins.par)
   x2 <- qt(p=u2, df=margins.par)
-  if(is.na(xylim)) xylim=c(-3,3)
+  if(any(is.na(xylim))) xylim=c(-3,3)
   }
   else if(margins=="exp")
   {
   x1=qexp(p=u1, rate=margins.par)
   x2=qexp(p=u2, rate=margins.par)
-  if(is.na(xylim)) xylim=c(0,5)
+  if(any(is.na(xylim))) xylim=c(0,5)
   }
   else if(margins=="gamma")
   {
   x1=qgamma(p=u1, shape=margins.par[1], scale=margins.par[2])
   x2=qgamma(p=u2, shape=margins.par[1], scale=margins.par[2])
-  if(is.na(xylim)) xylim=c(0,5)
+  if(any(is.na(xylim))) xylim=c(0,5)
   }
   else if(margins=="unif")
   {
   x1=u1
   x2=u2
-  if(is.na(xylim)) xylim=c(0,1)
+  if(any(is.na(xylim))) xylim=c(0,1)
   }
 
  x <- y <- seq(from=xylim[1], to=xylim[2], length.out=size)
 
-  if(family!="emp")
-  {
-  if(family %in% c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,42,52,62,72,104,114,124,134,204,214,224,234))
-	 z <- matrix(data=meta.dens(x1=rep(x=x, each=size), x2=rep(x=y, times=size), param=c(par,par2), copula=family, 
-   margins=margins, margins.par=margins.par), nrow=size, byrow=TRUE)
-  else
-	z <- matrix(data=meta.dens(x1=rep(x=x, each=size), x2=rep(x=y, times=size), param=par, copula=family, 
-  margins=margins, margins.par=margins.par), nrow=size, byrow=TRUE)
-  }
-  else	#empirical
-  {
-  bw1 <- bw * bandwidth.nrd(x1)
-  bw2 <- bw * bandwidth.nrd(x2)
-  
-  kd.est <- kde2d(x=x1, y=x2, h=c(bw1, bw2), n=size)
-  
-  x <- kd.est$x
-  y <- kd.est$y
-  z <- kd.est$z
-  }
+ if(family!="emp") {
+   ## theoretical contours
+   if(family %in% c(2,7,8,9,10,17,18,19,20,27,28,29,30,37,38,39,40,42,52,62,72,104,114,124,134,204,214,224,234))
+     z <- matrix(data=meta.dens(x1=rep(x=x, each=size), x2=rep(x=y, times=size), param=c(par,par2), copula=family, 
+                                margins=margins, margins.par=margins.par), nrow=size, byrow=TRUE)
+   else
+     z <- matrix(data=meta.dens(x1=rep(x=x, each=size), x2=rep(x=y, times=size), param=par, copula=family, 
+                                margins=margins, margins.par=margins.par), nrow=size, byrow=TRUE)
+ } else {
+   ## empirical  contours
+   bw1 <- bw * bandwidth.nrd(x1)
+   bw2 <- bw * bandwidth.nrd(x2)
+   
+   ## 2-dimensional kernel density estimation
+   kd.est <- kde2d(x=x1, y=x2, h=c(bw1, bw2), n=size)
+   
+   x <- kd.est$x
+   y <- kd.est$y
+   z <- kd.est$z
+ }
 
-  if(PLOT)
-  {
-  contour(x=x, y=y, z=z, levels=levels,ylim=xylim,xlim=xylim, ...)
-  }
-  else
-  {
-  out=list()
-  out$x=x
-  out$y=y
-  out$z=z
-
-  return(out)
-  }
+ if(PLOT){
+   ## plot contour lines
+   contour(x=x, y=y, z=z, levels=levels,ylim=xylim,xlim=xylim, ...)
+ } else {
+   ## output bivarate meta density z(x,y)
+   out=list()
+   out$x=x
+   out$y=y
+   out$z=z
+   
+   return(out)
+ }
 }
 

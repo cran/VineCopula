@@ -3,13 +3,12 @@
 \alias{VineCopula}
 \docType{package}
 
-\title{Statistical inference of vine copulas}
+\title{Statistical Inference of Vine Copulas}
 
 \description{
-This package provides functions for statistical inference of vine copulas.
-It contains tools for bivariate exploratory data analysis, bivariate copula selection and (vine) tree construction.
-Models can be estimated either sequentially or by joint maximum likelihood estimation.
-Sampling algorithms and plotting methods are also included.
+Tools for bivariate exploratory data analysis, bivariate copula selection and (vine) tree construction are provided.
+Vine copula models can be estimated either sequentially or by joint maximum likelihood estimation.
+Sampling algorithms and plotting methods are included.
 Data is assumed to lie in the unit hypercube (so-called copula data).
 For C- and D-vines links to the package CDVine are provided.
 }
@@ -80,17 +79,18 @@ We are especially grateful to Harry Joe for his contributions to the implementat
 \tabular{ll}{
 Package: \tab VineCopula\cr
 Type: \tab Package\cr
-Version: \tab 1.2\cr
-Date: \tab 2013-11-11\cr
+Version: \tab 1.4\cr
+Date: \tab 2015-01-26\cr
 License: \tab GPL (>=2)\cr
-Depends: \tab R (\eqn{\geq 2.11.0}{>= 2.11.0}), MASS, mvtnorm, igraph \cr
-Suggests: \tab CDVine, TSP, ADGofTest \cr
+Depends: \tab R (\eqn{\geq 2.11.0}{>= 2.11.0})\cr
+Imports: \tab MASS, mvtnorm, igraph, methods, copula, ADGofTest\cr
+Suggests: \tab CDVine, TSP\cr
 LazyLoad: \tab yes
 }
 }
 
 \author{
-Ulf Schepsmeier, Jakob Stoeber, Eike Christian Brechmann, Benedikt Graeler <VineCopula@ma.tum.de>
+Ulf Schepsmeier, Jakob Stoeber, Eike Christian Brechmann, Benedikt Graeler
 }
 
 \references{ 
@@ -112,8 +112,7 @@ Canadian Journal of Statistics 40 (1), 68-85.
 
 Brechmann, E. C. and C. Czado (2011).
 Risk management with high-dimensional vine copulas: An analysis of the Euro Stoxx 50.
-Statistics & Risk Modeling, to appear
-\url{http://mediatum.ub.tum.de/node?id=1079276}.
+Statistics & Risk Modeling, 30 (4), 307-342.
 
 Brechmann, E. C. and U. Schepsmeier (2013).
 Modeling Dependence with C- and D-Vine Copulas: The R Package CDVine.
@@ -160,7 +159,7 @@ Springer
 
 Schepsmeier, U. and J. Stoeber (2012).
 Derivatives and Fisher information of bivariate copulas.
-Statistical Papers.
+Statistical Papers, 55 (2), 525-542.
 \url{http://link.springer.com/article/10.1007/s00362-013-0498-x}.
 
 Schepsmeier, U. (2013)
@@ -173,7 +172,7 @@ Efficient goodness-of-fit tests in multi-dimensional vine copula models.
 \url{http://arxiv.org/abs/1309.5808}
 
 Stoeber, J. and U. Schepsmeier (2013).
-Estimating standard errors in regular vine copula models. Computational Statistics, 1-29
+Estimating standard errors in regular vine copula models. Computational Statistics, 28 (6), 2679-2707
 \url{http://link.springer.com/article/10.1007/s00180-013-0423-8#}.
 
 White, H. (1982)

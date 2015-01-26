@@ -1,7 +1,7 @@
 \name{BiCopIndTest}          
 \alias{BiCopIndTest}               
 
-\title{Independence test for bivariate copula data}
+\title{Independence Test for Bivariate Copula Data}
 
 \description{
 This function returns the p-value of a bivariate asymptotic independence test based on Kendall's tau.
@@ -12,7 +12,7 @@ BiCopIndTest(u1, u2)
 }
 
 \arguments{
-  \item{u1,u2}{Data vectors of equal length with values in [0,1].}
+  \item{u1, u2}{Data vectors of equal length with values in [0,1].}
 }
 
 \value{
@@ -51,19 +51,19 @@ Journal of Hydrologic Engineering, 12 (4), 347-368.
 
 \examples{
 ## Example 1: Gaussian copula with large dependence parameter
-par1 = 0.7
-fam1 = 1
-dat1 = BiCopSim(500,fam1,par1)
+par1 <- 0.7
+fam1 <- 1
+dat1 <- BiCopSim(500, fam1, par1)
 
 # perform the asymptotic independence test
-BiCopIndTest(dat1[,1],dat1[,2])
+BiCopIndTest(dat1[,1], dat1[,2])
 
 
 ## Example 2: Gaussian copula with small dependence parameter
-par2 = 0.01
-fam2 = 1
-dat2 = BiCopSim(500,fam2,par2)
+par2 <- 0.01
+fam2 <- 1
+dat2 <- BiCopSim(500, fam2, par2)
 
 # perform the asymptotic independence test
-BiCopIndTest(dat2[,1],dat2[,2])
+BiCopIndTest(dat2[,1], dat2[,2])
 }

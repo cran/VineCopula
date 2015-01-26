@@ -1,14 +1,14 @@
 \name{TauMatrix}      
 \alias{TauMatrix}
 
-\title{Matrix of empirical Kendall's tau values}
+\title{Matrix of Empirical Kendall's Tau Values}
 
 \description{
 This function computes the empirical Kendall's tau using the algorithm by Knight (1966).
 }
 
 \usage{
-TauMatrix(data, weights=NA)
+TauMatrix(data, weights = NA)
 }
 
 \arguments{
@@ -32,9 +32,9 @@ Journal of the American Statistical Association 61 (314), 436-439.
 
 \examples{
 data(daxreturns)
-Data = as.matrix(daxreturns)
+Data <- as.matrix(daxreturns)
 
 # compute the empirical Kendall's taus
-tau = TauMatrix(Data)
+TauMatrix(Data)
 }
 

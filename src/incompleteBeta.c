@@ -326,7 +326,7 @@ void inbeder(double* x_in, double* p_in, double* q_in, double* der)
 	  // Scale derivatives to prevent overflow
 	  
 	  Rn=dan[0];
-	  if(abs(dbn[0])>abs(dan[0]))
+	  if(fabs(dbn[0])>fabs(dan[0]))
 	  {
 	    Rn=dbn[0];
 	  }
@@ -339,7 +339,7 @@ void inbeder(double* x_in, double* p_in, double* q_in, double* der)
 	  dan[2]=dan[2]/Rn;
 	  dbn[1]=dbn[1]/Rn;
 	  dbn[2]=dbn[2]/Rn;
-	  if(abs(dbn[0])>abs(dan[0]))
+	  if(fabs(dbn[0])>fabs(dan[0]))
 	  {
 	    dan[0]=dan[0]/dbn[0];
 	    dbn[0]=1;
@@ -385,8 +385,8 @@ void inbeder(double* x_in, double* p_in, double* q_in, double* der)
 	  
 	  for(i=0;i<3;i++)
 	  {
-	    d1[i]=MAX(err,abs(der[i]));
-	    d1[i]=abs(der_old[i]-der[i])/d1[i];
+	    d1[i]=MAX(err,fabs(der[i]));
+	    d1[i]=fabs(der_old[i]-der[i])/d1[i];
 	    der_old[i]=der[i];
 	  }
 	  d=MAX(MAX(d1[0],d1[1]),d1[2]);

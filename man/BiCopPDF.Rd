@@ -1,18 +1,18 @@
 \name{BiCopPDF}         
 \alias{BiCopPDF}
 
-\title{Density of a bivariate copula}
+\title{Density of a Bivariate Copula}
 
 \description{
 This function evaluates the probability density function (PDF) of a given parametric bivariate copula.
 }
 
 \usage{
-BiCopPDF(u1, u2, family, par, par2=0)
+BiCopPDF(u1, u2, family, par, par2 = 0)
 }
 
 \arguments{
-  \item{u1,u2}{Numeric vectors of equal length with values in [0,1].}
+  \item{u1, u2}{Numeric vectors of equal length with values in [0,1].}
   \item{family}{An integer defining the bivariate copula family: \cr
 		\code{0} = independence copula \cr
 	        \code{1} = Gaussian copula \cr
@@ -69,11 +69,11 @@ A numeric vector of the bivariate copula density evaluated at \code{u1} and \cod
 
 \examples{
 # simulate from a bivariate t-copula
-simdata = BiCopSim(300,2,-0.7,par2=4)
+simdata <- BiCopSim(300, 2, -0.7, par2 = 4)
 
 # evaluate the density of the bivariate t-copula
-u1 = simdata[,1]
-u2 = simdata[,2]
-BiCopPDF(u1,u2,2,-0.7,par2=4)
+u1 <- simdata[,1]
+u2 <- simdata[,2]
+BiCopPDF(u1, u2, 2, -0.7, par2 = 4)
 }
 

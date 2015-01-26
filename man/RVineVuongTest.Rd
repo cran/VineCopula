@@ -1,7 +1,7 @@
 \name{RVineVuongTest}         
 \alias{RVineVuongTest}                
 
-\title{Vuong test comparing two R-vine copula models}
+\title{Vuong Test Comparing Two R-Vine Copula Models}
 
 \description{
 This function performs a Vuong test between two d-dimensional R-vine copula models as specified by their \code{\link{RVineMatrix}} objects.
@@ -68,18 +68,18 @@ Econometrica 57 (2), 307-333.
 
 
 \examples{
-\dontrun{
+\donttest{
 # load data set
 data(daxreturns)
 
 # select the R-vine structure, families and parameters
-RVM = RVineStructureSelect(daxreturns[,1:5],c(1:6))
+RVM <- RVineStructureSelect(daxreturns[,1:5], c(1:6))
 
 # select the C-vine structure, families and parameters
-CVM = RVineStructureSelect(daxreturns[,1:5],c(1:6),type="CVine")
+CVM <- RVineStructureSelect(daxreturns[,1:5], c(1:6), type = "CVine")
 
 # compare the two models based on the data
-vuong = RVineVuongTest(daxreturns[,1:5],RVM,CVM)
+vuong <- RVineVuongTest(daxreturns[,1:5], RVM, CVM)
 vuong$statistic
 vuong$statistic.Schwarz
 vuong$p.value

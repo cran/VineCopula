@@ -1,7 +1,7 @@
 \name{BetaMatrix}      
 \alias{BetaMatrix}
 
-\title{Matrix of empirical Blomqvist's beta values}
+\title{Matrix of Empirical Blomqvist's Beta Values}
 
 \description{
 This function computes the empirical Blomqvist's beta.
@@ -35,9 +35,9 @@ Springer
 
 \examples{
 data(daxreturns)
-Data = as.matrix(daxreturns)
+Data <- as.matrix(daxreturns)
 
 # compute the empirical Blomqvist's betas
-beta = BetaMatrix(Data)
+BetaMatrix(Data)
 }
 

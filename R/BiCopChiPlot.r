@@ -1,8 +1,8 @@
 #===============================================================================
 # -------------------- CHI-PLOT FOR BIVARIATE DATA -----------------------------
 #===============================================================================
-# Author: Natalia Djunushalieva, TU München, April 2010
-# Update: Ulf Schepsmeier, TU München, June 2010
+# Author: Natalia Djunushalieva, TU Muenchen, April 2010
+# Update: Ulf Schepsmeier, TU Muenchen, June 2010
 # For more detail see "Everything you always wanted to now about copula modeling
 # but were afraid to ask", Christian Genest, Anne-Catherine Favre
 # NOTE: It is also possible to calculate chi-plot for righ upper and left lower
@@ -89,8 +89,8 @@ BiCopChiPlot<-function(u1,u2,PLOT=TRUE,mode="NULL",...)
 #===============================================================================
 # ----------------- KENDALL-PLOT FOR BIVARIATE DATA ----------------------------
 #===============================================================================
-# Author: Natalia Djunushalieva, TU München, April 2010
-# Update: Ulf Schepsmeier, TU München, June 2010
+# Author: Natalia Djunushalieva, TU Muenchen, April 2010
+# Update: Ulf Schepsmeier, TU Muenchen, June 2010
 # For more detail see "Everything you always wanted to now about copula modeling
 # but were afraid to ask", Christian Genest, Anne-Catherine Favre
 #-------------------------------------------------------------------------------
@@ -118,8 +118,8 @@ BiCopKPlot<-function(u1,u2,PLOT=TRUE,...)
   W.in<-rep(NA,n)
   for(i in 1:n)
   {
-    f=function(w){w*(-log(w))*(w-w*log(w))^(i-1)*(1-w+w*log(w))^(n-i)}  # zu integrierende Funktion
-		W.in[i]<-n*choose(n-1,i-1)*(integrate(f,lower=0,upper=1)$value)  # W_{i:n} für i=1:n
+    f=function(w){w*(-log(w))*(w-w*log(w))^(i-1)*(1-w+w*log(w))^(n-i)}  # function to be integrated
+		W.in[i]<-n*choose(n-1,i-1)*(integrate(f,lower=0,upper=1)$value)  # W_{i:n} for i=1:n
   }
   g<-function(w){w-w*log(w)} # K_{0}(w)=P(UV<=w)
 
@@ -127,7 +127,7 @@ BiCopKPlot<-function(u1,u2,PLOT=TRUE,...)
   {
     plot(g,xlim=c(0,1),ylim=c(0,1),pch="x",xlab=expression(W[1:n]),ylab="H",...) #Kurve K_{0}(w)
     points(W.in,Hi.sort,pch="x",cex=0.4,...)
-    abline(a=0,b=1)	# Winkelhalbierende
+    abline(a=0,b=1)	# angle bisector
   }
   else # create output data
   {

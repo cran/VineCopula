@@ -2,11 +2,12 @@
 \alias{surGumbelCopula}
 \alias{r90GumbelCopula}
 \alias{r270GumbelCopula}
+
 \title{
-survival and rotated Gumbel Copulas
+Survival and Rotated Gumbel Copulas
 }
 \description{
-these are wrappers to functions from \code{\link{VineCopula-package}}
+These are wrappers to functions from \code{\link{VineCopula-package}}
 }
 \usage{
 surGumbelCopula(param)
@@ -27,8 +28,8 @@ Benedikt Graeler
 \examples{
 library(copula)
 
-persp(surGumbelCopula(1.5),dCopula, zlim=c(0,10))
-persp(r90GumbelCopula(-1.5),dCopula, zlim=c(0,10))
-persp(r270GumbelCopula(-1.5),dCopula, zlim=c(0,10))
+persp(surGumbelCopula(1.5), dCopula, zlim = c(0,10))
+persp(r90GumbelCopula(-1.5), dCopula, zlim = c(0,10))
+persp(r270GumbelCopula(-1.5), dCopula, zlim = c(0,10))
 }
 \keyword{copula}

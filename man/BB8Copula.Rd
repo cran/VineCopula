@@ -5,10 +5,10 @@
 \alias{r270BB8Copula}
 
 \title{
-Constructor of the BB8 family and its derivatives
+Constructor of the BB8 Family and Rotated Versions thereof
 }
 \description{
-Constructs an object of the \code{\linkS4class{BB8Copula}} (survival \code{sur}, 90 degree rotated \code{r90} and 270 degree rotated \code{r270}) family for a given parameter.
+Constructs an object of the \code{\linkS4class{BB8Copula}} (survival \code{sur}, 90 degree rotated \code{r90} and 270 degree rotated \code{r270}) family for given parameters.
 }
 \usage{
 BB8Copula(param)
@@ -37,8 +37,8 @@ See also \code{\link{BB6Copula}}, \code{\link{BB7Copula}}, \code{\link{BB8Copula
 \examples{
 library(copula)
 
-persp(BB8Copula(c(1,0.5)),dCopula, zlim=c(0,10))
-persp(surBB8Copula(c(1,0.5)),dCopula, zlim=c(0,10))
-persp(r90BB8Copula(c(-1,-0.5)),dCopula, zlim=c(0,10))
-persp(r270BB8Copula(c(-1,-0.5)),dCopula, zlim=c(0,10))
+persp(BB8Copula(c(1,0.5)), dCopula, zlim = c(0,10))
+persp(surBB8Copula(c(1,0.5)), dCopula, zlim = c(0,10))
+persp(r90BB8Copula(c(-1,-0.5)), dCopula, zlim = c(0,10))
+persp(r270BB8Copula(c(-1,-0.5)), dCopula, zlim = c(0,10))
 }

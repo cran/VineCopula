@@ -5,7 +5,7 @@
 \alias{r270BB1Copula}
 
 \title{
-Constructor of the BB1 family and rotated versions thereof
+Constructor of the BB1 Family and Rotated Versions thereof
 }
 \description{
 Constructs an object of the \code{\linkS4class{BB1Copula}} (survival \code{sur}, 90 degree rotated \code{r90} and 270 degree rotated \code{r270}) family for given parameters.
@@ -37,10 +37,10 @@ See also \code{\link{BB6Copula}}, \code{\link{BB7Copula}}, \code{\link{BB8Copula
 \examples{
 library(copula)
 
-persp(BB1Copula(c(1,1.5)),dCopula, zlim=c(0,10))
-persp(surBB1Copula(c(1,1.5)),dCopula, zlim=c(0,10))
-persp(r90BB1Copula(c(-1,-1.5)),dCopula, zlim=c(0,10))
-persp(r270BB1Copula(c(-1,-1.5)),dCopula, zlim=c(0,10))
+persp(BB1Copula(c(1,1.5)), dCopula, zlim = c(0,10))
+persp(surBB1Copula(c(1,1.5)), dCopula, zlim = c(0,10))
+persp(r90BB1Copula(c(-1,-1.5)), dCopula, zlim = c(0,10))
+persp(r270BB1Copula(c(-1,-1.5)), dCopula, zlim = c(0,10))
 }
 
 \keyword{ distribution }

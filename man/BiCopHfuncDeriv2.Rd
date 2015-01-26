@@ -1,18 +1,18 @@
 \name{BiCopHfuncDeriv2}           
 \alias{BiCopHfuncDeriv2}
 
-\title{Second derivatives of the h-function of a bivariate copula}
+\title{Second Derivatives of the h-Function of a Bivariate Copula}
 
 \description{
 This function evaluates the second derivative of a given conditional parametric bivariate copula (h-function) with respect to its parameter(s) and/or its arguments.
 }
 
 \usage{
-BiCopHfuncDeriv2(u1, u2, family, par, par2=0, deriv="par")
+BiCopHfuncDeriv2(u1, u2, family, par, par2 = 0, deriv = "par")
 }
 
 \arguments{
-  \item{u1,u2}{Numeric vectors of equal length with values in [0,1].}
+  \item{u1, u2}{Numeric vectors of equal length with values in [0,1].}
   \item{family}{An integer defining the bivariate copula family: \cr
 		\code{0} = independence copula \cr
 	        \code{1} = Gaussian copula \cr
@@ -60,12 +60,12 @@ Statistical Papers.
 
 \examples{
 # simulate from a bivariate t-copula
-simdata = BiCopSim(300,2,-0.7,par2=4)
+simdata <- BiCopSim(300, 2, -0.7, par2 = 4)
 
 # second derivative of the conditional bivariate t-copula 
 # with respect to the first parameter
-u1 = simdata[,1]
-u2 = simdata[,2]
-BiCopHfuncDeriv2(u1,u2,2,-0.7,par2=4, deriv="par")
+u1 <- simdata[,1]
+u2 <- simdata[,2]
+BiCopHfuncDeriv2(u1, u2, 2, -0.7, par2 = 4, deriv = "par")
 }
 

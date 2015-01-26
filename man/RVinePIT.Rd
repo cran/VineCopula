@@ -1,14 +1,14 @@
 \name{RVinePIT}     
 \alias{RVinePIT}                
 
-\title{Probability integral transformation for R-vine copula models}
+\title{Probability Integral Transformation for R-Vine Copula Models}
 
 \description{
 This function applies the probability integral transformation (PIT) for R-vine copula models to given copula data.
 }
 
 \usage{
-RVinePIT(data,RVM)
+RVinePIT(data, RVM)
 }
 
 \arguments{
@@ -52,18 +52,19 @@ Efficient goodness-of-fit tests in multi-dimensional vine copula models.
 }
 
 \examples{
-\dontrun{
-# load data set
+\donttest{# load data set
 data(daxreturns)
 
 # select the R-vine structure, families and parameters
-RVM = RVineStructureSelect(daxreturns[,1:5],c(1:6))
+RVM <- RVineStructureSelect(daxreturns[,1:5], c(1:6))
 
 # PIT data
-pit=RVinePIT(daxreturns[,1:5],RVM)
+pit <- RVinePIT(daxreturns[,1:5], RVM)
 
-par(mfrow=c(1,2))
-plot(daxreturns[,1],daxreturns[,2])	# correlated data
-plot(pit[,1],pit[,2])	# i.i.d. data
+par(mfrow = c(1,2))
+plot(daxreturns[,1], daxreturns[,2])	# correlated data
+plot(pit[,1], pit[,2])	# i.i.d. data
+
+cor(pit, method = "kendall")
 }
 }

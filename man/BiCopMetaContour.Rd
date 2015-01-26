@@ -1,7 +1,8 @@
 \name{BiCopMetaContour}      
 \alias{BiCopMetaContour}        
 
-\title{Contour plot of bivariate meta distribution with different margins and copula (theoretical and empirical)}
+\title{Contour Plot of Bivariate Meta Distribution
+}
 
 \description{
 This function plots a bivariate contour plot corresponding to a bivariate meta distribution with different margins 
@@ -9,22 +10,22 @@ and specified bivariate copula and parameter values or creates corresponding emp
 }
 
 \usage{
-BiCopMetaContour(u1=NULL, u2=NULL, bw=1, size=100,
-                 levels=c(0.01,0.05,0.1,0.15,0.2), 
-                 family="emp", par=0, par2=0, PLOT=TRUE,
-                 margins="norm", margins.par=0, xylim=NA, ...)
+BiCopMetaContour(u1 = NULL, u2 = NULL, bw = 1, size = 100,
+                 levels = c(0.01, 0.05, 0.1, 0.15, 0.2), 
+                 family = "emp", par = 0, par2 = 0, PLOT = TRUE,
+                 margins = "norm", margins.par = 0, xylim = NA, ...)
 }
 
 \arguments{
-  \item{u1,u2}{Data vectors of equal length with values in [0,1] (default: \code{u1} and \code{u2 = NULL}).}
+  \item{u1, u2}{Data vectors of equal length with values in [0,1] (default: \code{u1} and \code{u2 = NULL}).}
   \item{bw}{Bandwidth (smoothing factor; default: \code{bw = 1}).}
   \item{size}{Number of grid points; default: \code{size = 100}.}
   \item{levels}{Vector of contour levels.
-    For Gaussian, Student t or exponential margins the default value (\code{levels = c(0.01,0.05,0.1,0.15,0.2)}) typically is a good choice.
+    For Gaussian, Student t or exponential margins the default value (\code{levels = c(0.01, 0.05, 0.1, 0.15, 0.2)}) typically is a good choice.
     For uniform margins we recommend\cr
-    \code{levels = c(0.1,0.3,0.5,0.7,0.9,1.1,1.3,1.5)}\cr
+    \code{levels = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5)}\cr
     and for Gamma margins\cr
-    \code{levels = c(0.005,0.01,0.03,0.05,0.07,0.09)}.}
+    \code{levels = c(0.005, 0.01, 0.03, 0.05, 0.07, 0.09)}.}
   \item{family}{An integer defining the bivariate copula family or indicating an empirical contour plot: \cr
     \code{"emp"} = empirical contour plot (default; margins can be specified by \code{margins}) \cr
 		\code{0} = independence copula \cr
@@ -109,23 +110,23 @@ The combination \code{family = 0} (independence copula) and \code{margins = "uni
 \examples{
 ## Example 1: contour plot of meta Gaussian copula distribution
 ## with Gaussian margins
-tau = 0.5
-fam = 1
-theta = BiCopTau2Par(fam,tau)	
-BiCopMetaContour(u1=NULL,u2=NULL,bw=1,size=100,
-                 levels=c(0.01,0.05,0.1,0.15,0.2),
-                 family=fam,par=theta,main="tau=0.5")
+tau <- 0.5
+fam <- 1
+theta <- BiCopTau2Par(fam, tau)	
+BiCopMetaContour(u1 = NULL, u2 = NULL, bw = 1, size = 100,
+                 levels = c(0.01, 0.05, 0.1, 0.15, 0.2),
+                 family = fam, par = theta, main = "tau = 0.5")
 
 
 ## Example 2: empirical contour plot with standard normal margins
-dat = BiCopSim(N=1000,fam,theta)
-BiCopMetaContour(dat[,1],dat[,2],bw=2,size=100,
-                 levels=c(0.01,0.05,0.1,0.15,0.2),
-                 par=0,family="emp",main="N=1000")
+dat <- BiCopSim(N = 1000, fam, theta)
+BiCopMetaContour(dat[,1], dat[,2], bw = 2, size = 100,
+                 levels = c(0.01, 0.05, 0.1, 0.15, 0.2),
+                 par = 0, family = "emp", main = "N = 1000")
 
 # empirical contour plot with exponential margins
-BiCopMetaContour(dat[,1],dat[,2],bw=2,size=100,
-                 levels=c(0.01,0.05,0.1,0.15,0.2),
-                 par=0,family="emp",main="n=500",
-                 margins="exp",margins.par=1)
+BiCopMetaContour(dat[,1], dat[,2], bw = 2, size = 100,
+                 levels = c(0.01, 0.05, 0.1, 0.15, 0.2),
+                 par = 0, family = "emp", main = "n = 500",
+                 margins = "exp", margins.par = 1)
 }

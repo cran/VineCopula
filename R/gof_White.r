@@ -63,6 +63,8 @@ gof_White<-function(data,RVM,B=200)
 		pvalue=0
 		for(i in 1:B)
 		{
+			D=rep(0,(dd+tt)*(dd+tt+1)/2)
+			V0=matrix(0,(dd+tt)*(dd+tt+1)/2,(dd+tt)*(dd+tt+1)/2)
 			f=sample(T)
 			out <- .C("White",
 				as.integer(T),
@@ -80,7 +82,7 @@ gof_White<-function(data,RVM,B=200)
 				PACKAGE = 'VineCopula')
 	
 			D=out[[11]]
-			V0=V0=matrix(out[[12]],(dd+tt)*(dd+tt+1)/2,(dd+tt)*(dd+tt+1)/2)
+			V0=matrix(out[[12]],(dd+tt)*(dd+tt+1)/2,(dd+tt)*(dd+tt+1)/2)
 			handle2=try(solve(V0,D), TRUE) 
 			if(is.null(dim(handle2)))
 				handle2=ginv(V0)%*%D

@@ -1,16 +1,16 @@
 \name{RVineTreePlot}      
 \alias{RVineTreePlot}
 
-\title{Plot function for R-vine trees}
+\title{Visualisation of R-Vine Tree Structure}
 
 \description{
 This function plots one or all trees of a given R-vine copula model.
 }
 
 \usage{
-RVineTreePlot(data=NULL, RVM, method="mle", max.df=30,
-              max.BB=list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)),
-              tree="ALL", edge.labels=c("family"), P=NULL)
+RVineTreePlot(data = NULL, RVM, method = "mle", max.df = 30,
+              max.BB = list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)),
+              tree = "ALL", edge.labels = c("family"), P = NULL)
 }
 
 \arguments{
@@ -54,41 +54,54 @@ A list of matrices \code{P} with two columns for the x-y-coordinates of the node
 \seealso{\code{\link{BiCopName}}}
 
 \examples{
-set.seed(666)
 # define 5-dimensional R-vine tree structure matrix
-Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
-Matrix = matrix(Matrix,5,5)
+Matrix <- c(5, 2, 3, 1, 4,
+            0, 2, 3, 4, 1,
+            0, 0, 3, 4, 1,
+            0, 0, 0, 4, 1,
+            0, 0, 0, 0, 1)
+Matrix <- matrix(Matrix, 5, 5)
 
 # define R-vine pair-copula family matrix
-family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
-family = matrix(family,5,5)
+family <- c(0, 1, 3, 4, 4,
+            0, 0, 3, 4, 1,
+            0, 0, 0, 4, 1,
+            0, 0, 0, 0, 3,
+            0, 0, 0, 0, 0)
+family <- matrix(family, 5, 5)
 
 # define R-vine pair-copula parameter matrix
-par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
-        0,0,0,0,4.8,0,0,0,0,0)
-par = matrix(par,5,5)
+par <- c(0, 0.2, 0.9, 1.5, 3.9,
+         0, 0, 1.1, 1.6, 0.9,
+         0, 0, 0, 1.9, 0.5,
+         0, 0, 0, 0, 4.8,
+         0, 0, 0, 0, 0)
+par <- matrix(par, 5, 5)
 
 # define second R-vine pair-copula parameter matrix
-par2 = matrix(0,5,5)
+par2 <- matrix(0, 5, 5)
 
 # define RVineMatrix object
-RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
-                  names=c("V1","V2","V3","V4","V5"))
+RVM <- RVineMatrix(Matrix = Matrix, family = family,
+                   par = par, par2 = par2,
+                   names = c("V1", "V2", "V3", "V4", "V5"))
 
 # set random seed for testing
-set.seed(666)
+set.seed(123)
 
 # plot all trees with pair-copula families and
 # theoretical Kendall's tau values as edge labels
-P = RVineTreePlot(data=NULL,RVM=RVM,tree="ALL",
-                  edge.labels=c("family","theotau"),P=NULL)
+P <- RVineTreePlot(data = NULL, RVM = RVM, tree = "ALL",
+                   edge.labels = c("family","theotau"),
+                   P = NULL)
 
 # manipulate the first matrix of x-y-coordinates
 P[[1]][1,] = P[[1]][1,]*2  
 
 # re-set random seed for testing
-set.seed(666)
+set.seed(123)
 # plot only the first tree with new coordinates
-P = RVineTreePlot(data=NULL,RVM=RVM,tree=1,edge.labels=FALSE,P=P)
+P <- RVineTreePlot(data = NULL, RVM = RVM, tree = 1,
+                   edge.labels = FALSE, P = P)
 }
 

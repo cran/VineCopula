@@ -1,7 +1,7 @@
 \name{RVineCopSelect}       
 \alias{RVineCopSelect}
 
-\title{Sequential copula selection and estimation of R-vine copula models}
+\title{Sequential Pair-Copula Selection and Estimation for R-Vine Copula Models}
 
 \description{
 This function fits a R-vine copula model to a d-dimensional copula data set.
@@ -9,8 +9,8 @@ Pair-copula families are selected using \code{\link{BiCopSelect}} and estimated 
 }
 
 \usage{
-RVineCopSelect(data, familyset=NA, Matrix, selectioncrit="AIC",
-               indeptest=FALSE, level=0.05, trunclevel=NA)
+RVineCopSelect(data, familyset = NA, Matrix, selectioncrit = "AIC",
+               indeptest = FALSE, level = 0.05, trunclevel = NA)
 }
 
 \arguments{
@@ -97,29 +97,42 @@ Computational Statistics & Data Analysis, 59 (1), 52-69.
 
 \examples{
 # define 5-dimensional R-vine tree structure matrix
-Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
-Matrix = matrix(Matrix,5,5)
+Matrix <- c(5, 2, 3, 1, 4,
+            0, 2, 3, 4, 1,
+            0, 0, 3, 4, 1,
+            0, 0, 0, 4, 1,
+            0, 0, 0, 0, 1)
+Matrix <- matrix(Matrix, 5, 5)
 
 # define R-vine pair-copula family matrix
-family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
-family = matrix(family,5,5)
+family <- c(0, 1, 3, 4, 4,
+            0, 0, 3, 4, 1,
+            0, 0, 0, 4, 1,
+            0, 0, 0, 0, 3,
+            0, 0, 0, 0, 0)
+family <- matrix(family, 5, 5)
 
 # define R-vine pair-copula parameter matrix
-par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
-        0,0,0,0,4.8,0,0,0,0,0)
-par = matrix(par,5,5)
+par <- c(0, 0.2, 0.9, 1.5, 3.9,
+         0, 0, 1.1, 1.6, 0.9,
+         0, 0, 0, 1.9, 0.5,
+         0, 0, 0, 0, 4.8,
+         0, 0, 0, 0, 0)
+par <- matrix(par, 5, 5)
 
 # define second R-vine pair-copula parameter matrix
-par2 = matrix(0,5,5)
+par2 <- matrix(0, 5, 5)
 
 # define RVineMatrix object
-RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
-                  names=c("V1","V2","V3","V4","V5"))
+RVM <- RVineMatrix(Matrix = Matrix, family = family,
+                   par = par, par2 = par2,
+                   names = c("V1", "V2", "V3", "V4", "V5"))
                   
 # simulate a sample of size 1000 from the R-vine copula model
-simdata = RVineSim(1000,RVM)
+set.seed(123)
+simdata <- RVineSim(1000, RVM)
 
 # determine the pair-copula families and parameters
-RVM1 = RVineCopSelect(simdata,familyset=c(1,3,4,5,6),Matrix)
+RVM1 <- RVineCopSelect(simdata, familyset = c(1, 3, 4, 5 ,6), Matrix)
 }
 

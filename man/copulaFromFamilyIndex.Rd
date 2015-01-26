@@ -2,7 +2,7 @@
 \alias{copulaFromFamilyIndex}
 
 \title{
-Construction of a copula object from a VineCopula family index
+Construction of a Copula Object from a VineCopula Family Index
 }
 \description{
 A VineCopula family index along with its parameters is used to construct a corresponding \code{\linkS4class{copula}} object. 
@@ -12,7 +12,7 @@ copulaFromFamilyIndex(family, par, par2 = 0)
 }
 
 \arguments{
-  \item{family}{a family inde aS DEFINED IN \code{\link{VineCopula-package}}}
+  \item{family}{a family index as defined in \code{\link{VineCopula-package}}}
   \item{par}{its first parameter value}
   \item{par2}{if present, its second parameter}
 }
@@ -22,7 +22,7 @@ copulaFromFamilyIndex(family, par, par2 = 0)
 
 \examples{
 # normalCopula with parameter 0.5
-copulaFromFamilyIndex(1,0.5)
+copulaFromFamilyIndex(1, 0.5)
 
 # rotated Tawn T2 copula with parameters 
 copulaFromFamilyIndex(224, -2, 0.5)

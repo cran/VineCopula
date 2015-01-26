@@ -3,10 +3,10 @@
 \alias{ddvCopula}
 
 \title{
-partial derivatives of copulas
+Partial Derivatives of Copulas
 }
 \description{
-Similar to the \code{\link{dCopula}} and \code{\link{pCopula}} the function \code{dduCopula} evaluates the partial derivative \eqn{\frac{\partial}{\partial u} C(u,v)} and the function \code{ddvCopula} evaluates the partial derivative \eqn{\frac{\partial}{\partial v} C(u,v)} of the provided copula. 
+Similar to \code{\link{dCopula}} and \code{\link{pCopula}} the function \code{dduCopula} evaluates the partial derivative \eqn{\frac{\partial}{\partial u} C(u,v)}{d C(u,v)/du} and the function \code{ddvCopula} evaluates the partial derivative \eqn{\frac{\partial}{\partial v} C(u,v)}{d C(u,v)/dv} of the provided copula. 
 }
 \usage{
 dduCopula(u, copula, ...)
@@ -36,10 +36,10 @@ BB1Cop <- BB1Copula()
 BB1CopSmpl <- rCopula(100, BB1Cop)
 
 # conditional probabilities of a Gaussian copula given u
-BB1GivenU <- dduCopula(BB1CopSmpl,BB1Cop)
+BB1GivenU <- dduCopula(BB1CopSmpl, BB1Cop)
 
 # vs. conditional probabilities of a Gaussian copula given v
-BB1GivenV <- ddvCopula(BB1CopSmpl[,c(2,1)],BB1Cop)
+BB1GivenV <- ddvCopula(BB1CopSmpl[,c(2,1)], BB1Cop)
 
 plot(BB1GivenU, BB1GivenV)
 abline(0,1)

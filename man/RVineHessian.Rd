@@ -1,7 +1,7 @@
 \name{RVineHessian}        
 \alias{RVineHessian}                
 
-\title{Hessian matrix of the log-likelihood of an R-vine copula model}
+\title{Hessian Matrix of the Log-Likelihood of an R-Vine Copula Model}
 
 \description{
 This function calculates the Hessian matrix of the log-likelihood of a d-dimensional R-vine copula model with respect to the copula parameter and evaluates it on a given copula data set.
@@ -66,30 +66,42 @@ Estimating standard errors in regular vine copula models. Computational Statisti
 
 \examples{
 # define 5-dimensional R-vine tree structure matrix
-Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
-Matrix = matrix(Matrix,5,5)
+Matrix <- c(5, 2, 3, 1, 4,
+            0, 2, 3, 4, 1,
+            0, 0, 3, 4, 1,
+            0, 0, 0, 4, 1,
+            0, 0, 0, 0, 1)
+Matrix <- matrix(Matrix, 5, 5)
 
 # define R-vine pair-copula family matrix
-family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
-family = matrix(family,5,5)
+family <- c(0, 1, 3, 4, 4,
+            0, 0, 3, 4, 1,
+            0, 0, 0, 4, 1,
+            0, 0, 0, 0, 3,
+            0, 0, 0, 0, 0)
+family <- matrix(family, 5, 5)
 
 # define R-vine pair-copula parameter matrix
-par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
-        0,0,0,0,4.8,0,0,0,0,0)
-par = matrix(par,5,5)
+par <- c(0, 0.2, 0.9, 1.5, 3.9,
+         0, 0, 1.1, 1.6, 0.9,
+         0, 0, 0, 1.9, 0.5,
+         0, 0, 0, 0, 4.8,
+         0, 0, 0, 0, 0)
+par <- matrix(par, 5, 5)
 
 # define second R-vine pair-copula parameter matrix
-par2 = matrix(0,5,5)
+par2 <- matrix(0, 5, 5)
 
 # define RVineMatrix object
-RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
-                  names=c("V1","V2","V3","V4","V5"))
-
+RVM <- RVineMatrix(Matrix = Matrix, family = family,
+                   par = par, par2 = par2,
+                   names = c("V1", "V2", "V3", "V4", "V5"))
+                  
 # simulate a sample of size 300 from the R-vine copula model
-simdata = RVineSim(300,RVM)
+set.seed(123)
+simdata <- RVineSim(300, RVM)
 
 # compute the Hessian matrix of the first row of the data
-out2 = RVineHessian(simdata[1,],RVM)
+out2 <- RVineHessian(simdata[1,], RVM)
 out2$hessian
-
 }

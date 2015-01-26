@@ -1,18 +1,18 @@
 \name{BiCopKPlot}           
 \alias{BiCopKPlot}         
 
-\title{Kendall's plot (K-plot) for bivariate copula data}
+\title{Kendall's Plot for Bivariate Copula Data}
 
 \description{
 This function creates a Kendall's plot (K-plot) of given bivariate copula data.
 }
 
 \usage{
-BiCopKPlot(u1, u2, PLOT=TRUE, ...)
+BiCopKPlot(u1, u2, PLOT = TRUE, ...)
 }
 
 \arguments{
-  \item{u1,u2}{Data vectors of equal length with values in [0,1].}
+  \item{u1, u2}{Data vectors of equal length with values in [0,1].}
   \item{PLOT}{Logical; whether the results are plotted. If \code{PLOT = FALSE}, the values \code{W.in} and \code{Hi.sort} are returned (see below; default: \code{PLOT = TRUE}).}
   \item{...}{Additional plot arguments.}
 }
@@ -60,25 +60,24 @@ Journal of Hydrologic Engineering, 12 (4), 347-368.
 \seealso{\code{\link{BiCopMetaContour}}, \code{\link{BiCopChiPlot}}, \code{\link{BiCopLambda}}, \code{\link{BiCopGofTest}}}
 
 \examples{
-\dontrun{
 # Gaussian and Clayton copulas
-n = 500
-tau = 0.5
+n <- 500
+tau <- 0.5
 
 # simulate from Gaussian copula
-fam1 = 1	
-theta1 = BiCopTau2Par(fam1,tau)
-dat1 = BiCopSim(n,fam1,theta1)	
+fam1 <- 1  
+theta1 <- BiCopTau2Par(fam1, tau)
+set.seed(123)
+dat1 <- BiCopSim(n, fam1, theta1)  
 
 # simulate from Clayton copula
-fam2 = 3
-theta2 = BiCopTau2Par(fam2,tau)
-dat2 = BiCopSim(n,fam2,theta2)
+fam2 <- 3
+theta2 <- BiCopTau2Par(fam2, tau)
+set.seed(123)
+dat2 <- BiCopSim(n, fam2, theta2)
 
 # create K-plots
-dev.new(width=10,height=5)
 par(mfrow=c(1,2))
-BiCopKPlot(dat1[,1],dat1[,2],main="Gaussian copula")
-BiCopKPlot(dat2[,1],dat2[,2],main="Clayton copula")
-}
+BiCopKPlot(dat1[,1], dat1[,2], main = "Gaussian copula")
+BiCopKPlot(dat2[,1], dat2[,2], main = "Clayton copula")
 }

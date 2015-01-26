@@ -1,18 +1,18 @@
 \name{BiCopHfunc}           
 \alias{BiCopHfunc}
 
-\title{Conditional distribution function (h-function) of a bivariate copula}
+\title{Conditional Distribution Function of a Bivariate Copula}
 
 \description{
 This function evaluates the conditional distribution function (h-function) of a given parametric bivariate copula.
 }
 
 \usage{
-BiCopHfunc(u1, u2, family, par, par2=0)
+BiCopHfunc(u1, u2, family, par, par2 = 0)
 }
 
 \arguments{
-  \item{u1,u2}{Numeric vectors of equal length with values in [0,1].}
+  \item{u1, u2}{Numeric vectors of equal length with values in [0,1].}
   \item{family}{An integer defining the bivariate copula family: \cr
 		\code{0} = independence copula \cr
 		\code{1} = Gaussian copula \cr
@@ -94,5 +94,8 @@ Insurance: Mathematics and Economics 44 (2), 182-198.
 data(daxreturns)
 
 # h-functions of the Gaussian copula
-h1 = BiCopHfunc(daxreturns[,2],daxreturns[,1],1,0.5)
+h1 <- BiCopHfunc(daxreturns[,2], daxreturns[,1], 1, 0.5)
+\dontshow{
+h1
+}
 }

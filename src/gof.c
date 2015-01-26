@@ -189,7 +189,7 @@ void White(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 		}
 	} 
 	
-	// Nicht fertig, da hier das Problem D%*%solve(V)%*%t(D) zu lösen ist
+	// Nicht fertig, da hier das Problem D%*%solve(V)%*%t(D) zu l?sen ist
 	
 	// Free memory
 	//free(D);
@@ -414,11 +414,14 @@ void gofPIT_AD(int *T, int* d, int* family, int* maxmat, int* matrix, int* condi
 void gofPIT_AD_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data,
 		double* statistic, double* vv, double* vv2, int* calcupdate, int* method, int* alpha, int* B, double* pvalue, int *statisticName)
 {
-	int i=0, m=0, t=0, *f, B2=1000;
+	int i=0, j=0, m=0, t=0, *f, B2=1000;
 	double *bdata, bstat=0;
+	double *bvv, *bvv2;
 	
 	f = malloc(*T*sizeof(int));
 	bdata = malloc(*d*(*T)*sizeof(double));
+	bvv = malloc(*d*(*d)*(*T)*sizeof(double));
+	bvv2 = malloc(*d*(*d)*(*T)*sizeof(double));
 
 	for(m=0;m<*B;m++)
 	{
@@ -427,12 +430,18 @@ void gofPIT_AD_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int
 		{
 			for(i=0;i<*d;i++)
 			{
-				bdata[(t+1)+(*T*i)-1]=data[(f[t]+1)+(*T*i)-1];
+				bdata[(t+1)+(*T*i)-1]=data[(f[t])+(*T*i)-1];
+				// Forget to change vv annd vv2, too
+				for(j=0; j<*d; j++)
+				{
+					bvv[(i+1)+(*d)*j+(*d)*(*d)*t-1] = vv[(i+1)+(*d)*j+(*d)*(*d)*(f[t]-1)-1];	// f[t]-1 because C starts to count at 0
+					bvv2[(i+1)+(*d)*j+(*d)*(*d)*t-1] = vv2[(i+1)+(*d)*j+(*d)*(*d)*(f[t]-1)-1];
+				}
 			}
 		}
 		bstat=0;
 		gofPIT_AD(T, d, family, maxmat, matrix, condirect, conindirect, par, par2, bdata, 
-				&bstat, vv, vv2, calcupdate, method, alpha, &B2, statisticName);
+				&bstat, bvv, bvv2, calcupdate, method, alpha, &B2, statisticName);
 		
 		if(bstat>=*statistic)
 			*pvalue+=1.0/(*B);
@@ -440,6 +449,8 @@ void gofPIT_AD_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int
 	
 	free(f);
 	free(bdata);
+	free(bvv);
+	free(bvv2);
 }
 
 
@@ -523,7 +534,7 @@ void gofECP_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* c
 		{
 			for(i=0;i<*d;i++)
 			{
-				bdata[(t+1)+(*T*i)-1]=data[(f[t]+1)+(*T*i)-1];
+				bdata[(t+1)+(*T*i)-1]=data[(f[t])+(*T*i)-1];
 			}
 		}
 		bstat=0;
@@ -639,11 +650,14 @@ void gofECP2(int* T, int* d, int* family, int* maxmat, int* matrix, int* condire
 void gofECP2_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
 		double* vv, double* vv2, int* calcupdate, double* statistic, double* pvalue, int* statisticName, int* B)
 {
-	int i=0, m=0, t=0, *f;
+	int i=0, j=0, m=0, t=0, *f;
 	double *bdata, bstat=0;
+	double *bvv, *bvv2;
 	
 	f = malloc(*T*sizeof(int));
 	bdata = malloc(*d*(*T)*sizeof(double));
+	bvv = malloc(*d*(*d)*(*T)*sizeof(double));
+	bvv2 = malloc(*d*(*d)*(*T)*sizeof(double));
 	//Rprintf("%f\n",*statistic);
 	for(m=0;m<*B;m++)
 	{
@@ -652,11 +666,17 @@ void gofECP2_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* 
 		{
 			for(i=0;i<*d;i++)
 			{
-				bdata[(t+1)+(*T*i)-1]=data[(f[t]+1)+(*T*i)-1];
+				bdata[(t+1)+(*T*i)-1]=data[(f[t])+(*T*i)-1];
+				// Forget to change vv annd vv2, too
+				for(j=0; j<*d; j++)
+				{
+					bvv[(i+1)+(*d)*j+(*d)*(*d)*t-1] = vv[(i+1)+(*d)*j+(*d)*(*d)*(f[t]-1)-1];	// f[t]-1 because C starts to count at 0
+					bvv2[(i+1)+(*d)*j+(*d)*(*d)*t-1] = vv2[(i+1)+(*d)*j+(*d)*(*d)*(f[t]-1)-1];
+				}
 			}
 		}
 		bstat=0;
-		gofECP2(T, d, family, maxmat, matrix, condirect, conindirect, par, par2, bdata, vv, vv2, calcupdate, &bstat, statisticName);
+		gofECP2(T, d, family, maxmat, matrix, condirect, conindirect, par, par2, bdata, bvv, bvv2, calcupdate, &bstat, statisticName);
 		//Rprintf("%f ",bstat);
 		if(bstat>=*statistic)
 			*pvalue+=1.0/(*B);
@@ -664,4 +684,6 @@ void gofECP2_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* 
 	
 	free(f);
 	free(bdata);
+	free(bvv);
+	free(bvv2);
 }

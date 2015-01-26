@@ -4,6 +4,10 @@ import(igraph)
 import(copula)
 import(methods)
 
+importFrom(ADGofTest, ad.test)
+
+export(pobs)
+
 export(BiCopEst)
 export(BiCopMetaContour)
 export(BiCopChiPlot)
@@ -57,6 +61,7 @@ export(BiCopPar2Beta)
 export(RVinePar2Beta)
 export(BetaMatrix)
 
+
 # compatibility to copula
 export(fitCopula)
 export(dduCopula,ddvCopula)
@@ -86,5 +91,6 @@ exportClasses(vineCopula)
 
 
 S3method(print, RVineMatrix)
+
 
 useDynLib("VineCopula")

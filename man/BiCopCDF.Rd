@@ -1,14 +1,14 @@
 \name{BiCopCDF}           
 \alias{BiCopCDF}
 
-\title{Distribution function of a bivariate copula}
+\title{Distribution Function of a Bivariate Copula}
 
 \description{
 This function evaluates the cumulative distribution function (CDF) of a given parametric bivariate copula.
 }
 
 \usage{
-BiCopCDF(u1, u2, family, par, par2=0)
+BiCopCDF(u1, u2, family, par, par2 = 0)
 }
 
 \arguments{
@@ -55,7 +55,7 @@ BiCopCDF(u1, u2, family, par, par2=0)
     \code{234} = rotated Tawn type 2 copula (270 degrees) \cr
 		}
   \item{par}{Copula parameter.}
-  \item{par2}{Second parameter for bivariate copulas with two parameters (t, BB1, BB6, BB7, BB8, Tawn type 1 and type 2; default: \code{par2 = 0}). \code{par2} should be an positive integer for the Students's t copula \code{family=2}.}
+  \item{par2}{Second parameter for bivariate copulas with two parameters (t, BB1, BB6, BB7, BB8, Tawn type 1 and type 2; default: \code{par2 = 0}). \code{par2} should be an positive integer for the Students's t copula \code{family = 2}.}
 }
 
 \value{
@@ -63,7 +63,7 @@ A numeric vector of the bivariate copula distribution function evaluated at \cod
 }
 
 \note{
-The calculation of the cumulative distribution function (CDF) of the Student's t copula (\code{family=2}) is not implemented any more since the calculation was wrong for non-integer degrees-of-freedom.
+The calculation of the cumulative distribution function (CDF) of the Student's t copula (\code{family = 2}) is not implemented any more since the calculation was wrong for non-integer degrees-of-freedom.
 }
 
 
@@ -73,11 +73,11 @@ The calculation of the cumulative distribution function (CDF) of the Student's t
 
 \examples{
 # simulate from a bivariate Clayton
-simdata = BiCopSim(300,3,3.4)
+simdata <- BiCopSim(300, 3, 3.4)
 
 # evaluate the distribution function of the bivariate t-copula
-u1 = simdata[,1]
-u2 = simdata[,2]
-BiCopCDF(u1,u2,3,3.4)
+u1 <- simdata[,1]
+u2 <- simdata[,2]
+BiCopCDF(u1, u2, 3, 3.4)
 }
 

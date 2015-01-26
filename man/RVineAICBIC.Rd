@@ -2,15 +2,15 @@
 \alias{RVineAIC}
 \alias{RVineBIC}                
 
-\title{AIC and BIC of an R-vine copula model}
+\title{AIC and BIC of an R-Vine Copula Model}
 
 \description{
 These functions calculate the Akaike and Bayesian Information criteria of a d-dimensional R-vine copula model for a given copula data set.
 }
 
 \usage{
-RVineAIC(data, RVM, par=RVM$par, par2=RVM$par2)
-RVineBIC(data, RVM, par=RVM$par, par2=RVM$par2)
+RVineAIC(data, RVM, par = RVM$par, par2 = RVM$par2)
+RVineBIC(data, RVM, par = RVM$par, par2 = RVM$par2)
 }
 
 \arguments{
@@ -57,30 +57,42 @@ Annals of Statistics 6 (2), 461-464.
 
 \examples{
 # define 5-dimensional R-vine tree structure matrix
-Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
-Matrix = matrix(Matrix,5,5)
+Matrix <- c(5, 2, 3, 1, 4,
+            0, 2, 3, 4, 1,
+            0, 0, 3, 4, 1,
+            0, 0, 0, 4, 1,
+            0, 0, 0, 0, 1)
+Matrix <- matrix(Matrix, 5, 5)
 
 # define R-vine pair-copula family matrix
-family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
-family = matrix(family,5,5)
+family <- c(0, 1, 3, 4, 4,
+            0, 0, 3, 4, 1,
+            0, 0, 0, 4, 1,
+            0, 0, 0, 0, 3,
+            0, 0, 0, 0, 0)
+family <- matrix(family, 5, 5)
 
 # define R-vine pair-copula parameter matrix
-par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
-        0,0,0,0,4.8,0,0,0,0,0)
-par = matrix(par,5,5)
+par <- c(0, 0.2, 0.9, 1.5, 3.9,
+         0, 0, 1.1, 1.6, 0.9,
+         0, 0, 0, 1.9, 0.5,
+         0, 0, 0, 0, 4.8,
+         0, 0, 0, 0, 0)
+par <- matrix(par, 5, 5)
 
 # define second R-vine pair-copula parameter matrix
-par2 = matrix(0,5,5)
+par2 <- matrix(0, 5, 5)
 
 # define RVineMatrix object
-RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
-                  names=c("V1","V2","V3","V4","V5"))
+RVM <- RVineMatrix(Matrix = Matrix, family = family, par = par, par2 = par2,
+                   names=c("V1", "V2", "V3", "V4", "V5"))
 
 # simulate a sample of size 300 from the R-vine copula model
-simdata = RVineSim(300,RVM)
+set.seed(123)
+simdata <- RVineSim(300,RVM)
 
 # compute AIC and BIC
-RVineAIC(simdata,RVM)
-RVineBIC(simdata,RVM)
+RVineAIC(simdata, RVM)
+RVineBIC(simdata, RVM)
 }
 

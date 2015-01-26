@@ -5,7 +5,7 @@
 \alias{r270JoeBiCopula}
 
 \title{
-Constructor of the survival and rotated versions of the Joe family
+Constructor of the Joe Family and Rotated Versions thereof
 }
 \description{
 Constructs an object of the (survival \code{surJoeBiCopula}, 90 degree rotated \code{r90JoeBiCopula} and 270 degree rotated \code{r270JoeBiCopula}) family for a given parameter. Note that package \code{\link{copula-package}} provides a class \code{\linkS4class{joeCopula}} as well.
@@ -36,7 +36,7 @@ See also \code{\link{BB1Copula}}, \code{\link{BB6Copula}}, \code{\link{BB7Copula
 \examples{
 library(copula)
 
-persp(surJoeBiCopula(1.5),dCopula, zlim=c(0,10))
-persp(r90JoeBiCopula(-1.5),dCopula, zlim=c(0,10))
-persp(r270JoeBiCopula(-1.5),dCopula, zlim=c(0,10))
+persp(surJoeBiCopula(1.5), dCopula, zlim = c(0,10))
+persp(r90JoeBiCopula(-1.5), dCopula, zlim = c(0,10))
+persp(r270JoeBiCopula(-1.5), dCopula, zlim = c(0,10))
 }

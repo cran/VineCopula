@@ -1,7 +1,7 @@
 \name{RVineMatrix}      
 \alias{RVineMatrix}
 
-\title{R-vine copula model in matrix notation}
+\title{R-Vine Copula Model in Matrix Notation}
 
 \description{
 This function creates an \code{\link{RVineMatrix}} object which encodes an R-vine copula model.
@@ -10,9 +10,9 @@ utilized and two matrices for corresponding parameter values.
 }
 
 \usage{
-RVineMatrix(Matrix, family=array(0,dim=dim(Matrix)),
-            par=array(NA,dim=dim(Matrix)),
-            par2=array(NA,dim=dim(Matrix)), names=NULL)
+RVineMatrix(Matrix, family = array(0, dim = dim(Matrix)),
+            par = array(NA, dim = dim(Matrix)),
+            par2 = array(NA, dim = dim(Matrix)), names=NULL)
 }
 
 \arguments{
@@ -63,9 +63,9 @@ RVineMatrix(Matrix, family=array(0,dim=dim(Matrix)),
 		}
   \item{par}{Lower triangular d x d matrix with zero diagonal entries that assigns the (first) pair-copula parameter
     to each (conditional) pair defined by \code{Matrix} \cr
-    (default: \code{par = array(NA,dim=dim(Matrix))}).}
+    (default: \code{par = array(NA, dim = dim(Matrix))}).}
   \item{par2}{Lower triangular d x d matrix with zero diagonal entries that assigns the second parameter
-    for pair-copula families with two parameters to each (conditional) pair defined by \code{Matrix} (default: \code{par2 = array(NA,dim=dim(Matrix))}).}
+    for pair-copula families with two parameters to each (conditional) pair defined by \code{Matrix} (default: \code{par2 = array(NA, dim = dim(Matrix))}).}
   \item{names}{A vector of names for the d variables; default: \code{names = NULL}.}
 }
 
@@ -95,25 +95,37 @@ Computational Statistics & Data Analysis, 59 (1), 52-69.
 
 \examples{
 # define 5-dimensional R-vine tree structure matrix
-Matrix = c(5,2,3,1,4,0,2,3,4,1,0,0,3,4,1,0,0,0,4,1,0,0,0,0,1)
-Matrix = matrix(Matrix,5,5)
+Matrix <- c(5, 2, 3, 1, 4,
+            0, 2, 3, 4, 1,
+            0, 0, 3, 4, 1,
+            0, 0, 0, 4, 1,
+            0, 0, 0, 0, 1)
+Matrix <- matrix(Matrix, 5, 5)
 
 # define R-vine pair-copula family matrix
-family = c(0,1,3,4,4,0,0,3,4,1,0,0,0,4,1,0,0,0,0,3,0,0,0,0,0)
-family = matrix(family,5,5)
+family <- c(0, 1, 3, 4, 4,
+            0, 0, 3, 4, 1,
+            0, 0, 0, 4, 1,
+            0, 0, 0, 0, 3,
+            0, 0, 0, 0, 0)
+family <- matrix(family, 5, 5)
 
 # define R-vine pair-copula parameter matrix
-par = c(0,0.2,0.9,1.5,3.9,0,0,1.1,1.6,0.9,0,0,0,1.9,0.5,
-        0,0,0,0,4.8,0,0,0,0,0)
-par = matrix(par,5,5)
+par <- c(0, 0.2, 0.9, 1.5, 3.9,
+         0, 0, 1.1, 1.6, 0.9,
+         0, 0, 0, 1.9, 0.5,
+         0, 0, 0, 0, 4.8,
+         0, 0, 0, 0, 0)
+par <- matrix(par, 5, 5)
 
 # define second R-vine pair-copula parameter matrix
-par2 = matrix(0,5,5)
+par2 <- matrix(0, 5, 5)
 
 # define RVineMatrix object
-RVM = RVineMatrix(Matrix=Matrix,family=family,par=par,par2=par2,
-                  names=c("V1","V2","V3","V4","V5"))
+RVM <- RVineMatrix(Matrix = Matrix, family = family,
+                   par = par, par2 = par2,
+                   names = c("V1", "V2", "V3", "V4", "V5"))
 
 # Print detailed information
-print(RVM, detail=TRUE)
+print(RVM, detail = TRUE)
 }

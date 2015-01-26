@@ -1,7 +1,7 @@
 \name{BiCopVuongClarke}        
 \alias{BiCopVuongClarke}          
 
-\title{Scoring goodness-of-fit test based on Vuong and Clarke tests for bivariate copula data}
+\title{Scoring Goodness-of-Fit Test based on Vuong And Clarke Tests for Bivariate Copula Data}
 
 \description{
 Based on the Vuong and Clarke tests this function computes a goodness-of-fit score for each bivariate copula family under consideration.
@@ -10,12 +10,12 @@ and assigns a score---pro or contra a copula family---according to this decision
 }
 
 \usage{
-BiCopVuongClarke(u1, u2, familyset=NA,
-                 correction=FALSE, level=0.05)
+BiCopVuongClarke(u1, u2, familyset = NA,
+                 correction = FALSE, level = 0.05)
 }
 
 \arguments{
-  \item{u1,u2}{Data vectors of equal length with values in [0,1].}
+  \item{u1, u2}{Data vectors of equal length with values in [0,1].}
   \item{familyset}{An integer vector of bivariate copula families under consideration, i.e., which are compared in the goodness-of-fit test.
       If \code{familyset = NA} (default), all possible families are compared.
 		Possible families are: \cr
@@ -118,12 +118,13 @@ Econometrica 57 (2), 307-333.
 }
 
 \examples{
-\dontrun{
+\donttest{
 # simulate from a t-copula
-dat = BiCopSim(500,2,0.7,5)
+set.seed(123)
+dat <- BiCopSim(500, 2, 0.7, 5)
 
 # apply the test for families 1-10
-vcgof = BiCopVuongClarke(dat[,1],dat[,2],familyset=c(1:10))
+vcgof <- BiCopVuongClarke(dat[,1], dat[,2], familyset = c(1:10))
 
 # display the Vuong test scores
 vcgof[1,]

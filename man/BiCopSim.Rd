@@ -1,14 +1,14 @@
 \name{BiCopSim}        
 \alias{BiCopSim}
 
-\title{Simulation from a bivariate copula}
+\title{Simulation from a Bivariate Copula}
 
 \description{
 This function simulates from a given parametric bivariate copula.
 }
 
 \usage{
-BiCopSim(N, family, par, par2=0)
+BiCopSim(N, family, par, par2 = 0)
 }
 
 \arguments{
@@ -69,6 +69,6 @@ An \code{N} x 2 matrix of data simulated from the bivariate copula.
 
 \examples{
 # simulate from a bivariate t-copula
-simdata = BiCopSim(300,2,-0.7,par2=4)
+simdata <- BiCopSim(300, 2, -0.7, par2 = 4)
 }
 

@@ -1,14 +1,14 @@
 \name{BiCopDeriv2}           
 \alias{BiCopDeriv2}
 
-\title{Second derivatives of a bivariate copula density}
+\title{Second Derivatives of a Bivariate Copula Density}
 
 \description{
 This function evaluates the second derivative of a given parametric bivariate copula density with respect to its parameter(s) and/or its arguments.
 }
 
 \usage{
-BiCopDeriv2(u1, u2, family, par, par2=0, deriv="par")
+BiCopDeriv2(u1, u2, family, par, par2 = 0, deriv = "par")
 }
 
 \arguments{
@@ -63,11 +63,11 @@ Statistical Papers.
 
 \examples{
 # simulate from a bivariate t-copula
-simdata = BiCopSim(300,2,-0.7,par2=4)
+simdata <- BiCopSim(300, 2, -0.7, par2 = 4)
 
 # second derivative of the bivariate t-copula with respect to the first parameter
-u1 = simdata[,1]
-u2 = simdata[,2]
-BiCopDeriv2(u1,u2,2,-0.7,par2=4, deriv="par")
+u1 <- simdata[,1]
+u2 <- simdata[,2]
+BiCopDeriv2(u1, u2, 2, -0.7, par2 = 4, deriv = "par")
 }
 
