@@ -13,7 +13,7 @@ and specified bivariate copula and parameter values or creates corresponding emp
 BiCopMetaContour(u1 = NULL, u2 = NULL, bw = 1, size = 100,
                  levels = c(0.01, 0.05, 0.1, 0.15, 0.2), 
                  family = "emp", par = 0, par2 = 0, PLOT = TRUE,
-                 margins = "norm", margins.par = 0, xylim = NA, ...)
+                 margins = "norm", margins.par = 0, xylim = NA, obj = NULL, ...)
 }
 
 \arguments{
@@ -87,6 +87,7 @@ BiCopMetaContour(u1 = NULL, u2 = NULL, bw = 1, size = 100,
   	}}
   \item{xylim}{A 2-dimensional vector of the x- and y-limits.
     By default (\code{xylim = NA}) standard limits for the selected margins are used.} 
+    \item{obj}{\code{BiCop} object containing the family and parameter specification.}
   \item{...}{Additional plot arguments.}
 }
 

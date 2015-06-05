@@ -10,11 +10,11 @@ Tools for bivariate exploratory data analysis, bivariate copula selection and (v
 Vine copula models can be estimated either sequentially or by joint maximum likelihood estimation.
 Sampling algorithms and plotting methods are included.
 Data is assumed to lie in the unit hypercube (so-called copula data).
-For C- and D-vines links to the package CDVine are provided.
+For C- and D-vines links to the package 'CDVine' are provided.
 }
 
 \section{Remark}{
-The package VineCopula is a continuation of the package CDVine by U. Schepsmeier and E. C. Brechmann (see Brechmann and Schepsmeier (2013)).
+The package \code{VineCopula} is a continuation of the package \code{CDVine} by U. Schepsmeier and E. C. Brechmann (see Brechmann and Schepsmeier (2013)).
 It includes all functions implemented in CDVine for the bivariate case (BiCop-functions).
 }
 
@@ -79,18 +79,18 @@ We are especially grateful to Harry Joe for his contributions to the implementat
 \tabular{ll}{
 Package: \tab VineCopula\cr
 Type: \tab Package\cr
-Version: \tab 1.4\cr
-Date: \tab 2015-01-26\cr
+Version: \tab 1.5\cr
+Date: \tab 2015-06-05\cr
 License: \tab GPL (>=2)\cr
 Depends: \tab R (\eqn{\geq 2.11.0}{>= 2.11.0})\cr
-Imports: \tab MASS, mvtnorm, igraph, methods, copula, ADGofTest\cr
+Imports: \tab MASS, mvtnorm, igraph, methods, copula, ADGofTest, lattice\cr
 Suggests: \tab CDVine, TSP\cr
 LazyLoad: \tab yes
 }
 }
 
 \author{
-Ulf Schepsmeier, Jakob Stoeber, Eike Christian Brechmann, Benedikt Graeler
+Ulf Schepsmeier, Jakob Stoeber, Eike Christian Brechmann, Benedikt Graeler, Thomas Nagler, Tobias Erhardt
 }
 
 \references{ 
@@ -159,7 +159,7 @@ Springer
 
 Schepsmeier, U. and J. Stoeber (2012).
 Derivatives and Fisher information of bivariate copulas.
-Statistical Papers, 55 (2), 525-542.
+Statistical Papers, 55 (2), 525-542. \cr
 \url{http://link.springer.com/article/10.1007/s00362-013-0498-x}.
 
 Schepsmeier, U. (2013)
@@ -167,12 +167,12 @@ A goodness-of-fit test for regular vine copula models.
 Preprint
 \url{http://arxiv.org/abs/1306.0818}
 
-Schepsmeier, U. (2013)
-Efficient goodness-of-fit tests in multi-dimensional vine copula models. 
-\url{http://arxiv.org/abs/1309.5808}
+Schepsmeier, U. (2015)
+Efficient information based goodness-of-fit tests for vine copula models with fixed margins.
+Journal of Multivariate Analysis 138, 34-52.
 
 Stoeber, J. and U. Schepsmeier (2013).
-Estimating standard errors in regular vine copula models. Computational Statistics, 28 (6), 2679-2707
+Estimating standard errors in regular vine copula models. Computational Statistics, 28 (6), 2679-2707 \cr
 \url{http://link.springer.com/article/10.1007/s00180-013-0423-8#}.
 
 White, H. (1982)

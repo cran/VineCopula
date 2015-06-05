@@ -1,5 +1,14 @@
 // Implementierung der incomplete beta Funktion und ihrer Ableitungen nach p
 
+// The incomplete beta function is needed for the derivative of the Student's t-copula
+// Also Its derivative with respect to the parameter p is needed
+// For reference see:  Boik and Robinson-Cox (1998).
+ 
+//  Boik, R. J. and J. F. Robinson-Cox (1998).
+// Derivatives of the incomplete beta function.
+// Journal of Statistical Software 3(1).
+
+// The implementation follows directly their algorithm and is closely related to their published code
 
 #include "include/vine.h"
 #include "include/incompleteBeta.h"

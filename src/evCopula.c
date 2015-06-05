@@ -9,9 +9,28 @@
 #define XEPS 1e-4
 
 // Some function for the Tawn copula
+// (theory based on the extreme value copulas)
+// Reference: See help (some master thesis)
+
+// for the calculation of the density as well as for the h-function we need some help functions
+// the naming of the functions is due to the notation of the master thesis (and also references therein)
 
 // CDF
-void ta(double* t, int* n, double* par, double* par2, double* par3, double* out)	//für CDF
+
+///////////////////////////////////
+//
+// Input:
+// t		t-vector
+// n		number of observations
+// par		first parameter
+// par2		second parameter
+// par3		third parameter
+//
+// Output:
+// out		ta
+//////////////////////////////
+
+void ta(double* t, int* n, double* par, double* par2, double* par3, double* out)	//for CDF
 {
 	int i=0;
 	double t1,t2;
@@ -25,7 +44,19 @@ void ta(double* t, int* n, double* par, double* par2, double* par3, double* out)
 
 //ta<-function(t,par,par2,par3) {(par2*t)^par+(par3*(1-t))^par}
 
-// Pickands A
+////////////////////////////////////////////////
+// Pickands A for the Tawn copula
+// Input:
+// t		t-vector
+// n		number of observations
+// par		first parameter
+// par2		second parameter
+// par3		third parameter
+//
+// Output:
+// out		Pickands A for the Tawn copula
+//////////////////////////////
+
 void Tawn(double* t, int* n, double* par, double* par2, double* par3, double* out)		//für CDF
 {
 	int i=0, T=1;
@@ -42,21 +73,38 @@ void Tawn(double* t, int* n, double* par, double* par2, double* par3, double* ou
 
 //Tawn<-function(t,par,par2,par3) {(1-par3)*(1-t)+(1-par2)*t+ta(t,par,par2,par3)^(1/par)}
 
+////////////////////////////////////////////////////
+// CDF of Tawn
+// Input:
+// t		t-vector
+// n		number of observations
+// par		first parameter
+// par2		second parameter
+// par3		third parameter
+//
+// Output:
+// out		CDF
+/////////////////////////////////////////////////////
+
+
 void TawnCDF(double* u, double* v, int* n, double* par, double* par2, double* par3, double* out)	// CDF-function
 {
 	int i=0, T=1;
 	double w, A;
 	for(i=0; i<*n;i++)
 	{
-		w=log(v[i])/log(u[i]*v[i]);
-		Tawn(&w, &T, par, par2, par3, &A);		//!!!
-		out[i]=pow(u[i]*v[i],A);
+		w=log(v[i])/log(u[i]*v[i]);				// w vector
+		Tawn(&w, &T, par, par2, par3, &A);		//Pickands A
+		out[i]=pow(u[i]*v[i],A);				// CDF
 	}
 }
 
 
 //////////////////////////////////////////////////////////////////
 // PDF
+
+// some more help function for the PDF
+// see reference for details
 
 void ta2(double* t, int* n, double* par, double* par2, double* par3, double* out)	//für PDF
 {
@@ -69,6 +117,8 @@ void ta2(double* t, int* n, double* par, double* par2, double* par3, double* out
 		out[i]=t1+t2;
 	}
 }
+
+// something like the first derivative of the ta function
 
 void d1ta(double* t, int* n, double* par, double* par2, double* par3, double* out)	//für PDF
 {
@@ -98,7 +148,7 @@ void d2ta(double* t, int* n, double* par, double* par2, double* par3, double* ou
 
 //d2ta<-function(t,par,par2,par3) {par*(par-1)*(par3^2*(par3*t)^(par-2)+par2^2*(par2*(1-t))^(par-2))}
 
-
+// I guess this was some kind of derivative of A (I don't remember, see master thesis)
 void Tawn2(double* t, int* n, double* par, double* par2, double* par3, double* out)		//für PDF
 {
 	int i=0, T=1;
@@ -145,6 +195,8 @@ void d2Tawn(double* t, int* n, double* par, double* par2, double* par3, double* 
 //d2Tawn<-function(t,par,par2,par3) {1/par*((1/par-1)*ta(t,par,par2,par3)^(1/par-2)*d1ta(t,par,par2,par3)^2+ta(t,par,par2,par3)^(1/par-1)*d2ta(t,par,par2,par3))}
 
 // Ableitung von A nach u
+// derivative of A with respect to u (first argument)
+// needed for the derivative of c with respect to u
 void dA_du(double* u, double* v, int* n, double* par, double* par2, double* par3, double* out)
 {
 	int i=0, T=1;
@@ -160,6 +212,8 @@ void dA_du(double* u, double* v, int* n, double* par, double* par2, double* par3
 
 //dA_du<-function(u,v,par,par2,par3) {evcBiCopAfuncDeriv(w(u,v),fam,par,par2,par3)*dw_du(u,v)} 
 
+// derivative of A with respect to v
+
 void dA_dv(double* u, double* v, int* n, double* par, double* par2, double* par3, double* out)
 {
 	int i=0, T=1;
@@ -172,6 +226,8 @@ void dA_dv(double* u, double* v, int* n, double* par, double* par2, double* par3
 		out[i]=dA*dw;
 	}
 }
+
+// second derivative with respect to u and v
 
 void dA_dudv(double* u, double* v, int* n, double* par, double* par2, double* par3, double* out)
 {
@@ -205,6 +261,7 @@ void TawnC(double* u, double* v, int* n, double* par, double* par2, double* par3
 }
 
 // Ableitung von C nach u
+// derivative of PDF with respect to u
 void dC_du(double* u, double* v, int* n, double* par, double* par2, double* par3, double* out)
 {
 	int i=0, T=1;
@@ -250,6 +307,7 @@ void TawnPDF(double* u, double* v, int* n, double* par, double* par2, double* pa
 
 
 // Ableitung von C nach v (fuer h-function)
+// derivative of PDF with respect to v (for h-func)
 void dC_dv(double* u, double* v, int* n, double* par, double* par2, double* par3, double* out)
 {
 	int i=0, T=1;

@@ -8,7 +8,7 @@ This function evaluates the cumulative distribution function (CDF) of a given pa
 }
 
 \usage{
-BiCopCDF(u1, u2, family, par, par2 = 0)
+BiCopCDF(u1, u2, family, par, par2 = 0, obj = NULL)
 }
 
 \arguments{
@@ -56,10 +56,17 @@ BiCopCDF(u1, u2, family, par, par2 = 0)
 		}
   \item{par}{Copula parameter.}
   \item{par2}{Second parameter for bivariate copulas with two parameters (t, BB1, BB6, BB7, BB8, Tawn type 1 and type 2; default: \code{par2 = 0}). \code{par2} should be an positive integer for the Students's t copula \code{family = 2}.}
+  \item{obj}{\code{BiCop} object containing the family and parameter specification.}
 }
 
 \value{
 A numeric vector of the bivariate copula distribution function evaluated at \code{u1} and \code{u2}.
+}
+
+\details{
+If the family and parameter specification is stored in a \code{\link{BiCop}} object \code{obj}, the alternative version \cr
+\preformatted{BiCopCDF(u1, u2, obj)} 
+can be used.
 }
 
 \note{
@@ -69,15 +76,19 @@ The calculation of the cumulative distribution function (CDF) of the Student's t
 
 \author{Eike Brechmann}
 
-\seealso{\code{\link{BiCopPDF}}, \code{\link{BiCopHfunc}}, \code{\link{BiCopSim}}}
+\seealso{\code{\link{BiCopPDF}}, \code{\link{BiCopHfunc}}, \code{\link{BiCopSim}}, \code{\link{BiCop}}}
 
 \examples{
-# simulate from a bivariate Clayton
+## simulate from a bivariate Clayton
 simdata <- BiCopSim(300, 3, 3.4)
 
-# evaluate the distribution function of the bivariate t-copula
+## evaluate the distribution function of the bivariate Clayton copula
 u1 <- simdata[,1]
 u2 <- simdata[,2]
 BiCopCDF(u1, u2, 3, 3.4)
+
+## estimate a bivariate copula from the data and evaluate its CDF 
+cop <- BiCopSelect(u1, u2)
+BiCopCDF(u1, u2, cop)
 }
 

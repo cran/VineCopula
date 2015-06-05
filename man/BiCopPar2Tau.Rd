@@ -8,7 +8,7 @@ This function computes the theoretical Kendall's tau value of a bivariate copula
 }
 
 \usage{
-BiCopPar2Tau(family, par, par2 = 0)
+BiCopPar2Tau(family, par, par2 = 0, obj = NULL)
 }
 
 \arguments{
@@ -58,7 +58,14 @@ BiCopPar2Tau(family, par, par2 = 0)
   \item{par2}{Second parameter (vector of same length as \code{par}) for the two parameter t-, BB1, BB6, BB7, BB8, Tawn type 1 and type 2 copulas (default: \code{par2 = 0}).
     Note that the degrees of freedom parameter of the t-copula does not need to be set,
     because the theoretical Kendall's tau value of the t-copula is independent of this choice.}
+  \item{obj}{\code{BiCop} object containing the family and parameter specification.}
 }                                                                                  
+
+\details{
+If the family and parameter specification is stored in a \code{\link{BiCop}} object \code{obj}, the alternative version \cr
+\preformatted{BiCopPar2Tau(obj)} 
+can be used.
+}
 
 \value{
 Theoretical value of Kendall's tau (vector) corresponding to the bivariate copula family and parameter(vectors)
@@ -109,7 +116,7 @@ Maximum likelihood estimation of mixed C-vines with application to exchange rate
 Statistical Modelling, 12(3), 229-255.
 }
 
-\seealso{\code{\link{BiCopTau2Par}}}
+\seealso{\code{\link{BiCopTau2Par}}, \code{\link{BiCop}}}
 
 \examples{
 ## Example 1: Gaussian copula

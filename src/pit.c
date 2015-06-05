@@ -17,14 +17,16 @@
 #define XEPS 1e-4
 
 //////////////////////////////////////////////////////////////
-// Function to transform a pair-copula construction (vine)
+// Probability integral transform for the C- and D-vine
 // Input:
 // n         sample size
 // d         dimension (>= 2)
 // type      vine type (1=Canonical vine, 2=D-vine)
-// family    copula family (1=gaussian, 2=student, 3=clayton, 4=gumbel, 5=frank, 6=joe, 7=BB1)
+// family    copula family 
 // par       parameter values (at least d*(d-1)/2 parameters)
 ////////////////////////////////////////////////////////////////
+
+// The algorithm is based on the pseudo algorithm of Aas et al. (2009)
 
 void pit(int* T, int* d, int* family, int* type, double* par, double* nu, double* data, double* out)
 {
@@ -128,6 +130,27 @@ void pit(int* T, int* d, int* family, int* type, double* par, double* nu, double
 
 
 
+//////////////////////////////////////////////////////////////
+// Probability integral transform for the R-vine
+//
+// Input:
+// T, d			dimensions of the data
+// family,...	RVM objects
+// data			data
+// vv, vv2		h-functions derived bei the likelihood function
+// calcupdate	which h-functions, inverse h-functions have to be derived
+//
+// Output:
+// out			PIT
+//////////////////////////////////////////////////////////////
+
+// Reference: Schepsmeier (2015)
+
+// Ulf Schepsmeier, Efficient information based goodness-of-fit tests for vine copula models with fixed margins: A comprehensive review, 
+// Journal of Multivariate Analysis, Available online 14 January 2015, ISSN 0047-259X, http://dx.doi.org/10.1016/j.jmva.2015.01.001.
+// (http://www.sciencedirect.com/science/article/pii/S0047259X15000068)
+
+
 void RvinePIT(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
 		 double* out, double* vv, double* vv2, int* calcupdate)
 {
@@ -154,6 +177,7 @@ void RvinePIT(int* T, int* d, int* family, int* maxmat, int* matrix, int* condir
 	     }
 	}
     
+	// From vector to array
 	k=0;
 	for(i=0;i<(*d);i++)
     {
@@ -178,6 +202,7 @@ void RvinePIT(int* T, int* d, int* family, int* maxmat, int* matrix, int* condir
 		}
 	}
   
+	// First column is easy; it's the data
 	for(t=0;t<*T;t++)
 	{
 		z[0][t]=x[0][t];

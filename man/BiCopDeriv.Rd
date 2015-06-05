@@ -8,7 +8,7 @@ This function evaluates the derivative of a given parametric bivariate copula de
 }
 
 \usage{
-BiCopDeriv(u1, u2, family, par, par2 = 0, deriv = "par", log = FALSE)
+BiCopDeriv(u1, u2, family, par, par2 = 0, deriv = "par", log = FALSE, obj = NULL)
 }
 
 \arguments{
@@ -41,10 +41,17 @@ BiCopDeriv(u1, u2, family, par, par2 = 0, deriv = "par", log = FALSE)
   	}
   \item{log}{Logical; if \code{TRUE} than the derivative of the log-likelihood is returned (default: \code{log = FALSE};
   only available for the derivatives with respect to the parameter(s) (\code{deriv = "par"} or \code{deriv = "par2"})).}
+  \item{obj}{\code{BiCop} object containing the family and parameter specification.}
 }
 
 \value{
 A numeric vector of the bivariate copula derivative with respect to \code{deriv} evaluated at \code{u1} and \code{u2} with parameter(s) \code{par} and \code{par2}.
+}
+
+\details{
+If the family and parameter specification is stored in a \code{\link{BiCop}} object \code{obj}, the alternative version \cr
+\preformatted{BiCopDeriv(u1, u2, obj, deriv = "par", log = FALSE)} 
+can be used.
 }
 
 \author{Ulf Schepsmeier}
@@ -56,15 +63,20 @@ Statistical Papers.
 \url{http://link.springer.com/article/10.1007/s00362-013-0498-x}.
 }
 
-\seealso{\code{\link{RVineGrad}}, \code{\link{RVineHessian}}, \code{\link{BiCopDeriv2}}, \code{\link{BiCopHfuncDeriv}}}
+\seealso{\code{\link{RVineGrad}}, \code{\link{RVineHessian}}, \code{\link{BiCopDeriv2}}, \code{\link{BiCopHfuncDeriv}}, \code{\link{BiCop}}}
 
 \examples{
-# simulate from a bivariate t-copula
+## simulate from a bivariate t-copula
 simdata <- BiCopSim(300, 2, -0.7, par2 = 4)
 
-# derivative of the bivariate t-copula with respect to the first parameter
+## derivative of the bivariate t-copula with respect to the first parameter
 u1 <- simdata[,1]
 u2 <- simdata[,2]
 BiCopDeriv(u1, u2, 2, -0.7, par2 = 4, deriv = "par")
+
+## estimate a bivariate copula from the data
+## and evaluate its derivative w.r.t. the parameter
+cop <- BiCopEst(u1, u2, family = 2)
+BiCopDeriv(u1, u2, cop, deriv = "par")
 }
 

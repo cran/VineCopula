@@ -8,7 +8,7 @@ This function evaluates the derivative of a given conditional parametric bivaria
 }
 
 \usage{
-BiCopHfuncDeriv(u1, u2, family, par, par2 = 0, deriv = "par")
+BiCopHfuncDeriv(u1, u2, family, par, par2 = 0, deriv = "par", obj = NULL)
 }
 
 \arguments{
@@ -38,10 +38,17 @@ BiCopHfuncDeriv(u1, u2, family, par, par2 = 0, deriv = "par")
   	\code{"par2"} = derivative with respect to the second parameter (only available for the t-copula) \cr
   	\code{"u2"} = derivative with respect to the second argument \code{u2} \cr
   	}
+  \item{obj}{\code{BiCop} object containing the family and parameter specification.}
 }
 
 \value{
 A numeric vector of the conditional bivariate copula derivative with respect to \code{deriv} evaluated at \code{u1} and \code{u2} with parameter(s) \code{par} and \code{par2}.
+}
+
+\details{
+If the family and parameter specification is stored in a \code{\link{BiCop}} object \code{obj}, the alternative version \cr
+\preformatted{BiCopHfuncDeriv(u1, u2, obj, deriv = "par")} 
+can be used.
 }
 
 \references{
@@ -53,16 +60,21 @@ Statistical Papers.
 
 \author{Ulf Schepsmeier}
 
-\seealso{\code{\link{RVineGrad}}, \code{\link{RVineHessian}}, \code{\link{BiCopDeriv2}}, \code{\link{BiCopDeriv2}}, \code{\link{BiCopHfuncDeriv}}}
+\seealso{\code{\link{RVineGrad}}, \code{\link{RVineHessian}}, \code{\link{BiCopDeriv2}}, \code{\link{BiCopDeriv2}}, \code{\link{BiCopHfuncDeriv}}, \code{\link{BiCop}}}
 
 \examples{
-# simulate from a bivariate t-copula
+## simulate from a bivariate t-copula
 simdata <- BiCopSim(300, 2, -0.7, par2 = 4)
 
-# derivative of the conditional bivariate t-copula 
-# with respect to the first parameter
+## derivative of the conditional bivariate t-copula 
+## with respect to the first parameter
 u1 <- simdata[,1]
 u2 <- simdata[,2]
 BiCopHfuncDeriv(u1, u2, 2, -0.7, par2 = 4, deriv = "par")
+
+## estimate a bivariate copula from the data and
+## evaluate its derivative w.r.t. the parameter
+cop <- BiCopEst(u1, u2, family = 2)
+BiCopHfuncDeriv(u1, u2, cop, deriv = "par")
 }
 

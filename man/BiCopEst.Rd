@@ -88,7 +88,9 @@ As a rule of thumb \code{max.df = 30} typically is a good choice.
 Moreover, standard errors of the degrees of freedom parameter estimate cannot be estimated in this case.
 }
 
-\value{                         
+\value{    
+An object of class \code{\link{BiCop}}, i.e., a list containing
+\item{family}{Copula family}
   \item{par, par2}{Estimated copula parameter(s).}
   \item{se, se2}{Standard error(s) of the parameter estimate(s) (if \code{se = TRUE}).}
 }
@@ -101,7 +103,7 @@ Chapman and Hall, London.
 
 \author{Ulf Schepsmeier, Eike Brechmann, Jakob Stoeber, Carlos Almeida}
 
-\seealso{\code{\link{BiCopPar2Tau}}, \code{\link{BiCopTau2Par}}, \code{\link{RVineSeqEst}}, \code{\link{BiCopSelect}}}
+\seealso{\code{\link{BiCopPar2Tau}}, \code{\link{BiCopTau2Par}}, \code{\link{RVineSeqEst}}, \code{\link{BiCopSelect}}, \code{\link{BiCop}}}
 
 \examples{
 ## Example 1: bivariate Gaussian copula

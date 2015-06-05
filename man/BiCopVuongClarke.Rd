@@ -118,15 +118,16 @@ Econometrica 57 (2), 307-333.
 }
 
 \examples{
-\donttest{
 # simulate from a t-copula
 set.seed(123)
 dat <- BiCopSim(500, 2, 0.7, 5)
 
 # apply the test for families 1-10
-vcgof <- BiCopVuongClarke(dat[,1], dat[,2], familyset = c(1:10))
+vcgof <- BiCopVuongClarke(dat[,1], dat[,2], familyset = 1:6)
 
 # display the Vuong test scores
 vcgof[1,]
-}
+
+# display the Clarke test scores
+vcgof[2,]
 }

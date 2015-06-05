@@ -9,7 +9,7 @@ This function plots/returns the lambda-function of given bivariate copula data.
 
 \usage{
 BiCopLambda(u1 = NULL, u2 = NULL, family = "emp",
-            par = 0, par2 = 0, PLOT = TRUE, ...)
+            par = 0, par2 = 0, PLOT = TRUE, obj = NULL, ...)
 }
 
 \arguments{
@@ -30,6 +30,7 @@ BiCopLambda(u1 = NULL, u2 = NULL, family = "emp",
   \item{par2}{Second copula parameter for t-, BB1, BB6, BB7 and BB8 copulas (default: \code{par2 = 0}).}
   \item{PLOT}{Logical; whether the results are plotted. If \code{PLOT = FALSE}, the values \cr \code{empLambda} and/or \code{theoLambda} are returned (see below; default: \code{PLOT = TRUE}).}
   \item{...}{Additional plot arguments.}
+  \item{obj}{\code{BiCop} object containing the family and parameter specification.}
 }
 
 \value{
@@ -37,6 +38,11 @@ BiCopLambda(u1 = NULL, u2 = NULL, family = "emp",
 	\item{theoLambda}{If the theoretical lambda-function is chosen and \code{PLOT=FALSE}, a vector of the theoretical lambda's is returned.}
 }
 
+\details{
+If the family and parameter specification is stored in a \code{\link{BiCop}} object \code{obj}, the alternative version \cr
+\preformatted{BiCopLambda(obj, PLOT = TRUE, ...)} 
+can be used.
+}
 
 \note{
 The \eqn{\lambda}-function is characteristic for each bivariate copula family and defined by Kendall's distribution function \eqn{K}:
@@ -84,7 +90,7 @@ Diploma thesis, Technische Universitaet Muenchen.\cr
 \url{http://mediatum.ub.tum.de/?id=1079296}.
 }
 
-\seealso{\code{\link{BiCopMetaContour}}, \code{\link{BiCopKPlot}}, \code{\link{BiCopChiPlot}}}
+\seealso{\code{\link{BiCopMetaContour}}, \code{\link{BiCopKPlot}}, \code{\link{BiCopChiPlot}}, \code{\link{BiCop}}}
 
 \examples{
 # Clayton and rotated Clayton copulas
@@ -98,10 +104,15 @@ set.seed(123)
 dat <- BiCopSim(n, fam, theta)
 
 # create lambda-function plots
-par(mfrow = c(1,3))
-BiCopLambda(dat[,1], dat[,2])  # empirical lambda-function	
+par(mfrow = c(1, 3))
+BiCopLambda(dat[, 1], dat[, 2])  # empirical lambda-function	
 BiCopLambda(family = fam, par = theta)	# theoretical lambda-function
-BiCopLambda(dat[,1], dat[,2], family = fam, par = theta)	# both
+BiCopLambda(dat[, 1], dat[, 2], family = fam, par = theta)	# both
+
+# lambda-function of estimated copula
+fit <- BiCopSelect(dat[, 1], dat[, 2])
+par(mfrow = c(1, 1))
+BiCopLambda(fit)
 
 # simulate from rotated Clayton copula (90 degrees)
 fam <- 23  
@@ -110,11 +121,11 @@ set.seed(123)
 dat <- BiCopSim(n, fam, theta)
   
 # rotate the data to standard Clayton copula data
-rot_dat <- 1 - dat[,1]
+rot_dat <- 1 - dat[, 1]
 
-par(mfrow = c(1,3))
-BiCopLambda(rot_dat, dat[,2])  # empirical lambda-function	
-BiCopLambda(family=3, par = -theta)	# theoretical lambda-function
-BiCopLambda(rot_dat, dat[,2], family = 3, par = -theta)	# both
+par(mfrow = c(1, 3))
+BiCopLambda(rot_dat, dat[, 2])  # empirical lambda-function	
+BiCopLambda(family = 3, par = -theta)	# theoretical lambda-function
+BiCopLambda(rot_dat, dat[, 2], family = 3, par = -theta)	# both
 }
 

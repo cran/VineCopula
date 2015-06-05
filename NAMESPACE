@@ -3,11 +3,13 @@ import(mvtnorm)
 import(igraph)
 import(copula)
 import(methods)
+import(lattice)
 
 importFrom(ADGofTest, ad.test)
 
 export(pobs)
 
+export(BiCop)
 export(BiCopEst)
 export(BiCopMetaContour)
 export(BiCopChiPlot)
@@ -31,6 +33,7 @@ export(BiCopHfuncDeriv2)
 export(BiCopGofTest)
 
 export(RVineLogLik)
+export(RVinePDF)
 export(RVineAIC)
 export(RVineBIC)
 export(RVineMatrix)
@@ -61,6 +64,8 @@ export(BiCopPar2Beta)
 export(RVinePar2Beta)
 export(BetaMatrix)
 
+export(as.copuladata)
+export(pairs.copuladata)
 
 # compatibility to copula
 export(fitCopula)
@@ -91,6 +96,10 @@ exportClasses(vineCopula)
 
 
 S3method(print, RVineMatrix)
-
+S3method(as.copuladata, data.frame)
+S3method(as.copuladata, matrix)
+S3method(as.copuladata, list)
+S3method(pairs, copuladata)
+S3method(plot, BiCop)
 
 useDynLib("VineCopula")

@@ -16,8 +16,8 @@ RVineMatrix(Matrix, family = array(0, dim = dim(Matrix)),
 }
 
 \arguments{
-  \item{Matrix}{Lower triangular d x d matrix that defines the R-vine tree structure.}
-  \item{family}{Lower triangular d x d matrix with zero diagonal entries that assigns the pair-copula families
+  \item{Matrix}{Lower (or upper) triangular d x d matrix that defines the R-vine tree structure.}
+  \item{family}{Lower  (or upper) triangular d x d matrix with zero diagonal entries that assigns the pair-copula families
     to each (conditional) pair defined by \code{Matrix} (default: \code{family = array(0,dim=dim(Matrix))}).
     The bivariate copula families are defined as follows:\cr
 		\code{0} = independence copula \cr
@@ -61,10 +61,10 @@ RVineMatrix(Matrix, family = array(0, dim = dim(Matrix)),
     \code{224} = rotated Tawn type 2 copula (90 degrees)  \cr
     \code{234} = rotated Tawn type 2 copula (270 degrees) \cr
 		}
-  \item{par}{Lower triangular d x d matrix with zero diagonal entries that assigns the (first) pair-copula parameter
+  \item{par}{Lower (or upper) triangular d x d matrix with zero diagonal entries that assigns the (first) pair-copula parameter
     to each (conditional) pair defined by \code{Matrix} \cr
     (default: \code{par = array(NA, dim = dim(Matrix))}).}
-  \item{par2}{Lower triangular d x d matrix with zero diagonal entries that assigns the second parameter
+  \item{par2}{Lower (or upper) triangular d x d matrix with zero diagonal entries that assigns the second parameter
     for pair-copula families with two parameters to each (conditional) pair defined by \code{Matrix} (default: \code{par2 = array(NA, dim = dim(Matrix))}).}
   \item{names}{A vector of names for the d variables; default: \code{names = NULL}.}
 }
@@ -80,7 +80,8 @@ RVineMatrix(Matrix, family = array(0, dim = dim(Matrix)),
 \note{
 The \code{print} function writes the R-vine matrix defined by \code{Matrix}. A detailed output is given by \code{print(RVM, detail=TRUE)}, 
 where \code{RVM} is the \code{\link{RVineMatrix}} object. \cr
-The \code{\link{RVineMatrix}} function automatically checks if the given matrix is a valid R-vine matrix (see \code{\link{RVineMatrixCheck}}).
+The \code{\link{RVineMatrix}} function automatically checks if the given matrix is a valid R-vine matrix (see \code{\link{RVineMatrixCheck}}). \cr
+Although the function allows upper triangular matrices as its input, it will always store them as lower triangular matrices.
 }
 
 \references{

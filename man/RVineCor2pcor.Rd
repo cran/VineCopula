@@ -6,7 +6,7 @@
 \title{(Partial) Correlations for R-Vine Copula Models}
 \description{
 Correlations to partial correlations and vice versa for R-vines
-(C vine, D vine or general R vine) .
+with independence, Gaussian and t-copulas.
 }
 
 \usage{
@@ -14,78 +14,42 @@ RVineCor2pcor(RVM, corMat)
 RVinePcor2cor(RVM)
 }
 \arguments{
-  \item{RVM}{\code{\link{RVineMatrix}} defining only the R-vine structure for \code{cor2pcor} and providing as well the partial correlations for \code{pcor2cor}.}
+  \item{RVM}{\code{\link{RVineMatrix}} defining only the R-vine structure for \code{Cor2pcor} and providing as well the partial correlations for \code{Pcor2cor}.}
   \item{corMat}{correlation matrix}
 }
 \value{
-  \item{RVM}{RVineMatrix with transformed partial correlations}
-  \item{cor}{correlation matrix}
+  \item{RVM}{RVineMatrix with transformed partial correlations (for \code{Cor2pcor})}
+  \item{cor}{correlation matrix (for \code{Pcor2cor})}
+}
+\note{
+The behavior of \code{RVinePcor2ccor} differs from older versions (<= 1.4). The RVM object is now 
+normalized such that the order of the returned correlation matrix conforms with the correlation matrix of the data. If \code{RVM$names} are non-default, the initial ordering of the variables cannot be traced back and the matrix has to be interpreted as inidicated by the row- and column names.
 }
 
 \examples{
-corMat <- matrix(c(1.00, 0.17, 0.15, 0.14, 0.13,
-                   0.17, 1.00, 0.30, 0.28, 0.05,
-                   0.15, 0.30, 1.00, 0.17, 0.05,
-                   0.14, 0.28, 0.17, 1.00, 0.04,
-                   0.13, 0.05, 0.05, 0.04, 1.00), 5, 5)
-
-Matrix <- matrix(c(5, 2, 3, 1, 4,
-                   0, 2, 3, 4, 1,
-                   0, 0, 3, 4, 1,
-                   0, 0, 0, 4, 1,
-                   0, 0, 0, 0, 1), 5, 5)
-family <- matrix(1, 5, 5)
-
-par <- matrix(c(0, 0.2, 0.9, 0.5, 0.8,
-                0,   0, 0.1, 0.6, 0.9,
-                0,   0,   0, 0.7, 0.5,
-                0,   0,   0,   0, 0.8,
-                0,   0,   0,   0,   0), 5, 5)
-
-# define RVineMatrix object
+## create RVineMatrix-object for Gaussian vine
+Matrix <- matrix(c(1, 3, 4, 2, 
+                   0, 3, 4, 2,
+                   0, 0, 4, 2, 
+                   0, 0, 0, 2), 4, 4)
+family <- matrix(c(0, 1, 1, 1, 
+                   0, 0, 1, 1,
+                   0, 0, 0, 1, 
+                   0, 0, 0, 0), 4, 4)
+par <- matrix(c(0, 0.2,   0, 0.6, 
+                0,   0, 0.2, 0.6,
+                0,   0,   0, 0.6, 
+                0,   0,   0,   0), 4, 4)
 RVM <- RVineMatrix(Matrix, family, par)
 
-# adjust the un-ordered RVine
-newRVM <- RVineCor2pcor(RVM, corMat)
-round(cor(qnorm(RVineSim(1000, newRVM)))-corMat, 2)
+## calculate correlation matrix corresponding to the R-Vine model
+newcor <- RVinePcor2cor(RVM)
 
-# normalise the RVine
-normRVM <- RVineMatrixNormalize(RVM)
+## transform back to partial correlations
+RVineCor2pcor(RVM, newcor)$par
 
-# adjust the normalised RVine
-newNormRVM <- RVineCor2pcor(normRVM, corMat)
-
-# newRVM and newNormRVM are the same vines using different names
-newNormRVM$par - newRVM$par
-
-# the variables have a different order in the correlation matrix
-newNormCor <- cor(qnorm(RVineSim(1000, newNormRVM)))
-round(newNormCor,2)
-
-# permuted, they meet the initial correlation matrix up to +/- 0.01
-perm <- c(1,4,3,2,5)
-round(newNormCor[perm,perm]-corMat, 2)
-
-# re-order names of the normalised RVine generating a new RVine
-normRVM2 <- normRVM
-normRVM2$names <- c("V1", "V2", "V3", "V4", "V5")
-
-# adjust the normalised RVine
-newNormRVM2 <- RVineCor2pcor(normRVM2, corMat)
-# check whether the parameters are different beyond permutation
-# (that's why permutation does not work)
-newNormRVM2$par
-newRVM$par
-
-# adjust the normalised RVine
-newNormRVM2 <- RVineCor2pcor(normRVM2, corMat[perm,perm])
-# check whether the parameters are now identical
-round(newNormRVM2$par - newRVM$par, 2)
-
-# back and forth
-RVinePcor2cor(RVineCor2pcor(RVM, corMat))-corMat
-RVinePcor2cor(RVineCor2pcor(normRVM, corMat))-corMat
-RVinePcor2cor(RVineCor2pcor(normRVM2, corMat))-corMat
+## check if they are equal
+all.equal(RVM$par, RVineCor2pcor(RVM, newcor)$par)
 }
 
 \keyword{vine}

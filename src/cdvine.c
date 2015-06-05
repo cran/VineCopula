@@ -10,11 +10,13 @@
 **
 */
 
-#include "include/vine.h"
-#include "include/memoryhandling.h"
-#include "include/likelihood.h"
-#include "include/cdvine.h"
-#include "include/hfunc.h"
+
+// Include all the head files
+#include "include/vine.h"			// general one
+#include "include/memoryhandling.h"	// for creating two and three dimensional arrays
+#include "include/likelihood.h"		// formally main functionality; log-likelihood with help functions; bivariate densities
+#include "include/cdvine.h"			// Header file for this C-file
+#include "include/hfunc.h"			// h-functions, i.e. conditional densities; also inverse h-functions
 
 #define UMAX  1-1e-10
 
@@ -24,13 +26,17 @@
 
 
 //////////////////////////////////////////////////////////////
-// Function to simulate from a pair-copula construction (vine)
+// Function to simulate from a C- or D-vine
 // Input:
 // n         sample size
 // d         dimension (>= 2)
 // type      vine type (1=Canonical vine, 2=D-vine)
-// family    copula family (1=gaussian, 2=student, 3=clayton, 4=gumbel, 5=frank, 6=joe, 7=BB1)
+// family    copula family (see help pages which families are now included)
 // par       parameter values (at least d*(d-1)/2 parameters)
+// nu		 second parameter for t-copula, BB-copulas and Tawn
+//
+// Output:
+// out		 two dimensional array of simulated data
 ////////////////////////////////////////////////////////////////
 
 void pcc(int* n, int* d, int* family, int* type, double* par, double* nu, double* out)
@@ -38,7 +44,7 @@ void pcc(int* n, int* d, int* family, int* type, double* par, double* nu, double
   int i, j, in=1, k, **fam;
   double *w, **v, t, **theta, **x, **ny;
 
-  GetRNGstate();
+  GetRNGstate();		//Init random number generator
   //Allocate memory:
   w = Calloc((*d+1),double);
 
@@ -48,6 +54,9 @@ void pcc(int* n, int* d, int* family, int* type, double* par, double* nu, double
   ny = create_matrix(*d,*d);
   fam = create_intmatrix(*d,*d);
   //Initialize dependency parameters
+  
+  // The function arguments are one-dimensional vectors; for better understanding the transform them back to matrices (see theory)
+  // This step may be updated in the future to optimize the algorithms
   k = 0;
   for(i=1;i<=*d-1;i++)
   {
@@ -59,14 +68,14 @@ void pcc(int* n, int* d, int* family, int* type, double* par, double* nu, double
       k ++;
     }
   }
-  //Simulate:
+  //Simulate: (it follows the theoretical algorithm)
   if(*type==1) //Canonical vine
   {
-    for(j=1;j<=*n;j++)
+    for(j=1;j<=*n;j++)		// run over all observations (rows)
     {
       for(i=1;i<=*d;i++) w[i] = runif(0,1);
       x[j][1] = w[1];
-      for(i=2;i<=*d;i++)
+      for(i=2;i<=*d;i++)	// run over all dimensions (cols)
       {
         t = w[i];
         for(k=i-1;k>=1;k--)
@@ -134,7 +143,7 @@ void pcc(int* n, int* d, int* family, int* type, double* par, double* nu, double
       k ++;
     }
   }
-  PutRNGstate();
+  PutRNGstate();		// Function for the random number generator
   //Free memory:
   Free(w); free_matrix(v,*d+1); free_matrix(theta,*d); free_matrix(ny,*d); free_intmatrix(fam,*d); free_matrix(x,*n+1);
 }
@@ -143,16 +152,16 @@ void pcc(int* n, int* d, int* family, int* type, double* par, double* nu, double
 
 
 //////////////////////////////////////////////////////////////
-// Function to compute -log-likelihood for the pair-copula construction (vine)
+// Function to compute -log-likelihood for C- and D-vine
 // Input:
 // n        sample size
 // d        dimension (>=2)
 // type     vine type (1=canonical vine, 2=d-vine)
-// family   copula families: only student //  (1=gaussian, 2=student, 3=clayton, 4=gumbel, 5=frank, 7=BB1, 8=BB7)
-// par      parameter values (at least d*(d-1)/2 parameters
+// family   copula families
+// par      parameter values (at least d*(d-1)/2 parameters ) The second parameter is added at the end of par
 // data     data set for which to compute log-likelihood
 // Output:
-// out      Loglikelihood
+// out      Log-likelihood
 // ll       array with the contribution to LL (for each copula)
 // vv       array for the transformation operated (Hfunc)  
 /////////////////////////////////////////////////////////////
@@ -184,7 +193,7 @@ void VineLogLikm(int* T, int* d, int* type, int* family, double* par, double* da
     { 
       for (t=0;t<=*T-1;t++ ) 
 	{
-	  x[i][t] = data[k];
+	  x[i][t] = data[k];	//transform the data back into a 2-dim array
 	  k++;
 	}
     }
@@ -195,7 +204,7 @@ void VineLogLikm(int* T, int* d, int* type, int* family, double* par, double* da
 		{
 			theta[i][j] = par[k];
 			fam[i][j] = family[k];
-			nu[i][j] = par[*d*(*d-1)/2+k];
+			nu[i][j] = par[*d*(*d-1)/2+k];		// the second parameter is added at the end of par (not the best solution but was practise at the beginning)
 			k++;
 		}
     }
@@ -207,9 +216,10 @@ void VineLogLikm(int* T, int* d, int* type, int* family, double* par, double* da
 	  //Compute likelihood at level 1:
 		for(i=1;i<*d;i++)
 		{
-			LL_mod2(&fam[1][i],T,x[1],x[i+1],&theta[1][i],&nu[1][i],&loglik);
-			sumloglik += loglik;
-			ll[kk] = loglik; 
+			LL_mod2(&fam[1][i],T,x[1],x[i+1],&theta[1][i],&nu[1][i],&loglik);	// call the bivariate log-likelihood function 
+			//(with the correct rotation for 90, 180 and 270 degrees)
+			sumloglik += loglik;	// sum up
+			ll[kk] = loglik; 		// store all bivariate log-likelihoods too
 			++kk;
 			if(*d>2)
 			{
@@ -297,7 +307,7 @@ void VineLogLikm(int* T, int* d, int* type, int* family, double* par, double* da
 			for(i=1;i<=(*d-k);i++)
 				for(t=0;t<*T;t++)
 				{
-					vv[kk] = v[k][i][t];
+					vv[kk] = v[k][i][t];		// transformation from a 3-dim array to a vector
   					++kk;
   				}
 		}
@@ -324,18 +334,19 @@ void VineLogLikm(int* T, int* d, int* type, int* family, double* par, double* da
 }
 
 //////////////////////////////////////////////////////////////
-// Function to compute -log-likelihood for the pair-copula construction (vine) 
+// Function to compute an update of the log-likelihood for C- and D-vine
 // Input:
 // n        sample size
 // d        dimension (>=2)
 // type     vine type (1=canonical vine, 2=d-vine)
-// family   copula families: only student //  (1=gaussian, 2=student, 3=clayton, 4=gumbel, 5=frank)
+// family   copula families
 // par      parameter values (at least d*(d-1)/2 parameters
 // mpar     index of modified parameter (related to previous computation)
 // data     data set for which to compute log-likelihood
 // ll       array with the stored contribution of the likelihood in a previous computation
 // vv       3d array  array with the stored transformations in a previous computation
 // Output:
+// out		log-likelihood (updated)
 // ll       array with the contribution to LL (for each copula)
 // vv       array for the transformation operated (Hfunc)  
 /////////////////////////////////////////////////////////////

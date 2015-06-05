@@ -1,26 +1,25 @@
-\name{BiCopSim}        
-\alias{BiCopSim}
+\name{BiCop}           
+\alias{BiCop}
 
-\title{Simulation from a Bivariate Copula}
+\title{Cunstructing BiCop-objects}
 
 \description{
-This function simulates from a given parametric bivariate copula.
+This function creates an object of class \code{BiCop} and checks for family/parameter consistency.
 }
 
 \usage{
-BiCopSim(N, family, par, par2 = 0, obj = NULL)
+BiCop(family, par, par2 = 0)
 }
 
 \arguments{
-  \item{N}{Number of bivariate observations simulated.}
   \item{family}{An integer defining the bivariate copula family: \cr
 		\code{0} = independence copula \cr
-		\code{1} = Gaussian copula \cr
-	        \code{2} = Student t copula (t-copula) \cr
-	        \code{3} = Clayton copula \cr
-	        \code{4} = Gumbel copula \cr
-	        \code{5} = Frank copula \cr
-	        \code{6} = Joe copula \cr 
+	  \code{1} = Gaussian copula \cr
+      \code{2} = Student t copula (t-copula) \cr
+	  \code{3} = Clayton copula \cr
+	  \code{4} = Gumbel copula \cr
+	  \code{5} = Frank copula \cr
+	  \code{6} = Joe copula \cr 
 		\code{7} = BB1 copula \cr
 		\code{8} = BB6 copula \cr
 		\code{9} = BB7 copula \cr
@@ -56,26 +55,27 @@ BiCopSim(N, family, par, par2 = 0, obj = NULL)
     \code{234} = rotated Tawn type 2 copula (270 degrees) \cr
 		}
   \item{par}{Copula parameter.}
-  \item{par2}{Second parameter for the two parameter BB1, BB6, BB7, BB8, Tawn type 1 and type 2 copulas (default: \code{par2 = 0}).}
-  \item{obj}{\code{BiCop} object containing the family and parameter specification.}
+  \item{par2}{Second parameter for bivariate copulas with two parameters (t, BB1, BB6, BB7, BB8, Tawn type 1 and type 2; default: \code{par2 = 0}). \code{par2} should be an positive integer for the Students's t copula \code{family = 2}.}
 }
 
 \value{
-An \code{N} x 2 matrix of data simulated from the bivariate copula.
+An object of class \code{\link{BiCop}}, i.e., a list containing
+\item{family}{Copula family}
+  \item{par, par2}{Copula parameter(s).}
+  Objects of this class are returned by the \code{\link{BiCopEst}} and \code{\link{BiCopSelect}} functions.
 }
 
-\details{
-If the family and parameter specification is stored in a \code{\link{BiCop}} object \code{obj}, the alternative version \cr
-\preformatted{BiCopSim(N, obj)} 
-can be used.
-}
+\author{Thomas Nagler}
 
-\author{Ulf Schepsmeier}
-
-\seealso{\code{\link{BiCopCDF}}, \code{\link{BiCopPDF}}, \code{\link{RVineSim}}}
+\seealso{\code{\link{BiCopPDF}}, \code{\link{BiCopHfunc}}, \code{\link{BiCopSim}}, \code{\link{BiCopEst}}, \code{\link{BiCopSelect}}, \code{\link{plot.BiCop}}}
 
 \examples{
-# simulate from a bivariate t-copula
-simdata <- BiCopSim(300, 2, -0.7, par2 = 4)
+## create BiCop object for bivariate t-copula
+obj <- BiCop(family = 2, par = 0.4, par2 = 6)
+
+## a selection of function that can be used with BiCop objects
+simdata <- BiCopSim(300, obj)  # simulate data
+BiCopPDF(0.5, 0.5, obj) # evaluate density in (0.5,0.5)
+plot(obj)  # normal contour plot
 }
 

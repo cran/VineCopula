@@ -9,10 +9,9 @@ Tree structures are determined and appropriate pair-copula families are selected
 }
 
 \usage{
-RVineStructureSelect(data, familyset = NA, type = 0,
-                     selectioncrit = "AIC", indeptest = FALSE,
-                     level = 0.05, trunclevel = NA,
-                     progress = FALSE, weights = NA)
+RVineStructureSelect(data, familyset = NA, type = 0, selectioncrit = "AIC",
+                     indeptest = FALSE, level = 0.05, trunclevel = NA,
+                     progress = FALSE, weights = NA, rotations = TRUE)
 }
 
 \arguments{
@@ -74,6 +73,7 @@ RVineStructureSelect(data, familyset = NA, type = 0,
   \item{trunclevel}{Integer; level of truncation.}
   \item{progress}{Logical; whether the tree-wise specification progress is printed (default: \code{progress = FALSE}).}
   \item{weights}{Numerical; weights for each observation (opitional).}
+  \item{rotations}{If \code{TRUE}, all rotations of the families in \code{familyset} are included.}
 }
 
 \details{
@@ -125,13 +125,13 @@ data(daxreturns)
 # we allow for the copula families: Gauss, t, Clayton, Gumbel, Frank and Joe
 RVM <- RVineStructureSelect(daxreturns[1:750,1:4], c(1:6), progress = TRUE)
 
-# specify a C-vine copula model with only Clayton, Gumbel and Frank copulas
 \dontrun{
+# specify a C-vine copula model with only Clayton, Gumbel and Frank copulas (time-consuming)
 CVM <- RVineStructureSelect(daxreturns, c(3,4,5), "CVine")
 }
 
-# determine the order of the nodes in a D-vine using the package TSP
 \dontrun{
+# determine the order of the nodes in a D-vine using the package TSP (time-consuming)
 library(TSP)
 d <- dim(daxreturns)[2]
 M <- 1 - abs(TauMatrix(daxreturns))

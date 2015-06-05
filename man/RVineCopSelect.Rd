@@ -9,8 +9,8 @@ Pair-copula families are selected using \code{\link{BiCopSelect}} and estimated 
 }
 
 \usage{
-RVineCopSelect(data, familyset = NA, Matrix, selectioncrit = "AIC",
-               indeptest = FALSE, level = 0.05, trunclevel = NA)
+RVineCopSelect(data, familyset = NA, Matrix, selectioncrit = "AIC", indeptest = FALSE,
+               level = 0.05, trunclevel = NA, rotations = TRUE)
 }
 
 \arguments{
@@ -19,13 +19,14 @@ RVineCopSelect(data, familyset = NA, Matrix, selectioncrit = "AIC",
     The vector has to include at least one pair-copula family that allows for positive and one that allows for negative dependence. Not listed copula families might be included to better handle limit cases. 
     If \code{familyset = NA} (default), selection among all possible families is performed.
     The coding of pair-copula families is shown below.}
-  \item{Matrix}{Lower triangular d x d matrix that defines the R-vine tree structure.}  
+  \item{Matrix}{Lower or upper triangular d x d matrix that defines the R-vine tree structure.}  
   \item{selectioncrit}{Character indicating the criterion for pair-copula selection. Possible choices: \code{selectioncrit = "AIC"} (default) or \code{"BIC"} (see \code{\link{BiCopSelect}}).}
   \item{indeptest}{Logical; whether a hypothesis test for the independence of \code{u1} and \code{u2} is performed before bivariate copula selection
     (default: \code{indeptest = FALSE}; see \code{\link{BiCopIndTest}}).
     The independence copula is chosen for a (conditional) pair if the null hypothesis of independence cannot be rejected.}
   \item{level}{Numeric; significance level of the independence test (default: \code{level = 0.05}).}
   \item{trunclevel}{Integer; level of truncation.}
+  \item{rotations}{If \code{TRUE}, all rotations of the families in \code{familyset} are included.}
 }
 
 \details{
@@ -134,5 +135,6 @@ simdata <- RVineSim(1000, RVM)
 
 # determine the pair-copula families and parameters
 RVM1 <- RVineCopSelect(simdata, familyset = c(1, 3, 4, 5 ,6), Matrix)
+
 }
 

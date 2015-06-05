@@ -11,8 +11,8 @@ It computes the test statistics and p-values.
 }
 
 \usage{
-BiCopGofTest(u1, u2, family, par = 0, par2 = 0,
-             method = "white", max.df = 30, B = 100)
+BiCopGofTest(u1, u2, family, par = 0, par2 = 0, method = "white",
+             max.df = 30, B = 100, obj = NULL)
 }
 
 \arguments{
@@ -60,6 +60,7 @@ BiCopGofTest(u1, u2, family, par = 0, par2 = 0,
   \item{B}{Integer; number of bootstrap samples (default: \code{B = 100}).
     For \code{B = 0} only the the test statistics are returned.\cr
     WARNING: If \code{B} is chosen too large, computations will take very long.} 
+  \item{obj}{\code{BiCop} object containing the family and parameter specification.}
 }
 
 \value{
@@ -136,16 +137,15 @@ BiCopGofTest(u1, u2, family = 3)
 
 # perform Kendall's goodness-of-fit test for the Frank copula
 BiCopGofTest(u1, u2, family = 5)
-\donttest{
+
 # perform Kendall's goodness-of-fit test for the true copula
-gof <- BiCopGofTest(u1, u2, family = 3, method = "kendall")
+gof <- BiCopGofTest(u1, u2, family = 3, method = "kendall", B=50)
 gof$p.value.CvM
 gof$p.value.KS
 
 # perform Kendall's goodness-of-fit test for the Frank copula
-gof <- BiCopGofTest(u1, u2, family = 5, method = "kendall")
+gof <- BiCopGofTest(u1, u2, family = 5, method = "kendall", B=50)
 gof$p.value.CvM
 gof$p.value.KS
-}
 }
 

@@ -8,7 +8,7 @@ This function computes the theoretical tail dependence coefficients of a bivaria
 }
 
 \usage{
-BiCopPar2TailDep(family, par, par2 = 0)
+BiCopPar2TailDep(family, par, par2 = 0, obj = NULL)
 }
 
 \arguments{
@@ -56,6 +56,7 @@ BiCopPar2TailDep(family, par, par2 = 0)
 		}
   \item{par}{Copula parameter.}
   \item{par2}{Second parameter for the two parameter t-, BB1, BB6, BB7, BB8, Tawn type 1 and type 2 copulas (default: \code{par2 = 0}).}
+  \item{obj}{\code{BiCop} object containing the family and parameter specification.}
 }                                                                                  
 
 \value{
@@ -108,6 +109,13 @@ No. \tab Lower tail dependence \tab Upper tail dependence \cr
 \code{134, 234} \tab - \tab - \cr
 }
 }
+
+\details{
+If the family and parameter specification is stored in a \code{BiCop} object \code{obj}, the alternative version \cr
+\preformatted{BiCopPar2TailDep(obj)} 
+can be used.
+}
+
 
 \author{Eike Brechmann}
 

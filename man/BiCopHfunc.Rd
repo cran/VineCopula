@@ -8,7 +8,7 @@ This function evaluates the conditional distribution function (h-function) of a 
 }
 
 \usage{
-BiCopHfunc(u1, u2, family, par, par2 = 0)
+BiCopHfunc(u1, u2, family, par, par2 = 0, obj = NULL)
 }
 
 \arguments{
@@ -57,6 +57,8 @@ BiCopHfunc(u1, u2, family, par, par2 = 0)
 		}
   \item{par}{Copula parameter.}
   \item{par2}{Second parameter for bivariate copulas with two parameters (t, BB1, BB6, BB7, BB8, Tawn type 1 and type 2; default: \code{par2 = 0}).}
+  \item{obj}{\code{BiCop} object containing the family and parameter specification.}
+
 }
 
 \details{
@@ -69,7 +71,11 @@ h(u|v,\theta) := F(u|v) =
 \partial C(u,v) / \partial v,
 }
 where \eqn{C} is a bivariate copula distribution function with parameter(s) \eqn{\boldsymbol{\theta}}{\theta}.  
-For more details see Aas et al. (2009).
+For more details see Aas et al. (2009). 
+\cr \cr
+If the family and parameter specification is stored in a \code{\link{BiCop}} object \code{obj}, the alternative version \cr
+\preformatted{BiCopHfunc(u1, u2, obj)} 
+can be used.
 }
 
 
@@ -87,7 +93,7 @@ Insurance: Mathematics and Economics 44 (2), 182-198.
 
 \author{Ulf Schepsmeier}
 
-\seealso{\code{\link{BiCopPDF}}, \code{\link{BiCopCDF}}, \code{\link{RVineLogLik}}, \code{\link{RVineSeqEst}}}
+\seealso{\code{\link{BiCopPDF}}, \code{\link{BiCopCDF}}, \code{\link{RVineLogLik}}, \code{\link{RVineSeqEst}}, \code{\link{BiCop}}}
 
 \examples{
 # load data set

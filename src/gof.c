@@ -174,8 +174,8 @@ void White(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 		{
 			for(j=i;j<(dd+tt);j++)
 			{
-				Dprime[kk] = hess[(j+1)+((dd+tt)*i)-1] + der[(j+1)+((dd+tt)*i)-1];
-				D[kk] = D[kk] + (Dprime[kk]/(double)(*T));
+				Dprime[kk] = hess[(j+1)+((dd+tt)*i)-1] + der[(j+1)+((dd+tt)*i)-1];	// D = H+C
+				D[kk] = D[kk] + (Dprime[kk]/(double)(*T));		// Schaetzer, deswegen durch die Anzahl der Beobachtungen teilen
 				kk++;
 			}
 		}
@@ -189,7 +189,7 @@ void White(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 		}
 	} 
 	
-	// Nicht fertig, da hier das Problem D%*%solve(V)%*%t(D) zu l?sen ist
+	// Nicht fertig, da hier das Problem D%*%solve(V)%*%t(D) zu loesen ist
 	
 	// Free memory
 	//free(D);
@@ -245,6 +245,20 @@ int comp_nums(double *num1, double *num2)
   else return  1;
 }
 
+////////////////////////////////////////
+// Calculation of the B_j in Berg and Bakken
+// Input:
+// T, d 		dimensions
+// family,...	RVM objects
+// data			observed data
+// vv vv2		side products of log-likelihood calculation (h-function)
+// calcupdate	which h-functions have to be calculated
+// method		numeric value (1=Breymann, 2=Berg, 3=Berg2; see my paper)
+// alpha		power for the Berg function
+//
+// Output:
+// out			sum of transformed data (PIT) (one step for the Breymann, Berg and Berg2 GOF)
+//////////////////////////////////////////
 
 void Bj(int *T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
 		 double* out, double* vv, double* vv2, int* calcupdate, int* method, int *alpha)
@@ -268,7 +282,7 @@ void Bj(int *T, int* d, int* family, int* maxmat, int* matrix, int* condirect, i
 				ii += 1;
 			}
 			qsort(u[j],*d,sizeof(double),(void *)comp_nums);
-			ZStar(u[j],d,tmp[j]);		//Transformation von Berg and Bakken (2007)
+			ZStar(u[j],d,tmp[j]);		//Transformation von Berg and Bakken (2007); ordered PIT
 		}
 		else	// Im Fall von Breymann ist es besser keine Transformation zu machen
 		{
@@ -284,11 +298,11 @@ void Bj(int *T, int* d, int* family, int* maxmat, int* matrix, int* condirect, i
 	{
 		for(i=0;i<*d;i++)
 		{
-			if(*method==1)
+			if(*method==1)	//Breymann has the standard norma quantile function squared as transformation function
 				tmp[t][i]=pow(qnorm(tmp[t][i],0.0,1.0,1,0),2);
-			else if(*method==2)
+			else if(*method==2)  // Berg: absolute value of u-0.5
 				tmp[t][i]=fabs(tmp[t][i]-0.5);
-			else if(*method==3)
+			else if(*method==3)  // Berg2: (u-0.5)^alpha
 				tmp[t][i]=pow(tmp[t][i]-0.5,*alpha);
 			
 			out[t]+=tmp[t][i];
@@ -301,6 +315,18 @@ void Bj(int *T, int* d, int* family, int* maxmat, int* matrix, int* condirect, i
 }
 
 
+/////////////////////////
+// For bootstrap simulate B_j
+//
+// Input:
+// S			test statistic
+// B			number of bootstrap samples
+// T,d			dimensions
+// method		numeric value (1=Breymann, 2=Berg, 3=Berg2; see my paper)
+// alpha		power for the Berg function
+//
+// p			p-value
+
 void SimulateBj(double* S, int *T, int* d, int* B, int* method, int *alpha, double* p)
 {
 	int i=0, t=0, m=0;
@@ -308,7 +334,7 @@ void SimulateBj(double* S, int *T, int* d, int* B, int* method, int *alpha, doub
 	tmp = malloc(*d*sizeof(double));
 	ustar = malloc(*d*sizeof(double));
 	
-	GetRNGstate();
+	GetRNGstate();		// random number generator
 	
 	for(t=0;t<*T;t++)
 	{
@@ -350,6 +376,21 @@ void SimulateBj(double* S, int *T, int* d, int* B, int* method, int *alpha, doub
 }
 
 
+////////////////////////////////
+// PIT based GOF tests
+// Breymann, Berg, Berg2
+//
+// Input:
+// data with its dimensions
+// some help variables like vv and vv2
+// method		numeric value (1=Breymann, 2=Berg, 3=Berg2; see my paper)
+// alpha		power for the Berg function
+// statisticName	numeric value (1=Anderson-Darling, 2=Kolmogorov-Smirnov, 3=Cramer-von Mises)
+//
+// Output:
+// statistic		test statistic
+/////////////////////////////////
+
 void gofPIT_AD(int *T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
 		 double* statistic, double* vv, double* vv2, int* calcupdate, int* method, int *alpha, int* B, int *statisticName)
 {
@@ -369,17 +410,17 @@ void gofPIT_AD(int *T, int* d, int* family, int* maxmat, int* matrix, int* condi
 	Bj(T, d, family, maxmat, matrix, condirect, conindirect, par, par2, data, S, vv, vv2, calcupdate, method, alpha);
 	
 	// Statistic berechnen
-	if(*B==0)
+	if(*B==0)  // if an asymptotic based test statistic should be returned
 	{
 		if(*method==1)
 		{
 			for(t=0;t<*T;t++)
 			{
-				Bhat[t]=pchisq(S[t],*d,1.0,0.0);
+				Bhat[t]=pchisq(S[t],*d,1.0,0.0);  // for Breymann the asymptotic is known (although it is shown that it is not that correct)
 			}
 		}
 		else
-			CumDist(S, T, T, Bhat);
+			CumDist(S, T, T, Bhat);  // for the other two we need the empirical distribution function
 		
 		if(*statisticName==1)		//Anderson-Darling
 			ADtest(Bhat, T, statistic);
@@ -411,6 +452,14 @@ void gofPIT_AD(int *T, int* d, int* family, int* maxmat, int* matrix, int* condi
 }
 
 
+///////////////////////////
+// p-value estimation for the PIT based GOF tests
+//
+// Input:	see above
+//
+// Output:
+// pvalue	bootstrapped p-value
+
 void gofPIT_AD_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data,
 		double* statistic, double* vv, double* vv2, int* calcupdate, int* method, int* alpha, int* B, double* pvalue, int *statisticName)
 {
@@ -423,15 +472,15 @@ void gofPIT_AD_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int
 	bvv = malloc(*d*(*d)*(*T)*sizeof(double));
 	bvv2 = malloc(*d*(*d)*(*T)*sizeof(double));
 
-	for(m=0;m<*B;m++)
+	for(m=0;m<*B;m++)	// B bootstrap steps
 	{
-		MySample(T, T, f);
+		MySample(T, T, f);  // get a sample from my data
 		for(t=0;t<*T;t++)
 		{
 			for(i=0;i<*d;i++)
 			{
 				bdata[(t+1)+(*T*i)-1]=data[(f[t])+(*T*i)-1];
-				// Forget to change vv annd vv2, too
+				// Forget to change vv and vv2, too
 				for(j=0; j<*d; j++)
 				{
 					bvv[(i+1)+(*d)*j+(*d)*(*d)*t-1] = vv[(i+1)+(*d)*j+(*d)*(*d)*(f[t]-1)-1];	// f[t]-1 because C starts to count at 0
@@ -454,8 +503,15 @@ void gofPIT_AD_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int
 }
 
 
-
+/////////////////////////////////////////////
 /* Equal probability sampling; with-replacement case */
+// Input:
+// k		how many samples
+// n		max value of sample 
+//
+// output:
+// y		vector of length k returning the samples
+///////////////////////////////////////
 
 void MySample(int *k, int *n, int *y)
 {
@@ -471,8 +527,17 @@ void MySample(int *k, int *n, int *y)
 
 
 ////////////////////////////////////////////////////////////////
-
-// gof-test based on empirical copula process
+// GOF test based on empirical copula process
+//
+// Input:
+// data				data
+// t,d				dimensions
+// family,...		RVM object
+// statisticName	numerical value (2=Kolmogorov-Smirnov, 3=Cramer-von Mises)
+//
+// Output:
+// statistic		test statistic
+////////////////////////////////////////////
 
 void gofECP(int* T, int* d, int* family, int* maxmat, int* matrix, int* conindirect, double* par, double* par2, double* data, double* statistic, int* statisticName)
 {
@@ -493,7 +558,7 @@ void gofECP(int* T, int* d, int* family, int* maxmat, int* matrix, int* conindir
 	SimulateRVine(&T2, d, family, maxmat, matrix, conindirect, par, par2, znull, &U, &takeU);
 	
 	
-	ChatZj(data, data, T, d, T, Chat1);
+	ChatZj(data, data, T, d, T, Chat1);		// empirical copula distribution
 	ChatZj(znull, data, T, d, &T2, Chat2);
 	
 	*statistic=0;
@@ -518,6 +583,10 @@ void gofECP(int* T, int* d, int* family, int* maxmat, int* matrix, int* conindir
 	free(Chat2);
 }
 
+
+///////////////////////////
+// estimate p-value for ECP based GOF tests
+//////////////////////////////
 
 void gofECP_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* conindirect, double* par, double* par2, double* data, double* statistic, int* statisticName, double* pvalue, int* B)
 {
@@ -548,10 +617,15 @@ void gofECP_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* c
 	free(bdata);
 }
 
-
+////////////////////////////
+// Empirical copula distribution
+//
+// Input:
 // n = dim(u)[1]
 // m = dim(data)[1]
-// Chat vector of length n
+//
+// Output:
+// Chat		empirical copula distribution
 
 void ChatZj(double* data, double* u, int* n, int* d, int* m, double* Chat)
 {
@@ -579,6 +653,11 @@ void ChatZj(double* data, double* u, int* n, int* d, int* m, double* Chat)
 	free(helpvar);
 }
 
+
+///////////////////////////
+// Copula distribution of the independence copula
+////////////////////////////
+
 void C_ind(double* data, int* n, int* d, double* C)	
 {
 	int t=0, i=0;
@@ -597,6 +676,11 @@ void C_ind(double* data, int* n, int* d, double* C)
 }
 
 
+
+////////////////////////////
+// GOF test based on ECP and PIT (ECP2)
+// rest see above
+//////////////////////
 
 void gofECP2(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
 		double* vv, double* vv2, int* calcupdate, double* statistic, int* statisticName)
@@ -646,6 +730,11 @@ void gofECP2(int* T, int* d, int* family, int* maxmat, int* matrix, int* condire
 	free(Chat1);
 	free(Chat2);
 }
+
+
+///////////////////////////
+// p-value for ECP2
+///////////////////////////
 
 void gofECP2_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
 		double* vv, double* vv2, int* calcupdate, double* statistic, double* pvalue, int* statisticName, int* B)

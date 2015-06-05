@@ -63,7 +63,11 @@ Political Analysis, 15, 347-363.
 
 
 \examples{
-\donttest{data(daxreturns)
+\dontrun{
+# vine structure selection time-consuming (~ 20 sec)
+
+# load data set
+data(daxreturns)
 
 # select the R-vine structure, families and parameters
 RVM <- RVineStructureSelect(daxreturns[,1:5], c(1:6))

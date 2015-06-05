@@ -8,7 +8,7 @@ This function evaluates the probability density function (PDF) of a given parame
 }
 
 \usage{
-BiCopPDF(u1, u2, family, par, par2 = 0)
+BiCopPDF(u1, u2, family, par, par2 = 0, obj = NULL)
 }
 
 \arguments{
@@ -57,23 +57,34 @@ BiCopPDF(u1, u2, family, par, par2 = 0)
 		}
   \item{par}{Copula parameter.}
   \item{par2}{Second parameter for the two parameter t-, BB1, BB6, BB7, BB8, Tawn type 1 and type 2 copulas (default: \code{par2 = 0}).}
+  \item{obj}{\code{BiCop} object containing the family and parameter specification.}
 }
 
 \value{
 A numeric vector of the bivariate copula density evaluated at \code{u1} and \code{u2}.
 }
 
+\details{
+If the family and parameter specification is stored in a \code{\link{BiCop}} object \code{obj}, the alternative version \cr
+\preformatted{BiCopPDF(u1, u2, obj)} 
+can be used.
+}
+
 \author{Eike Brechmann}
 
-\seealso{\code{\link{BiCopCDF}}, \code{\link{BiCopHfunc}}, \code{\link{BiCopSim}}}
+\seealso{\code{\link{BiCopCDF}}, \code{\link{BiCopHfunc}}, \code{\link{BiCopSim}}, \code{\link{BiCop}}}
 
 \examples{
-# simulate from a bivariate t-copula
+## simulate from a bivariate t-copula
 simdata <- BiCopSim(300, 2, -0.7, par2 = 4)
 
-# evaluate the density of the bivariate t-copula
+## evaluate the density of the bivariate t-copula
 u1 <- simdata[,1]
 u2 <- simdata[,2]
 BiCopPDF(u1, u2, 2, -0.7, par2 = 4)
+
+## estimate a bivariate copula from the data and evaluate its PDF
+cop <- BiCopSelect(u1, u2)
+round(BiCopPDF(u1, u2, cop), 8)
 }
 

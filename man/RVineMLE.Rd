@@ -71,7 +71,6 @@ Estimating standard errors in regular vine copula models. Computational Statisti
 \code{\link{RVineHessian}}}
 
 \examples{
-\donttest{
 # define 5-dimensional R-vine tree structure matrix
 Matrix <- c(5, 2, 3, 1, 4,
             0, 2, 3, 4, 1,
@@ -109,7 +108,8 @@ set.seed(123)
 simdata <- RVineSim(300, RVM)
 
 # compute the MLE
-mle <- RVineMLE(simdata, RVM, grad=TRUE)
-mle$RVM
-}
+mle <- RVineMLE(simdata, RVM, grad = TRUE, trace = 0)
+
+# compare parameters
+round(mle$RVM$par - RVM$par, 2)
 }

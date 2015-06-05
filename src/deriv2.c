@@ -24,6 +24,15 @@
 ////////////////////////////////////////////////////////////////////
 //
 // 2. Ableitung von c nach dem Parameter
+// Second derivative of the bivariate copula density with respect to the parameter
+//
+// u,v			copula arguments (data vectors)
+// n			length of u,v 
+// param		parameter vector (par,par2)
+// copula		copula family (1,2,3,4,5,6)
+//
+// Output:
+// out			derivative
 //
 ////////////////////////////////////////////////////////////////////
 
@@ -107,6 +116,25 @@ if((*copula)==43)
   free(out2);
 }
 
+
+////////////////////////////////////////////////////////////////////
+//
+// 2. Ableitung von c nach dem Parameter
+// Second derivative of the bivariate copula density with respect to the parameter (main function)
+//
+// u,v			copula arguments (data vectors)
+// n			length of u,v 
+// param		parameter vector (par,par2)
+// copula		copula family (1,2,3,4,5,6)
+//
+// Output:
+// out			derivative
+//
+// Reference: Schepsmeier and Stoeber (2012, 2013)
+////////////////////////////////////////////////////////////////////
+
+// the structure is the same as for the first derivative
+// see also the comments for the first derivatives
 
 void diff2PDF(double* u, double* v, int* n, double* param, int* copula, double* out)
 {
@@ -325,6 +353,7 @@ void diff2PDF(double* u, double* v, int* n, double* param, int* copula, double* 
 ///////////////////////////////////////////////////////////////////
 //
 // 2. Ableitung von c nach u (2mal)
+// second derivative with respect to u (two times)
 //
 ////////////////////////////////////////////////////////////////////
 
@@ -400,8 +429,10 @@ if((*copula)==43)
   free(nparam);
 }
 
-
+//////////////////////////////////////////
 // Ableitung von c nach v (2 mal)
+// Second derivative with respect to v (two times)
+//////////////////////////////////////////
 
 void diff2PDF_v_mod(double* u, double* v, int* n, double* param, int* copula, double* out)
 {
@@ -477,6 +508,11 @@ if((*copula)==43)
 
 
 
+////////////////////////////////
+// Main function to calculate the derivative with respect to u
+////////////////////////////////
+
+
 void diff2PDF_u(double* u, double* v, int* n, double* param, int* copula, double* out)
 {
 	int j;
@@ -498,9 +534,9 @@ void diff2PDF_u(double* u, double* v, int* n, double* param, int* copula, double
 			double nu=0, c=0, diffc=0;
 			int k=1;
 
-			LL(copula, &k, &u[j], &v[j], &theta, &nu, &c);
+			LL(copula, &k, &u[j], &v[j], &theta, &nu, &c);	// one needs the density
 			c=exp(c);
-			diffPDF_u_mod(&u[j],&v[j],&k,param,copula,&diffc);
+			diffPDF_u_mod(&u[j],&v[j],&k,param,copula,&diffc); // and also the derivative with respect to u (first derivative)
 
 			t1=qnorm(u[j],0.0,1.0,1,0);
 			t2=qnorm(v[j],0.0,1.0,1,0);
@@ -515,7 +551,7 @@ void diff2PDF_u(double* u, double* v, int* n, double* param, int* copula, double
 		else if(*copula==2)
 		{
 			int k=1;
-			diff2PDF_u_tCopula_new(&u[j], &v[j], &k, param, copula, &out[j]);
+			diff2PDF_u_tCopula_new(&u[j], &v[j], &k, param, copula, &out[j]);  // special function for t-copula
 		}
 		else if(*copula==3)
 		{
@@ -682,6 +718,7 @@ void diff2PDF_u(double* u, double* v, int* n, double* param, int* copula, double
 ///////////////////////////////////////////////////////////////////
 //
 // 2. Ableitung von c nach u und v 
+// Second derivative with respect to u and v (first and second argument)
 //
 ////////////////////////////////////////////////////////////////////
 
@@ -957,7 +994,8 @@ void diff2PDF_u_v(double* u, double* v, int* n, double* param, int* copula, doub
 
 ///////////////////////////////////////////////////////////////////
 //
-// 2. Ableitung von c nach par und u 
+// 2. Ableitung von c nach par und u
+// Second derivative with respect to the parameter and the first argument 
 //
 ////////////////////////////////////////////////////////////////////
 
@@ -1265,6 +1303,9 @@ void diff2PDF_par_u(double* u, double* v, int* n, double* param, int* copula, do
 	}
 }
 
+
+
+// The same with respect to the parameter and v (second argument)
 
 void diff2PDF_par_v_mod(double* u, double* v, int* n, double* param, int* copula, double* out)
 {

@@ -8,7 +8,7 @@ This function computes the theoretical Blomqvist's beta value of a bivariate cop
 }
 
 \usage{
-BiCopPar2Beta(family, par, par2 = 0)
+BiCopPar2Beta(family, par, par2 = 0, obj = NULL)
 }
 
 \arguments{
@@ -56,6 +56,7 @@ BiCopPar2Beta(family, par, par2 = 0)
 		}
   \item{par}{Copula parameter.}
   \item{par2}{Second parameter for the two parameter BB1, BB6, BB7, BB8, Tawn type 1 and type 2 copulas (default: \code{par2 = 0}).}
+  \item{obj}{\code{BiCop} object containing the family and parameter specification.}
 }                                                                                  
 
 
@@ -64,10 +65,9 @@ Theoretical value of Blomqvist's beta corresponding to the bivariate copula fami
 }
 
 \details{
-Blomqvist's beta is defined as
-\deqn{
-	\beta(X_1,X_2)=4C(0.5,0.5)-1
-}
+If the family and parameter specification is stored in a \code{\link{BiCop}} object \code{obj}, the alternative version \cr
+\preformatted{BiCopPar2Beta(obj)} 
+can be used.
 }
 
 \author{Ulf Schepsmeier}

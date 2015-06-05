@@ -154,9 +154,9 @@ A goodness-of-fit test for regular vine copula models.
 Preprint
 \url{http://arxiv.org/abs/1306.0818}
 
-Schepsmeier, U. (2013)
-Efficient goodness-of-fit tests in multi-dimensional vine copula models. 
-\url{http://arxiv.org/abs/1309.5808}
+Schepsmeier, U. (2015)
+Efficient information based goodness-of-fit tests for vine copula models with fixed margins.
+Journal of Multivariate Analysis 138, 34-52.
 
 White, H. (1982)
 Maximum likelihood estimation of misspecified models,
@@ -166,7 +166,10 @@ Econometrica, 50, 1-26.
 \seealso{\code{\link{BiCopGofTest}}, \code{\link{RVinePIT}}}
 
 \examples{
-\donttest{# load data set
+\dontrun{
+# time-consuming example
+
+# load data set
 data(daxreturns)
 
 # select the R-vine structure, families and parameters

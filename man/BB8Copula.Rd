@@ -37,8 +37,8 @@ See also \code{\link{BB6Copula}}, \code{\link{BB7Copula}}, \code{\link{BB8Copula
 \examples{
 library(copula)
 
-persp(BB8Copula(c(1,0.5)), dCopula, zlim = c(0,10))
-persp(surBB8Copula(c(1,0.5)), dCopula, zlim = c(0,10))
-persp(r90BB8Copula(c(-1,-0.5)), dCopula, zlim = c(0,10))
-persp(r270BB8Copula(c(-1,-0.5)), dCopula, zlim = c(0,10))
+persp(BB8Copula(c(2,0.9)), dCopula, zlim = c(0,10))
+persp(surBB8Copula(c(2,0.9)), dCopula, zlim = c(0,10))
+persp(r90BB8Copula(c(-2,-0.9)), dCopula, zlim = c(0,10))
+persp(r270BB8Copula(c(-2,-0.9)), dCopula, zlim = c(0,10))
 }

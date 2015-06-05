@@ -68,7 +68,9 @@ Econometrica 57 (2), 307-333.
 
 
 \examples{
-\donttest{
+\dontrun{
+# vine structure selection time-consuming (~ 20 sec)
+
 # load data set
 data(daxreturns)
 

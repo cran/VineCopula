@@ -11,25 +11,36 @@
 // Code from Jakob Stoeber and Ulf Schepsmeier for R-vine log-likelihood derivative calculation
 
 //////////////////////////////////////////////////////////////
-// Function to compute the derivative of log-likelihood for the pair-copula construction (Rvine)
+// Function to compute the derivative of log-likelihood for the pair-copula construction (Rvine) (one-element of the gradient)
 // (by J.S.)
 // Input:
-// T        sample size
-// d        dimension (>=2)
-// family   copula families: only student //  (1=gaussian, 2=student, 3=clayton, 4=gumbel, 5=frank, 6=joe)
-// kk		row number of the parameter wrt to which we want to calculate the derivative
-// ii		column number of the parameter wrt to which we want to calculate the derivative
-// par      parameter values (at least d*(d-1)/2 parameters
-// par2		second set of parameter values (f.e. for student copulas)
-// data     data set for which to compute the derivative of the log-likelihood
-// matrix   an RVineMatrix in vector form
-// condirect, conindirect Matrizes which tell us where we find the right values 
-// calcupdate matrix which tells which terns we need to consider for the calculation of the derivative
+// T        		sample size
+// d        		dimension (>=2)
+// family   		copula families: only student //  (1=gaussian, 2=student, 3=clayton, 4=gumbel, 5=frank, 6=joe)
+// kk				row number of the parameter wrt to which we want to calculate the derivative
+// ii				column number of the parameter wrt to which we want to calculate the derivative
+// par      		parameter values (at least d*(d-1)/2 parameters
+// par2				second set of parameter values (f.e. for student copulas)
+// data     		data set for which to compute the derivative of the log-likelihood
+// matrix   		an RVineMatrix in vector form
+// condirect, conindirect Matrices which tell us where we find the right values 
+// calcupdate 		matrix which tells which terns we need to consider for the calculation of the derivative
+// ll       		array with the contribution to the derivative (for each copula)
+// vv,vv2       	array of the h-functions  (given as by-product of the log-likelihood calculation)
+// tcop				a special marker for the Student's t-copula (1=first parameter, 2=second parameter)
+// margin			derivative wrt to the margins as well? (TRUE/FALSE) (needed by Jakob for some of his calculations)
+// 
 // Output:
-// out      Loglikelihood
-// ll       array with the contribution to the derivative (for each copula)
-// vv,vv2       array for the derivatives of the h-functions  
+// out      		Log-likelihood derivative
+// tilde_value		array of separated derivatives in the R-vine construction
+// tilde_vdirect	array of separated derivatives of the h-functions needed
+// tilde_vindirect	array of separated derivatives of the h-functions needed
 /////////////////////////////////////////////////////////////
+
+// Reference:
+// Stöber, J. and U. Schepsmeier (2013)
+// Estimating standard errors in regular vine copula models
+// Computational Statistics, 28 (6), 2679-2707
 
 
 void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
@@ -158,7 +169,7 @@ void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* ma
 
 	param[0]=theta[*kk-1][*ii-1];
 	param[1]=nu[*kk-1][*ii-1];
-	if(*tcop==1)		//Für die t-copula
+	if(*tcop==1)		//For the t-copula (first parameter)
 	{
 		diffhfunc_rho_tCopula(zr1,zr2,T,param,&fam[*kk-1][*ii-1],tildevdirect[*kk-2][*ii-1]);
 		diffhfunc_rho_tCopula(zr2,zr1,T,param,&fam[*kk-1][*ii-1],tildevindirect[*kk-2][*ii-1]);
@@ -168,7 +179,7 @@ void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* ma
 			tildevalue[*kk-1][*ii-1][t]=tildevalue[*kk-1][*ii-1][t]/cop[t];
 		}
 	}
-	else if(*tcop==2)
+	else if(*tcop==2)  // for the t-copula (second parameter)
 	{
 		diffhfunc_nu_tCopula_new(zr1,zr2,T,param,&fam[*kk-1][*ii-1],tildevdirect[*kk-2][*ii-1]);
 		diffhfunc_nu_tCopula_new(zr2,zr1,T,param,&fam[*kk-1][*ii-1],tildevindirect[*kk-2][*ii-1]);
@@ -216,6 +227,7 @@ void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* ma
 		
 	
 	//Rprintf("%f \n",tildevalue[*kk-1][*ii-1][1]);
+	// add up for the final derivative
 	for(t=0;t<*T;t++ ) 
 	{
 		sumloglik+=tildevalue[*kk-1][*ii-1][t];
@@ -267,7 +279,7 @@ void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* ma
 				{
 					param[0]=theta[k][i];
 					param[1]=nu[k][i];
-					if(fam[k][i]==2)		//Für die t-copula
+					if(fam[k][i]==2)		//For the t-copula
 					{
 						diffPDF_u_tCopula_new(zr1,zr2,T,param,&fam[k][i],handle1);
 					}
@@ -293,7 +305,7 @@ void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* ma
 					{
 						param[0]=theta[k][i];
 						param[1]=nu[k][i];
-						if(fam[k][i]==2)		//Für die t-copula
+						if(fam[k][i]==2)		//For the t-copula
 						{
 							diffhfunc_v_tCopula_new(zr2,zr1,T,param,&fam[k][i],handle1);
 						}
@@ -312,7 +324,7 @@ void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* ma
 				{
 					param[0]=theta[k][i];
 					param[1]=nu[k][i];
-					if(fam[k][i]==2)		//Für die t-copula
+					if(fam[k][i]==2)		//For the t-copula
 					{
 						diffPDF_u_tCopula_new(zr2,zr1,T,param,&fam[k][i],handle1);
 					}
@@ -330,7 +342,7 @@ void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* ma
 					{
 						param[0]=theta[k][i];
 						param[1]=nu[k][i];
-						if(fam[k][i]==2)		//Für die t-copula
+						if(fam[k][i]==2)		//For the t-copula
 						{
 							diffhfunc_v_tCopula_new(zr1,zr2,T,param,&fam[k][i],handle1);
 						}
@@ -398,6 +410,17 @@ void VineLogLikRvineDeriv(int* T, int* d, int* family, int* kk, int* ii, int* ma
 }
 
 
+/////////////////////////////////////////////////
+// Calculate the gradient
+// (uses the function VineLogLikRvineDeriv)
+//
+// Input:
+// see above
+//
+// Output:
+// out		gradient vector
+///////////////////////////////////////////////////
+
 
 void VineLogLikRvineGradient(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect, int* conindirect, double* par, double* par2, double* data, 
 						  double* out, double* ll, double* vv, double* vv2, int* posParams) 
@@ -448,12 +471,12 @@ void VineLogLikRvineGradient(int* T, int* d, int* family, int* maxmat, int* matr
 				//	tilde_value[t] = tilde_value_array[(*d)*(*d)*(*d)*(*T)*(ii-1)+(*d)*(*d)*(*T)*(kk-1)+t];
 				//}
 				//Rprintf("\n");
-				if(fam[kk-1][ii-1]==2)
+				if(fam[kk-1][ii-1]==2)		// for the t-copula
 				{
-					tcop=1;
+					tcop=1;		// first parameter
 					VineLogLikRvineDeriv(T, d, family, &kk, &ii, maxmat, matrix, condirect, conindirect, par, par2, data, &out[tt], ll, vv, vv2, calc, tilde_vdirect, tilde_vindirect, tilde_value, &tcop, &margin);
-					tcop=2;
-					VineLogLikRvineDeriv(T, d, family, &kk, &ii, maxmat, matrix, condirect, conindirect, par, par2, data, &out[aa-1+dd], ll, vv, vv2, calc, tilde_vdirect, tilde_vindirect, tilde_value, &tcop, &margin);
+					tcop=2;		// second parameter
+					VineLogLikRvineDeriv(T, d, family, &kk, &ii, maxmat, matrix, condirect, conindirect, par, par2, data, &out[aa-1+dd], ll, vv, vv2, calc, tilde_vdirect, tilde_vindirect, tilde_value, &tcop, &margin);		// important: position in the gradient out[aa-1+dd]
 					dd++;
 				}
 				else

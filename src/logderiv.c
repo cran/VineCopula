@@ -7,9 +7,31 @@
 #include "include/incompleteBeta.h"
 #include "include/logderiv.h"
 
+//////////////////////////////////
+// we calculated the derivatives of the copula density in deriv.c and deriv2.c
+// Further, the derivatives of the Student's t-copula were derived in separate files due to their complexity
+// here some derivatives of log(c) are calculated, since sometime it is numerical advantageous to use the log(c) instead of c,
+// in particular for the t-copula.
+//
+// In most cases the calculation is almost the same as for the derivatives of c
+//////////////////////////////////
+
 
 
 // Ableitung von log(c) nach rho
+
+/////////////////////////////////////////
+// Derivative of log(c) wrt to the first parameter rho of the Student's t-copula
+//
+// Input:
+// u, v			copula arguments (vectors)
+// n			length of u and v
+// param		two-dimensional parameter vector
+// copula		copula family (not needed here)
+//
+// Output:
+// out			derivative
+///////////////////////////////////////////
 
 void difflPDF_rho_tCopula(double* u, double* v, int* n, double* param, int* copula, double* out)
 {
