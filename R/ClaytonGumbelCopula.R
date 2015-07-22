@@ -45,8 +45,8 @@ setMethod("dCopula", signature("matrix","surClaytonCopula"), linkVineCop.PDF)
 
 ## jcdf ##
 setMethod("pCopula", signature("numeric","surClaytonCopula"), 
-          function(u, copula, log) {
-            linkVineCop.surCDF(matrix(u,ncol=copula@dimension),copula, log)
+          function(u, copula) {
+            linkVineCop.surCDF(matrix(u,ncol=copula@dimension),copula)
           })
 setMethod("pCopula", signature("matrix","surClaytonCopula"), linkVineCop.surCDF)
 

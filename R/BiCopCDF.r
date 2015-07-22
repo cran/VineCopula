@@ -165,11 +165,11 @@ BiCopCDF <- function(u1, u2, family, par, par2 = 0, obj = NULL) {
             (1 - par3) * (1 - t) + (1 - par2) * t + ta(t, par, par2, par3)^(1/par)
         }
         
-        w <- function(u1, u2) {
-            log(u2)/log(u1 * u2)
+        w <- function(u, v) {
+            log(v)/log(u * v)
         }
         C <- function(u, v, par, par2, par3) {
-            (u1 * u2)^A(w(u1, u2), par, par2, par3)
+            (u * v)^A(w(u, v), par, par2, par3)
         }
         
         if (family == 104) {

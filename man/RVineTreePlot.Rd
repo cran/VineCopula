@@ -10,7 +10,7 @@ This function plots one or all trees of a given R-vine copula model.
 \usage{
 RVineTreePlot(data = NULL, RVM, method = "mle", max.df = 30,
               max.BB = list(BB1=c(5,6),BB6=c(6,6),BB7=c(5,6),BB8=c(6,1)),
-              tree = "ALL", edge.labels = c("family"), P = NULL)
+              tree = "ALL", edge.labels = c("family"), P = NULL, legend = FALSE)
 }
 
 \arguments{
@@ -32,6 +32,7 @@ RVineTreePlot(data = NULL, RVM, method = "mle", max.df = 30,
     \code{"emptau"}: empirical Kendall's tau values (only if data is provided!)\cr
 	  \code{"pair"}: indices of (conditioned) pair of variables identified by the edges}
   \item{P}{A list of matrices with two columns for the x-y-coordinates of the nodes in the plot(s) (optional; default: \code{P = NULL}).}
+  \item{legend}{If \code{TRUE} the variables are numbered from 1 to d and a legend is added to the plot(s). Otherwise node and edge lables are based on the variable names (default: \code{legend = FALSE}).}
 }
 
 \note{

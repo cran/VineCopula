@@ -930,7 +930,7 @@ void HNumInv(int* family, double* u, double* v, double* theta, double* nu, doubl
 {
 
   int br=0, in=1;
-  double ans=0.0, tol=0.000001, x0=UMIN, x1=UMAX, fl, fh, val;
+  double ans=0.0, tol=UMIN, x0=UMIN, x1=UMAX, fl, fh, val;
   //Rprintf("family in HNumInv: %d\n", *family);
   Hfunc1(family,&in,&x0,v,theta,nu,&fl); fl -= *u; 
   Hfunc1(family,&in,&x1,v,theta,nu,&fh); fh -= *u;

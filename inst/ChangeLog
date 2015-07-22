@@ -4,6 +4,19 @@ Current authors: Ulf Schepsmeier, Thomas Nagler, Tobias Erhardt and Benedikt Gra
 Former authors: Eike Brechmann and Jakob Stoeber
 Maintainer: Tobias Erhardt <tobias.erhardt@tum.de> and Thomas Nagler <thomas.nagler@tum.de>
 
+Version 1.6 (July 16, 2015)
+
+- Imports
+  * extend Imports to avoid undefined globals (CRAN E-mail 02.07.2015)
+  * new version reqiures igraph (>= 1.0.0)
+
+- Bug fix:
+  * Definition of "C" in BiCopCDF for tawn copulas used constants u1 und u2 instead of arguments u and v
+  * RVineStructureSelect: Adjust to new version of igraph. Tree structure was not selected correctly. igraph function names changed to the names used in the new version. Some small modifications to avoid some for loops and make the code easier to read.
+
+- New functionality:
+  * RVineTreePlot: option for a legend (and numbered nodes and edges)
+
 
 Version 1.5 (June 2, 2015)
 

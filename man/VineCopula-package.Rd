@@ -79,11 +79,11 @@ We are especially grateful to Harry Joe for his contributions to the implementat
 \tabular{ll}{
 Package: \tab VineCopula\cr
 Type: \tab Package\cr
-Version: \tab 1.5\cr
-Date: \tab 2015-06-05\cr
+Version: \tab 1.6\cr
+Date: \tab 2015-07-16\cr
 License: \tab GPL (>=2)\cr
 Depends: \tab R (\eqn{\geq 2.11.0}{>= 2.11.0})\cr
-Imports: \tab MASS, mvtnorm, igraph, methods, copula, ADGofTest, lattice\cr
+Imports: \tab graphics, grDevices, stats, utils, MASS, mvtnorm, igraph (>= 1.0.0), methods, copula, ADGofTest, lattice\cr
 Suggests: \tab CDVine, TSP\cr
 LazyLoad: \tab yes
 }

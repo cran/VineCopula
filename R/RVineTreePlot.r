@@ -1,6 +1,6 @@
 RVineTreePlot <- function(data = NULL, RVM, method = "mle", max.df = 30,
                           max.BB = list(BB1 = c(5, 6), BB6 = c(6, 6), BB7 = c(5, 6), BB8 = c(6, 1)), 
-                          tree = "ALL", edge.labels = c("family"), P = NULL) {
+                          tree = "ALL", edge.labels = c("family"), P = NULL, legend = FALSE) {
     
     if (is(RVM)[1] != "RVineMatrix") 
         stop("'RVM' has to be an RVineMatrix object.")
@@ -64,9 +64,9 @@ RVineTreePlot <- function(data = NULL, RVM, method = "mle", max.df = 30,
     weight <- list()
     for (j in 1:(d - 1)) weight[[j]] <- rep(NA, d - j)
     
-    # label the nodes
-    for (j in 1:(d - 1))
-        for (k in 1:d) edges[[j]][edges[[j]] == k] <- RVM$names[k]
+#     # label the nodes
+#     for (j in 1:(d - 1))
+#         for (k in 1:d) edges[[j]][edges[[j]] == k] <- RVM$names[k]
     
     
     if (edge.labels[1] != FALSE) {
@@ -92,9 +92,15 @@ RVineTreePlot <- function(data = NULL, RVM, method = "mle", max.df = 30,
             if (edge.labels[jj] == "emptau") 
                 elabels[[1]][1, jj] <- empTauMat[d, d - 1]
             if (edge.labels[jj] == "pair") 
+              if (legend == TRUE) {
+                elabels[[1]][1, jj] <- paste(RVM$Matrix[d - 1, d - 1],
+                                             RVM$Matrix[d, d - 1],
+                                             sep = ",")
+              } else {
                 elabels[[1]][1, jj] <- paste(RVM$names[RVM$Matrix[d - 1, d - 1]],
                                              RVM$names[RVM$Matrix[d, d - 1]],
                                              sep = ",")
+              }
         }
     }
     
@@ -118,9 +124,15 @@ RVineTreePlot <- function(data = NULL, RVM, method = "mle", max.df = 30,
                 if (edge.labels[jj] == "emptau") 
                     elabels[[1]][d - i, jj] <- empTauMat[d, i]
                 if (edge.labels[jj] == "pair") 
+                  if (legend == TRUE) {
+                    elabels[[1]][d - i, jj] <- paste(RVM$Matrix[i, i],
+                                                     RVM$Matrix[d, i],
+                                                     sep = ",")
+                  } else {
                     elabels[[1]][d - i, jj] <- paste(RVM$names[RVM$Matrix[i, i]],
                                                      RVM$names[RVM$Matrix[d, i]],
                                                      sep = ",")
+                  }
             }
         }
         # edges in further trees
@@ -143,6 +155,7 @@ RVineTreePlot <- function(data = NULL, RVM, method = "mle", max.df = 30,
                 edges[[k + 1]][d - i - k, 2, ] <- sort(M[(d - k):d, i])
             }
             
+            # create edge lables
             weight[[k + 1]][d - i - k] <- ifelse(is.null(data), theoTauMat[d - k, i], empTauMat[d - k, i])
             if (edge.labels[1] != FALSE) {
                 for (jj in 1:numlabels) {
@@ -157,6 +170,16 @@ RVineTreePlot <- function(data = NULL, RVM, method = "mle", max.df = 30,
                     if (edge.labels[jj] == "emptau") 
                         elabels[[k + 1]][d - i - k, jj] <- empTauMat[d - k, i]
                     if (edge.labels[jj] == "pair") {
+                      if (legend == TRUE) {
+                        handle1 <- paste(RVM$Matrix[i, i], 
+                                         RVM$Matrix[d - k, i],
+                                         sep = ",")
+                        handle2 <- paste(RVM$Matrix[(d - k + 1):d, i],
+                                         collapse = ",")
+                        handle3 <- paste(handle1, 
+                                         handle2, 
+                                         sep = ";")
+                      } else {
                         handle1 <- paste(RVM$names[RVM$Matrix[i, i]], 
                                          RVM$names[RVM$Matrix[d - k, i]],
                                          sep = ",")
@@ -164,8 +187,9 @@ RVineTreePlot <- function(data = NULL, RVM, method = "mle", max.df = 30,
                                          collapse = ",")
                         handle3 <- paste(handle1, 
                                          handle2, 
-                                         sep = "|")
-                        elabels[[k + 1]][d - i - k, jj] <- handle3  #paste(handle1,handle2,sep='|')
+                                         sep = ";")
+                      }
+                      elabels[[k + 1]][d - i - k, jj] <- handle3  #paste(handle1,handle2,sep=';')
                     }
                 }
             }
@@ -181,7 +205,9 @@ RVineTreePlot <- function(data = NULL, RVM, method = "mle", max.df = 30,
     }
     
     # label the nodes
-    for (j in 1:(d - 1)) for (k in 1:d) edges[[j]][edges[[j]] == k] <- RVM$names[k]
+    if (legend == FALSE) {
+      for (j in 1:(d - 1)) for (k in 1:d) edges[[j]][edges[[j]] == k] <- RVM$names[k]
+    }
     
     # convert to edge lists
     edgelist <- list()
@@ -197,15 +223,14 @@ RVineTreePlot <- function(data = NULL, RVM, method = "mle", max.df = 30,
         for (i in 3:(d - 1)) {
             for (j in 1:(d - i)) {
                 edgelist[[i]][j, 1] <- paste(paste(edges[[i]][j, 1, 1:2], collapse = ","),
-                                             paste(edges[[i]][j, 1, 3:i], collapse = ","), sep = "|")
+                                             paste(edges[[i]][j, 1, 3:i], collapse = ","), sep = ";")
                 edgelist[[i]][j, 2] <- paste(paste(edges[[i]][j, 2, 1:2], collapse = ","),
-                                             paste(edges[[i]][j, 2, 3:i], collapse = ","), sep = "|")
+                                             paste(edges[[i]][j, 2, 3:i], collapse = ","), sep = ";")
             }
         }
     }
     
-    
-    
+    # combine edge lables
     if (edge.labels[1] != FALSE) {
         elabels2 <- list()
         for (j in 1:(d - 1)) {
@@ -217,12 +242,13 @@ RVineTreePlot <- function(data = NULL, RVM, method = "mle", max.df = 30,
     # create graphs
     gg <- list()
     for (i in 1:(d - 1)) {
-        gg[[i]] <- graph.edgelist(edgelist[[i]], directed = FALSE)
+        gg[[i]] <- graph_from_edgelist(edgelist[[i]], directed = FALSE)
         E(gg[[i]])$weight <- weight[[i]]
         if (edge.labels[1] != FALSE) 
             E(gg[[i]])$name <- elabels2[[i]]
     }
     
+    # loop through the trees
     for (i in tree) {
         
         g <- gg[[i]]
@@ -233,21 +259,37 @@ RVineTreePlot <- function(data = NULL, RVM, method = "mle", max.df = 30,
             elabel <- NULL
         }
         
+        ## specify layout for plotting
         if (all(P[[i]] == 0)) {
-            P[[i]] <- layout.fruchterman.reingold(g)
+            P[[i]] <- layout_in_circle(g)
+            P[[i]] <- layout_with_graphopt(g, start = P[[i]], niter = 50, spring.length = 1)
         }
         
+        ## initialize plotting
         main <- paste("Tree ", i, sep = "")
+        if (legend == TRUE) {
+          vwidth <- max(strwidth(V(g)$name, units = "figure")) * 800
+          vheight <- 20
+        } else {
+          vwidth <- max(strwidth(V(g)$name, units = "figure")) * 1000
+          vheight <- 20
+        }
         
-        plot(g,layout=P[[i]],
-             vertex.label=V(g)$name,
-             vertex.shape="rectangle",
-             vertex.size=max(strwidth(V(g)$name,units="figure"))*500,
-             edge.label.family="sans",
-             edge.label=elabel,
-             edge.width=(10*abs(E(g)$weight)+0.5),
-             edge.arrow.size=0,
-             main=main)
+        ## plot tree
+        plot(g, layout = P[[i]],
+             vertex.label = V(g)$name,
+             vertex.shape = "rectangle",
+             vertex.size = vwidth,
+             vertex.size2 = vheight,
+             edge.label.family = "sans",
+             edge.label = elabel,
+             edge.width = (10*abs(E(g)$weight) + 0.5),
+             edge.arrow.size = 0,
+             main = main)
+        if (legend == TRUE) {
+          legend("bottomleft", legend = paste(1:d, RVM$name, sep = " = "),
+                 bty = "n", xjust = 0)
+        }
         
         if (i != max(tree)) {
             par(ask = TRUE)
@@ -340,7 +382,7 @@ RVineSeqEstTau <- function(data, RVM, method = "mle", se = FALSE, max.df = 30, m
                     if (k == n) {
                         message(oldRVM$Matrix[i, i], ",", oldRVM$Matrix[k, i]) 
                     } else { 
-                        message(oldRVM$Matrix[i, i], ",", oldRVM$Matrix[k, i],  "|",
+                        message(oldRVM$Matrix[i, i], ",", oldRVM$Matrix[k, i],  ";",
                                 paste(oldRVM$Matrix[(k + 1):n, i], collapse = ","))
                     }
                 }
@@ -366,7 +408,7 @@ RVineSeqEstTau <- function(data, RVM, method = "mle", se = FALSE, max.df = 30, m
                     if (k == n) {
                         message(oldRVM$Matrix[i, i], ",", oldRVM$Matrix[k, i]) 
                     } else { 
-                        message(oldRVM$Matrix[i, i], ",", oldRVM$Matrix[k, i], "|",
+                        message(oldRVM$Matrix[i, i], ",", oldRVM$Matrix[k, i], ";",
                                 paste(oldRVM$Matrix[(k + 1):n, i], collapse = ","))
                     }
                 }

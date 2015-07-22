@@ -91,7 +91,7 @@ where \eqn{\boldsymbol{H}(\theta)} is the expected Hessian matrix and \eqn{\bold
 For the calculation of the test statistic we use the consistent maximum likelihood estimator \eqn{\hat{\theta}} and the sample counter parts of \eqn{\boldsymbol{H}(\theta)} and \eqn{\boldsymbol{C}(\theta)}.
 The correction of the covariance-matrix in the test statistic for the uncertainty in the margins is skipped. The implemented tests assumes that where is no uncertainty in the margins.
 The correction can be found in Huang and Prokhorov (2011). It involves two-dimensional integrals.\cr
-WARNING: For the t-copula the test may be instable. The results for the t-copula therefore have to treated carefully.\cr
+WARNING: For the t-copula the test may be instable. The results for the t-copula therefore have to be treated carefully.\cr
 \cr
 \code{method = "kendall"}:\cr
 This copula goodness-of-fit test is based on Kendall's process as investigated by Genest and Rivest (1993) and Wang and Wells (2000).
@@ -135,7 +135,7 @@ u2 <- simdata[,2]
 # perform White's goodness-of-fit test for the true copula
 BiCopGofTest(u1, u2, family = 3)
 
-# perform Kendall's goodness-of-fit test for the Frank copula
+# perform White's goodness-of-fit test for the Frank copula
 BiCopGofTest(u1, u2, family = 5)
 
 # perform Kendall's goodness-of-fit test for the true copula

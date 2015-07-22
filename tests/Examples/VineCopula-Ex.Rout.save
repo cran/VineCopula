@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2015-06-01 r68455) -- "Unsuffered Consequences"
+R Under development (unstable) (2015-07-14 r68652) -- "Unsuffered Consequences"
 Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -20,6 +20,7 @@ Type 'q()' to quit R.
 > pkgname <- "VineCopula"
 > source(file.path(R.home("share"), "R", "examples-header.R"))
 > options(warn = 1)
+> options(pager = "console")
 > library('VineCopula')
 > 
 > base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
@@ -1059,7 +1060,7 @@ $statistic
 [1,] 0.001776255
 
 > 
-> # perform Kendall's goodness-of-fit test for the Frank copula
+> # perform White's goodness-of-fit test for the Frank copula
 > BiCopGofTest(u1, u2, family = 5)
 $p.value
           [,1]
@@ -2659,6 +2660,17 @@ Loading required package: MASS
 Loading required package: mvtnorm
 Loading required package: igraph
 
+Attaching package: 'igraph'
+
+The following objects are masked from 'package:stats':
+
+    decompose, spectrum
+
+The following object is masked from 'package:base':
+
+    union
+
+
 Attaching package: 'CDVine'
 
 The following objects are masked from 'package:VineCopula':
@@ -2715,6 +2727,17 @@ detaching 'package:CDVine', 'package:igraph', 'package:mvtnorm',
 Loading required package: MASS
 Loading required package: mvtnorm
 Loading required package: igraph
+
+Attaching package: 'igraph'
+
+The following objects are masked from 'package:stats':
+
+    decompose, spectrum
+
+The following object is masked from 'package:base':
+
+    union
+
 
 Attaching package: 'CDVine'
 
@@ -3525,10 +3548,10 @@ Where
 > plot(pit[,1], pit[,2])	# i.i.d. data
 > 
 > cor(pit, method = "kendall")
-             [,1]         [,2]        [,3]
-[1,] 1.0000000000 0.0005717246 0.012654071
-[2,] 0.0005717246 1.0000000000 0.004443927
-[3,] 0.0126540708 0.0044439270 1.000000000
+            [,1]         [,2]         [,3]
+[1,] 1.000000000  0.010346274  0.002073435
+[2,] 0.010346274  1.000000000 -0.002745174
+[3,] 0.002073435 -0.002745174  1.000000000
 > 
 > 
 > 
@@ -3882,9 +3905,9 @@ $se
 > # using only the first 4 variables and the first 750 observations
 > # we allow for the copula families: Gauss, t, Clayton, Gumbel, Frank and Joe
 > RVM <- RVineStructureSelect(daxreturns[1:750,1:4], c(1:6), progress = TRUE)
-ALV.DE + BAYN.DE --> ALV.DE,BAYN.DE | BAS.DE
-BAS.DE + BMW.DE --> BAS.DE,BMW.DE | ALV.DE
-BAYN.DE + BMW.DE --> BAYN.DE,BMW.DE | ALV.DE,BAS.DE
+ALV.DE + BAYN.DE --> ALV.DE,BAYN.DE ; BAS.DE
+BAS.DE + BMW.DE --> BAS.DE,BMW.DE ; ALV.DE
+BAYN.DE + BMW.DE --> BAYN.DE,BMW.DE ; ALV.DE,BAS.DE
 > 
 > ## Not run: 
 > ##D # specify a C-vine copula model with only Clayton, Gumbel and Frank copulas (time-consuming)
@@ -4476,7 +4499,7 @@ function (x, na.last = "keep", ties.method = c("average", "first",
         U
     else 1 - U
 }
-<bytecode: 0x000000000b43f0b0>
+<bytecode: 0x000000000d210168>
 <environment: namespace:copula>
 > 
 > ## simulate data from a multivariate normal distribution
@@ -4885,7 +4908,7 @@ The following object is masked from 'package:VineCopula':
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  29.64 0.22 30.2 NA NA 
+Time elapsed:  30.02 0.31 30.61 NA NA 
 > grDevices::dev.off()
 null device 
           1 
