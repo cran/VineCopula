@@ -6,8 +6,7 @@
 }
 \usage{
 pobs(x, na.last = "keep",
-     ties.method = c("average", "first", "random", "max", "min"),
-     lower.tail = TRUE)
+     ties.method = , lower.tail = TRUE)
 }
 \arguments{
   \item{x}{\eqn{n\times d}{n x d}-matrix of random variates to be converted to

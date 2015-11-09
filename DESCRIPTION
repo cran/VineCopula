@@ -1,18 +1,18 @@
 Package: VineCopula
 Type: Package
 Title: Statistical Inference of Vine Copulas
-Version: 1.6
-Date: 2015-07-22
+Version: 1.6-1
+Date: 2015-11-09
 Author: Ulf Schepsmeier, Jakob Stoeber, Eike Christian Brechmann, Benedikt Graeler, Thomas Nagler, Tobias Erhardt
-Maintainer: Tobias Erhardt <tobias.erhardt@tum.de>
+Maintainer: Thomas Nagler <thomas.nagler@tum.de>
 Depends: R (>= 2.11.0)
 Imports: graphics, grDevices, stats, utils, MASS, mvtnorm, igraph (>=
         1.0.0), methods, copula, ADGofTest, lattice
-Suggests: CDVine, TSP
+Suggests: TSP
 Description: Tools for bivariate exploratory data analysis, bivariate copula selection and (vine) tree construction are provided. Vine copula models can be estimated either sequentially or by joint maximum likelihood estimation. Sampling algorithms and plotting methods are included. Data is assumed to lie in the unit hypercube (so-called copula data). For C- and D-vines links to the package 'CDVine' are provided.
 License: GPL (>= 2)
 LazyLoad: yes
 NeedsCompilation: yes
-Packaged: 2015-07-22 15:28:24 UTC; Tobias
+Packaged: 2015-11-09 14:56:57 UTC; n
 Repository: CRAN
-Date/Publication: 2015-07-22 22:46:28
+Date/Publication: 2015-11-09 17:15:52

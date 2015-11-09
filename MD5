@@ -1,4 +1,4 @@
-d6b4eebe7b2a00d10e436c9ca19afd08 *DESCRIPTION
+01eb6070e5bee9c20c088249ad7187c8 *DESCRIPTION
 fafaa5abce3e253764d4d8edf144c44a *NAMESPACE
 b95110f67eae56429458f83ffa861484 *R/0_prep_object.R
 ad403cd48887f9f39fcd3a08b5dc2cbb *R/AD.R
@@ -67,7 +67,7 @@ eedaeaec9fc8b8561f6da7b3ee250f7d *R/tawnCopula.R
 6ea8cf83c2f380a13fa347c212962f4d *R/vineCopulas.R
 83fc557d46113604f36d75963d5963ab *R/zzz.R
 027f803bc292623e4e9f560791c0f7fc *data/daxreturns.RData
-b3cc2c0fde44b49d095868e8e8b72b54 *inst/ChangeLog
+0c7c7ba637e74f0d8981cc4483ff8610 *inst/ChangeLog
 3b171ed7605fbc731fe7510dab3a97d7 *man/BB1Copula-class.Rd
 0348cbb08abe9b06a56c24316c2e5aa3 *man/BB1Copula.Rd
 3aeba734e8cd372b059670b29920a23b *man/BB6Copula-class.Rd
@@ -100,8 +100,8 @@ c266757dcfc8215bba3721b97f4c5001 *man/BiCopPDF.Rd
 51fcd21c0a511a01adb8dd8d0fcad9dc *man/BiCopSim.Rd
 5225ca414315e66898b7a76aa824bf47 *man/BiCopTau2Par.Rd
 9d448c5ed41a4781764e74694877478d *man/BiCopVuongClarke.Rd
-063c620b58a2980bebb7cb338fe01ab5 *man/C2RVine.Rd
-4843f10352d714273c19180f4c6fd712 *man/D2RVine.Rd
+bb63c64321654fa89753cf05ffa83ecd *man/C2RVine.Rd
+45d2f447d02c546cb83c1a8147276a4b *man/D2RVine.Rd
 f3675a65a6de34ee96cbfbfa57fba9bc *man/RVineAICBIC.Rd
 85b761709f408bb2b0a185f72d2edc7e *man/RVineClarkeTest.Rd
 f32bd1b2f5b02a7b3827890aa1b3edd6 *man/RVineCopSelect.Rd
@@ -134,7 +134,7 @@ d832169e99372a69346ca25b9de99979 *man/dduCopula.Rd
 643135dc5c4c3dca7bef3e8dbd88c967 *man/joeBiCopula.Rd
 f72d0325ae1befb42d6a7e31c899e5a2 *man/pairs.copuladata.Rd
 f411f202ae775b805b4885035f5bdd56 *man/plot.BiCop.Rd
-74f2e76603d2da00deb885f2c2ef8481 *man/pobs.Rd
+39025c5ce104419f71e6d73f764b4032 *man/pobs.Rd
 3e46c9a60fb6d884e32d481f7d4edc22 *man/surClaytonCopula-class.Rd
 3ea48551f4eb0023b77350e18288d00a *man/surClaytonCopula.Rd
 52ef56a4017a25fe53047059b188e9db *man/surGumbelCopula-class.Rd
@@ -184,6 +184,6 @@ c1510e980f9c76f921183526ba7f16cf *src/rvinederiv2.c
 3887aeb3cdacf5b9184c1a45c0e9e7d0 *src/tcopuladeriv.c
 76128921872c629d2387d5689916d17a *src/tcopuladeriv_new.c
 acc55476c3e86f11a30384625b8c4130 *src/tools.c
-a5d50863462f7cf6f12c1c9904f7f124 *tests/Examples/VineCopula-Ex.Rout.save
+e656add0c33bd831fe40c6fa7f6f4d7b *tests/Examples/VineCopula-Ex_i386.Rout
 4023d78a3b05107364c5346ae734928a *tests/additonalExampleRuns.R
 baac2fccc92c9527f3697ea6ea84a8e4 *tests/additonalExampleRuns.Rout.save

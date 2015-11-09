@@ -1,4 +1,4 @@
-\name{D2RVine}                
+\name{D2RVine}
 \alias{D2RVine}
 
 \title{Transform D-Vine to R-Vine Structure}
@@ -12,7 +12,7 @@ D2RVine(order, family, par, par2 = rep(0, length(family)))
 }
 
 \arguments{
-  \item{order}{A d-dimensional vector specifying the order of the nodes in the D-vine.} 
+  \item{order}{A d-dimensional vector specifying the order of the nodes in the D-vine.}
   \item{family}{A d*(d-1)/2 vector of pair-copula families with values\cr
 		\code{0} = independence copula \cr
 	        \code{1} = Gaussian copula \cr
@@ -20,14 +20,14 @@ D2RVine(order, family, par, par2 = rep(0, length(family)))
 	        \code{3} = Clayton copula \cr
 	        \code{4} = Gumbel copula \cr
 	        \code{5} = Frank copula \cr
-	        \code{6} = Joe copula \cr 
+	        \code{6} = Joe copula \cr
 		\code{7} = BB1 copula \cr
 		\code{8} = BB6 copula \cr
 		\code{9} = BB7 copula \cr
 		\code{10} = BB8 copula \cr
 		\code{13} = rotated Clayton copula (180 degrees; ``survival Clayton'') \cr
 		\code{14} = rotated Gumbel copula (180 degrees; ``survival Gumbel'') \cr
-		\code{16} = rotated Joe copula (180 degrees; ``survival Joe'') \cr 
+		\code{16} = rotated Joe copula (180 degrees; ``survival Joe'') \cr
 		\code{17} = rotated BB1 copula (180 degrees; ``survival BB1'')\cr
 		\code{18} = rotated BB6 copula (180 degrees; ``survival BB6'')\cr
 		\code{19} = rotated BB7 copula (180 degrees; ``survival BB7'')\cr
@@ -69,27 +69,19 @@ An \code{\link{RVineMatrix}} object.
 \seealso{\code{\link{RVineMatrix}}, \code{\link{C2RVine}}}
 
 \examples{
-# simulate a sample of size 500 from a 4-dimensional D-vine 
-# copula model with mixed pair-copulas
-# load package CDVine
-library(CDVine)
+# set up 4-dimensional D-vine in R-Vine notation
 d <- 4
-dd <- d*(d-1)/2
+dd <- d * (d-1) / 2
 order <- 1:d
 family <- c(1, 2, 3, 4, 7, 3)
 par <- c(0.5, 0.4, 2, 1.5, 1.2, 1.5)
 par2 <- c(0, 5, 0, 0, 2, 0)
-type <- 2
-simdata <- CDVineSim(500, family, par, par2, type)
-
-# determine log-likelihood
-out <- CDVineLogLik(simdata, family, par, par2, type)
-out$loglik
-
-# transform to R-vine matrix notation
 RVM <- D2RVine(order, family, par, par2)
 
-# check that log-likelihood stays the same
+# simulate from C-vine model
+simdata <- RVineSim(500, RVM)
+
+# calculate likelihood
 out2 <- RVineLogLik(simdata, RVM)
 out2$loglik
 }
