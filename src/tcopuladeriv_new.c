@@ -41,26 +41,7 @@ void diffX_nu_tCopula(double* x, double* param, double* out)
 
 	xmax=nu/(nu+x_help*x_help);
 
-/*
-	adapt_integrate(1, integral1, &nu,
-					1, &xmin, &xmax,
-					0,0, TOL,
-					&val, &err);
 
-	bigI_nu(1, &x_help, &nu, 1, &val2);
-
-	t1=dt(x_help,nu,0);
-	t2=1.0/(2.0*t1);
-	t3=1.0/beta(nu/2.0,0.5);
-	t4=(nu+1.0)/2.0;
-	t5=pow(nu,nu/2.0-1.0)*x_help;
-	t6=pow(1/(x_help*x_help+nu),t4);
-	t7=digamma((nu+1.0)/2.0);
-	t8=digamma(nu/2.0);
-
-	out[0]=t2*t3*(t6*t5 + 0.5*val) - 0.5*t2*val2*(t8-t7);
-	Rprintf("%f\n", t3*0.5*val-0.5*val2*(t8-t7));
-*/	
 	t1=dt(x_help,nu,0);
 	t2=nu/2.0;
 	t3=0.5;
@@ -69,7 +50,6 @@ void diffX_nu_tCopula(double* x, double* param, double* out)
 	t5=pow(nu,nu/2.0-1.0)*x_help;
 	t6=pow(1.0/(x_help*x_help+nu),t4);
 	t7=beta(nu/2.0,0.5);
-	//Rprintf("%f\n", inbeder_out[1]);
 	
 	out[0]=1.0/(2.0*t1)*( 0.5*inbeder_out[1]+(t5*t6)/t7 );
 	
@@ -106,11 +86,7 @@ void bigI_nu(unsigned ndim, const double *x, void *fdata, unsigned fdim, double 
 
 	xmax=nu/(nu+(*x)*(*x));
 
-	//adapt_integrate(1, integral2, &nu,
-	//				1, &xmin, &xmax,
-	//				0,0, TOL,
-	//				&val, &err);
-	//fval[0]=val/beta(0.5*nu,0.5);
+
 	fval[0]=pbeta(xmax,nu/2,0.5,1,0);
 }
 
@@ -134,7 +110,6 @@ void diff_int_nu(double* x, double* nu, double* out)
 
 void diff_t_nu(double* x, double* nu, double* out)
 {
-	//double xmin=0;
 	double xmax=0;
 	double *inbeder_out;
 	inbeder_out=Calloc(3,double);
@@ -151,26 +126,7 @@ void diff_t_nu(double* x, double* nu, double* out)
 	}
 
 	xmax=(*nu)/((*nu)+x_help*x_help);
-/*
-	adapt_integrate(1, integral1, nu,
-					1, &xmin, &xmax,
-					0,0, TOL,
-					&val, &err);
 
-	bigI_nu(1, &x_help, nu, 1, &val2);
-
-	//t1=dt(x_help,nu,0);
-	t2=0.5;
-	t3=1.0/beta((*nu)/2.0,0.5);
-	t4=((*nu)+1.0)/2.0;
-	t5=pow(*nu,(*nu)/2.0-1.0)*x_help;
-	t6=pow(1.0/(x_help*x_help+(*nu)),t4);
-	t7=digamma(((*nu)+1.0)/2.0);
-	t8=digamma((*nu)/2.0);
-
-	out[0]=-(t2*t3*(t6*t5 + 0.5*val) - 0.5*t2*val2*(t8-t7));
-*/
-	//t1=dt(x_help,nu,0);
 	t2=*nu/2.0;
 	t3=0.5;
 	inbeder(&xmax,&t2,&t3,inbeder_out);
@@ -178,7 +134,6 @@ void diff_t_nu(double* x, double* nu, double* out)
 	t5=pow(*nu,*nu/2.0-1.0)*x_help;
 	t6=pow(1.0/(x_help*x_help+*nu),t4);
 	t7=beta(t2,0.5);
-	//Rprintf("%f\n", inbeder_out[1]);
 	
 	out[0]=-0.5*( 0.5*inbeder_out[1]+(t5*t6)/t7 );
 		
@@ -190,60 +145,14 @@ void diff_t_nu(double* x, double* nu, double* out)
 	Free(inbeder_out);
 }
 
-/*
-void diff_t_nu_test1(double* x, double* nu, double* out)
-{
-	double xmin=0;
-	double xmax=0, val=0, val2=0, err=0;
-	double t2, t3, t4, t5, t6, t7, t8;
-	double x_help;
-
-	if(*x>=0)
-	{
-		x_help=*x;
-	}
-	else
-	{
-		x_help=-*x;
-	}
-
-	xmax=(*nu)/((*nu)+x_help*x_help);
-
-	adapt_integrate(1, integral1, nu,
-					1, &xmin, &xmax,
-					0,0, 1e-8,
-					&val, &err);
-
-	bigI_nu(1, &x_help, nu, 1, &val2);
-
-	//t1=dt(x_help,nu,0);
-	t2=0.5;
-	t3=1.0/beta((*nu)/2.0,0.5);
-	t4=((*nu)+1.0)/2.0;
-	t5=pow(*nu,(*nu)/2.0-1.0)*x_help;
-	t6=pow(1.0/(x_help*x_help+(*nu)),t4);
-	t7=digamma(((*nu)+1.0)/2.0);
-	t8=digamma((*nu)/2.0);
-
-	//out[0]=-(t2*t3*(t6*t5 + 0.5*val) - 0.5*t2*val2*(t8-t7));
-	out[0]= + 0.5*t2*val2*(t8-t7);
-	if(*x<0)
-	{
-		out[0]=-out[0];
-	}
-
-}
-*/
 
 
 void diff_dt_x(double* x, double* nu, double* out)
 {
 	double t2, t3, t4, t5, t6, t7;
 
-	//t1=((*nu)+1.0)/2.0;
 	t2=((*nu)+1.0)/(*nu);
 	t3=sqrt((*nu));
-	//t4=-gammafn(t1)/gammafn((*nu)*0.5)/t3;
 	t4=1.0/t3/beta((*nu)*0.5,0.5);
 	t5=1.0+((*x)*(*x))/(*nu);
 	t6=((*nu)+3.0)/2.0;
@@ -260,25 +169,13 @@ void diff_dt_nu(double* x, double* nu, double* out)
 	t2=digamma(t1);
 	t3=beta((*nu)*0.5,0.5);
 	t4=sqrt(*nu);
-	//t5=gammafn(t1);
 	t6=digamma(0.5*(*nu));
-	//t7=gammafn(0.5*(*nu));
-	//t8=pow(*nu,-0.5);
-	//t9=0.5*t2*t3*t4*t5 - t5*(0.5*t6*t3*t4+t3*0.5*t8);
-	//t10=t9/t3/t3/sqrt(pi)/(*nu);
 	t10=-0.5/t3/t4*(t6-t2+1.0/(*nu));
-	//Rprintf("t10: %f\n", t10);
-
 	t11=1.0+((*x)*(*x))/(*nu);
-	//t12=((*nu)+1.0)/2.0;
 	t13=pow(t11,-t1);
-
-	//t14=t5/t3/sqrt(pi*(*nu));
 	t14=1.0/t3/t4;
 	t15=log(t11);
 	t16=-t1*(*x)*(*x)/(*nu)/(*nu)/t11;
-	//Rprintf("(-0.5*t15-t16): %f\n", (-0.5*t15-t16));
-	//Rprintf("t13*(-0.5*t15-t16): %f\n", t13*(-0.5*t15-t16));
 
 	out[0]=t10*t13 + t14*(t13*(-0.5*t15-t16));
 
@@ -292,12 +189,10 @@ void diff_dt_u(double* x, double* nu, double* out)
 
 void diff_t_nu_nu(double* x, double* nu, double* out)
 {
-	//double xmin=0;
 	double xmax=0;
 	double *inbeder_out;
 	inbeder_out=Calloc(3,double);
 	double t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14;
-	//double t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28;
 	double x_help;
 
 	if(*x>=0)
@@ -310,70 +205,7 @@ void diff_t_nu_nu(double* x, double* nu, double* out)
 	}
 
 	xmax=(*nu)/((*nu)+x_help*x_help);
-/*
-	adapt_integrate(1, integral1, nu,
-					1, &xmin, &xmax,
-					0,0, TOL,
-					&val, &err);
-	err=0;
-	
-	adapt_integrate(1, integral3, nu,
-					1, &xmin, &xmax,
-					0,0, TOL,
-					&val2, &err);
-	
-	
-	t1=0.5*(*nu);
-	t2=beta(t1,0.5);
-	t3=0.5/t2;
-	t4=(*x)*(*x)+(*nu);
-	t5=1.0/t4;
-	t6=((*nu)+1.0)/2.0;
-	t7=pow(t5,t6);
 
-	t8=0.5*(*nu)-1.0;
-	t9=pow(*nu,t8);
-	//t10=0.5*(t3*(t7*t9*(*x) + 0.5*val));
-	t10=0.5*(t3*(t7*t9*x_help + 0.5*val));
-	
-	t11=digamma(0.5*(*nu));
-	t12=digamma(0.5*(*nu)+0.5);
-	t13=t11-t12;
-
-	diff_t_nu(&x_help, nu, &t14);
-	t15=0.5*t14*t13;
-
-	t25=trigamma(0.5*(*nu));
-	t26=trigamma(0.5*(*nu)+0.5);
-	t27=t25-t26;
-
-	bigI_nu(1, &x_help, nu, 1, &bigI);
-	t16=bigI*t27/8.0;
-	//Rprintf("t16: %f\n", t16);
-
-	//t17=(*x)*(*x)+1.0;
-	t18=1.0/t4;
-	t19=-t18*t6 + t8/(*nu) - 0.5*log(t4) + 0.5*log(*nu);
-	//Rprintf("t19*t7*t9*x*t3: %f\n", (t7*t9*(*x))*t19*t3);
-
-	t20=(*x)*(*x)/t4;
-	t21=pow(t20,-0.5);
-	t22=(*nu)/t4;
-	t23=t20/t4;
-	t28=pow(t22,t8);
-	t24=0.5*t28*t21*log(t22)*t23;
-	//Rprintf("t24: %f\n", t24);
-	//Rprintf("(t7*t9*(*x))*t19: %f\n", (t7*t9*(*x))*t19);
-
-	//Rprintf("val: %f\n", val);
-	//Rprintf("t3*0.25*val2: %f\n", t3*0.25*val2);
-	//Rprintf("val2: %f\n", val2);
-	
-	//out[0]=t10*t13 - t15 + t16 - t3*((t7*t9*(*x))*t19+t24+0.25*val2);
-	
-	out[0]=t10*t13 - t15 + t16 - t3*((t7*t9*x_help)*t19+t24+0.25*val2);
-	//Rprintf("1: %f\n", t10*t13 - t15 + t16 - t3*((t7*t9*(*x))*t19+t24+0.25*val2));
-*/
 	t1=1.0/(x_help*x_help+*nu);
 	t2=*nu/2.0;
 	t3=0.5;
@@ -398,11 +230,7 @@ void diff_t_nu_nu(double* x, double* nu, double* out)
 	t4=t8/t7*t10;
 	
 	out[0]= - 1.0/8.0*inbeder_out[2] + t8*t14*( -0.25 * log(t9) +0.5* t13 - 0.5*t10  );
-	//Rprintf("inbeder_out[2]: %f\n",t1);
-	//Rprintf("t8*log(t9)/t7: %f\n",t2);
-	//Rprintf("t13*t8/t7: %f\n", t3);
-	//Rprintf("%f\n",t4);
-	//Rprintf("%f\n",- 1.0/8.0*t1 +  -0.25 * t2 +0.5* t3 - 0.5*t4  );
+	
 	
 	if(*x<0)
 	{
@@ -426,12 +254,6 @@ void diff2_x_nu(double* x, double* nu, double* out)
 	diff_dt_nu(x,nu,&t3);
 	diffX_nu_tCopula(x, param, &t4);
 	diff_dt_x(x,nu,&t5);
-	//Rprintf("t2+t3*t4: %f\n", t2+t3*t4);
-	//Rprintf("(t3+t5*t4)/t1/t1: %f\n", (t3+t5*t4)/t1/t1);
-	//Rprintf("1: %f\n", t5*t4*t4);
-	//Rprintf("2: %f\n", t2);
-	//Rprintf("3: %f\n", t3*t4);
-	//Rprintf("dt(x): %f\n", t1);
 
 	out[0]=(-t5*t4*t4-t2-2.0*t3*t4)/t1;
 	
@@ -463,7 +285,6 @@ void diffPDF_nu_tCopula_new(double* u, double* v, int* n, double* param, int* co
 	t4=(nu-2.0)/(2.0*nu);
 	t5=0.5*log(nu);
 	t6=-t1+t2+t3-t4-t5;
-	//Rprintf("t6: %f\n", t6);
 	t10=(nu+2.0)/2.0;
 
 	for(j=0;j<*n;j++)
@@ -483,14 +304,24 @@ void diffPDF_nu_tCopula_new(double* u, double* v, int* n, double* param, int* co
 		t11=1.0 - t14 + 2.0*x1*out1 + 2.0*x2*out2 - 2.0*rho*(x1*out2+x2*out1);
 		t12=0.5*log((nu+t16)*(nu+t15));
 		t13=0.5*log(M);
-		//Rprintf("t9: %f\n", t9);
-		//Rprintf("t11: %f\n", t11);
-		//Rprintf("t12: %f\n", t12);
-		//Rprintf("t13: %f\n", t13);
 
 		out[j]=c*(t6 + t9 + t12 - t10*t11/M - t13);	
 	}
 
+}
+
+// vectorized version
+void diffPDF_nu_tCopula_new_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out)
+{
+    int nn = 1;
+    double* ipars = (double *) malloc(2*sizeof(double));
+    
+    for (int i = 0; i < (*n); ++i) {
+        ipars[0] = par[i];
+        ipars[1] = par2[i];
+        diffPDF_nu_tCopula_new(&u[i], &v[i], &nn, ipars, &copula[i], &out[i]);
+    };
+    free(ipars);
 }
 
 
@@ -559,9 +390,7 @@ void diff2PDF_nu_tCopula_new(double* u, double* v, int* n, double* param, int* c
 		diffX_nu_tCopula(&x1, param, &out1);
 		diffX_nu_tCopula(&x2, param, &out2);
 		M = ( nu*t6 + x1*x1 + x2*x2 - 2.0*rho*x1*x2 );
-		//diffPDF_rho_tCopula(&u[j], &v[j], &k, param, copula, &t6);
-		//diffPDF_nu_tCopula_new(&u[j], &v[j], &k, param, copula, &t7);
-		//M_rho=-2.0*(nu*rho+x1*x2);
+
 		t8=(x1*out2+out1*x2);
 		M_nu=t6+2.0*x1*out1+2.0*x2*out2-2.0*rho*t8;
 
@@ -578,7 +407,6 @@ void diff2PDF_nu_tCopula_new(double* u, double* v, int* n, double* param, int* c
 
 		diff2_x_nu(&x1,&nu,&out3);
 		diff2_x_nu(&x2,&nu,&out4);
-		//Rprintf("out3: %f\n", out3);
 
 		t17=2.0*out1*out1 + 2.0*x1*out3;
 		t18=t17/t12;
@@ -589,21 +417,26 @@ void diff2PDF_nu_tCopula_new(double* u, double* v, int* n, double* param, int* c
 		t21=t13*t13;
 		t22=t16*t16;
 
-		//t23=1.0+2.0*x1*out1;
-		//t24=1.0+2.0*x2*out2;
 		M_nu_nu=2.0*out1*out1 + 2.0*x1*out3 + 2.0*out2*out2 + 2.0*x2*out4 - 4.0*rho*out1*out2 - 2.0*rho*(x2*out3 + x1*out4);
-		//Rprintf("M_nu_nu: %f\n", M_nu_nu);
-		//Rprintf("c: %f\n", c);
-		//Rprintf("t10: %f\n", t10);
-		//Rprintf("0.5*(t13+t16)+t1*(t18-t21+t20-t22): %f\n", 0.5*(t13+t16)+t1*(t18-t21+t20-t22));
-		//Rprintf("0.5*t13: %f\n", 0.5*t13);
-		//Rprintf("0.5*t16: %f\n", 0.5*t16);
-		//Rprintf("- M_nu/M - (nu/2.0+1.0)*(M_nu_nu/M-M_nu*M_nu/M/M ): %f\n", - M_nu/M - (nu/2.0+1.0)*(M_nu_nu/M-M_nu*M_nu/M/M ));
 		
 		diffPDF_nu_tCopula_new(&u[j], &v[j], &k, param, copula, &diff_nu);
 
 		out[j]=c*( t10+0.5*(t13+t16) + t1*(t18-t21+t20-t22) + 0.5*t13 + 0.5*t16 - M_nu/M - (nu/2.0+1.0)*(M_nu_nu/M-M_nu*M_nu/M/M )) + diff_nu*diff_nu/c;
 	}
+}
+
+// vectorized version
+void diff2PDF_nu_tCopula_new_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out)
+{
+    int nn = 1;
+    double* ipars = (double *) malloc(2*sizeof(double));
+    
+    for (int i = 0; i < (*n); ++i) {
+        ipars[0] = par[i];
+        ipars[1] = par2[i];
+        diff2PDF_nu_tCopula_new(&u[i], &v[i], &nn, ipars, &copula[i], &out[i]);
+    };
+    free(ipars);
 }
 
 
@@ -646,9 +479,21 @@ void diff2PDF_rho_nu_tCopula_new(double* u, double* v, int* n, double* param, in
 
 		out[j]=c*t9+t6*t7/c;	
 	}
-
 }
 
+// vectorized version
+void diff2PDF_rho_nu_tCopula_new_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out)
+{
+    int nn = 1;
+    double* ipars = (double *) malloc(2*sizeof(double));
+    
+    for (int i = 0; i < (*n); ++i) {
+        ipars[0] = par[i];
+        ipars[1] = par2[i];
+        diff2PDF_rho_nu_tCopula_new(&u[i], &v[i], &nn, ipars, &copula[i], &out[i]);
+    };
+    free(ipars);
+}
 
 // 2. Ableitung von c nach rho und u
 
@@ -730,6 +575,21 @@ void diff2PDF_nu_u_tCopula_new(double* u, double* v, int* n, double* param, int*
 		out[j]=t9*t10 - t11*(t12+t13);
 	}
 	
+}
+
+// vectorized version
+
+void diff2PDF_nu_u_tCopula_new_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out)
+{
+    int nn = 1;
+    double* ipars = (double *) malloc(2*sizeof(double));
+    
+    for (int i = 0; i < (*n); ++i) {
+        ipars[0] = par[i];
+        ipars[1] = par2[i];
+        diff2PDF_nu_u_tCopula_new(&u[i], &v[i], &nn, ipars, &copula[i], &out[i]);
+    };
+    free(ipars);
 }
 
 
@@ -837,6 +697,10 @@ void diff2PDF_nu_v_tCopula_new(double* u, double* v, int* n, double* param, int*
        diff2PDF_nu_u_tCopula_new(v, u, n, param, copula, out);
 }
 
+void diff2PDF_nu_v_tCopula_new_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out)
+{
+    diff2PDF_nu_u_tCopula_new_vec(v, u, n, par, par2, copula, out);
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -884,6 +748,20 @@ void diffhfunc_nu_tCopula_new(double* u, double* v, int* n, double* param, int* 
 	}
 }
 
+// vectorized version
+
+void diffhfunc_nu_tCopula_new_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out)
+{
+    int nn = 1;
+    double* ipars = (double *) malloc(2*sizeof(double));
+    
+    for (int i = 0; i < (*n); ++i) {
+        ipars[0] = par[i];
+        ipars[1] = par2[i];
+        diffhfunc_nu_tCopula_new(&u[i], &v[i], &nn, ipars, &copula[i], &out[i]);
+    };
+    free(ipars);
+}
 
 // Ableitung von h nach v
 
@@ -1008,18 +886,24 @@ void diff2hfunc_nu_tCopula_new(double* u, double* v, int* n, double* param, int*
 		t20=(2.0*out2*out2 + 2.0*t2*out4)/t6 - 2.0*t15/t6 + 2.0*t16/t6;
 		
 		t21=(out3-rho*out4)/t8;
-		//Rprintf("diff_t2: %f\n", diff_t2);
-		//Rprintf("2.0*diff_t3*t18: %f\n", 2.0*diff_t3*t18);
-		//Rprintf("diff_t*t18*t18: %f\n", diff_t*t18*t18);
-		//Rprintf("t9*(t19*t5*t17 + t21 - 0.5*t10/t7*t5*t20): %f\n", t9*(t19*t5*t17 + t21 - 0.5*t10/t7*t5*t20));
-		//Rprintf("t19*t5*t17: %f\n", t19*t5*t17);
-		//Rprintf("t21: %f\n", t21);
-		//Rprintf("0.5*t10/t7*t5*t20: %f\n", 0.5*t10/t7*t5*t20);
-		//Rprintf("t9: %f\n", t9);
 		
 		out[j]=diff_t2+2.0*diff_t3*t18 + diff_t*t18*t18 + t9*(t19*t5*t17 + t21 - 0.5*t10/t7*t5*t20);
 		
 	}
+}
+
+// vectorized version
+void diff2hfunc_nu_tCopula_new_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out)
+{
+    int nn = 1;
+    double* ipars = (double *) malloc(2*sizeof(double));
+    
+    for (int i = 0; i < (*n); ++i) {
+        ipars[0] = par[i];
+        ipars[1] = par2[i];
+        diff2hfunc_nu_tCopula_new(&u[i], &v[i], &nn, ipars, &copula[i], &out[i]);
+    };
+    free(ipars);
 }
 
 
@@ -1116,6 +1000,18 @@ void diff2hfunc_rho_nu_tCopula_new(double* u, double* v, int* n, double* param, 
 	}
 }
 
+void diff2hfunc_rho_nu_tCopula_new_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out)
+{
+    int nn = 1;
+    double* ipars = (double *) malloc(2*sizeof(double));
+    
+    for (int i = 0; i < (*n); ++i) {
+        ipars[0] = par[i];
+        ipars[1] = par2[i];
+        diff2hfunc_rho_nu_tCopula_new(&u[i], &v[i], &nn, ipars, &copula[i], &out[i]);
+    };
+    free(ipars);
+}
 
 // 2.Ableitung von h nach rho und v
 
@@ -1214,4 +1110,17 @@ void diff2hfunc_nu_v_tCopula_new(double* u, double* v, int* n, double* param, in
 	}
 }
 
+// vectorized version
+void diff2hfunc_nu_v_tCopula_new_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out)
+{
+    int nn = 1;
+    double* ipars = (double *) malloc(2*sizeof(double));
+    
+    for (int i = 0; i < (*n); ++i) {
+        ipars[0] = par[i];
+        ipars[1] = par2[i];
+        diff2hfunc_nu_v_tCopula_new(&u[i], &v[i], &nn, ipars, &copula[i], &out[i]);
+    };
+    free(ipars);
+}
 

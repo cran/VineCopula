@@ -230,7 +230,6 @@ void inbeder(double* x_in, double* p_in, double* q_in, double* der)
 
 
   double omx=1-x;
-  //double w=x/omx;
   double logx=log(x);
   double logomx=log(omx);
 
@@ -238,7 +237,6 @@ void inbeder(double* x_in, double* p_in, double* q_in, double* der)
 
   double *c;
   double c0, d;
-  //c=Calloc(6,double);
   c=Calloc(3,double);
   c[0]=p*logx+(q-1)*logomx-lbet-log(p);
   c0=exp(c[0]);
@@ -252,9 +250,7 @@ void inbeder(double* x_in, double* p_in, double* q_in, double* der)
   	c[1]=logx-1/p-pa+pab;
  	 c[2]=c[1]*c[1]+1/p/p-pa1+pab1;
   }
-  //c[3]=logomx-pb+pab;
-  //c[4]=c[3]*c[3]-pb1+pab1;
-  //c[5]=c[1]*c[3]+pab1;
+  
 
   int del=1, i=0;
   double *an, *bn, *an1, *an2, *bn1, *bn2, *dr;
@@ -287,8 +283,6 @@ void inbeder(double* x_in, double* p_in, double* q_in, double* der)
 	  der_old[i]=0;
   }
 
-	//Rprintf("x_in,p_in,q_in %f,%f,%f\n", *x_in,*p_in,*q_in);
-	//Rprintf("x,p,q %f,%f,%f\n", x,p,q);
 	
   while(del==1)
   {
@@ -317,8 +311,6 @@ void inbeder(double* x_in, double* p_in, double* q_in, double* der)
 		  }
 	  }
 	  
-	  //Rprintf("an: %f,%f,%f\n", an[0],an[1],an[2]);
-	  //Rprintf("bn: %f,%f,%f\n", bn[0],bn[1],bn[2]);
 
 	  // Use forward recurrance relations to compute An, Bn, and their derivatives
 	  
@@ -329,8 +321,6 @@ void inbeder(double* x_in, double* p_in, double* q_in, double* der)
 	  dan[2]=an[2]*an2[0]+2*an[1]*an2[1]+an[0]*an2[2]+bn[2]*an1[0]+2*bn[1]*an1[1]+bn[0]*an1[2];
 	  dbn[2]=an[2]*bn2[0]+2*an[1]*bn2[1]+an[0]*bn2[2]+bn[2]*bn1[0]+2*bn[1]*bn1[1]+bn[0]*bn1[2];
 	  
-	  //Rprintf("dan: %f,%f,%f\n", dan[0],dan[1],dan[2]);
-	  //Rprintf("dbn: %f,%f,%f\n", dbn[0],dbn[1],dbn[2]);
 	  
 	  // Scale derivatives to prevent overflow
 	  
@@ -386,9 +376,6 @@ void inbeder(double* x_in, double* p_in, double* q_in, double* der)
 	  der[1]=pr*c[1]+c0*dr[1];
 	  der[2]=pr*c[2]+2*c0*c[1]*dr[1]+c0*dr[2];
 	  
-	  //Rprintf("der: %f,%f,%f\n", der[0],der[1],der[2]);
-	  //Rprintf("c: %f,%f,%f\n", c[0],c[1],c[2]);
-	  //Rprintf("c0: %f\n", c0);
 	  
 	  // Check for convergence, check for maximum and minimum iterations.
 	  

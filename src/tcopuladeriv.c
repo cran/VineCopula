@@ -15,7 +15,7 @@
 
 
 ///////////////////////////////////
-// Ableitungen für die t-copula
+// Ableitungen f?r die t-copula
 ///////////////////////////////////
 
 // Ableitung von c nach rho
@@ -43,6 +43,20 @@ void diffPDF_rho_tCopula(double* u, double* v, int* n, double* param, int* copul
 		t7 = rho/(1.0-rho*rho);
 		out[j]=c*(t3*(t4+t5)/t6 + t7);
 	}
+}
+
+// vectorized version
+void diffPDF_rho_tCopula_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out)
+{
+    int nn = 1;
+    double* ipars = (double *) malloc(2*sizeof(double));
+    
+    for (int i = 0; i < (*n); ++i) {
+        ipars[0] = par[i];
+        ipars[1] = par2[i];
+        diffPDF_rho_tCopula(&u[i], &v[i], &nn, ipars, copula, &out[i]);
+    };
+    free(ipars);
 }
 
 // Ableitung von c nach nu mit finiten Differenzen

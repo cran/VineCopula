@@ -70,17 +70,7 @@ void VineLogLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int*
 	theta=create_matrix(*d,*d);
 	nu=create_matrix(*d,*d);
 	fam=create_intmatrix(*d,*d);
-	//mmat=create_intmatrix(*d,*d);
-	//cdirect=create_intmatrix(*d,*d);
-	//cindirect=create_intmatrix(*d,*d);
-	//mat=create_intmatrix(*d,*d);
-	//calc=create_intmatrix(*d,*d);
 
-
-/*	m=*d;
-	Rprintf("%d\n\n",m);
-	m=*T;
-	Rprintf("%d\n\n",m); */
 
 	//Initialize
 	k=0;
@@ -100,16 +90,11 @@ void VineLogLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int*
         {
             theta[i][j]=par[(i+1)+(*d)*j-1] ;
             nu[i][j]=par2[(i+1)+(*d)*j-1]    ;
-            //mmat[i][j]=maxmat[(i+1)+(*d)*j-1] ;
-            //mat[i][j]=matrix[(i+1)+(*d)*j-1] ;
-            //cdirect[i][j]=condirect[(i+1)+(*d)*j-1];
-            //cindirect[i][j]=conindirect[(i+1)+(*d)*j-1] ;
             fam[i][j]=family[(i+1)+(*d)*j-1] ;
 			if(*seperate==0)
 			{
 				 value[i][j]=ll[(i+1)+(*d)*j-1] ;
 			}
-            //calc[i][j]=calcupdate[(i+1)+(*d)*j-1] ;
 		}
 	}
 
@@ -145,13 +130,10 @@ void VineLogLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int*
    {
 		for(k=*d-1;k>i;k--)
         {
-			//if(calc[k][i]==1)
 			if(calcupdate[(k+1)+(*d)*i-1]==1)
 			{
-				//m=mmat[k][i];
 				m=maxmat[(k+1)+(*d)*i-1];
 
-				//if(m == mat[k][i])
 				if(m == matrix[(k+1)+(*d)*i-1])
 				{
 					if(*seperate==1)
@@ -160,7 +142,6 @@ void VineLogLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int*
 						for(t=0;t<*T;t++ )
 						{
 							 LL_mod2(&fam[k][i],&kk,&vdirect[k][(*d-m)][t],&vdirect[k][i][t],&theta[k][i],&nu[k][i],&loglik);
-							 /* sumloglik += loglik; */
 							 value2[k][i][t]=loglik;
 						 }
 					}
@@ -168,15 +149,12 @@ void VineLogLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int*
 					{
 
 						LL_mod2(&fam[k][i],T,vdirect[k][(*d-m)],vdirect[k][i],&theta[k][i],&nu[k][i],&loglik);
-						/* sumloglik += loglik; */
 						value[k][i]=loglik;
 					}
-					//if(cdirect[k-1][i]==1)
 					if(condirect[k+(*d)*i-1]==1)
 					{
 						Hfunc1(&fam[k][i],T,vdirect[k][i],vdirect[k][*d-m],&theta[k][i],&nu[k][i],vdirect[k-1][i]);
 					}
-					//if(cindirect[k-1][i]==1)
 					if(conindirect[k+(*d)*i-1]==1)
 					{
 						Hfunc2(&fam[k][i],T,vdirect[k][(*d-m)],vdirect[k][i],&theta[k][i],&nu[k][i],vindirect[k-1][i]);
@@ -191,22 +169,18 @@ void VineLogLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int*
 						for(t=0;t<*T;t++ )
 						{
 							LL_mod2(&fam[k][i],&kk,&vindirect[k][(*d-m)][t],&vdirect[k][i][t],&theta[k][i],&nu[k][i],&loglik);
-							/* sumloglik += loglik; */
 							value2[k][i][t]=loglik;
 						}
 					}
 					else
 					{
 						LL_mod2(&fam[k][i],T,vindirect[k][(*d-m)],vdirect[k][i],&theta[k][i],&nu[k][i],&loglik);
-						/* sumloglik += loglik; */
 						value[k][i]=loglik;
 					}
-					//if(cdirect[k-1][i]==1)
 					if(condirect[k+(*d)*i-1]==1)
 					{
 						Hfunc1(&fam[k][i],T,vdirect[k][i],vindirect[k][(*d-m)],&theta[k][i],&nu[k][i],vdirect[k-1][i]);
 					}
-					//if(cindirect[k-1][i]==1)
 					if(conindirect[k+(*d)*i-1]==1)
 					{
 						Hfunc2(&fam[k][i],T,vindirect[k][(*d-m)],vdirect[k][i],&theta[k][i],&nu[k][i],vindirect[k-1][i]);
@@ -276,12 +250,7 @@ void VineLogLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int*
 	free_intmatrix(fam,*d);
 	free_matrix(value,*d);
 	free_3darray(value2,*d,*d);
-	//free_intmatrix(mmat,*d);
-	//free_intmatrix(cdirect,*d);
-	//free_intmatrix(cindirect,*d);
 	free_3darray(vindirect,*d,*d);
-	//free_intmatrix(calc, *d);
-	//free_intmatrix(mat, *d);
 	Free(sumsplitlog);
 }
 
@@ -345,11 +314,6 @@ void VineLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int* co
 	calc=create_intmatrix(*d,*d);
 
 
-	/*	m=*d;
-	 Rprintf("%d\n\n",m);
-	 m=*T;
-	 Rprintf("%d\n\n",m); */
-
 	//Initialize
 	k=0;
 	for(i=0;i<(*d);i++)
@@ -369,8 +333,6 @@ void VineLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int* co
 			theta[i][j]=par[(i+1)+(*d)*j-1] ;
 			nu[i][j]=par2[(i+1)+(*d)*j-1]    ;
 			mmat[i][j]=maxmat[(i+1)+(*d)*j-1] ;
-			/*  m=maxmat[(i+1)+(*d)*j-1];
-			 Rprintf("%d\n",m); */
 			mat[i][j]=matrix[(i+1)+(*d)*j-1] ;
 			cdirect[i][j]=condirect[(i+1)+(*d)*j-1];
 			cindirect[i][j]=conindirect[(i+1)+(*d)*j-1] ;
@@ -409,8 +371,6 @@ void VineLikRvine(int* T, int* d, int* family, int* maxmat, int* matrix, int* co
 			if(calc[k][i]==1){
 				m=mmat[k][i];
 
-
-				/*	  Rprintf("%d\n",m);*/
 
 				if(m == mat[k][i])
 				{

@@ -87,10 +87,7 @@ void ktau(double *X, double *Y, int *N, double *tau, double *S, double *D, int *
 	// Defining variables
 	int K, L, I, J, Iend, Jend;
 	int i, j, m;
-	// double *Y2, *X2;
-	//double *Y2=(double *)malloc((*N)*sizeof(double));
 	double *Y2 = Calloc(*N, double);
-	//double *X2=(double *)malloc((*N)*sizeof(double));
 	double *X2 = Calloc(*N, double);
 	double *xptr,*yptr; // HJ addition for swapping
 	boolean Iflag, Jflag, Xflag;

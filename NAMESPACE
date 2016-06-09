@@ -1,22 +1,30 @@
-import("graphics")
-import("grDevices")
-import("stats")
-import("utils")
-import(MASS)
 import(mvtnorm)
 import(copula)
 import(methods)
 import(lattice)
+import(network)
 
-importFrom(ADGofTest, ad.test)
-importFrom("igraph", "E", "E<-", "V", "V<-", "as_adjacency_matrix",
-  "as_edgelist", "delete_edges", "ends", "graph_from_adjacency_matrix",
-  "graph_from_edgelist", "gsize", "layout_in_circle", "layout_with_graphopt",
-  "make_full_graph", "mst", "plot.igraph")
+importFrom("grDevices", "colorRampPalette", "rgb", "terrain.colors", "col2rgb", "gray")
+importFrom("graphics", "abline", "box", "hist", "legend", "lines",
+           "pairs", "par", "points", "strwidth", "text",
+           "plot.new", "plot.window", "polygon", "strheight", "barplot")
+importFrom("stats", "cor", "dexp", "dgamma", "dnorm", "dt",
+           "integrate", "ks.test", "optim", "optimize", "pbinom",
+           "pchisq", "pexp", "pgamma", "pnorm", "pt", "qexp", "qgamma",
+           "qnorm", "qt", "runif", "uniroot", "var", "complete.cases")
+importFrom("utils", "combn", "getFromNamespace", "modifyList", "data")
+
+importFrom("ADGofTest", "ad.test")
+importFrom("MASS", "bandwidth.nrd", "ginv", "kde2d")
+
+importFrom("doParallel", "registerDoParallel")
+importFrom("foreach", "%dopar%",  "foreach")
+importFrom("parallel", "makeCluster", "stopCluster", "detectCores")
 
 export(pobs)
 
 export(BiCop)
+export(BiCopCheck)
 export(BiCopEst)
 export(BiCopMetaContour)
 export(BiCopChiPlot)
@@ -25,19 +33,28 @@ export(BiCopLambda)
 export(BiCopVuongClarke)
 export(BiCopIndTest)
 export(BiCopSim)
+export(BiCopCondSim)
 export(BiCopPDF)
 export(BiCopCDF)
 export(BiCopPar2Tau)
 export(BiCopPar2TailDep)
 export(BiCopTau2Par)
 export(BiCopSelect)
+export(BiCopCompare)
+export(BiCopEstList)
 export(BiCopName)
 export(BiCopHfunc)
+export(BiCopHfunc1)
+export(BiCopHfunc2)
+export(BiCopHinv)
+export(BiCopHinv1)
+export(BiCopHinv2)
 export(BiCopDeriv)
 export(BiCopDeriv2)
 export(BiCopHfuncDeriv)
 export(BiCopHfuncDeriv2)
 export(BiCopGofTest)
+export(BiCopKDE)
 
 export(RVineLogLik)
 export(RVinePDF)
@@ -102,11 +119,17 @@ exportClasses(tawnT2Copula, surTawnT2Copula, r90TawnT2Copula, r270TawnT2Copula)
 exportClasses(vineCopula)
 
 
-S3method(print, RVineMatrix)
 S3method(as.copuladata, data.frame)
 S3method(as.copuladata, matrix)
 S3method(as.copuladata, list)
 S3method(pairs, copuladata)
 S3method(plot, BiCop)
+S3method(contour, BiCop)
+S3method(print, BiCop)
+S3method(summary, BiCop)
+S3method(plot, RVineMatrix)
+S3method(contour, RVineMatrix)
+S3method(print, RVineMatrix)
+S3method(summary, RVineMatrix)
 
 useDynLib("VineCopula")

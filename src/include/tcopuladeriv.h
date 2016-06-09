@@ -3,6 +3,7 @@
 
 // File tcopuladeriv.c
 void diffPDF_rho_tCopula(double* u, double* v, int* n, double* param, int* copula, double* out);
+void diffPDF_rho_tCopula_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out);
 void diffPDF_nu_tCopula(double* u, double* v, int* n, double* param, int* copula, double* out);
 void diffPDF_u_tCopula(double* u, double* v, int* n, double* param, int* copula, double* out);
 void diffhfunc_rho_tCopula(double* u, double* v, int* n, double* param, int* copula, double* out);

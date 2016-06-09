@@ -80,14 +80,9 @@ void pcc(int* n, int* d, int* family, int* type, double* par, double* nu, double
         t = w[i];
         for(k=i-1;k>=1;k--)
         {
-          //Hinv1(&fam[k][i-k],&in, &v[i][1],&v[k][k],&theta[k][i-k],&ny[k][i-k],&v[i][1]);
 		  Hinv1(&fam[k][i-k],&in, &t,&w[k],&theta[k][i-k],&ny[k][i-k],&t);
         }
         x[j][i] = t;
-        /*if(i<*d)
-        {
-          for(k=1;k<i;k++) Hfunc1(&fam[k][i-k],&in, &v[i][k],&v[k][k],&theta[k][i-k],&ny[k][i-k],&v[i][k+1]);
-        }  */
       }
     }
   }
@@ -95,12 +90,11 @@ void pcc(int* n, int* d, int* family, int* type, double* par, double* nu, double
   {
     for(j=1;j<=*n;j++)
     {
-      for(i=1;i<=*d;i++) { w[i] = runif(0,1);} //  printf("%10.8f  \t",w[i]);} ; printf("\n");
+      for(i=1;i<=*d;i++) { w[i] = runif(0,1);} 
       v[1][1] = w[1];
       v[2][1] = w[2];
-      //printf("inv: %d,%d :  %5.2f : %10.8f \t",1,0, theta[1][1], v[1][1]);
+      
       Hinv1(&fam[1][1],&in,&w[2],&v[1][1],&theta[1][1],&ny[1][1],&v[2][1]);
-      //printf("%10.8f  \n",v[2][1]);
       Hfunc2(&fam[1][1],&in, &v[1][1],&v[2][1],&theta[1][1],&ny[1][1],&v[2][2]);
       for(i=3;i<=*d;i++)
       {
@@ -108,12 +102,10 @@ void pcc(int* n, int* d, int* family, int* type, double* par, double* nu, double
 	
         for(k=i-1;k>=2;k--) 
 		{ 
-			//printf("inv: %d,%d :  %5.2f : %10.8f \t",k,i-k, theta[k][i-k], v[i-1][2*k-2]);
 			Hinv1(&fam[k][i-k],&in, &v[i][1],&v[i-1][2*k-2],&theta[k][i-k],&ny[k][i-k],&v[i][1]);
-			//printf("%10.8f  \n",v[i][1]);
 		}
         Hinv1(&fam[1][i-1],&in, &v[i][1],&v[i-1][1],&theta[1][i-1],&ny[1][i-1],&v[i][1]);
-		//printf("inv: %d,%d :  %5.2f : %10.8f \t %10.8f \n",1,i-1, theta[1][i-1], v[i-1][1],v[i][1]);
+		
         // Compute conditional cdf's needed in next step:
         if(i<*d)
         {

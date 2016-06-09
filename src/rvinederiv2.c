@@ -62,7 +62,6 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 	double *tildezr1_hatk_hati, *tildezr1_tildek_tildei, *barzr1, *tildezr2_hatk_hati, *tildezr2_tildek_tildei, *barzr2;
 	double *der, *der_hatk_hati, *der_tildek_tildei, param[2];
 
-	//Rprintf("kk: %d\t ii: %d\t kkk: %d\t iii: %d\t tcop: %d\t kk_second: %d\n", *kk, *ii,*kkk,*iii,*tcop,*kk_second);
 	// Zielvariablen
 	double ***barvdirect, ***barvindirect;
 
@@ -92,28 +91,14 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 	
 	
 	//Allocate memory
-	//value=create_3darray(*d,*d,*T);
-	//vdirect = create_3darray(*d,*d,*T);
-	//vindirect = create_3darray(*d,*d,*T);
-	//tildevalue=create_3darray(*d,*d,*T);
-	//tildevdirect = create_3darray(*d,*d,*T);
-	//tildevindirect = create_3darray(*d,*d,*T);
-	//tildevalue2=create_3darray(*d,*d,*T);
-	//tildevdirect2 = create_3darray(*d,*d,*T);
-	//tildevindirect2 = create_3darray(*d,*d,*T);
-	//barvalue=create_3darray(*d,*d,*T);
 	barvdirect = create_3darray(*d,*d,*T);
 	barvindirect = create_3darray(*d,*d,*T);
 	theta=create_matrix(*d,*d);
 	nu=create_matrix(*d,*d);
 	fam=create_intmatrix(*d,*d);
-	//mmat=create_intmatrix(*d,*d);
-	//mat=create_intmatrix(*d,*d);
 	calc=create_intmatrix(*d,*d);
 	calc2=create_intmatrix(*d,*d);
 	
-	// Hilfsvariable f?r die t-copula
-	//param=(double*) Calloc(2,double);
 
 	k=0;
 	for(i=0;i<(*d);i++)
@@ -122,8 +107,6 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 		{
 			theta[i][j]=par[(i+1)+(*d)*j-1] ;
 			nu[i][j]=par2[(i+1)+(*d)*j-1]    ;
-			//mmat[i][j]=maxmat[(i+1)+(*d)*j-1] ;
-			//mat[i][j]=matrix[(i+1)+(*d)*j-1] ;
 			fam[i][j]=family[(i+1)+(*d)*j-1] ;
 			calc[i][j]=calcupdate[(i+1)+(*d)*j-1] ;
 			calc2[i][j]=calcupdate2[(i+1)+(*d)*j-1] ;
@@ -137,17 +120,7 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 	{
         for(j=0;j<(*d);j++){	
 			for(t=0;t<(*T);t++ ) {
-				// Log-lik
-				//vdirect[i][j][t]=vv[(i+1)+(*d)*j+(*d)*(*d)*t-1];
-				//vindirect[i][j][t]=vv2[(i+1)+(*d)*j+(*d)*(*d)*t-1];
-				//value[i][j][t]=ll[(i+1)+(*d)*j+(*d)*(*d)*t-1];
-				// deriv Log-lik
-				//tildevdirect[i][j][t]=vv_tilde[(i+1)+(*d)*j+(*d)*(*d)*t-1];
-				//tildevindirect[i][j][t]=vv2_tilde[(i+1)+(*d)*j+(*d)*(*d)*t-1];
-				//tildevalue[i][j][t]=ll_tilde[(i+1)+(*d)*j+(*d)*(*d)*t-1];
-				//tildevdirect2[i][j][t]=vv_hat[(i+1)+(*d)*j+(*d)*(*d)*t-1];
-				//tildevindirect2[i][j][t]=vv2_hat[(i+1)+(*d)*j+(*d)*(*d)*t-1];
-				//tildevalue2[i][j][t]=ll_hat[(i+1)+(*d)*j+(*d)*(*d)*t-1];
+				
 				// Zielvariablen
 				barvdirect[i][j][t]=0;
 				barvindirect[i][j][t]=0;
@@ -158,37 +131,27 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 	
 	if(calc2[(*kk-1)][(*ii-1)]==1)
 	{
-		//m=mmat[(*kk-1)][*ii-1];
 		m=maxmat[(*kk)+(*d)*(*ii-1)-1];
-		//k0 = *kk-1;
+
 		for(t=0;t<*T;t++ ) 
 		{
-			//zr1[t]=vdirect[(*kk-1)][(*ii-1)][t];
 			zr1[t]=vv[(*kk)+(*d)*(*ii-1)+(*d)*(*d)*t-1];
-			//tildezr1[t]=tildevdirect2[(*kk-1)][(*ii-1)][t];
 			tildezr1[t]=vv_hat[(*kk)+(*d)*(*ii-1)+(*d)*(*d)*t-1];
-			//cop[t]=exp(value[(*kk-1)][(*ii-1)][t]);
 			cop[t]=exp(ll[(*kk)+(*d)*(*ii-1)+(*d)*(*d)*t-1]);
-			//der[t]=tildevalue2[(*kk-1)][(*ii-1)][t];
 			der[t]=ll_hat[(*kk)+(*d)*(*ii-1)+(*d)*(*d)*t-1];
 		}
 		
-		//if(m == mat[*kk-1][*ii-1])
 		if(m == matrix[*kk+(*d)*(*ii-1)-1])
 		{	
 			for(t=0;t<*T;t++ ) {
-				//zr2[t]=vdirect[(*kk-1)][(*d-m)][t];
 				zr2[t]=vv[(*kk)+(*d)*(*d-m)+(*d)*(*d)*t-1];
-				//tildezr2[t]=tildevdirect2[(*kk-1)][(*d-m)][t];
 				tildezr2[t]=vv_hat[(*kk)+(*d)*(*d-m)+(*d)*(*d)*t-1];
 			}
 			
 		}else {
 			for(t=0;t<*T;t++)
 			{
-				//zr2[t]=vindirect[(*kk-1)][(*d-m)][t];
 				zr2[t]=vv2[(*kk)+(*d)*(*d-m)+(*d)*(*d)*t-1];
-				//tildezr2[t]=tildevindirect2[(*kk-1)][(*d-m)][t];
 				tildezr2[t]=vv2_hat[(*kk)+(*d)*(*d-m)+(*d)*(*d)*t-1];
 			}	
 		}
@@ -225,7 +188,6 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 			{
 				if(*tcop==3)
 				{
-					//barvalue[(*kk-1)][(*ii-1)][t] = helpvar[t]/cop[t] - der[t]*tildevalue[(*kk-1)][(*ii-1)][t];
 					barvalue_out[(*kk)+(*d)*(*ii-1)+(*d)*(*d)*t-1] = helpvar[t]/cop[t] - der[t]*ll_tilde[(*kk)+(*d)*(*ii-1)+(*d)*(*d)*t-1];
 				}
 				else
@@ -258,11 +220,7 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 				diff2PDF_par_u_mod(zr1,zr2,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],helpvar2);
 				diff2hfunc_par_v_mod2(zr2,zr1,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],barvindirect[*kk-2][(*ii-1)]);
 			}
-			//Rprintf("helpvar: %f",helpvar[0]);
-			//Rprintf("helpvar2: %f",helpvar2[0]);
-			//Rprintf("tildezr1: %f",tildezr1[0]);
-			//Rprintf("cop: %f",cop[0]);
-			//Rprintf("der: %f",der[0]);
+			
 
 			for(t=0;t<*T;t++)
 			{
@@ -287,9 +245,7 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 			{
 				diff2PDF_par_v_mod(zr1,zr2,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],helpvar);
 			}
-			//Rprintf("helpvar: %f \n",helpvar[0]);
-			//Rprintf("tildezr2: %f \n",tildezr2[0]);
-			//Rprintf("cop: %f \n",cop[0]);
+			
 			for(t=0;t<*T;t++)
 			{
 				barvalue_out[(*kk)+(*d)*(*ii-1)+(*d)*(*d)*t-1] = barvalue_out[(*kk)+(*d)*(*ii-1)+(*d)*(*d)*t-1] + helpvar[t]/cop[t]*tildezr2[t];
@@ -308,8 +264,7 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 				{
 					diffPDF_mod(zr1,zr2,T,&theta[*kk-1][*ii-1],&fam[*kk-1][*ii-1],helpvar);
 				}
-				//Rprintf("helpvar: %f \n",helpvar[0]);
-				//Rprintf("der: %f \n",der[0]);
+				
 				for(t=0;t<*T;t++)
 				{
 					barvalue_out[(*kk)+(*d)*(*ii-1)+(*d)*(*d)*t-1] = barvalue_out[(*kk)+(*d)*(*ii-1)+(*d)*(*d)*t-1] + der[t]*(-helpvar[t])/cop[t];
@@ -342,48 +297,31 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 		}
 		
 	}
-	//else
-	//{
-	//	k0=*kk-1;
-	//}
+	
 
 	for(i=((*ii)-1); i>-1; i--)
 	{
-		//if(i<(*ii-1))
-		//{
-		//	k0=*kk-1;
-		//}
+		
 		for(k=(*kk-2); k>i;k--)
 		{
-			//m=mmat[k][i];
 			m=maxmat[(k+1)+(*d)*i-1];
 			for(t=0;t<*T;t++ ) 
 			{
-				//zr1[t]=vdirect[k][i][t];
 				zr1[t]=vv[(k+1)+(*d)*i+(*d)*(*d)*t-1];
-				//tildezr1_hatk_hati[t]=tildevdirect2[k][i][t];
 				tildezr1_hatk_hati[t]=vv_hat[(k+1)+(*d)*i+(*d)*(*d)*t-1];
-				//tildezr1_tildek_tildei[t]=tildevdirect[k][i][t];
 				tildezr1_tildek_tildei[t]=vv_tilde[(k+1)+(*d)*i+(*d)*(*d)*t-1];
 				barzr1[t]=barvdirect[k][i][t];
-				//cop[t]=exp(value[k][i][t]);
 				cop[t]=exp(ll[(k+1)+(*d)*i+(*d)*(*d)*t-1]);
-				//der_hatk_hati[t]=tildevalue2[k][i][t];
 				der_hatk_hati[t]=ll_hat[(k+1)+(*d)*i+(*d)*(*d)*t-1];
-				//der_tildek_tildei[t]=tildevalue[k][i][t];
 				der_tildek_tildei[t]=ll_tilde[(k+1)+(*d)*i+(*d)*(*d)*t-1];
 			}
 			
-			//if(m==mat[k][i])
 			if(m==matrix[(k+1)+(*d)*i-1])
 			{
 				for(t=0;t<*T;t++ ) 
 				{
-					//zr2[t]=vdirect[k][(*d-m)][t];
 					zr2[t]=vv[(k+1)+(*d)*(*d-m)+(*d)*(*d)*t-1];
-					//tildezr2_hatk_hati[t]=tildevdirect2[k][(*d-m)][t];
 					tildezr2_hatk_hati[t]=vv_hat[(k+1)+(*d)*(*d-m)+(*d)*(*d)*t-1];
-					//tildezr2_tildek_tildei[t]=tildevdirect[k][(*d-m)][t];
 					tildezr2_tildek_tildei[t]=vv_tilde[(k+1)+(*d)*(*d-m)+(*d)*(*d)*t-1];
 					barzr2[t]=barvdirect[k][(*d-m)][t];
 				}
@@ -392,18 +330,14 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 			{
 				for(t=0;t<*T;t++ ) 
 				{
-					//zr2[t]=vindirect[k][(*d-m)][t];
 					zr2[t]=vv2[(k+1)+(*d)*(*d-m)+(*d)*(*d)*t-1];
-					//tildezr2_hatk_hati[t]=tildevindirect2[k][(*d-m)][t];
 					tildezr2_hatk_hati[t]=vv2_hat[(k+1)+(*d)*(*d-m)+(*d)*(*d)*t-1];
-					//tildezr2_tildek_tildei[t]=tildevindirect[k][(*d-m)][t];
 					tildezr2_tildek_tildei[t]=vv2_tilde[(k+1)+(*d)*(*d-m)+(*d)*(*d)*t-1];
 					barzr2[t]=barvindirect[k][(*d-m)][t];
 				}
 			}			
 			for(t=0;t<*T;t++ ) 
 			{
-				//barvalue[k][i][t]=-der_hatk_hati[t]*der_tildek_tildei[t];
 				barvalue_out[(k+1)+(*d)*i+(*d)*(*d)*t-1]=-der_hatk_hati[t]*der_tildek_tildei[t];
 				barvdirect[k-1][i][t]=0;
 				barvindirect[k-1][i][t]=0;
@@ -424,21 +358,9 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 				diffPDF_u_mod(zr1,zr2,T,param,&fam[k][i],helpvar4);
 				diffhfunc_v_mod2(zr2,zr1,T,param,&fam[k][i],helpvar5);
 				diff2hfunc_v_mod2(zr2,zr1,T,param,&fam[k][i],helpvar6);
-				//Rprintf("helpvar %f \n", helpvar[0]);
-				//Rprintf("helpvar %f \n", helpvar[1]);
-				//Rprintf("helpvar2 %f \n", helpvar2[0]);
-				//Rprintf("helpvar2 %f \n", helpvar2[1]);	
-				//Rprintf("helpvar3 %f \n", helpvar3[0]);
-				//Rprintf("helpvar3 %f \n", helpvar3[1]);
-				//Rprintf("helpvar4 %f \n", helpvar4[0]);
-				//Rprintf("helpvar4 %f \n", helpvar4[1]);
-				//Rprintf("helpvar5 %f \n", helpvar5[0]);
-				//Rprintf("helpvar5 %f \n", helpvar5[1]);
-				//Rprintf("helpvar6 %f \n", helpvar6[0]);
-				//Rprintf("helpvar6 %f \n", helpvar6[1]);
+				
 				for(t=0;t<*T;t++ ) 
 				{
-					//barvalue[k][i][t] = barvalue[k][i][t] + helpvar[t]/cop[t]*tildezr1_hatk_hati[t]*tildezr1_tildek_tildei[t] + helpvar2[t]/cop[t]*barzr1[t];
 					barvalue_out[(k+1)+(*d)*i+(*d)*(*d)*t-1] = barvalue_out[(k+1)+(*d)*i+(*d)*(*d)*t-1] + helpvar[t]/cop[t]*tildezr1_hatk_hati[t]*tildezr1_tildek_tildei[t] + helpvar2[t]/cop[t]*barzr1[t];
 					barvdirect[k-1][i][t] = barvdirect[k-1][i][t] + exp(helpvar3[t])*barzr1[t] + helpvar4[t]*tildezr1_hatk_hati[t]*tildezr1_tildek_tildei[t];
 					barvindirect[k-1][i][t] = barvindirect[k-1][i][t] + helpvar5[t]*barzr1[t] + helpvar6[t]*tildezr1_hatk_hati[t]*tildezr1_tildek_tildei[t];
@@ -448,12 +370,6 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 			if(calc2[k+1][*d-m]==1 && calc[k+1][*d-m]==1)
 			{
 				//Rprintf("Fall2\n");
-				//Rprintf("indirect_hat 1 %f \n", tildezr2_hatk_hati[0]);
-				//Rprintf("indirect_hat 2 %f \n", tildezr2_hatk_hati[1]);
-				//Rprintf("indirect_tilde 1 %f \n", tildezr2_tildek_tildei[0]);
-				//Rprintf("indirect_tilde 2 %f \n", tildezr2_tildek_tildei[1]);
-				//Rprintf("barzr2 1 %f \n", barzr2[0]);
-				//Rprintf("barzr2 2 %f \n", barzr2[1]);
 				param[0]=theta[k][i];
 				param[1]=nu[k][i];
 				diff2PDF_v_mod(zr1,zr2,T,param,&fam[k][i],helpvar);
@@ -467,7 +383,6 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 				diffPDF_u_mod(zr2,zr1,T,param,&fam[k][i],helpvar6);
 				for(t=0;t<*T;t++ ) 
 				{
-					//barvalue[k][i][t] = barvalue[k][i][t] + helpvar[t]/cop[t]*tildezr2_hatk_hati[t]*tildezr2_tildek_tildei[t] + helpvar2[t]/cop[t]*barzr2[t];
 					barvalue_out[(k+1)+(*d)*i+(*d)*(*d)*t-1] = barvalue_out[(k+1)+(*d)*i+(*d)*(*d)*t-1] + helpvar[t]/cop[t]*tildezr2_hatk_hati[t]*tildezr2_tildek_tildei[t] + helpvar2[t]/cop[t]*barzr2[t];
 					barvdirect[k-1][i][t] = barvdirect[k-1][i][t] + helpvar3[t]*barzr2[t] + helpvar4[t]*tildezr2_hatk_hati[t]*tildezr2_tildek_tildei[t];
 					barvindirect[k-1][i][t] = barvindirect[k-1][i][t] + exp(helpvar5[t])*barzr2[t] + helpvar6[t]*tildezr2_hatk_hati[t]*tildezr2_tildek_tildei[t];
@@ -476,12 +391,6 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 			if(calc2[k+1][i]==1 && calc[k+1][*d-m]==1)
 			{
 				//Rprintf("Fall3\n");
-				//Rprintf("indirect_hat 1 %f \n", tildezr2_hatk_hati[0]);
-				//Rprintf("indirect_hat 2 %f \n", tildezr2_hatk_hati[1]);
-				//Rprintf("indirect_tilde 1 %f \n", tildezr2_tildek_tildei[0]);
-				//Rprintf("indirect_tilde 2 %f \n", tildezr2_tildek_tildei[1]);
-				//Rprintf("barzr2 1 %f \n", barzr2[0]);
-				//Rprintf("barzr2 2 %f \n", barzr2[1]);
 				param[0]=theta[k][i];
 				param[1]=nu[k][i];
 				diff2PDF_u_v_mod(zr1,zr2,T,param,&fam[k][i],helpvar);
@@ -489,7 +398,6 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 				diffPDF_v_mod(zr2,zr1,T,param,&fam[k][i],helpvar3);				
 				for(t=0;t<*T;t++ ) 
 				{
-					//barvalue[k][i][t] = barvalue[k][i][t] + helpvar[t]/cop[t]*tildezr1_hatk_hati[t]*tildezr2_tildek_tildei[t];
 					barvalue_out[(k+1)+(*d)*i+(*d)*(*d)*t-1] = barvalue_out[(k+1)+(*d)*i+(*d)*(*d)*t-1] + helpvar[t]/cop[t]*tildezr1_hatk_hati[t]*tildezr2_tildek_tildei[t];
 					barvdirect[k-1][i][t] = barvdirect[k-1][i][t] + helpvar2[t]*tildezr1_hatk_hati[t]*tildezr2_tildek_tildei[t];
 					barvindirect[k-1][i][t] = barvindirect[k-1][i][t] + helpvar3[t]*tildezr1_hatk_hati[t]*tildezr2_tildek_tildei[t];
@@ -498,12 +406,6 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 			if(calc2[k+1][*d-m]==1 && calc[k+1][i]==1)
 			{
 				//Rprintf("Fall4\n");
-				//Rprintf("indirect_hat 1 %f \n", tildezr2_hatk_hati[0]);
-				//Rprintf("indirect_hat 2 %f \n", tildezr2_hatk_hati[1]);
-				//Rprintf("indirect_tilde 1 %f \n", tildezr2_tildek_tildei[0]);
-				//Rprintf("indirect_tilde 2 %f \n", tildezr2_tildek_tildei[1]);
-				//Rprintf("barzr2 1 %f \n", barzr2[0]);
-				//Rprintf("barzr2 2 %f \n", barzr2[1]);
 				param[0]=theta[k][i];
 				param[1]=nu[k][i];
 				diff2PDF_u_v_mod(zr1,zr2,T,param,&fam[k][i],helpvar);
@@ -511,7 +413,6 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 				diffPDF_v_mod(zr2,zr1,T,param,&fam[k][i],helpvar3);				
 				for(t=0;t<*T;t++ ) 
 				{
-					//barvalue[k][i][t] = barvalue[k][i][t] + helpvar[t]/cop[t]*tildezr2_hatk_hati[t]*tildezr1_tildek_tildei[t];
 					barvalue_out[(k+1)+(*d)*i+(*d)*(*d)*t-1] = barvalue_out[(k+1)+(*d)*i+(*d)*(*d)*t-1] + helpvar[t]/cop[t]*tildezr2_hatk_hati[t]*tildezr1_tildek_tildei[t];
 					barvdirect[k-1][i][t] = barvdirect[k-1][i][t] + helpvar2[t]*tildezr2_hatk_hati[t]*tildezr1_tildek_tildei[t];
 					barvindirect[k-1][i][t] = barvindirect[k-1][i][t] + helpvar3[t]*tildezr2_hatk_hati[t]*tildezr1_tildek_tildei[t];
@@ -527,7 +428,6 @@ void VineLogLikRvineDeriv2(int* T, int* d, int* family, int* kk, int* ii, int* k
 		{
 			for(t=0;t<(*T);t++ ) 
 			{
-				//sumloglik += barvalue[k][i][t];
 				sumloglik += barvalue_out[(k+1)+(*d)*i+(*d)*(*d)*t-1];
 			}
 		}
@@ -541,30 +441,17 @@ for(i=0;i<(*d);i++)
 		for(t=0;t<*T;t++ ) {
 			barvdirect_out[(i+1)+(*d)*j+(*d)*(*d)*t-1]=barvdirect[i][j][t];
 			barvindirect_out[(i+1)+(*d)*j+(*d)*(*d)*t-1]=barvindirect[i][j][t];
-			//barvalue_out[(i+1)+(*d)*j+(*d)*(*d)*t-1]=barvalue[i][j][t];	
 		}}}
 
 
 //Free memory:
-//free_3darray(vdirect,*d,*d); 
-//free_3darray(vindirect,*d,*d);
-//free_3darray(value,*d,*d);
 free_matrix(theta,*d); 
 free_matrix(nu,*d); 
 free_intmatrix(fam,*d); 
-//free_intmatrix(mmat,*d); 
 free_intmatrix(calc, *d); 
 free_intmatrix(calc2, *d); 
-//free_intmatrix(mat, *d);
-//free_3darray(tildevindirect,*d,*d); 
-//free_3darray(tildevdirect,*d,*d); 
-//free_3darray(tildevalue,*d,*d);
-//free_3darray(tildevindirect2,*d,*d); 
-//free_3darray(tildevdirect2,*d,*d); 
-//free_3darray(tildevalue2,*d,*d);
 free_3darray(barvindirect,*d,*d); 
 free_3darray(barvdirect,*d,*d); 
-//free_3darray(barvalue,*d,*d);
 Free(zr1); Free(zr2); Free(tildezr1); Free(tildezr2);Free(handle1);Free(cop);Free(der);
 Free(helpvar);Free(helpvar2);Free(helpvar3);Free(helpvar4);Free(helpvar5);Free(helpvar6);
 Free(tildezr1_hatk_hati); Free(tildezr1_tildek_tildei);Free(barzr1);
@@ -586,14 +473,6 @@ void hesse_step(int* T, int* d, int* family, int* kk, int* ii, int* kkk, int* ii
 	int *calcupdate_out, *calcupdate2_out;
 
 	double der1=0, der2=0, *help;
-
-	//double *tilde_vdirect, *tilde_vindirect, *tilde_value, *hat_vdirect, *hat_vindirect, *hat_value;
-	//tilde_vdirect = Calloc(((*d)*(*d)*(*T)),double);
-	//tilde_vindirect = Calloc(((*d)*(*d)*(*T)),double);
-	//tilde_value = Calloc(((*d)*(*d)*(*T)),double);
-	//hat_vdirect = Calloc(((*d)*(*d)*(*T)),double);
-	//hat_vindirect = Calloc(((*d)*(*d)*(*T)),double);
-	//hat_value = Calloc(((*d)*(*d)*(*T)),double);
 
 
 	ii_out=*ii;
@@ -672,7 +551,6 @@ void hesse_step(int* T, int* d, int* family, int* kk, int* ii, int* kkk, int* ii
 							ll, vv, vv2, calcupdate2_out, hat_vdirect, hat_vindirect, hat_value, &tcop_help, &margin);
 	}
 
-	//subder1=sum(array(tilde_value_array,dim=c(d,d,N))[kk_out,,])
 
 	if(family[(kk_out)+(*d)*(ii_out-1)-1]==2)
 	{
@@ -694,8 +572,7 @@ void hesse_step(int* T, int* d, int* family, int* kk, int* ii, int* kkk, int* ii
 		t_cop=0;
 	}
 	
-//	Rprintf("kk_out: %d\t ii_out %d \t", kk_out, ii_out);
-//	Rprintf("t_cop: %d\n", t_cop);
+
 
 	// Aufruf der Hauptfunktion
 	VineLogLikRvineDeriv2(T, d, family, &kk_out, &ii_out, &kkk_out, &iii_out, maxmat, matrix, condirect, conindirect, par, par2, data, 
@@ -714,8 +591,6 @@ void hesse_step(int* T, int* d, int* family, int* kk, int* ii, int* kkk, int* ii
 	*kkk_second=kkk_out;
 
 
-	//Free(tilde_vdirect);Free(tilde_vindirect);Free(tilde_value);
-	//Free(hat_vdirect);Free(hat_vindirect);Free(hat_value);
 }
 
 
@@ -795,9 +670,7 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 					{
 						if(fam[k1-1][i1-1]==0 || fam[k2-1][i2-1]==0)
 						{
-							//out[t1][t2]=0;
 							out[(t1+1)+((dd+tt)*t2)-1]=0;
-							//out[t2][t1]=0;
 							out[(t2+1)+((dd+tt)*t1)-1]=0;
 						}
 						else
@@ -807,7 +680,7 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 
 							kk_second=0;
 							kkk_second=0;
-						//	Rprintf("t1: %d\t t2: %d\t",t1,t2);
+
 							hesse_step(T, d, family, &k1, &i1, &k2, &i2, maxmat, matrix, condirect, conindirect, par, par2, data, 
 										calcupdate1, calcupdate2, &out[(t1+1)+((dd+tt)*t2)-1], ll, vv, vv2,
 										tilde_value, tilde_vdirect, tilde_vindirect, hat_value, hat_vdirect, hat_vindirect,
@@ -835,18 +708,14 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 										der2+=hat_value[(i+1)+(*d)*j+(*d)*(*d)*t-1];
 									}
 								}
-									//Rprintf("%d, %d, %d, %d, der1: %f\t der2: %f\n",i1, k1, i2, k2,der1,der2);
-									//Rprintf("t1: %d \t t2: %d \n",t1,t2);
+								
 								der[(t1+1)+((dd+tt)*t2)-1]+=der1*der2;
 								der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
 								subder[(t1+1)+((dd+tt)*t2)-1]+=subder1*subder2;
 								subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
 							}
 							subhess[(t2+1)+((dd+tt)*t1)-1]=subhess[(t1+1)+((dd+tt)*t2)-1];
-							//der[(t1+1)+((dd+tt)*t2)-1]=der1*der2;
-							//der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
-							//subder[(t1+1)+((dd+tt)*t2)-1]=subder1*subder2;
-							//subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
+
 						}
 					}
 					t2++;
@@ -862,9 +731,7 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 						{
 							if(fam[k1-1][i1-1]==0)
 							{
-								//out[t1][t2]=0;
 								out[(t1+1)+((dd+tt)*t2)-1]=0;
-								//out[t2][t1]=0;
 								out[(t2+1)+((dd+tt)*t1)-1]=0;
 							}
 							else
@@ -874,7 +741,7 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 
 								kk_second=0;
 								kkk_second=1;
-							//	Rprintf("t1: %d\t t2: %d\t",t1,t2);
+
 								hesse_step(T, d, family, &k1, &i1, &k2, &i2, maxmat, matrix, condirect, conindirect, par, par2, data, 
 											calcupdate1, calcupdate2, &out[(t1+1)+((dd+tt)*t2)-1], ll, vv, vv2,
 											tilde_value, tilde_vdirect, tilde_vindirect, hat_value, hat_vdirect, hat_vindirect,
@@ -908,10 +775,6 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 									subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
 								}
 								subhess[(t2+1)+((dd+tt)*t1)-1]=subhess[(t1+1)+((dd+tt)*t2)-1];
-								//der[(t1+1)+((dd+tt)*t2)-1]=der1*der2;
-								//der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
-								//subder[(t1+1)+((dd+tt)*t2)-1]=subder1*subder2;
-								//subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
 
 							}
 							
@@ -932,13 +795,7 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 				t2=dd;
 				// calcupdate berechen
 				calcupdate_func(d, matrix, &k1, &i1, calcupdate1);
-				/*for(i2=(*d-1);i2>0;i2--)
-				{
-					for(k2=*d;k2>i2;k2--)
-					{
-						t2++;
-					}
-				}*/
+
 				for(i2=(*d-1);i2>0;i2--)
 				{
 					for(k2=*d;k2>i2;k2--)
@@ -949,9 +806,7 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 							{
 								if(fam[k1-1][i1-1]==0)
 								{
-									//out[t1][t2]=0;
 									out[(t1+1)+((dd+tt)*t2)-1]=0;
-									//out[t2][t1]=0;
 									out[(t2+1)+((dd+tt)*t1)-1]=0;
 								}
 								else
@@ -994,10 +849,6 @@ void hesse(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 										subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
 									}
 									subhess[(t2+1)+((dd+tt)*t1)-1]=subhess[(t1+1)+((dd+tt)*t2)-1];
-									//der[(t1+1)+((dd+tt)*t2)-1]=der1*der2;
-									//der[(t2+1)+((dd+tt)*t1)-1]=der[(t1+1)+((dd+tt)*t2)-1];
-									//subder[(t1+1)+((dd+tt)*t2)-1]=subder1*subder2;
-									//subder[(t2+1)+((dd+tt)*t1)-1]=subder[(t1+1)+((dd+tt)*t2)-1];
 								}
 							}
 							t2++;

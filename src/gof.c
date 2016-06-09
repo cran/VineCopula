@@ -108,8 +108,6 @@ void White(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 	dd2=*d*(*d-1)/2;
 	
 	//Allocate memory
-	//V = create_matrix((dd+tt)*(dd+tt+1)/2,(dd+tt)*(dd+tt+1)/2);
-	//D = malloc((dd+tt)*(dd+tt+1)/2*sizeof(double));
 	Dprime = malloc((dd+tt)*(dd+tt+1)/2*sizeof(double));
 	hess = malloc((dd2+tt)*(dd2+tt)*sizeof(double));
 	subhess = malloc((dd2+tt)*(dd2+tt)*sizeof(double));
@@ -124,20 +122,7 @@ void White(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 	{
 		Dprime[i]=0;
 	}
-	/*for(i=0;i<(dd+tt)*(dd+tt);i++)
-	{
-		hess[i]=0;
-		subhess[i]=0;
-		der[i]=0;
-		subder[i]=0;
-	}
-	for(i=0;i<(dd+tt)*(dd+tt+1)/2;i++)
-	{
-		for(j=0;j<(dd+tt)*(dd+tt+1)/2;j++)
-		{
-			V[i][j]=0;
-		}
-	}*/
+	
 	
 	for(t=0;t<*T;t++)
 	{
@@ -192,7 +177,6 @@ void White(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 	// Nicht fertig, da hier das Problem D%*%solve(V)%*%t(D) zu loesen ist
 	
 	// Free memory
-	//free(D);
 	free(Dprime);	
 	free(hess);
 	free(subhess);
@@ -201,7 +185,6 @@ void White(int* T, int* d, int* family, int* maxmat, int* matrix, int* condirect
 	free(dat);
 	free(hess_red);
 	free(der_red);
-	//free_matrix(V,(dd+tt)*(dd+tt+1)/2);
 }
 
 
@@ -595,7 +578,7 @@ void gofECP_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* c
 	
 	f = malloc(*T*sizeof(int));
 	bdata = malloc(*d*(*T)*sizeof(double));
-	//Rprintf("%f\n",*statistic);
+
 	for(m=0;m<*B;m++)
 	{
 		MySample(T, T, f);
@@ -608,7 +591,7 @@ void gofECP_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* c
 		}
 		bstat=0;
 		gofECP(T, d, family, maxmat, matrix, conindirect, par, par2, bdata, &bstat, statisticName);
-		//Rprintf("%f ",bstat);
+
 		if(bstat>=*statistic)
 			*pvalue+=1.0/(*B);
 	}
@@ -747,7 +730,7 @@ void gofECP2_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* 
 	bdata = malloc(*d*(*T)*sizeof(double));
 	bvv = malloc(*d*(*d)*(*T)*sizeof(double));
 	bvv2 = malloc(*d*(*d)*(*T)*sizeof(double));
-	//Rprintf("%f\n",*statistic);
+
 	for(m=0;m<*B;m++)
 	{
 		MySample(T, T, f);
@@ -766,7 +749,7 @@ void gofECP2_pvalue(int* T, int* d, int* family, int* maxmat, int* matrix, int* 
 		}
 		bstat=0;
 		gofECP2(T, d, family, maxmat, matrix, condirect, conindirect, par, par2, bdata, bvv, bvv2, calcupdate, &bstat, statisticName);
-		//Rprintf("%f ",bstat);
+
 		if(bstat>=*statistic)
 			*pvalue+=1.0/(*B);
 	}

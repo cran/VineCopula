@@ -1,152 +1,293 @@
-RVineMatrix <- function(Matrix, family = array(0, dim = dim(Matrix)), par = array(NA, dim = dim(Matrix)), par2 = array(NA, dim = dim(Matrix)), names = NULL) {
-    
-    ## set NAs to zero
-    Matrix[is.na(Matrix)] <- 0
-    family[is.na(family)] <- 0
-    par[is.na(par)] <- 0
-    par2[is.na(par2)] <- 0
-    
-    ## convert to lower triangular matrix if necessary
-    Matrix <- ToLowerTri(Matrix)
-    family <- ToLowerTri(family)
-    par    <- ToLowerTri(par)
-    par2   <- ToLowerTri(par2)
-    
-    ## set upper triangle to zero
-    family[upper.tri(family, diag = T)] <- 0
-    par[upper.tri(par, diag = T)] <- 0
-    par2[upper.tri(par2, diag = T)] <- 0
-    
-    if (dim(Matrix)[1] != dim(Matrix)[2]) 
-        stop("Structure matrix has to be quadratic.")
-    if (any(par != NA) & dim(par)[1] != dim(par)[2]) 
-        stop("Parameter matrix has to be quadratic.")
-    if (any(par2 != NA) & dim(par2)[1] != dim(par2)[2]) 
-        stop("Second parameter matrix has to be quadratic.")
-    if (any(family != 0) & dim(family)[1] != dim(family)[2]) 
-        stop("Copula family matrix has to be quadratic.")
-    if (max(Matrix) > dim(Matrix)[1]) 
-        stop("Error in the structure matrix.")
-    if (any(!(family %in% c(0, 1:10, 13, 14, 16:20, 23, 24, 26:30, 33, 34, 36:40, 43, 44, 104, 114, 124, 134, 204, 214, 224, 234)))) 
-        stop("Copula family not implemented.")
-    if (length(names) > 0 & length(names) != dim(Matrix)[1]) 
+#' R-Vine Copula Model in Matrix Notation
+#'
+#' This function creates an \code{\link{RVineMatrix}} object which encodes an
+#' R-vine copula model. It contains the matrix identifying the R-vine tree
+#' structure, the matrix identifying the copula families utilized and two
+#' matrices for corresponding parameter values.
+#'
+#'
+#' @param Matrix Lower (or upper) triangular d x d matrix that defines the
+#' R-vine tree structure.
+#' @param family Lower (or upper) triangular d x d matrix with zero diagonal
+#' entries that assigns the pair-copula families to each (conditional) pair
+#' defined by \code{Matrix} (default: \code{family =
+#' array(0,dim=dim(Matrix))}).  The bivariate copula families are defined as
+#' follows:\cr
+#' \code{0} = independence copula \cr
+#' \code{1} = Gaussian copula \cr
+#' \code{2} = Student t copula (t-copula) \cr
+#' \code{3} = Clayton copula \cr
+#' \code{4} = Gumbel copula \cr
+#' \code{5} = Frank copula \cr
+#' \code{6} = Joe copula \cr
+#' \code{7} = BB1 copula \cr
+#' \code{8} = BB6 copula \cr
+#' \code{9} = BB7 copula \cr
+#' \code{10} = BB8 copula \cr
+#' \code{13} = rotated Clayton copula (180 degrees; ``survival Clayton'') \cr
+#' \code{14} = rotated Gumbel copula (180 degrees; ``survival Gumbel'') \cr
+#' \code{16} = rotated Joe copula (180 degrees; ``survival Joe'') \cr
+#' \code{17} = rotated BB1 copula (180 degrees; ``survival BB1'')\cr
+#' \code{18} = rotated BB6 copula (180 degrees; ``survival BB6'')\cr
+#' \code{19} = rotated BB7 copula (180 degrees; ``survival BB7'')\cr
+#' \code{20} = rotated BB8 copula (180 degrees; ``survival BB8'')\cr
+#' \code{23} = rotated Clayton copula (90 degrees) \cr
+#' \code{24} = rotated Gumbel copula (90 degrees) \cr
+#' \code{26} = rotated Joe copula (90 degrees) \cr
+#' \code{27} = rotated BB1 copula (90 degrees) \cr
+#' \code{28} = rotated BB6 copula (90 degrees) \cr
+#' \code{29} = rotated BB7 copula (90 degrees) \cr
+#' \code{30} = rotated BB8 copula (90 degrees) \cr
+#' \code{33} = rotated Clayton copula (270 degrees) \cr
+#' \code{34} = rotated Gumbel copula (270 degrees) \cr
+#' \code{36} = rotated Joe copula (270 degrees) \cr
+#' \code{37} = rotated BB1 copula (270 degrees) \cr
+#' \code{38} = rotated BB6 copula (270 degrees) \cr
+#' \code{39} = rotated BB7 copula (270 degrees) \cr
+#' \code{40} = rotated BB8 copula (270 degrees) \cr
+#' \code{104} = Tawn type 1 copula \cr
+#' \code{114} = rotated Tawn type 1 copula (180 degrees) \cr
+#' \code{124} = rotated Tawn type 1 copula (90 degrees) \cr
+#' \code{134} = rotated Tawn type 1 copula (270 degrees) \cr
+#' \code{204} = Tawn type 2 copula \cr
+#' \code{214} = rotated Tawn type 2 copula (180 degrees) \cr
+#' \code{224} = rotated Tawn type 2 copula (90 degrees) \cr
+#' \code{234} = rotated Tawn type 2 copula (270 degrees) \cr
+#' @param par Lower (or upper) triangular d x d matrix with zero diagonal
+#' entries that assigns the (first) pair-copula parameter to each (conditional)
+#' pair defined by \code{Matrix} \cr (default: \code{par = array(NA, dim =
+#' dim(Matrix))}).
+#' @param par2 Lower (or upper) triangular d x d matrix with zero diagonal
+#' entries that assigns the second parameter for pair-copula families with two
+#' parameters to each (conditional) pair defined by \code{Matrix} (default:
+#' \code{par2 = array(NA, dim = dim(Matrix))}).
+#' @param names A vector of names for the d variables; default: \code{names =
+#' NULL}.
+#' @param check.pars logical; default is \code{TRUE}; if \code{FALSE}, checks
+#' for family/parameter-consistency are ommited (should only be used with
+#' care).
+#'
+#' @return An object of class \code{\link{RVineMatrix}}, i.e., a list with the
+#' following components:
+#' \item{Matrix}{R-vine tree structure matrix.}
+#' \item{family}{pair-copula family matrix with values as above.}
+#' \item{par}{pair-copula parameter matrix.}
+#' \item{par2}{second pair-copula parameter matrix with parameters necessary for
+#'  pair-copula families with two parameters.}
+#' \item{names}{variable names (defaults to \code{V1, V2, ...}).}
+#' \item{MaxMat, CondDistr}{additional matrices required internally for
+#' evaluating the density etc.,}
+#' \item{type}{the type of the vine copula structure; possible types are:
+#' \itemize{
+#' \item{\code{"C-vine": }}{all trees consist of a star,}
+#' \item{\code{"D-vine": }}{all trees consist of a path,}
+#' \item{\code{"R-vine": }}{all strucutres that are neither a C- nor D-vine,}
+#' }}
+#' \item{tau}{Kendall's tau matrix,}
+#' \item{taildep}{matrices of lower and upper tail dependence coefficients,}
+#' \item{beta}{Blomqvist's beta matrix.}
+#' Objects of this class are also returned by the \code{\link{RVineSeqEst}},
+#' \code{\link{RVineCopSelect}}, and \code{\link{RVineStructureSelect}}
+#' functions. In this case, further information about the fit is added.
+#'
+#'
+#' @note For a comprehensive summary of the vine copula model, use
+#' \code{summary(object)}; to see all its contents, use \code{str(object)}.\cr
+#' The \code{\link{RVineMatrix}} function automatically checks if the given
+#' matrix is a valid R-vine matrix (see \code{\link{RVineMatrixCheck}}). \cr
+#' Although the function allows upper triangular matrices as its input, it will
+#' always store them as lower triangular matrices.
+#'
+#' @author Jeffrey Dissmann, Thomas Nagler
+#'
+#' @seealso
+#' \code{\link{RVineMatrixCheck}},
+#' \code{\link{RVineSeqEst}},
+#' \code{\link{RVineCopSelect}},
+#' \code{\link{RVineStructureSelect}},
+#' \code{\link{RVineSim}},
+#' \code{\link{C2RVine}},
+#' \code{\link{D2RVine}}
+#'
+#' @references Dissmann, J. F., E. C. Brechmann, C. Czado, and D. Kurowicka
+#' (2013). Selecting and estimating regular vine copulae and application to
+#' financial returns. Computational Statistics & Data Analysis, 59 (1), 52-69.
+#'
+#' @examples
+#'
+#' # define 5-dimensional R-vine tree structure matrix
+#' Matrix <- c(5, 2, 3, 1, 4,
+#'             0, 2, 3, 4, 1,
+#'             0, 0, 3, 4, 1,
+#'             0, 0, 0, 4, 1,
+#'             0, 0, 0, 0, 1)
+#' Matrix <- matrix(Matrix, 5, 5)
+#' # define R-vine pair-copula family matrix
+#' family <- c(0, 1, 3, 4, 4,
+#'             0, 0, 3, 4, 1,
+#'             0, 0, 0, 4, 1,
+#'             0, 0, 0, 0, 3,
+#'             0, 0, 0, 0, 0)
+#' family <- matrix(family, 5, 5)
+#' # define R-vine pair-copula parameter matrix
+#' par <- c(0, 0.2, 0.9, 1.5, 3.9,
+#'          0, 0, 1.1, 1.6, 0.9,
+#'          0, 0, 0, 1.9, 0.5,
+#'          0, 0, 0, 0, 4.8,
+#'          0, 0, 0, 0, 0)
+#' par <- matrix(par, 5, 5)
+#' # define second R-vine pair-copula parameter matrix
+#' par2 <- matrix(0, 5, 5)
+#'
+#' ## define RVineMatrix object
+#' RVM <- RVineMatrix(Matrix = Matrix, family = family,
+#'                    par = par, par2 = par2,
+#'                    names = c("V1", "V2", "V3", "V4", "V5"))
+#'
+#' ## see the object's content or a summary
+#' str(RVM)
+#' summary(RVM)
+#'
+#' ## inspect the model using plots
+#' \donttest{plot(RVM)  # tree structure}
+#' contour(RVM)  # contour plots of all pair-copulas
+#'
+#' ## simulate from the vine copula model
+#' plot(RVineSim(500, RVM))
+#'
+RVineMatrix <- function(Matrix,
+                        family = array(0, dim = dim(Matrix)),
+                        par = array(NA, dim = dim(Matrix)),
+                        par2 = array(NA, dim = dim(Matrix)),
+                        names = NULL, check.pars = TRUE) {
+    ## preprocessing of arguments
+    args <- preproc(c(as.list(environment()), call = match.call()),
+                    check_matrix,
+                    check_fammat,
+                    check_parmat,
+                    check_par2mat)
+    list2env(args, environment())
+
+    ## check matrices
+    if (length(names) > 0 & length(names) != dim(Matrix)[1])
         stop("Length of the vector 'names' is not correct.")
-    
-    if (RVineMatrixCheck(Matrix) != 1) 
-        stop("'Matrix' is not a valid R-vine matrix")
-    
-    if (!all(par %in% c(0, NA))) {
-        for (i in 2:dim(Matrix)[1]) {
-            for (j in 1:(i - 1)) {
-                if ((family[i, j] == 1 || family[i, j] == 2) && abs(par[i, j]) >= 1) 
-                    stop("The parameter of the Gaussian and t-copula has to be in the interval (-1,1).")
-                if (family[i, j] == 2 && par2[i, j] <= 2) 
-                    stop("The degrees of freedom parameter of the t-copula has to be larger than 2.")
-                if ((family[i, j] == 3 || family[i, j] == 13) && par[i, j] <= 0) 
-                    stop("The parameter of the Clayton copula has to be positive.")
-                if ((family[i, j] == 4 || family[i, j] == 14) && par[i, j] < 1) 
-                    stop("The parameter of the Gumbel copula has to be in the interval [1,oo).")
-                if ((family[i, j] == 6 || family[i, j] == 16) && par[i, j] <= 1) 
-                    stop("The parameter of the Joe copula has to be in the interval (1,oo).")
-                if (family[i, j] == 5 && par[i, j] == 0) 
-                    stop("The parameter of the Frank copula has to be unequal to 0.")
-                if ((family[i, j] == 7 || family[i, j] == 17) && par[i, j] <= 0) 
-                    stop("The first parameter of the BB1 copula has to be positive.")
-                if ((family[i, j] == 7 || family[i, j] == 17) && par2[i, j] < 1) 
-                    stop("The second parameter of the BB1 copula has to be in the interval [1,oo).")
-                if ((family[i, j] == 8 || family[i, j] == 18) && par[i, j] <= 0) 
-                    stop("The first parameter of the BB6 copula has to be in the interval [1,oo).")
-                if ((family[i, j] == 8 || family[i, j] == 18) && par2[i, j] < 1) 
-                    stop("The second parameter of the BB6 copula has to be in the interval [1,oo).")
-                if ((family[i, j] == 9 || family[i, j] == 19) && par[i, j] < 1) 
-                    stop("The first parameter of the BB7 copula has to be in the interval [1,oo).")
-                if ((family[i, j] == 9 || family[i, j] == 19) && par2[i, j] <= 0) 
-                    stop("The second parameter of the BB7 copula has to be positive.")
-                if ((family[i, j] == 10 || family[i, j] == 20) && par[i, j] < 1) 
-                    stop("The first parameter of the BB8 copula has to be in the interval [1,oo).")
-                if ((family[i, j] == 10 || family[i, j] == 20) && (par2[i, j] <= 0 || par2[i, j] > 1)) 
-                    stop("The second parameter of the BB8 copula has to be in the interval (0,1].")
-                if ((family[i, j] == 23 || family[i, j] == 33) && par[i, j] >= 0) 
-                    stop("The parameter of the rotated Clayton copula has to be negative.")
-                if ((family[i, j] == 24 || family[i, j] == 34) && par[i, j] > -1) 
-                    stop("The parameter of the rotated Gumbel copula has to be in the interval (-oo,-1].")
-                if ((family[i, j] == 26 || family[i, j] == 36) && par[i, j] >= -1) 
-                    stop("The parameter of the rotated Joe copula has to be in the interval (-oo,-1).")
-                if ((family[i, j] == 27 || family[i, j] == 37) && par[i, j] >= 0) 
-                    stop("The first parameter of the rotated BB1 copula has to be negative.")
-                if ((family[i, j] == 27 || family[i, j] == 37) && par2[i, j] > -1) 
-                    stop("The second parameter of the rotated BB1 copula has to be in the interval (-oo,-1].")
-                if ((family[i, j] == 28 || family[i, j] == 38) && par[i, j] >= 0) 
-                    stop("The first parameter of the rotated BB6 copula has to be in the interval (-oo,-1].")
-                if ((family[i, j] == 28 || family[i, j] == 38) && par2[i, j] > -1) 
-                    stop("The second parameter of the rotated BB6 copula has to be in the interval (-oo,-1].")
-                if ((family[i, j] == 29 || family[i, j] == 39) && par[i, j] > -1) 
-                    stop("The first parameter of the rotated BB7 copula has to be in the interval (-oo,-1].")
-                if ((family[i, j] == 29 || family[i, j] == 39) && par2[i, j] >= 0) 
-                    stop("The second parameter of the rotated BB7 copula has to be negative.")
-                if ((family[i, j] == 30 || family[i, j] == 40) && par[i, j] > -1) 
-                    stop("The first parameter of the rotated BB8 copula has to be in the interval (-oo,-1].")
-                if ((family[i, j] == 30 || family[i, j] == 40) && (par2[i, j] >= 0 || par2[i, j] < (-1))) 
-                    stop("The second parameter of the rotated BB8 copula has to be in the interval [-1,0).")
-                if ((family[i, j] == 104 || family[i, j] == 114 || family[i, j] == 204 || family[i, j] == 214) && par[i, j] < 1) 
-                    stop("Please choose 'par' of the Tawn copula in [1,oo).")
-                if ((family[i, j] == 104 || family[i, j] == 114 || family[i, j] == 204 || family[i, j] == 214) && (par2[i, j] < 0 || par2[i, j] > 1)) 
-                    stop("Please choose 'par2' of the Tawn copula in [0,1].")
-                if ((family[i, j] == 124 || family[i, j] == 134 || family[i, j] == 224 || family[i, j] == 234) && par[i, j] > -1) 
-                    stop("Please choose 'par' of the Tawn copula in (-oo,-1].")
-                if ((family[i, j] == 124 || family[i, j] == 134 || family[i, j] == 224 || family[i, j] == 234) && (par2[i, j] < 0 || par2[i, j] > 1)) 
-                    stop("Please choose 'par2' of the Tawn copula in [0,1].")
-            }
-        }
+
+    ## check for family/parameter consistency
+    sel <- lower.tri(family)  # selector for lower triangular matrix
+    if (check.pars & (any(family != 0) | any(!is.na(par)))) {
+        BiCopCheck(family[sel], par[sel], par2[sel], call = match.call())
     }
-    
+
+    ## create help matrices
     MaxMat <- createMaxMat(Matrix)
     CondDistr <- neededCondDistr(Matrix)
-    
+
+    ## create RVineMatrix object
     RVM <- list(Matrix = Matrix,
-                family = family, 
+                family = family,
                 par = par,
                 par2 = par2,
                 names = names,
-                MaxMat = MaxMat, 
+                MaxMat = MaxMat,
                 CondDistr = CondDistr)
-    
     class(RVM) <- "RVineMatrix"
-    return(RVM)
+
+    ## add vine type
+    if (is.CVine(RVM)) {
+        RVM$type <- "C-vine"
+    } else if (is.DVine(RVM)) {
+        RVM$type <- "D-vine"
+    } else {
+        RVM$type <- "R-vine"
+    }
+
+    ## add dependence measures
+    # create list of BiCop ojbects
+    objlst <- apply(cbind(family[sel], par[sel], par2[sel]),
+                    1,
+                    function(x) BiCop(x[1], x[2], x[3], check.pars = FALSE))
+    # construct dependence measure matrices
+    taus <- utds <- ltds <- bets <- matrix(0, nrow(Matrix), ncol(Matrix))
+    taus[sel] <- sapply(objlst, function(x) x$tau)
+    utds[sel] <- sapply(objlst, function(x) x$taildep$upper)
+    ltds[sel] <- sapply(objlst, function(x) x$taildep$lower)
+    bets[sel] <- sapply(objlst, function(x) x$beta)
+    RVM$tau <- taus
+    RVM$taildep$upper <- utds
+    RVM$taildep$lower <- ltds
+    RVM$beta <- bets
+
+    ## return results
+    RVM
 }
 
 normalizeRVineMatrix <- function(RVM) {
-    
+
     oldOrder <- diag(RVM$Matrix)
     Matrix <- reorderRVineMatrix(RVM$Matrix)
-    
+
     return(RVineMatrix(Matrix,
-                       RVM$family, 
+                       RVM$family,
                        RVM$par,
-                       RVM$par2, 
-                       names = rev(RVM$names[oldOrder])))
+                       RVM$par2,
+                       names = rev(RVM$names[oldOrder]),
+                       check.pars = FALSE))
 }
 
 reorderRVineMatrix <- function(Matrix) {
     oldOrder <- diag(Matrix)
-    
+
     O <- apply(t(1:nrow(Matrix)), 2, "==", Matrix)
-    
+
     for (i in 1:nrow(Matrix)) {
         Matrix[O[, oldOrder[i]]] <- nrow(Matrix) - i + 1
     }
-    
+
     return(Matrix)
 }
 
 # exported version of normalizeRVineMatrix
+
+
+#' Normalization of R-Vine Matrix
+#'
+#' An \code{\link{RVineMatrix}} is permuted to achieve a natural ordering (i.e.
+#' \code{diag(RVM$Matrix) == d:1})
+#'
+#'
+#' @param RVM \code{\link{RVineMatrix}} defining the R-vine structure
+#' @return \item{RVM}{An \code{\link{RVineMatrix}} in natural ordering with
+#' entries in \code{RVM$names} keeping track of the reordering.}
+#' @keywords vine
+#' @examples
+#'
+#' Matrix <- matrix(c(5, 2, 3, 1, 4,
+#'                    0, 2, 3, 4, 1,
+#'                    0, 0, 3, 4, 1,
+#'                    0, 0, 0, 4, 1,
+#'                    0, 0, 0, 0, 1), 5, 5)
+#' family <- matrix(1,5,5)
+#'
+#' par <- matrix(c(0, 0.2, 0.9, 0.5, 0.8,
+#'                 0,   0, 0.1, 0.6, 0.9,
+#'                 0,   0,   0, 0.7, 0.5,
+#'                 0,   0,   0,   0, 0.8,
+#'                 0,   0,   0,   0,   0), 5, 5)
+#'
+#' # define RVineMatrix object
+#' RVM <- RVineMatrix(Matrix, family, par)
+#'
+#' # normalise the RVine
+#' RVineMatrixNormalize(RVM)
+#'
+#' @export RVineMatrixNormalize
 RVineMatrixNormalize <- function(RVM) {
     stopifnot(is(RVM, "RVineMatrix"))
-    
-    if (is.null(RVM$names)) 
+
+    if (is.null(RVM$names))
         RVM$names <- paste("V", 1:nrow(RVM$Matrix), sep = "")
     oldOrder <- diag(RVM$Matrix)
-    
+
     return(normalizeRVineMatrix(RVM))
 }
 
@@ -156,254 +297,327 @@ dim.RVineMatrix <- function(x) {
     NextMethod("dim")
 }
 
-print.RVineMatrix <- function(x, detail = FALSE, ...) {
+print.RVineMatrix <- function(x, ...) {
     RVine <- x
-    message("R-vine matrix:")
-    print(RVine$Matrix, ...)
-    
-    # Falls namen diese auch ausgeben
-    if (!is.null(RVine$names)) {
-        message("")
-        message("Where")
-        for (i in 1:length(RVine$names)) {
-            message(i, " <-> ", RVine$names[[i]])
-        }
-    }
-    # NextMethod('print')
-    
+    cat(x$type, "copula with the following pair-copulas:\n")
     d <- dim(RVine)
-    if (detail == TRUE || detail == T) {
-        message("")
-        message("Tree 1:")
-        for (i in 1:(d - 1)) {
-            a <- paste(RVine$names[[RVine$Matrix[i, i]]], 
-                       ",",
-                       RVine$names[[RVine$Matrix[d, i]]],
-                       sep = "")
+    for (j in 1:(d - 1)) {
+        cat("")
+        a <- paste("Tree ", j, ":\n", sep = "")
+        cat(a)
+
+        pc.nums <- sapply(1:(d - j), get_num, tree = j, RVM = RVine)
+        pc.nums <- sapply(pc.nums, function(x) gsub(" ", "", x))
+        pc.nums.len <- nchar(pc.nums)
+        pc.nums.space <- max(pc.nums.len) - pc.nums.len
+        maxa <- 0
+        for (i in 1:(d - j)) {
+            a <- draw_blanks(pc.nums.space[i])
+            a <- paste0(a, pc.nums[i])
             a <- paste(a,
-                       ": ",
-                       BiCopName(RVine$family[d, i], short = FALSE),
+                       "  ",
+                       BiCopName(RVine$family[d - j + 1, i], short = FALSE),
                        sep = "")
-            if (RVine$family[d, i] != 0) {
-                a <- paste(a, " with par=", round(RVine$par[d, i], 2), sep = "")
-                if (RVine$family[d, i] %in% c(2, 7, 8, 9, 10,
-                                              17, 18, 19, 20,
-                                              27, 28, 29, 30, 
-                                              37, 38, 39, 40,
-                                              104, 114, 124, 134, 
-                                              204, 214, 224, 234)) {
-                    a <- paste(a, " and par2=", round(RVine$par2[d, i], 2), sep = "")
-                }
+            if (RVine$family[d - j + 1, i] != 0) {
                 a <- paste(a,
-                           " (tau=", 
-                           round(BiCopPar2Tau(RVine$family[d, i],
-                                              RVine$par[d, i], 
-                                              RVine$par2[d, i]), 2),
-                           ")", 
+                           " (par = ",
+                           round(RVine$par[d - j + 1, i], 2),
                            sep = "")
-            }
-            message(a)
-        }
-        for (j in 2:(d - 1)) {
-            message("")
-            a <- paste("Tree ", j, ":", sep = "")
-            message(a)
-            for (i in 1:(d - j)) {
-                a <- paste(RVine$names[[RVine$Matrix[i, i]]], 
-                           ",", 
-                           RVine$names[[RVine$Matrix[d - j + 1, i]]],
-                           sep = "")
-                a <- paste(a, "|", sep = "")
-                conditioningSet <- (d - j + 2):d
-                for (k in 1:length(conditioningSet)) {
-                    if (k > 1) {
-                        a <- paste(a, ",", sep = "")
-                    }
+                if (RVine$family[d - j + 1, i] %in% allfams[twopar]) {
                     a <- paste(a,
-                               RVine$names[[RVine$Matrix[conditioningSet[k], i]]], 
+                               ", par2 = ",
+                               round(RVine$par2[d - j + 1, i], 2),
                                sep = "")
                 }
                 a <- paste(a,
-                           ": ", 
-                           BiCopName(RVine$family[d - j + 1, i], short = FALSE), 
+                           ", tau = ",
+                           round(RVine$tau[d - j + 1, i], 2),
+                           ")",
                            sep = "")
-                if (RVine$family[d - j + 1, i] != 0) {
-                    a <- paste(a, 
-                               " with par=",
-                               round(RVine$par[d - j + 1, i], 2),
-                               sep = "")
-                    if (RVine$family[d - j + 1, i] %in% c(2, 7, 8, 9, 10,
-                                                          17, 18, 19, 20,
-                                                          27, 28, 29, 30, 
-                                                          37, 38, 39, 40,
-                                                          104, 114, 124, 134, 
-                                                          204, 214, 224, 234)) {
-                        a <- paste(a, 
-                                   " and par2=",
-                                   round(RVine$par2[d - j + 1, i], 2), 
-                                   sep = "")
-                    }
-                    a <- paste(a,
-                               " (tau=",
-                               round(BiCopPar2Tau(RVine$family[d - j + 1, i], 
-                                                  RVine$par[d - j + 1, i], 
-                                                  RVine$par2[d - j + 1, i]), 2),
-                               ")",
-                               sep = "")
-                }
-                message(a)
             }
+            a <- paste(a, "\n")
+            maxa <- max(maxa, nchar(a))
+            cat(a)
         }
-        
+        if (j < d - 1) cat("\n")
     }
+    # show names if provided
+    if (!is.null(RVine$names)) {
+        linelen <- maxa
+        cat("\n")
+        cat("---\n")
+        txt <- paste0(1, " <-> ", RVine$names[[1]])
+        for (i in 2:(d - 1)) {
+            if (nchar(txt) > linelen) {
+                cat(txt, ",\n", sep = "")
+                txt <- paste0(i, " <-> ", RVine$names[[i]])
+            } else {
+                txt <- paste0(txt, ",   ", i, " <-> ", RVine$names[[i]])
+            }
+        }
+        if (nchar(txt) > linelen) {
+            cat(txt, ",\n", sep = "")
+            txt <- paste0(d, " <-> ", RVine$names[[d]])
+        } else {
+            txt <- paste0(txt, ",   ", d, " <-> ", RVine$names[[d]])
+        }
+        cat(txt)
+    }
+}
+
+summary.RVineMatrix <- function(object, with.se = TRUE, ...) {
+
+    ## create character matrices with pair-copula info
+    #     cat("Pair-copulas:\n")
+    d <- nrow(object$Matrix)
+    fammat  <- matrix("", d, d)
+    parmat  <- formatC(object$par, 2, format = "f")
+    par2mat <- formatC(object$par2, 2, format = "f")
+    taumat  <- formatC(object$tau, 2, format = "f")
+    utdmat  <- formatC(object$taildep$upper, 2, format = "f")
+    ltdmat  <- formatC(object$taildep$lower, 2, format = "f")
+    nammat  <- matrix("", d, d)
+    nummat  <- matrix("", d, d)
+    with.se <- with.se & !is.null(object$se)
+    if (with.se) {
+        semat  <- formatC(object$se, 2, format = "f")
+        se2mat <- formatC(object$se2, 2, format = "f")
+    }
+
+    ## get names and clean matrices
+    for (i in 2:d) {
+        for (j in 1:(i - 1)) {
+            fammat[i, j] <- BiCopName(object$family[i, j])
+            nummat[i, j] <- formatC(object$family[i, j], 3)
+            nammat[i, j] <- gsub(" ", "", get_num(j, d - i + 1, object))
+            if (fammat[i, j] == "I") {
+                parmat[i, j] <- "-"
+                par2mat[i, j] <- "-"
+            } else {
+                if (with.se) {
+                    parmat[i, j] <- paste0(parmat[i, j],
+                                           " (",
+                                           semat[i, j],
+                                           ")")
+                    if (object$family[i, j] %in% allfams[twopar]) {
+                        par2mat[i, j] <- paste0(par2mat[i, j],
+                                                " (",
+                                                se2mat[i, j],
+                                                ")")
+                    } else {
+                        par2mat[i, j] <- "-"
+                    }
+                }
+            }
+            if (object$taildep$upper[i, j] == 0)
+                utdmat[i, j] <- "-"
+            if (object$taildep$lower[i, j] == 0)
+                ltdmat[i, j] <- "-"
+        }
+    }
+
+    ## maximal number of characters for each category
+    ltree <- nchar("tree")
+    lfam  <- max(nchar("family"), max(sapply(fammat, nchar)))
+    lpar  <- max(nchar("par"), max(sapply(parmat, nchar)))
+    lpar2 <- max(nchar("par2"), max(sapply(par2mat, nchar)))
+    ltau  <- max(nchar("tau"), max(sapply(taumat, nchar)))
+    lutd  <- max(nchar("UTD"), max(sapply(utdmat, nchar)))
+    lltd  <- max(nchar("LTD"), max(sapply(ltdmat, nchar)))
+    lnam  <- max(nchar("edge"), max(sapply(nammat, nchar)))
+
+
+    ## line with headings
+    txt <- "tree "
+    txt <- paste0(txt, draw_blanks(max(1, lnam - 3)), "edge ")
+    txt <- paste0(txt, "|  No.")
+    txt <- paste0(txt, draw_blanks(max(1, lfam - 5)), "family ")
+    txt <- paste0(txt, draw_blanks(max(1, lpar - 2)), "par ")
+    txt <- paste0(txt, draw_blanks(max(1, lpar2 - 3)), "par2 |")
+    txt <- paste0(txt, draw_blanks(max(1, ltau - 2)), "tau ")
+    txt <- paste0(txt, draw_blanks(max(1, lutd - 2)), "UTD ")
+    txt <- paste0(txt, draw_blanks(max(1, lltd - 2)), "LTD")
+    cat(txt, "\n")
+    linelen <- nchar(txt)
+    cat(draw_lines(linelen), "\n")
+
+    for (tree in 1:(d-1)) {
+        for (edge in 1:(d - tree)) {
+            ## print tree number
+            if (edge == 1) {
+                cat(draw_blanks(max(0, ltree - nchar(tree))))
+                cat(tree, "")
+            } else {
+                cat("     ")
+            }
+
+            ## print edge label
+            tmpch <- nammat[d + 1 - tree, edge]
+            cat(draw_blanks(max(0, lnam - nchar(tmpch))), tmpch)
+
+            ## print copula family
+            cat(" |")
+            cat(formatC(nummat[d + 1 - tree, edge], 3))
+            tmpch <- fammat[d + 1 - tree, edge]
+            cat(draw_blanks(min(max(0, lfam - nchar(tmpch))) + 1), tmpch)
+
+            ## print parameters
+            tmpch <- parmat[d + 1 - tree, edge]
+            cat(draw_blanks(min(max(0, lpar - nchar(tmpch)) + 1)), tmpch)
+            tmpch <- par2mat[d + 1 - tree, edge]
+            cat(draw_blanks(min(max(0, lpar2 - nchar(tmpch)) + 1)), tmpch)
+
+            ## print dependence measures
+            cat(" |")
+            tmpch <- taumat[d + 1 - tree, edge]
+            cat(draw_blanks(min(max(0, ltau - nchar(tmpch)))), tmpch)
+            tmpch <- utdmat[d + 1 - tree, edge]
+            cat(draw_blanks(min(max(0, lutd - nchar(tmpch)) + 1)), tmpch)
+            tmpch <- ltdmat[d + 1 - tree, edge]
+            cat(draw_blanks(min(max(0, lltd - nchar(tmpch)) + 1)), tmpch)
+
+
+            cat("\n")
+
+        }
+    }
+
+    ## print general info
+    cat("---\n")
+    cat("type:", object$type, "   ")
+    if (!is.null(object$logLik)) {
+        cat("logLik:", round(object$logLik, 2), "   ")
+        cat("AIC:", round(object$AIC, 2), "   ")
+        cat("BIC:", round(object$BIC, 2), "   ")
+    }
+    # show names if provided
+    if (!is.null(object$names)) {
+        linelen <- min(linelen, 90)
+        cat("\n")
+        cat("---\n")
+        txt <- paste0(1, " <-> ", object$names[[1]])
+        for (i in 2:(d - 1)) {
+            if (nchar(txt) > linelen) {
+                cat(txt, ",\n", sep = "")
+                txt <- paste0(i, " <-> ", object$names[[i]])
+            } else {
+                txt <- paste0(txt, ",   ", i, " <-> ", object$names[[i]])
+            }
+        }
+        if (nchar(txt) > linelen) {
+            cat(txt, ",\n", sep = "")
+            txt <- paste0(d, " <-> ", object$names[[d]])
+        } else {
+            txt <- paste0(txt, ",   ", d, " <-> ", object$names[[d]])
+        }
+        cat(txt)
+    }
+    invisible(object)
+}
+
+draw_blanks <- function(len) {
+    do.call(paste0, as.list(rep(" ", len)))
+}
+
+draw_lines <- function(len) {
+    do.call(paste0, as.list(rep("-", len)))
+}
+
+is.DVine <- function(Matrix) {
+    if (inherits(Matrix, "RVineMatrix"))
+        Matrix <- Matrix$Matrix
+    Matrix <- reorderRVineMatrix(Matrix)
+    ## A D-vine has a path in the first tree (and thus in all trees)
+    d <- nrow(Matrix)
+    length(unique(Matrix[d, ])) == d - 1
+}
+
+is.CVine <- function(Matrix) {
+    if (inherits(Matrix, "RVineMatrix"))
+        Matrix <- Matrix$Matrix
+    Matrix <- reorderRVineMatrix(Matrix)
+    ## A C-vine has a star in each tree
+    d <- nrow(Matrix)
+    all.trees.star <- (length(unique(Matrix[d, ])) == 1)
+    for (tree in 2:(d - 2)) {
+        ## the zero now appears in all trees
+        all.trees.star <- all.trees.star & (length(unique(Matrix[tree, ])) == 2)
+    }
+    all.trees.star
 }
 
 
 
 createMaxMat <- function(Matrix) {
-    
-    if (dim(Matrix)[1] != dim(Matrix)[2]) 
+
+    if (dim(Matrix)[1] != dim(Matrix)[2])
         stop("Structure matrix has to be quadratic.")
-    
+
     MaxMat <- reorderRVineMatrix(Matrix)
-    
+
     n <- nrow(MaxMat)
-    
+
     for (j in 1:(n - 1)) {
         for (i in (n - 1):j) {
             MaxMat[i, j] <- max(MaxMat[i:(i + 1), j])
         }
     }
-    
+
     tMaxMat <- MaxMat
     tMaxMat[is.na(tMaxMat)] <- 0
-    
+
     oldSort <- diag(Matrix)
     oldSort <- oldSort[n:1]
-    
+
     for (i in 1:n) {
         MaxMat[tMaxMat == i] <- oldSort[i]
     }
-    
+
     return(MaxMat)
 }
 
 neededCondDistr <- function(Vine) {
-    
-    if (dim(Vine)[1] != dim(Vine)[2]) 
+
+    if (dim(Vine)[1] != dim(Vine)[2])
         stop("Structure matrix has to be quadratic.")
-    
+
     Vine <- reorderRVineMatrix(Vine)
-    
+
     MaxMat <- createMaxMat(Vine)
-    
+
     d <- nrow(Vine)
-    
+
     M <- list()
     M$direct <- matrix(FALSE, d, d)
     M$indirect <- matrix(FALSE, d, d)
-    
+
     M$direct[2:d, 1] <- TRUE
-    
+
     for (i in 2:(d - 1)) {
         v <- d - i + 1
-        
+
         bw <- as.matrix(MaxMat[i:d, 1:(i - 1)]) == v
-        
+
         direct <- Vine[i:d, 1:(i - 1)] == v
-        
+
         M$indirect[i:d, i] <- apply(as.matrix(bw & (!direct)), 1, any)
-        
+
         M$direct[i:d, i] <- TRUE
-        
+
         M$direct[i, i] <- any(as.matrix(bw)[1, ] & as.matrix(direct)[1, ])
     }
-    
+
     return(M)
 }
 
-as.RVineMatrix <- function(RVine) {
-    
-    n <- length(RVine$Tree) + 1
-    con <- list()
-    nam <- V(RVine$Tree[[1]])$name
-    
-    conditionedSets <- NULL
-    corresppondingParams <- list()
-    corresppondingTypes <- list()
-    
-    print(is.list(E(RVine$Tree[[n - 1]])$conditionedSet))
-    
-    conditionedSets[[n - 1]][[1]] <- (E(RVine$Tree[[n - 1]])$conditionedSet)
-    for (k in 1:(n - 2)) {
-        conditionedSets[[k]] <- E(RVine$Tree[[k]])$conditionedSet
-        corresppondingParams[[k]] <- as.list(E(RVine$Tree[[k]])$Copula.param)
-        corresppondingTypes[[k]] <- as.list(E(RVine$Tree[[k]])$Copula.type)
-    }
-    corresppondingParams[[n - 1]] <- list()
-    corresppondingParams[[n - 1]][[1]] <- (E(RVine$Tree[[n - 1]])$Copula.param)
-    corresppondingTypes[[n - 1]] <- as.list(E(RVine$Tree[[n - 1]])$Copula.type)
-    
-    Param <- array(dim = c(n, n))
-    Params2 <- array(0, dim = c(n, n))
-    Type <- array(dim = c(n, n))
-    M <- matrix(NA, n, n)
-    
-    for (k in 1:(n - 1)) {
-        w <- conditionedSets[[n - k]][[1]][1]
-        
-        M[k, k] <- w
-        M[(k + 1), k] <- conditionedSets[[n - k]][[1]][2]
-        
-        Param[(k + 1), k] <- corresppondingParams[[n - k]][[1]][1]
-        Params2[(k + 1), k] <- corresppondingParams[[n - k]][[1]][2]
-        
-        Type[(k + 1), k] <- corresppondingTypes[[n - k]][[1]]
-        
-        if (k == (n - 1)) {
-            M[(k + 1), (k + 1)] <- conditionedSets[[n - k]][[1]][2]
-        } else {
-            for (i in (k + 2):n) {
-                for (j in 1:length(conditionedSets[[n - i + 1]])) {
-                    cs <- conditionedSets[[n - i + 1]][[j]]
-                    if (cs[1] == w) {
-                        M[i, k] <- cs[2]
-                        break
-                    } else if (cs[2] == w) {
-                        M[i, k] <- cs[1]
-                        break
-                    }
-                }
-                Param[i, k] <- corresppondingParams[[n - i + 1]][[j]][1]
-                Params2[i, k] <- corresppondingParams[[n - i + 1]][[j]][2]
-                Type[i, k] <- corresppondingTypes[[n - i + 1]][[j]]
-                
-                conditionedSets[[n - i + 1]][[j]] <- NULL
-                corresppondingParams[[n - i + 1]][[j]] <- NULL
-                corresppondingTypes[[n - i + 1]][[j]] <- NULL
-            }
-        }
-        
-    }
-    
-    M <- M + 1
-    M[is.na(M)] <- 0
-    Type[is.na(Type)] <- 0
-    
-    return(RVineMatrix(M, 
-                       family = Type, 
-                       par = Param,
-                       par2 = Params2, 
-                       names = nam))
-    
-}
+as.RVineMatrix <- function(RVine) as.RVM2(RVine)
 
 
 ###########################################################################
 # Code from Harry Joe (Thanks for that)
 
 
-# varray2NO:  vine array to natural order 
+# varray2NO:  vine array to natural order
 # irev=F means A1[d,d]=A[d,d]
 # irev=T means A1[d,d]=A[d-1,d] (this option used to check if A is in
 #                   equivalence class of size 1 or 2).
@@ -428,7 +642,7 @@ varray2NO <- function(A, irev = FALSE, iprint = FALSE) {
         A1[k - 1, k - 1] <- A1[k - 1, k]
     }
     # A1 satisfies A[i,i]=A[i,i+1]
-    if (iprint) 
+    if (iprint)
         print(A1)
     # now apply permutation
     iorder <- order(diag(A1))
@@ -436,7 +650,7 @@ varray2NO <- function(A, irev = FALSE, iprint = FALSE) {
     for (i in 1:d) {
         for (j in i:d) A2[i, j] <- iorder[A1[i, j]]
     }
-    if (iprint) 
+    if (iprint)
         print(A2)
     list(NOa = A1, NO = A2, perm = iorder, diag = diag(A1))
 }
@@ -462,7 +676,7 @@ vpartner <- function(A) {
 # Natural order also means A[j-1,j]=j-1 and A[j,j]=j
 # Function with A vine array (assumed dxd) and calls to vinvstepb
 # if(b==0) on input,
-#    columns 4 to d, binary elements of b are randomly generated 
+#    columns 4 to d, binary elements of b are randomly generated
 # output is b matrix with NA in lower triangle if A is OK
 #   otherwise returns -1
 #varraycheck=function(A)
@@ -476,7 +690,7 @@ varray2bin <- function(A) {
     for (i in 4:d) {
         b0 <- vinvstepb(A, i)
         # print(b0)
-        if (min(b0) == -1) 
+        if (min(b0) == -1)
             return(-1)
         b[1:i, i] <- b0
     }
@@ -484,9 +698,9 @@ varray2bin <- function(A) {
 }
 
 
-# inverse for column i: 
+# inverse for column i:
 # input A has dimension at least ixi
-# output b has length i 
+# output b has length i
 # This function is not in NAMESPACE (not for direct use);
 # it is used by varraycheck
 
@@ -494,16 +708,16 @@ vinvstepb <- function(A, i, ichk0 = 0) {
     # do these basic checks first
     if (ichk0 > 0) {
         diagA <- diag(A[1:i, 1:i])
-        if (max(diagA - (1:i)) != 0) 
+        if (max(diagA - (1:i)) != 0)
             return(-1)
         for (k in 2:i) {
-            if (A[k - 1, k] != k - 1) 
+            if (A[k - 1, k] != k - 1)
                 return(-1)
         }
-        if (A[1][3] != 1) 
+        if (A[1][3] != 1)
             return(-1)
     }
-    
+
     b <- rep(1, i)
     itaken <- rep(0, i)
     itaken[i] <- 1
@@ -533,15 +747,69 @@ vinvstepb <- function(A, i, ichk0 = 0) {
 # return -2 for not permutation of 1:j in column j
 # return -1 if cannot find proper binary array from array in natural order
 
+
+
+#' R-Vine Matrix Check
+#'
+#' The given matrix is tested to be a valid R-vine matrix.
+#'
+#'
+#' @param M A dxd vine matrix: only lower triangle is used; For the check, M is
+#' assumed to be in natural order, i.e. d:1 on diagonal. Further M[j+1,j]=d-j
+#' and M[j,j]=d-j
+#' @return \item{code}{ \code{1} for OK; \cr \code{-3} diagonal can not be put
+#' in order d:1; \cr \code{-2} for not permutation of j:d in column d-j; \cr
+#' \code{-1} if cannot find proper binary array from array in natural order.  }
+#' @note The matrix M do not have to be given in natural order or the diagonal
+#' in order d:1. The test checks if it can be done in order to be a valid
+#' R-vine matrix. \cr If a function in this package needs the natural order the
+#' \code{RVineMatrix} object is automatically "normalized". \cr The function
+#' \code{\link{RVineMatrix}} automatically checks if the given R-vine matrix is
+#' valid.
+#' @author Harry Joe
+#' @seealso \code{\link{RVineMatrix}}
+#' @references Joe H, Cooke RM and Kurowicka D (2011). Regular vines:
+#' generation algorithm and number of equivalence classes. In Dependence
+#' Modeling: Vine Copula Handbook, pp 219--231. World Scientific, Singapore.
+#' @examples
+#'
+#' A1 <- matrix(c(6, 0, 0, 0, 0, 0,
+#' 			         5, 5, 0, 0, 0, 0,
+#' 			         3, 4, 4, 0, 0, 0,
+#' 			         4, 3, 3, 3, 0, 0,
+#' 			         1, 1, 2, 2, 2, 0,
+#' 			         2, 2, 1, 1, 1, 1), 6, 6, byrow = TRUE)
+#' b1 <- RVineMatrixCheck(A1)
+#' print(b1)
+#' # improper vine matrix, code=-1
+#' A2 <- matrix(c(6, 0, 0, 0, 0, 0,
+#' 			         5, 5, 0, 0, 0, 0,
+#' 			         4, 4, 4, 0, 0, 0,
+#' 			         1, 3, 3, 3, 0, 0,
+#' 			         3, 1, 2, 2, 2, 0,
+#' 			         2, 2, 1, 1, 1,1 ), 6, 6, byrow = TRUE)
+#' b2 <- RVineMatrixCheck(A2)
+#' print(b2)
+#' # improper vine matrix, code=-2
+#' A3 <- matrix(c(6, 0, 0, 0, 0, 0,
+#' 			         3, 5, 0, 0, 0, 0,
+#' 			         3, 4, 4, 0, 0, 0,
+#' 			         4, 3, 3, 3, 0, 0,
+#' 			         1, 1, 2, 2, 2, 0,
+#' 			         2, 2, 1, 1, 1, 1), 6, 6, byrow = TRUE)
+#' b3 <- RVineMatrixCheck(A3)
+#' print(b3)
+#'
+#' @export RVineMatrixCheck
 RVineMatrixCheck <- function(M) {
     A <- M
     d <- nrow(A)
-    if (d != ncol(A)) 
+    if (d != ncol(A))
         return(-1)
-    
+
     A <- A[d:1, d:1]  # unsere Notation <-> Harrys Notation
-    
-    if (sum(abs(sort(diag(A)) - (1:d))) != 0) 
+
+    if (sum(abs(sort(diag(A)) - (1:d))) != 0)
         return(-3)
     # convert to 1:d on diagonal
     iorder <- order(diag(A))
@@ -551,16 +819,16 @@ RVineMatrixCheck <- function(M) {
     }
     # print(A2)
     for (j in 2:d) {
-        if (sum(abs(sort(A2[1:(j - 1), j]) - (1:(j - 1)))) != 0) 
+        if (sum(abs(sort(A2[1:(j - 1), j]) - (1:(j - 1)))) != 0)
             return(-2)
     }
     # next convert to natural order for more checks
-    if (d <= 3) 
+    if (d <= 3)
         return(1)
     ANOobj <- varray2NO(A2)
     # print(ANOobj)
     b <- varray2bin(ANOobj$NO)  # if OK, a binary matrix is returned here
-    if (is.matrix(b)) 
+    if (is.matrix(b))
         return(1) else return(-1)
 }
 

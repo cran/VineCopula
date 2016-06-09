@@ -98,6 +98,23 @@ if((*copula)==43)
   free(nparam);
 }
 
+// vectorized version
+void diffhfunc_mod_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out)
+{
+    int nn = 1;
+    double* ipars = (double *) malloc(2*sizeof(double));
+    for (int i = 0; i < (*n); ++i) {
+        if (copula[i] == 2) {
+            ipars[0] = par[i];
+            ipars[1] = par2[i];
+            diffhfunc_rho_tCopula(&u[i], &v[i], &nn, ipars, &copula[i], &out[i]);
+        } else {
+            diffhfunc_mod(&u[i], &v[i], &nn, &par[i], &copula[i], &out[i]);
+        }
+    };
+    free(ipars);
+}
+
 
 void diffhfunc_mod2(double* v, double* u, int* n, double* param, int* copula, double* out)  // Achtung u und v vertauscht; Notaion aus Hfunc1 und Hfunc2
 {
@@ -353,6 +370,20 @@ if((*copula)==43)
   free(negv);
   free(negu);
   free(nparam);
+}
+
+// vectorized version
+void diffhfunc_v_mod_vec(double* u, double* v, int* n, double* par, double* par2, int* copula, double* out)
+{
+    int nn = 1;
+    double* ipars = (double *) malloc(2*sizeof(double));
+    
+    for (int i = 0; i < (*n); ++i) {
+        ipars[0] = par[i];
+        ipars[1] = par2[i];
+        diffhfunc_v_mod(&u[i], &v[i], &nn, ipars, &copula[i], &out[i]);
+    };
+    free(ipars);
 }
 
 
