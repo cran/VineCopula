@@ -1,6 +1,6 @@
-595b056f7e7eccd07d01e7734908f5ec *DESCRIPTION
+a300aae388f0a82d985143ac1b01c5c6 *DESCRIPTION
 85b8aed9c4e9cf1c911e7c27dac53b2e *NAMESPACE
-e0840f8a9881b01f6c1dae8046d38526 *NEWS.md
+e28380a96884000d58899e78a31fc92c *NEWS.md
 8de502b44438aebfd1067d539e9a7a4b *R/0_prep_object.R
 ad403cd48887f9f39fcd3a08b5dc2cbb *R/AD.R
 68b5af792f8493b0173d7ff5833ee15a *R/BB1copula.R
@@ -9,12 +9,12 @@ ba4de7dc3dd8fc2a8dadd17527c4c5c1 *R/BB7copula.R
 5b2a5e17deb7740527a7339f23a16986 *R/BB8copula.R
 fa3326d62bb7be88d3220091fb7a690d *R/BetaMatrix.R
 037d96f0053d472d6659bdc6db974fee *R/BiCop.R
-751e35175d59a2c09273fa01682b7269 *R/BiCopCDF.R
+30c81c6de46ad407af97661e3f3e2a0e *R/BiCopCDF.R
 5f4530cd74e61935901f94a9f3c66aeb *R/BiCopCheck.R
 982b5abc29d8cbff10cdd72fd3e1c4ce *R/BiCopChiPlot.R
 f22cd42797459639f0c7907d07d59dc2 *R/BiCopCompare.R
 48ffc978222236c9ce5b067662856d8a *R/BiCopCondSim.R
-396678450879eb308dcabb2ebf075894 *R/BiCopDeriv.R
+b07014522a2dffb33a2942f7e997a87b *R/BiCopDeriv.R
 4f28f3508e6d832cb434638f54676427 *R/BiCopDeriv2.R
 96278beb35bfd14ef352d80acda7b181 *R/BiCopEst.R
 b492ace8f3606a4a066692c3a6c88403 *R/BiCopEstList.R
@@ -63,7 +63,7 @@ a1a0f972afb9893415b1e5b973f7d6ab *R/RVineSim.R
 4f2b577fdd019488c87cd1a8d3b3bcca *R/RVineTreePlot.R
 e009bef0659d680466b39c40c4d4fecf *R/RVineVuongTest.R
 bc50818141def02463cb7adb90101116 *R/TauMatrix.R
-4f99ceb43667dd8a004f692b04432537 *R/VineCopula-package.R
+3dffeb7859ac4b34b4d4c1e7c9493d96 *R/VineCopula-package.R
 73eae62e91ae0ef6b1e36d3790d19d24 *R/as.copuladata.R
 ed033378138d390e73d0646e70e088ad *R/contour.RVineMatrix.R
 12c216668363615c56f146e39d126796 *R/gof_ECP.R
@@ -74,7 +74,7 @@ abebc2d1967c4a91ecf604408db16bb9 *R/joeBiCopula.R
 76d3e18a96a90b1e2b7afde0e0743a65 *R/plot.BiCop.R
 15ecb73a4a8b373572af18b9616cf5df *R/plot.RVineMatrix.R
 e846b003ab0e9aa2ec17a0463e29ac86 *R/pobs.R
-990fad5dd3f3058b1f0336aaef103a4e *R/preprocessors.R
+ce96db255e5a0d6c850d4d17466a8e7e *R/preprocessors.R
 b76d748221b415c561caecca0b8c93a1 *R/tawnCopula.R
 b63014bfffd5e773d781306e35e350fe *R/vineCopulas.R
 83fc557d46113604f36d75963d5963ab *R/zzz.R
@@ -90,7 +90,7 @@ c38b98fb400b5e7e8117f7179cc0585a *man/BB1Copula.Rd
 d20e39c81057e7315b38b7c3ddae3b00 *man/BB8Copula.Rd
 8cb8ab09482d5936c0feaa4616feec12 *man/BetaMatrix.Rd
 6b03349cf4354df1115cc4c378fb6e0c *man/BiCop.Rd
-abfa6419c46ff60f70f22c8e361568cb *man/BiCopCDF.Rd
+e4e57f1406f51a7f9a7b8f7ec81a1c44 *man/BiCopCDF.Rd
 7a9582a889b77074941d390784be0608 *man/BiCopCheck.Rd
 2dc1d9b84bd316f0e9eb359f9ebddac1 *man/BiCopChiPlot.Rd
 cbf7b6fa3083828ec81dc34839d9cfe6 *man/BiCopCompare.Rd
@@ -143,7 +143,7 @@ d8fc0baa2ab91cba8b576a13e0e4bb17 *man/RVineStdError.Rd
 9e418b9f7ca383438ddb6436d61b6c55 *man/RVineTreePlot.Rd
 aa79dbdb8e4ecc778d735416047d374d *man/RVineVuongTest.Rd
 d06d847b063564eddd685c100fbf5c67 *man/TauMatrix.Rd
-6a109632d4dc9d73058921f5189deb07 *man/VineCopula-package.Rd
+3fc99e920a670610a01f281fe2e72115 *man/VineCopula-package.Rd
 978e515f8db0490b2073180a9dbcd03d *man/as.copuladata.Rd
 ded3e22fb006c6d936fcaf4341c3db28 *man/copulaFromFamilyIndex.Rd
 2e98713cc0c8b457ce27181be05242ed *man/daxreturns.Rd
@@ -194,7 +194,7 @@ c20c8bc75670942c50b7c6dffd2ba606 *src/include/tcopuladeriv_new.h
 39e6b38b49c0fd5c97858a42a9aa47f2 *src/include/vine.h
 0e8b02c94412ae052e9ff429d612de7a *src/incompleteBeta.c
 f56eda6710119c0ae3a0a1d75677f126 *src/likelihood.c
-e9311e1fe50ae54488f41f79d4f7fa1a *src/logderiv.c
+8d2d9bf7c8a71659c2484734fad100b9 *src/logderiv.c
 38b9c6569540ce95f59b59d5202af4d4 *src/memoryhandling.c
 7de12b100c0665a49d7c09c64c6f92f8 *src/pit.c
 b8c9573486ca81ec07006dcc09b9df31 *src/rvine.c

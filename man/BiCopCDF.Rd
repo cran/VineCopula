@@ -91,7 +91,6 @@ reasons, the degree of freedom parameter (\code{par2}) is rounded to an
 integer before calculation of the CDF.
 }
 \examples{
-
 ## simulate from a bivariate Clayton copula
 set.seed(123)
 cop <- BiCop(family = 3, par = 3.4)
