@@ -33,6 +33,7 @@
 #' @param xylim numeric vector of length 2; sets \code{xlim} and \code{ylim}
 #' for the contours
 #' @param cex.nums numeric; expansion factor for font of the numbers.
+#' @param data a data matrix for creating kernel density contours of each pair.
 #' @param \dots Arguments passed to
 #' \code{\link[network:plot.network]{plot.network}} or
 #' \code{\link[VineCopula:plot.BiCop]{plot.BiCop}} respectively.
@@ -218,9 +219,9 @@ set_edge_labels <- function(tree, RVM, edge.labels, type) {
         elabel <- BiCopName(as.numeric(elabel))
     } else if (edge.labels[1] == "par") {
         elabel <- sapply(1:(d - tree + 1),
-                         get_par,
-                         tree = tree,
-                         RVM = RVM)
+                          get_par,
+                          tree = tree,
+                          RVM = RVM)
     } else if (edge.labels[1] == "tau") {
         elabel <- sapply(1:(d - tree + 1),
                          get_tau,
@@ -342,14 +343,6 @@ join_par <- function(x) {
 }
 
 get_tau <- function(j, tree, RVM) {
-    d <- nrow(RVM$family)
-    M <- RVM$Matrix
-    # get family and parameters
-    family <- RVM$family[M[d - tree + 1, j]]
-    par  <- RVM$par[M[d - tree + 1, j]]
-    par2 <- RVM$par2[M[d - tree + 1, j]]
-    # convert to Kendall's tau
-    tau <- BiCopPar2Tau(family, par, par2, check.pars = FALSE)
-    round(tau, digits = 2)
+    round(RVM$tau[nrow(RVM$tau) - tree + 1, j], digits = 2)
 }
 
