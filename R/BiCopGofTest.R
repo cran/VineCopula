@@ -1,9 +1,10 @@
 #' Goodness-of-Fit Test for Bivariate Copulas
 #'
 #' This function performs a goodness-of-fit test for bivariate copulas, either
-#' based on White's information matrix equality (White 1982) as introduced by
-#' Huang and Prokhorov (2011) or based on Kendall's process. It computes the
-#' test statistics and p-values.
+#' based on White's information matrix equality (White, 1982) as introduced by
+#' Huang and Prokhorov (2011) or based on Kendall's process
+#' (Wang and Wells, 2000; Genest et al., 2006). It computes the test statistics
+#' and p-values.
 #'
 #' \code{method = "white"}:\cr This goodness-of fit test uses the information
 #' matrix equality of White (1982) and was investigated by Huang and Prokhorov
@@ -25,7 +26,8 @@
 #' the t-copula the test may be instable. The results for the t-copula
 #' therefore have to be treated carefully.\cr \cr \code{method = "kendall"}:\cr
 #' This copula goodness-of-fit test is based on Kendall's process as
-#' investigated by Genest and Rivest (1993) and Wang and Wells (2000). For
+#' proposed by Wang and Wells (2000). For computation of p-values, the
+#' parametric bootstrap described by Genest et al. (2006) is used. For
 #' rotated copulas the input arguments are transformed and the goodness-of-fit
 #' procedure for the corresponding non-rotated copula is used.
 #'
@@ -74,8 +76,8 @@
 #' freedom parameter of the t-copula (default: \code{max.df = 30}).
 #' @param method A string indicating the goodness-of-fit method:\cr
 #' \code{"white"} = goodness-of-fit test based on White's information matrix
-#' equality (default) \cr \code{"kendall"} = goodness-of-fit test based on
-#' Kendall's process
+#' equality (default) \cr
+#' \code{"kendall"} = goodness-of-fit test based on Kendall's process
 #' @param B Integer; number of bootstrap samples (default: \code{B = 100}).
 #' For \code{B = 0} only the the test statistics are returned.\cr WARNING: If
 #' \code{B} is chosen too large, computations will take very long.
@@ -90,26 +92,31 @@
 #' Kolmogorov-Smirnov statistic (if \code{B > 0}).} \item{statistic.CvM}{The
 #' observed Cramer-von Mises test statistic.} \item{statistic.KS}{The observed
 #' Kolmogorov-Smirnov test statistic.}
+#'
 #' @author Ulf Schepsmeier, Wanling Huang, Jiying Luo, Eike Brechmann
+#'
 #' @seealso \code{\link{BiCopDeriv2}}, \code{\link{BiCopDeriv}},
 #' \code{\link{BiCopIndTest}}, \code{\link{BiCopVuongClarke}}
-#' @references Genest, C. and L.-P. Rivest (1993). Statistical inference
-#' procedures for bivariate Archimedean copulas. Journal of the American
-#' Statistical Association, 88 (423), 1034-1043.
+#'
+#' @references
 #'
 #' Huang, W. and A. Prokhorov (2014). A goodness-of-fit test for copulas.
 #' Econometric Reviews, 33 (7), 751-771.
-#'
-#' Luo J. (2011). Stepwise estimation of D-vines with arbitrary specified
-#' copula pairs and EDA tools. Diploma thesis, Technische Universitaet
-#' Muenchen.\cr \url{http://mediatum.ub.tum.de/?id=1079291}.
 #'
 #' Wang, W. and M. T. Wells (2000). Model selection and semiparametric
 #' inference for bivariate failure-time data. Journal of the American
 #' Statistical Association, 95 (449), 62-72.
 #'
+#' Genest, C., Quessy, J. F., and Remillard, B. (2006). Goodness-of-fit
+#' Procedures for Copula Models Based on the Probability Integral Transformation.
+#' Scandinavian Journal of Statistics, 33(2), 337-366.
+#' Luo J. (2011). Stepwise estimation of D-vines with arbitrary specified
+#' copula pairs and EDA tools. Diploma thesis, Technische Universitaet
+#' Muenchen.\cr \url{http://mediatum.ub.tum.de/?id=1079291}.
+#'
 #' White, H. (1982) Maximum likelihood estimation of misspecified models,
 #' Econometrica, 50, 1-26.
+#'
 #' @examples
 #'
 #' # simulate from a bivariate Clayton copula
@@ -155,7 +162,7 @@ BiCopGofTest <- function(u1, u2, family, par = 0, par2 = 0, method = "white", ma
         stop("The goodness-of-fit test based on Kendall's process is not ", "
              implemented for the t-copula.")
     if (family %in% c(7, 8, 9, 10, 17, 18, 19, 20, 27, 28, 29, 30, 37, 38, 39, 40) &&
-            method == "white")
+        method == "white")
         stop("The goodness-of-fit test based on White's information matrix ",
              "equality is not implemented for the BB copulas.")
 
@@ -206,19 +213,21 @@ BiCopGofTest <- function(u1, u2, family, par = 0, par2 = 0, method = "white", ma
             V0 <- apply(Vt, c(1, 2), mean)
         } else {
             b <- BiCopPDF(u1, u2, family, theta, nu)
-            d <- BiCopDeriv2(u1,u2,family,theta,nu,deriv="par")/b
+            d <- BiCopDeriv2(u1, u2, family, theta, nu, deriv="par")/b
             D <- mean(d)
 
             eps <- 0.0001
-            b_eps1 <- BiCopPDF(u1, u2, family, theta-eps, nu)
-            d_eps1 <- BiCopDeriv(u1,u2,family,theta-eps,nu,deriv="par")/b_eps1
+            b_eps1 <- BiCopPDF(u1, u2, family, theta-eps, nu, check.pars = FALSE)
+            d_eps1 <- BiCopDeriv(u1, u2, family, theta-eps, nu, deriv="par",
+                                 check.pars = FALSE)/b_eps1
             gradD_1 <- mean(d_eps1)
-            b_eps2 <- BiCopPDF(u1, u2, family, theta+eps, nu)
-            d_eps2 <- BiCopDeriv(u1,u2,family,theta+eps,nu,deriv="par")/b_eps2
+            b_eps2 <- BiCopPDF(u1, u2, family, theta+eps, nu, check.pars = FALSE)
+            d_eps2 <- BiCopDeriv(u1, u2, family, theta+eps, nu, deriv="par",
+                                 check.pars = FALSE)/b_eps2
             gradD_2 <- mean(d_eps2)
             gradD <- (gradD_2-gradD_1)/(2*eps)
 
-            tmp1 <- BiCopDeriv(u1,u2,family,theta,nu,deriv="par")
+            tmp1 <- BiCopDeriv(u1, u2, family, theta, nu, deriv="par")
             tmp2 <- tmp1/b^2
             tmp3 <- -tmp2 + d
             H <- mean(tmp3)
@@ -245,6 +254,7 @@ BiCopGofTest <- function(u1, u2, family, par = 0, par2 = 0, method = "white", ma
             out <- list(statistic = test, p.value = pvalue)
         } else {
             test_boot <- bootWhite(family, theta, nu, B, N=length(u1))
+            test_boot <- test_boot[!is.na(test_boot)]
             pvalue <- mean(test_boot >= as.numeric(test))
             out <- list(statistic = test, p.value = pvalue)
         }
@@ -286,14 +296,16 @@ BiCopGofTest <- function(u1, u2, family, par = 0, par2 = 0, method = "white", ma
                                   par = theta,
                                   par2 = nu,
                                   deriv = "par",
-                                  log = TRUE)
+                                  log = TRUE,
+                                  check.pars = FALSE)
             grad[2] <- BiCopDeriv(u1,
                                   u2,
                                   family = family,
                                   par = theta,
                                   par2 = nu,
                                   deriv = "par2",
-                                  log = TRUE)
+                                  log = TRUE,
+                                  check.pars = FALSE)
             C <- grad %*% t(grad)
         } else {
             d <- rep(0, T)
@@ -302,13 +314,15 @@ BiCopGofTest <- function(u1, u2, family, par = 0, par2 = 0, method = "white", ma
                               u2[t],
                               family,
                               theta,
-                              nu)
+                              nu,
+                              check.pars = FALSE)
                 d[t] <- BiCopDeriv2(u1[t],
                                     u2[t],
                                     family = family,
                                     par = theta,
                                     par2 = nu,
-                                    deriv = "par")/b
+                                    deriv = "par",
+                                    check.pars = FALSE)/b
             }
             H <- mean(d)
             C <- BiCopDeriv(u1,
@@ -317,7 +331,8 @@ BiCopGofTest <- function(u1, u2, family, par = 0, par2 = 0, method = "white", ma
                             par = theta,
                             par2 = nu,
                             deriv = "par",
-                            log = TRUE)
+                            log = TRUE,
+                            check.pars = FALSE)
         }
         Phi <- -solve(H) %*% C
         IR <- trace(Phi)/dim(H)[1]  #Zwischenergebnis
@@ -348,7 +363,12 @@ BiCopGofTest <- function(u1, u2, family, par = 0, par2 = 0, method = "white", ma
             family <- family - 30
         }
 
-        ostat <- obs.stat(u1, u2, family)
+        # estimate paramemter for different copula family from (u,v)
+        param <- suppressWarnings({
+            BiCopEst(u1, u2, family = family)
+        })
+
+        ostat <- obs.stat(u1, u2, family, param)
 
         if (B == 0) {
             # no bootstrap
@@ -358,15 +378,43 @@ BiCopGofTest <- function(u1, u2, family, par = 0, par2 = 0, method = "white", ma
             out <- list(Sn = sn.obs, Tn = tn.obs)
 
         } else {
-            bstat <- list()
-            for (i in 1:B) bstat[[i]] <- boot.stat(u1, u2, family)
-
+            #bstat <- list()
+            numError <- 0
             sn.boot <- rep(0, B)
             tn.boot <- rep(0, B)
+            # TODO: for-loop as apply
             for (i in 1:B) {
-                sn.boot[i] <- bstat[[i]]$sn
-                tn.boot[i] <- bstat[[i]]$tn
+                ax <- try({tmp <- boot.stat(u1, u2, family, param)}, silent = TRUE)
+                if(inherits(ax, "try-error")){
+                    sn.boot[i] <- NA
+                    tn.boot[i] <- NA
+                    numError <- numError + 1
+                } else {
+                    sn.boot[i] <- tmp$sn
+                    tn.boot[i] <- tmp$tn
+                }
             }
+            if(numError > 0){
+                warning(paste("In the calculation of the p-values for the copula
+goodness-of-fit test based on Kendall's process
+errors occured in", numError, "of", B, "bootstraps which were suppressed.
+The erroneous bootstraps were deleted. Note that this may cause erroneous p-values.
+This may be an indicator for copula misspecification.
+Most probably Kendall's tau is close to zero.
+Consider an independence test first."))
+            }
+
+            # sn.boot <- rep(0, B)
+            # tn.boot <- rep(0, B)
+            # for (i in 1:B) {
+            #     sn.boot[i] <- bstat[[i]]$sn
+            #     tn.boot[i] <- bstat[[i]]$tn
+            # }
+            # clean bootstrap samples
+            sn.boot <- sn.boot[!is.na(sn.boot)]
+            tn.boot <- tn.boot[!is.na(tn.boot)]
+            B.sn <- length(sn.boot)
+            B.tn <- length(tn.boot)
 
             sn.obs <- ostat$Sn
             tn.obs <- ostat$Tn
@@ -376,9 +424,9 @@ BiCopGofTest <- function(u1, u2, family, par = 0, par2 = 0, method = "white", ma
 
 
             pv.sn <- sapply(sn.obs,
-                            function(x) (1/B) * length(which(sn.boot[1:B] >= x)))  # P-value of Sn
+                            function(x) (1/B.sn) * length(which(sn.boot[1:B.sn] >= x)))  # P-value of Sn
             pv.tn <- sapply(tn.obs,
-                            function(x) (1/B) * length(which(tn.boot[1:B] >= x)))  # P-value of Tn
+                            function(x) (1/B.tn) * length(which(tn.boot[1:B.tn] >= x)))  # P-value of Tn
 
             out <- list(p.value.CvM = pv.sn,
                         p.value.KS = pv.tn,
@@ -446,16 +494,16 @@ f_rho_nu <- function(u1, u2, par, par2) {
 # sub functions for the Kendall GOF
 
 
-boot.stat <- function(u, v, fam) {
+boot.stat <- function(u, v, fam, param) {
 
     n <- length(u)
     t <- seq(1, n)/(n + 1e-04)
     kt <- rep(0, n)
 
     # estimate paramemter for different copula family from (u,v)
-    param <- suppressWarnings({
-        BiCopEst(u, v, family = fam)
-    })
+    # param <- suppressWarnings({
+    #     BiCopEst(u, v, family = fam)
+    # })
     # calulate k(t) and kn(t) of bootstrap sample data
     if (fam == 1) {
         # normal
@@ -573,16 +621,16 @@ boot.stat <- function(u, v, fam) {
 
 
 
-obs.stat <- function(u, v, fam) {
+obs.stat <- function(u, v, fam, param) {
 
     n <- length(u)
     t <- seq(1, n)/(n + 1e-04)
     kt <- rep(0, n)
 
     # estimate paramemter for different copula family from (u,v)
-    param <- suppressWarnings({
-        BiCopEst(u, v, family = fam)
-    })
+    # param <- suppressWarnings({
+    #     BiCopEst(u, v, family = fam)
+    # })
 
     # calculate observed K(t) of (u,v)
     kt.obs <- rep(0, n)
@@ -590,6 +638,7 @@ obs.stat <- function(u, v, fam) {
         sim <- BiCopSim(10000, 1, param$par)  # generate data for the simulation of K(t)
         cormat <- matrix(c(1, param$par, param$par, 1), 2, 2)
         dcop <- rep(0, 10000)
+        # TODO: for-loop as apply
         for (i in 1:10000) dcop[i] <- pmvnorm(upper = c(qnorm(sim[i, 1]),
                                                         qnorm(sim[i, 2])),
                                               corr = cormat)
@@ -599,6 +648,7 @@ obs.stat <- function(u, v, fam) {
         sim <- BiCopSim(10000, 2, param$par, param$par2)  # generate data for the simulation of K(t)
         cormat <- matrix(c(1, param$par, param$par, 1), 2, 2)
         dcop <- rep(0, 10000)
+        # TODO: for-loop as apply
         for (i in 1:10000) dcop[i] <- pmvt(upper = c(qt(sim[i, 1], df = param$par2),
                                                      qt(sim[i, 2], df = param$par2)),
                                            corr = cormat,
@@ -684,6 +734,7 @@ obs.stat <- function(u, v, fam) {
 boot.IR <- function(family, theta, nu, B, n) {
     # theta und nu sind die geschaetzten Parameter
     IR <- rep(0, B)
+    # TODO: for-loop as apply
     for (i in 1:B) {
         sam <- BiCopSim(n, family, theta, nu)
         sam.par <- BiCopEst(sam[, 1], sam[, 2], family = family)  # parameter estimation of sample data
@@ -701,19 +752,22 @@ boot.IR <- function(family, theta, nu, B, n) {
                                   par = theta2,
                                   par2 = nu2,
                                   deriv = "par",
-                                  log = TRUE)
+                                  log = TRUE,
+                                  check.pars = FALSE)
             grad[2] <- BiCopDeriv(sam[, 1],
                                   sam[, 2],
                                   family = family,
                                   par = theta2,
                                   par2 = nu2,
                                   deriv = "par2",
-                                  log = TRUE)
+                                  log = TRUE,
+                                  check.pars = FALSE)
             C <- grad %*% t(grad)
         } else {
             theta2 <- sam.par
             nu2 <- 0
             d <- rep(0, T)
+            # TODO: for-loop as apply
             for (t in 1:T) {
                 b <- BiCopPDF(sam[t, 1], sam[t, 2], family, theta2, nu2)
                 d[t] <- BiCopDeriv2(sam[t, 1],
@@ -721,7 +775,8 @@ boot.IR <- function(family, theta, nu, B, n) {
                                     family = family,
                                     par = theta2,
                                     par2 = nu2,
-                                    deriv = "par")/b
+                                    deriv = "par",
+                                    check.pars = FALSE)/b
             }
             H <- mean(d)
             C <- BiCopDeriv(sam[, 1],
@@ -730,7 +785,8 @@ boot.IR <- function(family, theta, nu, B, n) {
                             par = theta2,
                             par2 = nu2,
                             deriv = "par",
-                            log = TRUE)
+                            log = TRUE,
+                            check.pars = FALSE)
         }
         Phi <- -solve(H) %*% C
         IR[i] <- trace(Phi)/dim(H)[1]
@@ -782,21 +838,24 @@ hesseTcopula <- function(u1, u2, theta, nu){
 #
 
 OPGtcopula <- function(u1, u2, family, theta, nu){
+    grad <- numeric(2)
     # gradient
     grad[1] <- mean(BiCopDeriv(u1,
-                          u2,
-                          family = family,
-                          par = theta,
-                          par2 = nu,
-                          deriv = "par",
-                          log = TRUE))
+                               u2,
+                               family = family,
+                               par = theta,
+                               par2 = nu,
+                               deriv = "par",
+                               log = TRUE,
+                               check.pars = FALSE))
     grad[2] <- mean(BiCopDeriv(u1,
-                          u2,
-                          family = family,
-                          par = theta,
-                          par2 = nu,
-                          deriv = "par2",
-                          log = TRUE))
+                               u2,
+                               family = family,
+                               par = theta,
+                               par2 = nu,
+                               deriv = "par2",
+                               log = TRUE,
+                               check.pars = FALSE))
 
     ## outer product of gradient
     C <- grad %*% t(grad)
@@ -870,13 +929,31 @@ gradDtcopula <- function(u1, u2, theta, nu){
 
 bootWhite <- function(family, theta, nu, B, N){
     testStat <- rep(0, B)
+    numError <- 0
+    # TODO: for-loop as apply
     for(i in 1:B){
-        sam <- BiCopSim(N, family, theta, nu)
-        sam.par <- BiCopEst(sam[, 1], sam[, 2], family = family)  # parameter estimation of sample data
-        testStat[i] <- BiCopGofTest(u1 = sam[,1], u2 = sam[,2], family = family,
-                                    par = sam.par$par, par2 = sam.par$par2, method = "White",
-                                    B = 0)$statistic
+        ax <- try({
+            sam <- BiCopSim(N, family, theta, nu)
+            sam.par <- BiCopEst(sam[, 1], sam[, 2], family = family)  # parameter estimation of sample data
+            testStat[i] <- BiCopGofTest(u1 = sam[,1], u2 = sam[,2], family = family,
+                                        par = sam.par$par, par2 = sam.par$par2, method = "White",
+                                        B = 0)$statistic
+        }, silent = TRUE)
+        if(inherits(ax, "try-error")){
+            testStat[i] <- NA
+            numError <- numError + 1
+        }
     }
+    if(numError > 0){
+        warning(paste("In the calculation of the p-values for the copula
+goodness-of-fit test based on White's test
+errors occured in ", numError, "of", B, "bootsrtaps which were suppressed.
+The erroneous bootstraps were deleted. Note that this may cause erroneous p-values.
+This may be an indicator for copula misspecification.
+Most probably Kendall's tau is close to zero.
+Consider an independence test first."))
+    }
+
     return(testStat)
 }
 

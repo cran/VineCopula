@@ -1,8 +1,8 @@
 Package: VineCopula
 Type: Package
 Title: Statistical Inference of Vine Copulas
-Version: 2.0.4
-Date: 2016-08-08
+Version: 2.0.5
+Date: 2016-09-25
 Description: Provides tools for the statistical analysis of vine copula models.
     The package includes tools for parameter estimation, model selection,
     simulation, goodness-of-fit tests, and visualization. Tools for estimation,
@@ -24,7 +24,7 @@ Authors@R: c(
     )
 Depends: R (>= 2.11.0)
 Imports: graphics, grDevices, stats, utils, MASS, mvtnorm, network,
-        methods, copula (>= 0.999-10), kdecopula (>= 0.6.0), ADGofTest,
+        methods, copula (>= 0.999-15), kdecopula (>= 0.6.0), ADGofTest,
         lattice, doParallel, parallel, foreach
 Suggests: CDVine, TSP, shiny
 License: GPL (>= 2)
@@ -33,7 +33,7 @@ BugReports: https://github.com/tnagler/VineCopula/issues
 URL: https://github.com/tnagler/VineCopula
 RoxygenNote: 5.0.1
 NeedsCompilation: yes
-Packaged: 2016-08-08 15:16:46 UTC; n5
+Packaged: 2016-09-25 21:38:58 UTC; n5
 Author: Ulf Schepsmeier [aut],
   Jakob Stoeber [aut],
   Eike Christian Brechmann [aut],
@@ -48,4 +48,4 @@ Author: Ulf Schepsmeier [aut],
   Harry Joe [ctb]
 Maintainer: Thomas Nagler <thomas.nagler@tum.de>
 Repository: CRAN
-Date/Publication: 2016-08-09 01:21:24
+Date/Publication: 2016-09-26 13:36:50
