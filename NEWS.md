@@ -1,3 +1,53 @@
+VineCopula 2.1.0 (December 23, 2016)
+----------------------------------------------------------------
+
+DEPENDS
+
+  * Now depends explicitly on `R (>= 3.1.0)`. So far, this dependence was
+    implicit trhough our dependence on the copula package.
+
+
+NEW FEATURES
+
+  * All estimation functions now have a `method` argument. The default is 
+    `method = "mle"` and corresponds to the old behavior. The other option, 
+    `method = "itau"`, estimates the parameters by inversion of Kendall's. It is
+    much faster than `method = "mle"`, but is only available for one-parameter 
+    families and the t-copula. Big thanks to Thibault Vatter who did most of the
+    work (PR #25).
+    
+  * New function `RVineMatrixSample` that randomly generates valid R-vine 
+    matrices using the algorithm of Joe et al. (2011). Contributed by 
+    Thibault Vatter (PR #27).
+
+  * Faster versions of `RVineMatrix` and `RVineCopSelect`, and 
+   `RVineStructureSelect` by avoiding unnecessary computations (thanks to 
+    Thibault Vatter, PRs #29 and #31).
+    
+  * All `-Select` functions now have a `presel` argument. If `TRUE` (default) 
+    the familyset is reduced to families that have asymmetry charactistics that
+    conform with the observed data.
+    
+  * `RVineSim`, `RVineLogLik`, and `RVinePDF` have been implemented in a way
+    that demands less memory. For `RVineLogLik`, the option `calculate.V` has
+    to be set to `TRUE`.
+    
+    
+BUG FIXES
+
+  * Fixed bug in upper tail dependence coefficient for survival BB1 (reported
+    by Viviana Fernandez, thanks!).
+    
+  * `RVineStructureSelect` now works in dimension two as well.
+  
+  * `RVineMatrixCheck` returns the new error code `-4` when the matrix is 
+    neither lower nor upper triangular (threw an actual error before).
+    
+  * `contour.RVineMatrix` now arranges the contour matrix conforming with the
+    family and parameter matrices.
+    
+
+
 VineCopula 2.0.5 (September 25, 2016)
 ----------------------------------------------------------------
 

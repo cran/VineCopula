@@ -1,8 +1,8 @@
 Package: VineCopula
 Type: Package
 Title: Statistical Inference of Vine Copulas
-Version: 2.0.5
-Date: 2016-09-25
+Version: 2.1.0
+Date: 2016-12-23
 Description: Provides tools for the statistical analysis of vine copula models.
     The package includes tools for parameter estimation, model selection,
     simulation, goodness-of-fit tests, and visualization. Tools for estimation,
@@ -20,9 +20,10 @@ Authors@R: c(
     person("Claudia", "Czado",, role = c("ctb", "ths")),
     person("Mathias", "Hofmann",, role = "ctb"),
     person("Matthias", "Killiches",, role = "ctb"),
-    person("Harry", "Joe",, role = "ctb")
+    person("Harry", "Joe",, role = "ctb"),
+    person("Thibault", "Vatter",, role = "ctb")
     )
-Depends: R (>= 2.11.0)
+Depends: R (>= 3.1.0)
 Imports: graphics, grDevices, stats, utils, MASS, mvtnorm, network,
         methods, copula (>= 0.999-15), kdecopula (>= 0.6.0), ADGofTest,
         lattice, doParallel, parallel, foreach
@@ -33,7 +34,7 @@ BugReports: https://github.com/tnagler/VineCopula/issues
 URL: https://github.com/tnagler/VineCopula
 RoxygenNote: 5.0.1
 NeedsCompilation: yes
-Packaged: 2016-09-25 21:38:58 UTC; n5
+Packaged: 2016-12-23 17:07:47 UTC; n5
 Author: Ulf Schepsmeier [aut],
   Jakob Stoeber [aut],
   Eike Christian Brechmann [aut],
@@ -45,7 +46,8 @@ Author: Ulf Schepsmeier [aut],
   Claudia Czado [ctb, ths],
   Mathias Hofmann [ctb],
   Matthias Killiches [ctb],
-  Harry Joe [ctb]
+  Harry Joe [ctb],
+  Thibault Vatter [ctb]
 Maintainer: Thomas Nagler <thomas.nagler@tum.de>
 Repository: CRAN
-Date/Publication: 2016-09-26 13:36:50
+Date/Publication: 2016-12-23 18:25:24
