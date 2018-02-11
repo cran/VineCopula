@@ -1,3 +1,24 @@
+VineCopula 2.1.4 (February 10, 2018)
+----------------------------------------------------------------
+
+NEW FEATURES
+
+  * All C-headers are now located in `inst/include/VineCopula` (#48).
+  
+  * Most C routines are registered as C-callable (#47).
+  
+BUG FIXES
+
+  * `RVineMLE` can now safely called with only independence copulas (#49, #50).
+  
+  * tighter lower bound for second BB8 parameter.
+  
+  * only check for `abs(tau)` close to one when `check.taus == TRUE` (#52, 
+    thanks to cag51).
+    
+  * fix (non-critical) memory-access error in `BiCopDeriv`/`BiCopDeriv2`.
+
+
 VineCopula 2.1.3 (August 15, 2017)
 ----------------------------------------------------------------
 
