@@ -1,4 +1,20 @@
-VineCopula 2.1.4 (February 10, 2018)
+VineCopula 2.1.5 (May 16, 2018)
+----------------------------------------------------------------
+
+NEW FEATURES
+
+  * no family restrictions for RVinePIT.
+
+BUG FIXES
+
+  * fix calculation of Kendall's tau when joint ties are present.
+  
+  * fix missing `pair.AIC/BIC` in `RVineSeqEst()`.
+  
+  * improved starting parameter for Joe copula MLE.
+
+
+VineCopula 2.1.4 (February 11, 2018)
 ----------------------------------------------------------------
 
 NEW FEATURES
@@ -9,14 +25,9 @@ NEW FEATURES
   
 BUG FIXES
 
-  * `RVineMLE` can now safely called with only independence copulas (#49, #50).
-  
-  * tighter lower bound for second BB8 parameter.
-  
-  * only check for `abs(tau)` close to one when `check.taus == TRUE` (#52, 
-    thanks to cag51).
-    
-  * fix (non-critical) memory-access error in `BiCopDeriv`/`BiCopDeriv2`.
+  * `RVineMLE` can now safely called with only independence copulas (#49).
+
+  * Fixed fix (non-critical) memory-access bug.
 
 
 VineCopula 2.1.3 (August 15, 2017)
