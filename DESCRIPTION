@@ -1,7 +1,7 @@
 Package: VineCopula
 Type: Package
 Title: Statistical Inference of Vine Copulas
-Version: 2.1.6
+Version: 2.1.7
 Description: Provides tools for the statistical analysis of vine copula models.
     The package includes tools for parameter estimation, model selection,
     simulation, goodness-of-fit tests, and visualization. Tools for estimation,
@@ -31,9 +31,9 @@ License: GPL (>= 2)
 LazyLoad: yes
 BugReports: https://github.com/tnagler/VineCopula/issues
 URL: https://github.com/tnagler/VineCopula
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 NeedsCompilation: yes
-Packaged: 2018-06-18 17:02:33 UTC; n5
+Packaged: 2018-08-31 16:11:19 UTC; n5
 Author: Ulf Schepsmeier [aut],
   Jakob Stoeber [aut],
   Eike Christian Brechmann [aut],
@@ -49,4 +49,4 @@ Author: Ulf Schepsmeier [aut],
   Thibault Vatter [ctb]
 Maintainer: Thomas Nagler <thomas.nagler@tum.de>
 Repository: CRAN
-Date/Publication: 2018-06-18 17:27:55 UTC
+Date/Publication: 2018-08-31 17:00:03 UTC
