@@ -1,6 +1,6 @@
-ca8b6537e66915296420fe230a28b5cc *DESCRIPTION
+59ca0b8a5d67287f876977c210338eba *DESCRIPTION
 32a894b4a7c03b743f60f280aabfc858 *NAMESPACE
-4ce8450f4497ad2f831492b0257f594b *NEWS.md
+c604f4eff221b8fe9d972a7e9d1d2111 *NEWS.md
 509c5e2d2f5102ce438dc74caf072291 *R/0_prep_object.R
 a8136558a54f078e16f8a04684d0696f *R/AD.R
 79511560843f73a8cebadf9988f12916 *R/BB1copula.R
@@ -20,8 +20,8 @@ d19490f0b295f5d255bcda1455ded088 *R/BiCopEst.R
 824e50e14649254c4cd549f37bfd8a03 *R/BiCopEstList.R
 dcfff39622e95ba35fcba37e870a0e99 *R/BiCopGofTest.R
 89ba12d885806073f06d02d5584b2a7e *R/BiCopHfunc.R
-3cbc29d642ea388ab6664fd2ff2086d3 *R/BiCopHfuncDeriv.R
-c098c008a9682334cbc85a6b99874cfb *R/BiCopHfuncDeriv2.R
+9c9833ac9c9a98ec3af427b07c95f38d *R/BiCopHfuncDeriv.R
+392082971afe1699d2e18a15aa5f5adb *R/BiCopHfuncDeriv2.R
 8c438771c2de1a8741894230b7686189 *R/BiCopHinv.R
 383811f067da93e84db04ce6da474f72 *R/BiCopIndTest.R
 a03dfaa7c0f4ac8ca3286e7c9cfe705e *R/BiCopKDE.R
@@ -80,7 +80,7 @@ bcaef79d5cf097a4d66a7400113ba92e *R/tawnCopula.R
 4110be4bf2f8e6020bec3f2a6509fc53 *R/vineCopulas.R
 83fc557d46113604f36d75963d5963ab *R/zzz.R
 0b9fcf08f96f6b4496d29db7207ed7ca *README.md
-489eddd631b009065fc3704dbb4d8f1f *build/partial.rdb
+96358cccf90a1c94e7433ad4108cb22b *build/partial.rdb
 027f803bc292623e4e9f560791c0f7fc *data/daxreturns.RData
 f4544368918a7cb3b5b66983f6fa8826 *inst/include/VineCopula/cdvine.h
 579089d3e9492fe5345de157f6c65af7 *inst/include/VineCopula/condsim.h
