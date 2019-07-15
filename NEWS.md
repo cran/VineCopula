@@ -1,4 +1,22 @@
-VineCopula 2.1.7 (September 17, 2018)
+VineCopula 2.2.0 (July 15, 2019)
+----------------------------------------------------------------
+
+NEW FEATURES
+
+  * add `presel` and `weights` arguments to `RVineStructureSelect` and 
+    `RVineCopSelect()` (#59 by @tvatter).
+
+BUG FIXES
+
+  * fix variance in `RVineVuongTest()`.
+  
+  * fix pre-selection logic in `BiCopSelect()` when only one family is 
+    compatible.
+    
+  * fix `length(condition) > 1` errors.
+  
+
+VineCopula 2.1.8 (September 17, 2018)
 ----------------------------------------------------------------
 
 BUG FIXES
