@@ -4,19 +4,28 @@
 \alias{pairs.copuladata}
 \title{Pairs Plot of Copula Data}
 \usage{
-\method{pairs}{copuladata}(x, labels = names(x), ...,
-  lower.panel = lp.copuladata, upper.panel = up.copuladata,
-  diag.panel = dp.copuladata, label.pos = 0.85, cex.labels = 1,
-  gap = 0, method = "kendall", ccols = terrain.colors(11),
-  margins = "norm")
+\method{pairs}{copuladata}(
+  x,
+  labels = names(x),
+  ...,
+  lower.panel = lp.copuladata,
+  upper.panel = up.copuladata,
+  diag.panel = dp.copuladata,
+  label.pos = 0.85,
+  cex.labels = 1,
+  gap = 0,
+  method = "kendall",
+  ccols = terrain.colors(11),
+  margins = "norm"
+)
 }
 \arguments{
 \item{x}{\code{copuladata} object.}
 
 \item{labels}{variable names/labels.}
 
-\item{\dots}{other graphical parameters (see \code{\link[graphics]{par}}) or
-options passed to \code{\link{BiCopKDE}}.}
+\item{\dots}{other graphical parameters (see \code{\link[graphics:par]{graphics::par()}}) or
+options passed to \code{\link[=BiCopKDE]{BiCopKDE()}}.}
 
 \item{lower.panel}{panel function to be used on the lower diagonal panels
 (if not supplied, a default function is used)}
@@ -33,15 +42,13 @@ supplied, a default function is used)}
 \item{cex.labels}{magnification to be used for the labels of the diagonal
 panel; default: \code{cex.labels = 1}.}
 
-\item{gap}{distance between subplots, in margin lines; default: \code{gap =
-0}.}
+\item{gap}{distance between subplots, in margin lines; default: \code{gap = 0}.}
 
 \item{method}{a character string indicating which correlation coefficients
 are computed. One of \code{"pearson"}, \code{"kendall"} (default), or
 \code{"spearman"}}
 
-\item{ccols}{color to be used for the contour plots; default: \code{ccols =
-terrain.colors(30)}.}
+\item{ccols}{color to be used for the contour plots; default: \code{ccols = terrain.colors(30)}.}
 
 \item{margins}{character; margins for the contour plots. Options are:\cr
 \code{"unif"} for the original copula density,
@@ -113,8 +120,8 @@ pairs(data[sel],
 
 }
 \seealso{
-\code{\link[graphics]{pairs}}, \code{\link{as.copuladata}},
-\code{\link{BiCopKDE}}
+\code{\link[graphics:pairs]{graphics::pairs()}}, \code{\link[=as.copuladata]{as.copuladata()}},
+\code{\link[=BiCopKDE]{BiCopKDE()}}
 }
 \author{
 Tobias Erhardt

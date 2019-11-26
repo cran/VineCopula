@@ -4,30 +4,36 @@
 \alias{RVineSeqEst}
 \title{Sequential Estimation of an R-Vine Copula Model}
 \usage{
-RVineSeqEst(data, RVM, method = "mle", se = FALSE, max.df = 30,
-  max.BB = list(BB1 = c(5, 6), BB6 = c(6, 6), BB7 = c(5, 6), BB8 = c(6,
-  1)), progress = FALSE, weights = NA, cores = 1)
+RVineSeqEst(
+  data,
+  RVM,
+  method = "mle",
+  se = FALSE,
+  max.df = 30,
+  max.BB = list(BB1 = c(5, 6), BB6 = c(6, 6), BB7 = c(5, 6), BB8 = c(6, 1)),
+  progress = FALSE,
+  weights = NA,
+  cores = 1
+)
 }
 \arguments{
 \item{data}{An N x d data matrix (with uniform margins).}
 
-\item{RVM}{An \code{\link{RVineMatrix}} object including the structure, the
+\item{RVM}{An \code{\link[=RVineMatrix]{RVineMatrix()}} object including the structure, the
 pair-copula families and the pair-copula parameters (if they are known).}
 
 \item{method}{indicates the estimation method: either maximum
 likelihood estimation (\code{method = "mle"}; default) or inversion of
 Kendall's tau (\code{method = "itau"}). For \code{method = "itau"} only
-one parameter families and the Student t copula can be used (\code{family =
-1,2,3,4,5,6,13,14,16,23,24,26,33,34} or \code{36}). For the t-copula,
+one parameter families and the Student t copula can be used (\verb{family = 1,2,3,4,5,6,13,14,16,23,24,26,33,34} or \code{36}). For the t-copula,
 \code{par2} is found by a crude profile likelihood optimization over the
 interval (2, 10].}
 
-\item{se}{Logical; whether standard errors are estimated (default: \code{se
-= FALSE}).}
+\item{se}{Logical; whether standard errors are estimated (default: \code{se = FALSE}).}
 
 \item{max.df}{Numeric; upper bound for the estimation of the degrees of
 freedom parameter of the t-copula (default: \code{max.df = 30}; for more
-details see \code{\link{BiCopEst}}).}
+details see \code{\link[=BiCopEst]{BiCopEst()}}).}
 
 \item{max.BB}{List; upper bounds for the estimation of the two parameters
 (in absolute values) of the BB1, BB6, BB7 and BB8 copulas \cr (default:
@@ -39,12 +45,12 @@ details see \code{\link{BiCopEst}}).}
 \item{weights}{Numerical; weights for each observation (optional).}
 
 \item{cores}{integer; if \code{cores > 1}, estimation will be parallelized
-within each tree (using \code{\link[foreach]{foreach}}). However, the
+within each tree (using \code{\link[foreach:foreach]{foreach::foreach()}}). However, the
 overhead caused by parallelization is likely to make the function run slower
 unless sample size is really large and \code{method = "itau"}.}
 }
 \value{
-An \code{\link{RVineMatrix}} object with the sequentially
+An \code{\link[=RVineMatrix]{RVineMatrix()}} object with the sequentially
 estimated parameters stored in \code{RVM$par} and \code{RVM$par2}. The object
 is augmented by the following information about the fit:
 \item{se, se2}{standard errors for the parameter estimates (if
@@ -60,12 +66,12 @@ account for the sequential nature of the estimation,}
 \description{
 This function sequentially estimates the pair-copula parameters of a
 d-dimensional R-vine copula model as specified by the corresponding
-\code{\link{RVineMatrix}} object.
+\code{\link[=RVineMatrix]{RVineMatrix()}} object.
 }
 \details{
 The pair-copula parameter estimation is performed tree-wise, i.e., for each
 R-vine tree the results from the previous tree(s) are used to calculate the
-new copula parameters using \code{\link{BiCopEst}}.
+new copula parameters using \code{\link[=BiCopEst]{BiCopEst()}}.
 }
 \note{
 For a comprehensive summary of the fitted model, use
@@ -115,12 +121,12 @@ summary(RVineSeqEst(simdata, RVM, method = "mle", se = TRUE))
 
 }
 \seealso{
-\code{\link{RVineMatrix}},
-\code{\link{BiCop}},
-\code{\link{BiCopEst}},
-\code{\link{plot.RVineMatrix}},
-\code{\link{contour.RVineMatrix}},
-\code{\link[foreach]{foreach}}
+\code{\link[=RVineMatrix]{RVineMatrix()}},
+\code{\link[=BiCop]{BiCop()}},
+\code{\link[=BiCopEst]{BiCopEst()}},
+\code{\link[=plot.RVineMatrix]{plot.RVineMatrix()}},
+\code{\link[=contour.RVineMatrix]{contour.RVineMatrix()}},
+\code{\link[foreach:foreach]{foreach::foreach()}}
 }
 \author{
 Ulf Schepsmeier, Jeffrey Dissmann, Thomas Nagler

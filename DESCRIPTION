@@ -1,14 +1,14 @@
 Package: VineCopula
 Type: Package
 Title: Statistical Inference of Vine Copulas
-Version: 2.2.0
+Version: 2.3.0
 Description: Provides tools for the statistical analysis of vine copula models.
     The package includes tools for parameter estimation, model selection,
     simulation, goodness-of-fit tests, and visualization. Tools for estimation,
     selection and exploratory data analysis of bivariate copula models are also
     provided.
 Authors@R: c(
-    person("Thomas", "Nagler",, "thomas.nagler@tum.de", role = c("aut", "cre")),
+    person("Thomas", "Nagler",, "mail@tnagler.com", role = c("aut", "cre")),
     person("Ulf", "Schepsmeier",, "ulf.schepsmeier@tum.de", role = "aut"),
     person("Jakob", "Stoeber",, role = "aut"),
     person("Eike Christian", "Brechmann",, role = "aut"),
@@ -23,17 +23,18 @@ Authors@R: c(
     person("Thibault", "Vatter",, role = "ctb")
     )
 Depends: R (>= 3.1.0)
-Imports: graphics, grDevices, stats, utils, MASS, mvtnorm, network,
-        methods, copula (>= 0.999-16), kdecopula (>= 0.8.0), ADGofTest,
-        lattice, doParallel, parallel, foreach
-Suggests: CDVine, TSP, shiny, testthat, numDeriv
+Imports: graphics, grDevices, stats, utils, MASS, mvtnorm, methods,
+        ADGofTest, lattice, parallel
+Suggests: CDVine, TSP, shiny, testthat, numDeriv, kdecopula (>= 0.8.0),
+        network
 License: GPL (>= 2)
 LazyLoad: yes
 BugReports: https://github.com/tnagler/VineCopula/issues
 URL: https://github.com/tnagler/VineCopula
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0
+Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2019-07-14 22:46:57 UTC; n5
+Packaged: 2019-11-26 21:33:54 UTC; n5
 Author: Thomas Nagler [aut, cre],
   Ulf Schepsmeier [aut],
   Jakob Stoeber [aut],
@@ -47,6 +48,6 @@ Author: Thomas Nagler [aut, cre],
   Matthias Killiches [ctb],
   Harry Joe [ctb],
   Thibault Vatter [ctb]
-Maintainer: Thomas Nagler <thomas.nagler@tum.de>
+Maintainer: Thomas Nagler <mail@tnagler.com>
 Repository: CRAN
-Date/Publication: 2019-07-15 05:00:27 UTC
+Date/Publication: 2019-11-26 22:50:03 UTC
