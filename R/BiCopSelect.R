@@ -88,7 +88,7 @@
 #' @param se Logical; whether standard error(s) of parameter estimates is/are
 #' estimated (default: `se = FALSE`).
 #' @param presel Logical; whether to exclude families before fitting based on
-#' symmetry properties of the data. Makes the selection about 30\% faster
+#' symmetry properties of the data. Makes the selection about 30% faster
 #' (on average), but may yield slightly worse results in few special cases.
 #' @param method indicates the estimation method: either maximum
 #' likelihood estimation (`method = "mle"`; default) or inversion of
@@ -133,7 +133,7 @@
 #'
 #' Brechmann, E. C. (2010). Truncated and simplified regular vines and their
 #' applications. Diploma thesis, Technische Universitaet Muenchen.\cr
-#' <http://mediatum.ub.tum.de/?id=1079285>.
+#' <https://mediatum.ub.tum.de/?id=1079285>.
 #'
 #' Manner, H. (2007). Estimation and model selection of copulas with an
 #' application to exchange rates. METEOR research memorandum 07/056, Maastricht
