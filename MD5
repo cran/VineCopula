@@ -1,6 +1,6 @@
-f1ab558e71580fac8d6295101c94236b *DESCRIPTION
+3a55e842fba050c00f1b1531e69abb9b *DESCRIPTION
 6a7e2e63c3bcda3c2e28f7bcb0dc5c40 *NAMESPACE
-ccf35e65252ea9a6d8173e6fb4eb0e65 *NEWS.md
+ee0cf00676128529a9301788e543f447 *NEWS.md
 a8136558a54f078e16f8a04684d0696f *R/AD.R
 5f7eeefb1f3ef57138c1805c212a77a1 *R/BetaMatrix.R
 248a84d3ed561f5c09f9261854bdb373 *R/BiCop.R
@@ -31,10 +31,10 @@ eddea0e4393dff665d1515179ab2c5a4 *R/BiCopSelect.R
 d16a33092f8c33ed4ef6de01946302f7 *R/BiCopSim.R
 d22b8779817a67c8eb97e78b7300f197 *R/BiCopTau2Par.R
 2b54196da1f7af1b1757a7b3509453cb *R/BiCopVuongClarke.R
-aa176961a79af07d47d0a93303100fb0 *R/C2RVine.R
+be756b3103b93f0ebdf5639f622b9806 *R/C2RVine.R
 3c366f7d1c7b92e4955210b0999bf08b *R/ChatZj.R
 2f4373cc793d5a0fbba70bb15dbe106e *R/CvM.R
-beefa8f354c3cdd0a8be15246c6f7ded *R/D2RVine.R
+9033a92ded1c9b7d957b237dcb27ad2b *R/D2RVine.R
 ee8b5778c016ef5d51c6db2af66454c0 *R/Fhat.R
 9e4c073bd873ae5724adb3c633e8dc01 *R/KS.R
 4de1f625a082d0698d7ab6d23dbcd837 *R/RVineAIC.R
@@ -72,7 +72,7 @@ f054d5e50f2ccf2b3fba79b208b9d7ba *R/plot.RVineMatrix.R
 fd0ee35809bc409d37f9987c115734c1 *R/preprocessors.R
 83fc557d46113604f36d75963d5963ab *R/zzz.R
 9141479af6ae60e537421e2a1387aedf *README.md
-2394e97e7dc5b6df66b76d089beddc90 *build/partial.rdb
+315b0c25dd721f05d81c4a4701212fde *build/partial.rdb
 027f803bc292623e4e9f560791c0f7fc *data/daxreturns.RData
 f4544368918a7cb3b5b66983f6fa8826 *inst/include/VineCopula/cdvine.h
 579089d3e9492fe5345de157f6c65af7 *inst/include/VineCopula/condsim.h
@@ -123,8 +123,8 @@ b37c01a92e9880cf4010f7fbef685658 *man/BiCopSelect.Rd
 d68a16ea718b0eb458e22b9c9316a9df *man/BiCopSim.Rd
 04ada6a4c260ff2dc661496e64f70d2d *man/BiCopTau2Par.Rd
 0949a0b2a7b9ff5e45a58200d5a9f719 *man/BiCopVuongClarke.Rd
-8c600da0987b33c9f4442dee9a4b7e36 *man/C2RVine.Rd
-338c0a7fef847e9fec21b0890fb346be *man/D2RVine.Rd
+d02e202c0e97e073ddaa58139a9d5790 *man/C2RVine.Rd
+b48fe5be7eba881c2d1955106ae6c49e *man/D2RVine.Rd
 f58fa82fa7e0acac6fbb304f211497f3 *man/RVineAIC.Rd
 25f52986afae920e23512fa97f937acd *man/RVineClarkeTest.Rd
 11e32516590eda1dd6fb4e4755cdd5cd *man/RVineCopSelect.Rd
