@@ -1,6 +1,6 @@
-78510dfd859c6f5042f2c056d58dc4c4 *DESCRIPTION
+9a0f7f928e589f602d6266b45734f505 *DESCRIPTION
 10e0569f81b910c414c7469ae78fa0e3 *NAMESPACE
-324b4519c5404d5efcd1640a095c7f17 *NEWS.md
+5c98464182ae7bc93422b9d2ba010c3a *NEWS.md
 a8136558a54f078e16f8a04684d0696f *R/AD.R
 5f7eeefb1f3ef57138c1805c212a77a1 *R/BetaMatrix.R
 248a84d3ed561f5c09f9261854bdb373 *R/BiCop.R
@@ -68,11 +68,11 @@ a00bc3bfd59964f4cee99c0191d7a6d6 *R/contour.RVineMatrix.R
 1565e3e037f17f782d38014aaf828752 *R/pairs.R
 83f32c1b57aed20f5f3c23f22e0b4dee *R/plot.BiCop.R
 f054d5e50f2ccf2b3fba79b208b9d7ba *R/plot.RVineMatrix.R
-25f54a9f248b68c6a27324d09099291c *R/pobs.R
-96dea9aff89e20b535bcbe055c099a8b *R/preprocessors.R
+8d3c8184ef4b4ca82457608238fdcb16 *R/pobs.R
+3c22f7583a5fb33ce2cf6cee8abc93e2 *R/preprocessors.R
 83fc557d46113604f36d75963d5963ab *R/zzz.R
-71b8a1a5951a479e737cae5237dacf0e *README.md
-071c145d3c5b52e7a327a68064308ebd *build/partial.rdb
+4686929aa351765a10c24bff2888e8b3 *README.md
+fbaa0b1caf89fed4c26ad76b592f4294 *build/partial.rdb
 027f803bc292623e4e9f560791c0f7fc *data/daxreturns.RData
 f4544368918a7cb3b5b66983f6fa8826 *inst/include/VineCopula/cdvine.h
 579089d3e9492fe5345de157f6c65af7 *inst/include/VineCopula/condsim.h
@@ -164,7 +164,7 @@ e87e55bf52114afe44a632a705cd26fb *man/pobs.Rd
 9fb0448c000975ee5729afe5ace8f61d *src/deriv.c
 449b551e3fc986d7dcb577f91ef7ea43 *src/deriv2.c
 1fa451db224593fdf59f096f40d7a8a4 *src/evCopula.c
-147f0b45a8b786b2d0f9340c07a2fb7c *src/gof.c
+2417a4fe31e7b21666ab0ccf462a711e *src/gof.c
 98f58b76913324602e53c6bc18999289 *src/hfunc.c
 1548e2be1608194307203ff6820715f9 *src/hfuncderiv.c
 381b82b565f59de7b4163a53c2f4ccb1 *src/hfuncderiv2.c
