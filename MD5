@@ -1,6 +1,6 @@
-9a0f7f928e589f602d6266b45734f505 *DESCRIPTION
-10e0569f81b910c414c7469ae78fa0e3 *NAMESPACE
-5c98464182ae7bc93422b9d2ba010c3a *NEWS.md
+182b494706fafe36fe6585c6da6bce69 *DESCRIPTION
+8be3c633fd9f78d55f496d0d65972715 *NAMESPACE
+2806cb07830e2f4475bf15fcead77eb3 *NEWS.md
 a8136558a54f078e16f8a04684d0696f *R/AD.R
 5f7eeefb1f3ef57138c1805c212a77a1 *R/BetaMatrix.R
 248a84d3ed561f5c09f9261854bdb373 *R/BiCop.R
@@ -68,11 +68,11 @@ a00bc3bfd59964f4cee99c0191d7a6d6 *R/contour.RVineMatrix.R
 1565e3e037f17f782d38014aaf828752 *R/pairs.R
 83f32c1b57aed20f5f3c23f22e0b4dee *R/plot.BiCop.R
 f054d5e50f2ccf2b3fba79b208b9d7ba *R/plot.RVineMatrix.R
-8d3c8184ef4b4ca82457608238fdcb16 *R/pobs.R
+385b03e10b03c8b30bfa10f00a271ab9 *R/pobs.R
 3c22f7583a5fb33ce2cf6cee8abc93e2 *R/preprocessors.R
 83fc557d46113604f36d75963d5963ab *R/zzz.R
 4686929aa351765a10c24bff2888e8b3 *README.md
-fbaa0b1caf89fed4c26ad76b592f4294 *build/partial.rdb
+b4d636d9cfd32f66256ac165217ce2ed *build/partial.rdb
 027f803bc292623e4e9f560791c0f7fc *data/daxreturns.RData
 f4544368918a7cb3b5b66983f6fa8826 *inst/include/VineCopula/cdvine.h
 579089d3e9492fe5345de157f6c65af7 *inst/include/VineCopula/condsim.h
@@ -125,6 +125,7 @@ d68a16ea718b0eb458e22b9c9316a9df *man/BiCopSim.Rd
 0949a0b2a7b9ff5e45a58200d5a9f719 *man/BiCopVuongClarke.Rd
 d02e202c0e97e073ddaa58139a9d5790 *man/C2RVine.Rd
 b48fe5be7eba881c2d1955106ae6c49e *man/D2RVine.Rd
+c1a089acd5a85eb1e0524fd5f1c93a82 *man/EmpCDF.Rd
 f58fa82fa7e0acac6fbb304f211497f3 *man/RVineAIC.Rd
 25f52986afae920e23512fa97f937acd *man/RVineClarkeTest.Rd
 ad7249997d28e1a397ebc69ad04addd4 *man/RVineCopSelect.Rd
@@ -156,7 +157,7 @@ fb2bd377b0281d73aedd4bd3e45d143b *man/RVineStructureSelect.Rd
 da9b3a36fbe8c8ce6a0cf2f7bbbd6bc3 *man/pairs.copuladata.Rd
 01ab79d2e9fad31d7a57ac7de57a6a72 *man/plot.BiCop.Rd
 c8a15c19c367fb8eaa09faa0358cd867 *man/plot.RVineMatrix.Rd
-e87e55bf52114afe44a632a705cd26fb *man/pobs.Rd
+44052ee1a47730aa3f1286c068b5d324 *man/pobs.Rd
 0bd49623d6af1950d2431229c028ee97 *src/Makevars
 038aeddc2b10d17076a521d53bf49bdb *src/Makevars.win
 5ac3b3a5009f340b2f901b31fa6219d1 *src/cdvine.c
