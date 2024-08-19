@@ -12,12 +12,10 @@ int largest(int *array, int size)
 {
     int i;
     int value = array[0];
-    int index = 0;
 
     for (i = 0; i < size; i++) {
         if (array[i] > value) {
             value = array[i];
-            index = i;
         }
     }
     return value;
@@ -29,7 +27,6 @@ int find_index(int *array, int size, int value)
     int index = 0;
 
     for (i = 0; i < size; i++) {
-        //printf("%d - %d - %d \n", i, array[i], value);
         if ( array[i] == value ) {
             index = i;
         }
@@ -86,7 +83,7 @@ void getRVM(int* b, int* d, int* RVM)
     {
         int *toAssign;
         size = j-1;
-        toAssign=(int*) Calloc(size,double);
+        toAssign=(int*) R_Calloc(size,double);
         for (i=0;i<size;i++ )
         {
             toAssign[i] = i+1;
@@ -124,7 +121,7 @@ void getRVM(int* b, int* d, int* RVM)
             nn = nn + 1;
         }
         n = nn;
-        Free(toAssign);
+        R_Free(toAssign);
     }
     RVM[0] = 1;
 
