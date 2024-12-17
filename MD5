@@ -1,6 +1,6 @@
-07d5d4e2016212f433fd1e6f366b04a0 *DESCRIPTION
-8be3c633fd9f78d55f496d0d65972715 *NAMESPACE
-0b5c8da5eea2d9cc3c928f72d5731c4f *NEWS.md
+24673ca53b5fd78852d8dfd8769d8060 *DESCRIPTION
+1247de1e1c42c7b567276260f7246308 *NAMESPACE
+88ea7c33c198f9ae22df738a55463387 *NEWS.md
 a8136558a54f078e16f8a04684d0696f *R/AD.R
 5f7eeefb1f3ef57138c1805c212a77a1 *R/BetaMatrix.R
 c76b7be14a0d539fb5043a8146b99aa3 *R/BiCop.R
@@ -43,7 +43,7 @@ a93bdd2f4f4ea2338b5ad5afd640e996 *R/RVineClarkeTest.R
 b30f0aa8665c45184a906985f0bd12d7 *R/RVineGofTest3.R
 b7e44ace91b6c1c1a9ebcbe8f5b008ef *R/RVineGrad.R
 48d35abd6c78ec1e0715aa58991529b5 *R/RVineHessian.R
-5eb75be0923538c4521d561d14405719 *R/RVineLogLik.R
+cc85c28c991045e1278f5e6920f74b61 *R/RVineLogLik.R
 f43ede2af309fc192c78cde280fcb60d *R/RVineMLE.R
 93433d6f18730afa4c4703819ae6a7fc *R/RVineMatrix.R
 199b810f39bb5ebd50c15088e944a96d *R/RVineMatrixSample.R
@@ -71,8 +71,8 @@ f054d5e50f2ccf2b3fba79b208b9d7ba *R/plot.RVineMatrix.R
 71dedb28962ad0242f2b0e560e7be856 *R/pobs.R
 3c22f7583a5fb33ce2cf6cee8abc93e2 *R/preprocessors.R
 83fc557d46113604f36d75963d5963ab *R/zzz.R
-4686929aa351765a10c24bff2888e8b3 *README.md
-7a000e9042bb47c6191480d8cec7f28f *build/partial.rdb
+37085d69dfd4938424af182eefd90eb2 *README.md
+1b43e9de35540a3a2941c26762ecfca9 *build/partial.rdb
 027f803bc292623e4e9f560791c0f7fc *data/daxreturns.RData
 f4544368918a7cb3b5b66983f6fa8826 *inst/include/VineCopula/cdvine.h
 579089d3e9492fe5345de157f6c65af7 *inst/include/VineCopula/condsim.h
@@ -127,6 +127,7 @@ d02e202c0e97e073ddaa58139a9d5790 *man/C2RVine.Rd
 b48fe5be7eba881c2d1955106ae6c49e *man/D2RVine.Rd
 c1a089acd5a85eb1e0524fd5f1c93a82 *man/EmpCDF.Rd
 f58fa82fa7e0acac6fbb304f211497f3 *man/RVineAIC.Rd
+ee426e037cd180755006bdf60d39fc72 *man/RVineCDF.Rd
 0fc3f11fbbd6f66678f2f5ff0ca65c47 *man/RVineClarkeTest.Rd
 ed261e92fb0291072f27f49d62dbebff *man/RVineCopSelect.Rd
 df5bcd0e2de9a18b78f490b19523709e *man/RVineCor2pcor.Rd
@@ -172,7 +173,7 @@ d95ac30f18024ebe36d025836651765f *src/hfuncderiv.c
 9c1bbae150e6e8e9825f184d2aa36c2d *src/incompleteBeta.c
 f46c13f861f9bbe93d2cb30e9d825268 *src/init.c
 3208a5b7e7d7fec8423c06f386e93f72 *src/likelihood.c
-d80ecc11a6d9b1ba9dcbbc99d310092c *src/logderiv.c
+c6a3960376e1237fb08cb9b1a7ba379f *src/logderiv.c
 287507d08e0b9046ee31d9360a366f72 *src/memoryhandling.c
 ea6e96b7dee35c5f0ba7a28bed709f6c *src/pit.c
 f55c745cd6827700104630214e54d24b *src/rvine.c
